@@ -41,8 +41,8 @@ catalog = Classifier.catalog_from_classified(classified, image_electrons, segmap
 
 print("Writing Catalog...")
 #write catalog
-#file = open('/net/diva/scratch-ssd1/mhuertas/data/CEERS/catalog_morpheus_ceers5_f150w_i2d.pkl', 'w')
-pickle.dump(catalog, '/net/diva/scratch-ssd1/mhuertas/data/CEERS/catalog_morpheus_ceers5_f150w_i2d.pkl')
+file = open('/net/diva/scratch-ssd1/mhuertas/data/CEERS/catalog_morpheus_ceers5_f150w_i2d.pkl', 'wb')
+pickle.dump(catalog, file)
 #file.close()
 
 
