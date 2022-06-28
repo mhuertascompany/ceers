@@ -19,9 +19,9 @@ classified = Classifier.classify(h=image_electrons, j=image_electrons, v=image_e
 
 print("Saving classifier...")
 #save classifier
-file = open('/net/diva/scratch-ssd1/mhuertas/data/CEERS/classifier_morpheus_ceers5_f150w_i2d.pkl', 'w')
-pickle.dump(classified, file)
-file.close()
+#file = open('/net/diva/scratch-ssd1/mhuertas/data/CEERS/classifier_morpheus_ceers5_f150w_i2d.pkl', 'w')
+pickle.dump(classified, '/net/diva/scratch-ssd1/mhuertas/data/CEERS/classifier_morpheus_ceers5_f150w_i2d.pkl')
+#file.close()
 
 mask = np.zeros_like(image_electrons, np.int)
 mask[5:-5, 5:-5] = 1
@@ -39,9 +39,9 @@ catalog = Classifier.catalog_from_classified(classified, image_electrons, segmap
 
 print("Writing Catalog...")
 #write catalog
-file = open('/net/diva/scratch-ssd1/mhuertas/data/CEERS/catalog_morpheus_ceers5_f150w_i2d.pkl', 'w')
-pickle.dump(catalog, file)
-file.close()
+#file = open('/net/diva/scratch-ssd1/mhuertas/data/CEERS/catalog_morpheus_ceers5_f150w_i2d.pkl', 'w')
+pickle.dump(catalog, '/net/diva/scratch-ssd1/mhuertas/data/CEERS/catalog_morpheus_ceers5_f150w_i2d.pkl')
+#file.close()
 
 
 
