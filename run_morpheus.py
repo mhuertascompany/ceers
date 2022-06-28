@@ -34,7 +34,7 @@ print("Creating Segmentation Map...")
 segmap = Classifier.segmap_from_classified(classified, image_electrons, mask=mask)
 hdu = fits.PrimaryHDU(segmap)
 hdul = fits.HDUList([hdu])
-hdul.writeto('/net/diva/scratch-ssd1/mhuertas/data/CEERS/segmap_morpheus_ceers5_f150w_i2d.fits')
+hdul.writeto('/net/diva/scratch-ssd1/mhuertas/data/CEERS/segmap_morpheus_ceers5_f150w_i2d.fits',overwrite=True)
 
 print("Creating Catalog...")
 catalog = Classifier.catalog_from_classified(classified, image_electrons, segmap)
