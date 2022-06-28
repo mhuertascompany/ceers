@@ -13,8 +13,8 @@ image =  hdul[1].data
 
 # convert to e/s
 image_electrons = image/hdul[1].header['PHOTMJSR']
-#image_electrons = image_electrons[2650:3650,2400:3400]
-image_electrons = image_electrons[2650:2750,2400:2500]
+image_electrons = image_electrons[2650:3650,2400:3400]
+#image_electrons = image_electrons[2650:2750,2400:2500]
 
 print("Classifying...")
 classified = Classifier.classify(h=image_electrons, j=image_electrons, v=image_electrons, z=image_electrons)
