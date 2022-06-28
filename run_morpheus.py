@@ -13,15 +13,16 @@ image =  hdul[1].data
 
 # convert to e/s
 image_electrons = image/hdul[1].header['PHOTMJSR']
-image_electrons = image_electrons[2650:3650,2400:3400]
+#image_electrons = image_electrons[2650:3650,2400:3400]
+image_electrons = image_electrons[2650:2750,2400:2500]
 
 print("Classifying...")
 classified = Classifier.classify(h=image_electrons, j=image_electrons, v=image_electrons, z=image_electrons)
 
 print("Saving classifier...")
 #save classifier
-#file = open('/net/diva/scratch-ssd1/mhuertas/data/CEERS/classifier_morpheus_ceers5_f150w_i2d.pkl', 'w')
-pickle.dump(classified, '/net/diva/scratch-ssd1/mhuertas/data/CEERS/classifier_morpheus_ceers5_f150w_i2d.pkl')
+file = open('/net/diva/scratch-ssd1/mhuertas/data/CEERS/classifier_morpheus_ceers5_f150w_i2d.pkl', 'wb')
+pickle.dump(classified, file)
 #file.close()
 
 mask = np.zeros_like(image_electrons, np.int)
