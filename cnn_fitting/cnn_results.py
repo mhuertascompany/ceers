@@ -42,15 +42,13 @@ class GraphPlotter(object):
         self.plot_mse_loss_history(history, mode='mse', label='MSE')
 
     def plot_evaluation_results(self, y_true, y_pred, y_pred_distr=None, mdn=True):
-        y_true = 10 ** y_true
-        y_pred = 10 ** y_pred
-        self.plot_prediction_vs_true(y_true[:128], y_pred[:128])
+        self.plot_prediction_vs_true(y_true, y_pred)
 
         if mdn:
             y_pred = y_pred_distr.mean().numpy().reshape(-1)
             y_pred_std = y_pred_distr.stddev().numpy().reshape(-1)
-            self.plot_prediction_vs_true_with_error_bars(y_true[:128], y_pred[:128], y_pred_std[:128])
-            self.plot_prediction_vs_true_with_error_bars_smooth(y_true[:128], y_pred[:128], y_pred_std[:128])
+            self.plot_prediction_vs_true_with_error_bars(y_true, y_pred, y_pred_std)
+            self.plot_prediction_vs_true_with_error_bars_smooth(y_true, y_pred, y_pred_std)
 
     def plot_mse_loss_history(self, history, mode='loss', label='Loss'):
         plt.figure()
@@ -72,7 +70,7 @@ class GraphPlotter(object):
         plt.scatter(y_true, y_pred, color='b')
         plt.xlabel('True Values')
         plt.ylabel('Predictions')
-        _ = plt.plot([0, 1.5], [0, 1.5])
+        _ = plt.plot([0, 1.2], [0, 1.2])
 
     def plot_prediction_vs_true(self, y_true, y_pred):
         plt.figure()

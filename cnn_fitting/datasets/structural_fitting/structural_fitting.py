@@ -91,7 +91,6 @@ class StructuralFitting(tfds.core.GeneratorBasedBuilder):
                 if img.size != 64*64:
                     continue
 
-                print('-------------YIELD---------------------')
                 # Yield with i because in our case object_id will be the same for the 4 different projections
                 yield int(gid), {'image': img.astype("float32"),
                             'angular_size': angular_size.astype("float32")}
