@@ -19,7 +19,7 @@ class GraphPlotter(object):
         if directory:
             os.makedirs(os.path.join(self.save_dir, directory), exist_ok=True)
             filename = '{}/{}'.format(directory, filename)
-        plt.savefig(os.path.join(self.save_dir, filename + '_{}.png'.format(self.model_id)), **kwargs)
+        plt.savefig(os.path.join(self.save_dir, filename + '.png'), **kwargs)
         plt.close()
 
     def plot_original_maps(self, images, labels, test=False):
@@ -37,18 +37,28 @@ class GraphPlotter(object):
         self.save_plot('{}Original maps.png'.format('Test ' if test else ''),
                        kwargs={'dpi': 200})
 
+    def plot_histogram(self, images, labels, test=False):
+        plt.hist(labels, bins=100, density=True)
+        self.save_plot('Training histogram')
+
     def plot_training_graphs(self, history):
         self.plot_mse_loss_history(history, mode='loss', label='Loss')
         self.plot_mse_loss_history(history, mode='mse', label='MSE')
 
-    def plot_evaluation_results(self, y_true, y_pred, y_pred_distr=None, mdn=True):
-        self.plot_prediction_vs_true(y_true, y_pred)
+    def plot_evaluation_results(self, y_true, y_pred, y_pred_distr=None, mdn=True, logged=True):
+        if not logged:
+            y_true = 10 ** y_true
+            y_pred = 10 ** y_pred 
+        
+        self.plot_prediction_vs_true(y_true, y_pred, logged=logged)
 
         if mdn:
             y_pred = y_pred_distr.mean().numpy().reshape(-1)
+            if not logged:
+                y_pred = 10 ** y_pred
             y_pred_std = y_pred_distr.stddev().numpy().reshape(-1)
-            self.plot_prediction_vs_true_with_error_bars(y_true, y_pred, y_pred_std)
-            self.plot_prediction_vs_true_with_error_bars_smooth(y_true, y_pred, y_pred_std)
+            self.plot_prediction_vs_true_with_error_bars(y_true, y_pred, y_pred_std, logged=logged)
+            self.plot_prediction_vs_true_with_error_bars_smooth(y_true, y_pred, y_pred_std, logged=logged)
 
     def plot_mse_loss_history(self, history, mode='loss', label='Loss'):
         plt.figure()
@@ -70,16 +80,17 @@ class GraphPlotter(object):
         plt.scatter(y_true, y_pred, color='b')
         plt.xlabel('True Values')
         plt.ylabel('Predictions')
-        _ = plt.plot([0, 1.2], [0, 1.2])
+        _ = plt.plot([y_true.min() - 0.1, y_true.max() + 0.1], 
+                     [y_true.min() - 0.1, y_true.max() + 0.1])
 
-    def plot_prediction_vs_true(self, y_true, y_pred):
+    def plot_prediction_vs_true(self, y_true, y_pred, logged=True):
         plt.figure()
         plt.axes(aspect='equal')
         self.scatter_predictions_vs_true(y_true, y_pred)
         plt.legend(loc='upper left')
-        self.save_plot('Predictions_vs_True')
+        self.save_plot('Predictions_vs_True{}'.format('_log' if logged else ''))
 
-    def plot_prediction_vs_true_with_error_bars(self, y_true, y_pred, err):
+    def plot_prediction_vs_true_with_error_bars(self, y_true, y_pred, err, logged=True):
         plt.figure()
         plt.axes(aspect='equal')
         self.scatter_predictions_vs_true(y_true, y_pred)
@@ -87,9 +98,9 @@ class GraphPlotter(object):
                      capsize=3, color='blue', capthick=0.5, label=r'$\sigma$')
 
         plt.legend(loc='upper left')
-        self.save_plot('Predictions_vs_True_Error_Bars')
+        self.save_plot('Predictions_vs_True_Error_Bars{}'.format('_log' if logged else ''))
 
-    def plot_prediction_vs_true_with_error_bars_smooth(self, y_true, y_pred, err):
+    def plot_prediction_vs_true_with_error_bars_smooth(self, y_true, y_pred, err, logged=True):
         sorted_idxs = np.argsort(y_true)
         y_true = y_true[sorted_idxs]
         y_pred = y_pred[sorted_idxs]
@@ -105,7 +116,7 @@ class GraphPlotter(object):
                          alpha=0.2, color='b', label=r'$2\sigma$')
 
         plt.legend(loc='upper left')
-        self.save_plot('Predictions_vs_True_Error_Bars_Smooth')
+        self.save_plot('Predictions_vs_True_Error_Bars_Smooth{}'.format('_log' if logged else ''))
 
 
 

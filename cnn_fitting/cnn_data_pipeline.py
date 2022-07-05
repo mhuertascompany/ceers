@@ -65,7 +65,9 @@ def preprocessing(example):
     image = example['image']
     image = tf.expand_dims(image, axis=-1)
     image = _per_image_standardization(image)
-    angular_size = example['angular_size']
+    image = tf.where(tf.math.is_nan(image), tf.zeros_like(image), image)
+    angular_size = log10(example['angular_size'])
+    angular_size = tf.where(tf.math.is_nan(angular_size), tf.zeros_like(angular_size), angular_size)
     return image, angular_size
 
 
@@ -91,7 +93,7 @@ def input_fn(mode='train', batch_size=BATCHES):
 
     if mode in ('train', 'validation'):
         dataset = dataset.repeat()
-        dataset = dataset.shuffle(10000)
+    dataset = dataset.shuffle(10000)
 
     # Apply data preprocessing
     dataset = dataset.map(preprocessing, num_parallel_calls=tf.data.AUTOTUNE)

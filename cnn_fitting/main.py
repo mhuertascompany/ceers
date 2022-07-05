@@ -33,7 +33,7 @@ class CNNModel(object):
         self.n_epochs = 0
 
         # Create directory for this run
-        self.run_dir = os.path.join(RESULTS_PATH, 'structural_fitting')
+        self.run_dir = os.path.join(RESULTS_PATH, 'structural_fitting_log')
         if not os.path.exists(self.run_dir):
             os.makedirs(self.run_dir)
 
@@ -56,7 +56,6 @@ class CNNModel(object):
         self.len_ds_train = get_num_examples('train')
         self.len_ds_val = get_num_examples('validation')
         self.len_ds_test = get_num_examples('test')
-        log.info('-----------', self.len_ds_test, self.len_ds_val, self.len_ds_train)
 
         # Plot some informative graphs for the input data of the CNN
         #input_plots(self.ds_train, self.run_dir)
@@ -77,14 +76,16 @@ class CNNModel(object):
             with redirect_stdout(f):
                 self.model.summary()
 
-        images, y_true = get_data(self.ds_train, batches=1)
+
+        images, y_true = get_data(self.ds_train, batches=1000)
+        self.plotter.plot_histogram(images, y_true)
         self.plotter.plot_original_maps(images, y_true)
 
         # Train model
         es = EarlyStopping(monitor='val_loss', patience=50)
         mc = ModelCheckpoint(filepath=self.model_file_path, monitor='val_loss', save_best_only=True)
         history = self.model.fit(self.ds_train,
-                                 epochs=200,
+                                 epochs=1000,
                                  steps_per_epoch=self.len_ds_train // BATCHES,
                                  validation_steps=self.len_ds_val // BATCHES,
                                  validation_data=self.ds_val,
@@ -133,6 +134,7 @@ class CNNModel(object):
             y_pred = y_pred_distr.mean().numpy().reshape(-1)
 
         self.plotter.plot_evaluation_results(y_true, y_pred, y_pred_distr=y_pred_distr, mdn=MDN)
+        self.plotter.plot_evaluation_results(y_true, y_pred, y_pred_distr=y_pred_distr, mdn=MDN, logged=False)
         #self.plotter.plot_saliency_maps(self.model, images, y_true, y_pred)
 
     def run(self):
