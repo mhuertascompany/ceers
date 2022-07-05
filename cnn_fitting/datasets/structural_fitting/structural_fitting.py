@@ -40,9 +40,10 @@ _CITATION = """
 class StructuralFitting(tfds.core.GeneratorBasedBuilder):
     """ DatasetBuilder for cnn_fitting dataset. """
 
-    VERSION = tfds.core.Version('1.0.0')
+    VERSION = tfds.core.Version('2.0.0')
     RELEASE_NOTES = {
       '1.0.0': 'Initial release.',
+      '2.0.0': 'Include both filters'
     }
 
     def _info(self) -> tfds.core.DatasetInfo:
@@ -54,6 +55,7 @@ class StructuralFitting(tfds.core.GeneratorBasedBuilder):
             features=tfds.features.FeaturesDict({
                 'image': tfds.features.Tensor(shape=(64, 64), dtype=tf.float32),
                 'angular_size': tf.float32,
+                'object_id': tf.string
             }),
             supervised_keys=('image', 'angular_size'),
             homepage='https://dataset-homepage/',
@@ -62,41 +64,48 @@ class StructuralFitting(tfds.core.GeneratorBasedBuilder):
 
     def _split_generators(self, dl_manager: tfds.download.DownloadManager):
         """Returns SplitGenerators."""
-        path = os.path.join(DATA_PATH, 'ceers5_f150w_i2d.fits.gz')
-        print ('----------', path, DATA_PATH)
+        filter_paths = [(f, os.path.join(DATA_PATH,
+                                         'ceers5_f{}w_i2d.fits.gz'.format(f)))
+                        for f in (150, 200)]
+
         cat_path = os.path.join(DATA_PATH, 'CEERS_SDR3_SAM_input.fits')
         return {
-            'train': self._generate_examples(path, cat_path),
+            'train': self._generate_examples(filter_paths, cat_path),
         }
 
-    def _generate_examples(self, path, cat_path):
+    def _generate_examples(self, filter_paths, cat_path):
         """Yields examples."""
-
-        ceers = fits.open(path)
-        image = ceers[1].data
-        w = WCS(ceers[1].header)
 
         table = Table.read(cat_path)
         cat = table.to_pandas()
-        cut = cat.query("NIRCam_F150W<27")
 
-        for gid in reversed(cut.index):
-            c = SkyCoord(cat.ra[gid], cat.dec[gid], unit="deg")
-            angular_size = cat.angular_size[gid]
-            try:
-                img = Cutout2D(image, c, (64, 64), wcs=w).data
-                if np.where(img == 0.0)[0].size > 0.75 * img.size:
-                    continue
+        i = 0
+        for filter_v, filter_path in filter_paths:
+            ceers = fits.open(filter_path)
+            image = ceers[1].data
+            w = WCS(ceers[1].header)
 
-                if img.size != 64*64:
-                    continue
+            cut = cat.query("NIRCam_F{}W<27".format(filter_v))
 
-                # Yield with i because in our case object_id will be the same for the 4 different projections
-                yield int(gid), {'image': img.astype("float32"),
-                            'angular_size': angular_size.astype("float32")}
+            for gid in reversed(cut.index):
+                c = SkyCoord(cat.ra[gid], cat.dec[gid], unit="deg")
+                angular_size = cat.angular_size[gid]
+                try:
+                    img = Cutout2D(image, c, (64, 64), wcs=w).data
+                    if np.where(img == 0.0)[0].size > 0.75 * img.size:
+                        continue
 
-            except Exception as e:
-                print("Galaxy id not added to the dataset: object_id=", gid,
-                      "angular size ", angular_size, e)
+                    if img.size != 64*64:
+                        continue
 
-        ceers.close()
+                    i += 1
+                    # Yield with i because in our case object_id will be the same for the 4 different projections
+                    yield i, {'image': img.astype("float32"),
+                              'angular_size': angular_size.astype("float32"),
+                              'object_id': '{}_{}'.format(gid, filter_v)}
+
+                except Exception as e:
+                    print("Galaxy id not added to the dataset: object_id=", gid,
+                          "angular size ", angular_size, e)
+
+            ceers.close()
