@@ -98,6 +98,12 @@ class StructuralFitting(tfds.core.GeneratorBasedBuilder):
                     if img.size != 64*64:
                         continue
 
+                    if np.all(img == img[0, 0]):
+                        continue
+
+                    if not np.isfinite(angular_size):
+                        continue
+
                     i += 1
                     # Yield with i because in our case object_id will be the same for the 4 different projections
                     yield i, {'image': img.astype("float32"),
@@ -105,7 +111,8 @@ class StructuralFitting(tfds.core.GeneratorBasedBuilder):
                               'object_id': '{}_{}'.format(gid, filter_v)}
 
                 except Exception as e:
-                    print("Galaxy id not added to the dataset: object_id=", gid,
-                          "angular size ", angular_size, e)
+                    pass
+                    #print("Galaxy id not added to the dataset: object_id=", gid,
+                    #      "angular size ", angular_size, e)
 
             ceers.close()
