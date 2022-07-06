@@ -91,13 +91,38 @@ class GraphPlotter(object):
         plt.legend(loc='upper left')
         self.save_plot('Predictions_vs_True{}'.format('_log' if logged else ''))
 
+    def plot_with_median(self, X, Y, color1, color2, log=True, percentiles=True, show=False):
+        """
+        Plot the running media of the X, Y data with 25th and 75th percentiles,
+        if requested
+        """
+        total_bins = 10
+        if log:
+            bins = np.geomspace(X.min(), X.max(), total_bins)
+        else:
+            bins = np.linspace(X.min(), X.max(), total_bins)
+    
+        delta = bins[1] - bins[0]
+        idx = np.digitize(X, bins)
+        running_median = [np.median(Y[idx == k]) for k in range(total_bins)]
+        running_prc25 = [np.nanpercentile(Y[idx == k], 25) for k in range(total_bins)]
+        running_prc75 = [np.nanpercentile(Y[idx == k], 75) for k in range(total_bins)]
+        plt.plot(bins - delta / 2, running_median, color2, linestyle='--', lw=4, alpha=.8)
+    
+        if percentiles:
+            plt.fill_between(bins - delta/2, running_prc25, running_median, facecolor=color1, alpha=0.2)
+            plt.fill_between(bins - delta/2, running_prc75, running_median, facecolor=color1, alpha=0.2)
+        else:
+            plt.scatter(X, Y, color=color1, alpha=.2, s=2, zorder=1 if show else 0)
+    
+        if log:
+            plt.xscale('symlog')
+    
     def plot_residual(self, y_true, y_pred, logged=True):
         plt.figure()
-        #plt.axes(aspect='equal')
-        plt.scatter(y_true, np.abs(y_pred-y_true)/y_true, color='b')
+        self.plot_with_median(y_true, np.abs(y_pred-y_true)/y_true, 'blue', 'darkblue', log=False)
         plt.xlabel('True Values')
         plt.ylabel('|Predictions - True|/True')
-        plt.legend(loc='upper left')
         self.save_plot('Relative_error{}'.format('_log' if logged else ''))
 
     def plot_prediction_vs_true_with_error_bars(self, y_true, y_pred, err, logged=True):
