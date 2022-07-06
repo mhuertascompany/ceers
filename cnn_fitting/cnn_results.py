@@ -51,6 +51,7 @@ class GraphPlotter(object):
             y_pred = 10 ** y_pred 
         
         self.plot_prediction_vs_true(y_true, y_pred, logged=logged)
+        self.plot_residual(y_true, y_pred, logged=logged)
 
         if mdn:
             y_pred = y_pred_distr.mean().numpy().reshape(-1)
@@ -89,6 +90,15 @@ class GraphPlotter(object):
         self.scatter_predictions_vs_true(y_true, y_pred)
         plt.legend(loc='upper left')
         self.save_plot('Predictions_vs_True{}'.format('_log' if logged else ''))
+
+    def plot_residual(self, y_true, y_pred, logged=True):
+        plt.figure()
+        #plt.axes(aspect='equal')
+        plt.scatter(y_true, np.abs(y_pred-y_true)/y_true, color='b')
+        plt.xlabel('True Values')
+        plt.ylabel('|Predictions - True|/True')
+        plt.legend(loc='upper left')
+        self.save_plot('Relative_error{}'.format('_log' if logged else ''))
 
     def plot_prediction_vs_true_with_error_bars(self, y_true, y_pred, err, logged=True):
         plt.figure()
