@@ -71,29 +71,21 @@ def preprocessing(example):
     return image, angular_size
 
 
-def input_fn(mode='train', batch_size=BATCHES):
+def input_fn(mode='train', dataset_str='structural_fitting', batch_size=BATCHES):
     """
     mode: 'train', 'validation' or 'test'
     """
-    if mode == 'train':
-        dataset = tfds.load(
-            "structural_fitting",
-            split="train[:75%]"
-        )
-    elif mode == 'validation':
-        dataset = tfds.load(
-            "structural_fitting",
-            split="train[75%:85%]"
-        )
-    else:
-        dataset = tfds.load(
-            "structural_fitting",
-            split="train[85%:]",
-        )
 
-    if mode in ('train', 'validation'):
+    shuffle = mode in ('train', 'validation')
+    dataset = tfds.load(
+        dataset_str,
+        split=mode,
+        shuffle_files=shuffle
+    )
+
+    if shuffle:
         dataset = dataset.repeat()
-    dataset = dataset.shuffle(10000)
+        dataset = dataset.shuffle(10000)
 
     # Apply data preprocessing
     dataset = dataset.map(preprocessing, num_parallel_calls=tf.data.AUTOTUNE)
@@ -115,24 +107,15 @@ def get_data(dataset, batches=10):
     for d in list(data):
         images.extend(d[0].numpy())
         y_true.extend(d[1].numpy())
-
     images = np.stack(images)
     y_true = np.array(y_true)
-
     return images, y_true
 
 
 def get_num_examples(mode='train', dataset_str='structural_fitting'):
     builder = tfds.builder(dataset_str)
     splits = builder.info.splits
-    num = splits['train'].num_examples
-    if mode == 'train':
-        num *= 0.75
-    elif mode == 'validation':
-        num *= 0.1
-    else:
-        num *= 0.15
-    return num
+    return splits[mode].num_examples
 
 
 if __name__ == '__main__':
