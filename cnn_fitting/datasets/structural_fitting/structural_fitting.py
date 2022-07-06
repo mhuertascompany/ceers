@@ -16,7 +16,7 @@ import custom_split as split
 
 sys.path.append(os.path.abspath('../..'))
 
-from constants import DATA_PATH, SPLITS
+from constants import DATA_PATH, SPLITS, INPUT_SHAPE
 
 
 _DESCRIPTION = """
@@ -55,7 +55,7 @@ class StructuralFitting(tfds.core.GeneratorBasedBuilder):
             builder=self,
             description=_DESCRIPTION,
             features=tfds.features.FeaturesDict({
-                'image': tfds.features.Tensor(shape=(64, 64), dtype=tf.float32),
+                'image': tfds.features.Tensor(shape=INPUT_SHAPE[:-1], dtype=tf.float32),
                 'angular_size': tf.float32,
                 'object_id': tf.string
             }),
@@ -109,11 +109,11 @@ class StructuralFitting(tfds.core.GeneratorBasedBuilder):
                 c = SkyCoord(cat.ra[gid], cat.dec[gid], unit="deg")
                 angular_size = cat.angular_size[gid]
                 try:
-                    img = Cutout2D(image, c, (64, 64), wcs=w).data
+                    img = Cutout2D(image, c, INPUT_SHAPE[:-1], wcs=w).data
                     if np.where(img == 0.0)[0].size > 0.75 * img.size:
                         continue
 
-                    if img.size != 64*64:
+                    if img.size != INPUT_SHAPE[0]*INPUT_SHAPE[1]:
                         continue
 
                     if np.all(img == img[0, 0]):

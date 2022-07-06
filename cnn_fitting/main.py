@@ -79,7 +79,7 @@ class CNNModel(object):
         images, y_true = get_data(self.ds_train, batches=1000)
         self.plotter.plot_histogram(images, y_true)
         self.plotter.plot_original_maps(images, y_true)
-
+        
         # Train model
         es = EarlyStopping(monitor='val_loss', patience=50)
         mc = ModelCheckpoint(filepath=self.model_file_path, monitor='val_loss', save_best_only=True)
@@ -123,7 +123,7 @@ class CNNModel(object):
         images, y_true = get_data(self.ds_test, batches=1)
         self.plotter.plot_original_maps(images, y_true, test=True)
 
-        images, y_true = get_data(self.ds_test, batches=10)
+        images, y_true = get_data(self.ds_test, batches=100)
         y_pred = self.model.predict(images).flatten()
         y_pred = np.array(y_pred)
 
