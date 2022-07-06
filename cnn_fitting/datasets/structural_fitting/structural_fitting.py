@@ -12,9 +12,11 @@ from astropy.coordinates import SkyCoord
 from astropy.wcs import WCS
 from astropy.nddata import Cutout2D
 
+import custom_split as split
+
 sys.path.append(os.path.abspath('../..'))
 
-from constants import DATA_PATH
+from constants import DATA_PATH, SPLITS
 
 
 _DESCRIPTION = """
@@ -64,17 +66,33 @@ class StructuralFitting(tfds.core.GeneratorBasedBuilder):
 
     def _split_generators(self, dl_manager: tfds.download.DownloadManager):
         """Returns SplitGenerators."""
+        split_ids = split.create_custom_split(SPLITS)
+        return [
+            tfds.core.SplitGenerator(
+                name=tfds.Split.TRAIN,
+                gen_kwargs=dict(
+                    split_ids=split_ids['train'],
+                )),
+            tfds.core.SplitGenerator(
+                name=tfds.Split.VALIDATION,
+                gen_kwargs=dict(
+                    split_ids=split_ids['validation'],
+                )),
+            tfds.core.SplitGenerator(
+                name=tfds.Split.TEST,
+                gen_kwargs=dict(
+                    split_ids=split_ids['test'],
+                )),
+        ]
+
+    def _generate_examples(self, split_ids):
+        """Yields examples."""
+
         filter_paths = [(f, os.path.join(DATA_PATH,
                                          'ceers5_f{}w_i2d.fits.gz'.format(f)))
                         for f in (150, 200)]
 
         cat_path = os.path.join(DATA_PATH, 'CEERS_SDR3_SAM_input.fits')
-        return {
-            'train': self._generate_examples(filter_paths, cat_path),
-        }
-
-    def _generate_examples(self, filter_paths, cat_path):
-        """Yields examples."""
 
         table = Table.read(cat_path)
         cat = table.to_pandas()
@@ -87,7 +105,7 @@ class StructuralFitting(tfds.core.GeneratorBasedBuilder):
 
             cut = cat.query("NIRCam_F{}W<27".format(filter_v))
 
-            for gid in reversed(cut.index):
+            for gid in split_ids:
                 c = SkyCoord(cat.ra[gid], cat.dec[gid], unit="deg")
                 angular_size = cat.angular_size[gid]
                 try:
@@ -111,8 +129,7 @@ class StructuralFitting(tfds.core.GeneratorBasedBuilder):
                               'object_id': '{}_{}'.format(gid, filter_v)}
 
                 except Exception as e:
-                    pass
-                    #print("Galaxy id not added to the dataset: object_id=", gid,
-                    #      "angular size ", angular_size, e)
+                    print("Galaxy id not added to the dataset: object_id=", gid,
+                          "angular size ", angular_size, e)
 
             ceers.close()

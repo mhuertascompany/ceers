@@ -43,19 +43,19 @@ class CNNModel(object):
         # (so that it is not copied along with the rest of the results)
         self.model_file_path = RESULTS_PATH + '/saved_models/model.h5'
 
-    def load_datasets(self, dataset_str='tng_dataset'):
+    def load_datasets(self, dataset_str='structural_fitting'):
         """
         Load the train, validation and test sets and plot some informative graphs
         :return:
         """
 
-        self.ds_train = input_fn('train')
-        self.ds_val = input_fn('validation')
-        self.ds_test = input_fn('test')
+        self.ds_train = input_fn('train', dataset_str)
+        self.ds_val = input_fn('validation', dataset_str)
+        self.ds_test = input_fn('test', dataset_str)
 
-        self.len_ds_train = get_num_examples('train')
-        self.len_ds_val = get_num_examples('validation')
-        self.len_ds_test = get_num_examples('test')
+        self.len_ds_train = get_num_examples('train', dataset_str)
+        self.len_ds_val = get_num_examples('validation', dataset_str)
+        self.len_ds_test = get_num_examples('test', dataset_str)
 
         # Plot some informative graphs for the input data of the CNN
         #input_plots(self.ds_train, self.run_dir)
@@ -76,7 +76,7 @@ class CNNModel(object):
             with redirect_stdout(f):
                 self.model.summary()
 
-
+        print('--------', self.len_ds_train, self.len_ds_test, self.len_ds_val)
         images, y_true = get_data(self.ds_train, batches=1000)
         self.plotter.plot_histogram(images, y_true)
         self.plotter.plot_original_maps(images, y_true)
@@ -135,14 +135,13 @@ class CNNModel(object):
 
         self.plotter.plot_evaluation_results(y_true, y_pred, y_pred_distr=y_pred_distr, mdn=MDN)
         self.plotter.plot_evaluation_results(y_true, y_pred, y_pred_distr=y_pred_distr, mdn=MDN, logged=False)
-        #self.plotter.plot_saliency_maps(self.model, images, y_true, y_pred)
 
     def run(self):
         """
         Load the datasets, train and evaluate results of model
         :return:
         """
-        dataset_main = 'structural_dataset'
+        dataset_main = 'structural_fitting'
         self.load_datasets(dataset_main)
         self.train_model()
         self.evaluate_model()
