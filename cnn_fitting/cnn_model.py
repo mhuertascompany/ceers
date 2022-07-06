@@ -9,26 +9,26 @@ from tensorflow_probability import distributions as tfd
 
 def cnn_model_simple(input_shape, mdn=False):
     model = models.Sequential()
-    model.add(layers.Conv2D(32, (5, 5), activation='relu', padding="same", input_shape=input_shape))
+    model.add(layers.Conv2D(16, (3, 3), activation='relu', padding="same", input_shape=input_shape))
     model.add(layers.MaxPooling2D((2, 2)))
     model.add(BatchNormalization(axis=-1))
-    model.add(Dropout(0.2))
+    model.add(Dropout(0.1))
 
-    model.add(layers.Conv2D(64, (3, 3), activation='relu', padding="same"))
+    model.add(layers.Conv2D(32, (3, 3), activation='relu', padding="same"))
     model.add(layers.MaxPooling2D((2, 2)))
     model.add(BatchNormalization(axis=-1))
-    model.add(Dropout(0.2))
+    model.add(Dropout(0.1))
 
-    model.add(layers.Conv2D(64, (3, 3), activation='relu', padding="same"))
+    model.add(layers.Conv2D(32, (3, 3), activation='relu', padding="same"))
     model.add(layers.MaxPooling2D((2, 2)))
     model.add(BatchNormalization(axis=-1))
-    model.add(Dropout(0.2))
+    model.add(Dropout(0.1))
 
     model.add(layers.Flatten())
     model.add(layers.Dense(512, activation='relu', kernel_regularizer=l2(0.001)))
     model.add(BatchNormalization(axis=-1))
     model.add(layers.Dense(10, activation='relu', kernel_regularizer=l2(0.001)))
-    model.add(Dropout(0.2))
+    #model.add(Dropout(0.1))
 
     if not mdn:
         model.add(layers.Dense(1, activation='linear'))

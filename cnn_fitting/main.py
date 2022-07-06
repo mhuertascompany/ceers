@@ -76,7 +76,6 @@ class CNNModel(object):
             with redirect_stdout(f):
                 self.model.summary()
 
-        print('--------', self.len_ds_train, self.len_ds_test, self.len_ds_val)
         images, y_true = get_data(self.ds_train, batches=1000)
         self.plotter.plot_histogram(images, y_true)
         self.plotter.plot_original_maps(images, y_true)
@@ -85,17 +84,17 @@ class CNNModel(object):
         es = EarlyStopping(monitor='val_loss', patience=50)
         mc = ModelCheckpoint(filepath=self.model_file_path, monitor='val_loss', save_best_only=True)
         history = self.model.fit(self.ds_train,
-                                 epochs=1000,
+                                 epochs=500,
                                  steps_per_epoch=self.len_ds_train // BATCHES,
                                  validation_steps=self.len_ds_val // BATCHES,
                                  validation_data=self.ds_val,
-                                 callbacks=[es],
+                                 callbacks=[es, mc],
                                  use_multiprocessing=True, workers=4)
 
         self.n_epochs = len(history.history['loss'])
         self.plotter.plot_training_graphs(history)
 
-        #self.model = load_saved_model(self.model_file_path, mdn=True)
+        self.model = load_saved_model(self.model_file_path, mdn=True)
         log.info('Evaluate with training set on best model containing {} examples'.format(self.len_ds_train))
         train_loss, train_mse = self.model.evaluate(self.ds_train,
                                                     steps=100, verbose=2)
@@ -110,7 +109,7 @@ class CNNModel(object):
         Evaluate the performance of the CNN using the test set
         :return:
         """
-        #self.model = self.load_saved_model()
+        self.model = self.load_saved_model()
 
         log.info('*************** EVALUATING *******************')
         log.info('Evaluate with test set containing {} examples'.format(self.len_ds_test))

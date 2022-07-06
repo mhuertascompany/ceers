@@ -13,7 +13,7 @@ else:
     BASE_PATH = '/scratch/eirinia/projects/ceers'
 
 DATA_PATH = os.path.join(BASE_PATH, 'data/eirini_data')
-RESULTS_PATH = os.path.join(BASE_PATH, 'Results')
+RESULTS_PATH = os.path.join(BASE_PATH, 'cnn_fitting/Results')
 GALAXY_IDS_PATH = os.path.join(DATA_PATH, 'galaxy_ids.pkl')
 
 SPLITS = OrderedDict({
