@@ -57,7 +57,8 @@ class StructuralFitting(tfds.core.GeneratorBasedBuilder):
             features=tfds.features.FeaturesDict({
                 'image': tfds.features.Tensor(shape=INPUT_SHAPE[:-1], dtype=tf.float32),
                 'angular_size': tf.float32,
-                'object_id': tf.string
+                'object_id': tf.string,
+                'magnitude': tf.float32
             }),
             supervised_keys=('image', 'angular_size'),
             homepage='https://dataset-homepage/',
@@ -108,6 +109,11 @@ class StructuralFitting(tfds.core.GeneratorBasedBuilder):
             for gid in split_ids:
                 c = SkyCoord(cat.ra[gid], cat.dec[gid], unit="deg")
                 angular_size = cat.angular_size[gid]
+
+                magnitude = cat.NIRCam_F150W[gid]
+                if filter_v == 200:
+                    magnitude = cat.NIRCam_F150W[gid]
+
                 try:
                     img = Cutout2D(image, c, INPUT_SHAPE[:-1], wcs=w).data
                     if np.where(img == 0.0)[0].size > 0.75 * img.size:
@@ -126,7 +132,8 @@ class StructuralFitting(tfds.core.GeneratorBasedBuilder):
                     # Yield with i because in our case object_id will be the same for the 4 different projections
                     yield i, {'image': img.astype("float32"),
                               'angular_size': angular_size.astype("float32"),
-                              'object_id': '{}_{}'.format(gid, filter_v)}
+                              'object_id': '{}_{}'.format(gid, filter_v),
+                              'magnitude': magnitude}
 
                 except Exception as e:
                     print("Galaxy id not added to the dataset: object_id=", gid,

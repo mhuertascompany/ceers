@@ -71,6 +71,16 @@ def preprocessing(example):
     return image, angular_size
 
 
+def preprocessing_test(example):
+    image = example['image']
+    image = tf.expand_dims(image, axis=-1)
+    image = _per_image_standardization(image)
+    image = tf.where(tf.math.is_nan(image), tf.zeros_like(image), image)
+    angular_size = log10(example['angular_size'])
+    angular_size = tf.where(tf.math.is_nan(angular_size), tf.zeros_like(angular_size), angular_size)
+    return image, angular_size, example['magnitude']
+
+
 def input_fn(mode='train', dataset_str='structural_fitting', batch_size=BATCHES):
     """
     mode: 'train', 'validation' or 'test'
@@ -86,9 +96,10 @@ def input_fn(mode='train', dataset_str='structural_fitting', batch_size=BATCHES)
     if shuffle:
         dataset = dataset.repeat()
         dataset = dataset.shuffle(10000)
-
-    # Apply data preprocessing
-    dataset = dataset.map(preprocessing, num_parallel_calls=tf.data.AUTOTUNE)
+        # Apply data preprocessing
+        dataset = dataset.map(preprocessing, num_parallel_calls=tf.data.AUTOTUNE)
+    else:
+        dataset = dataset.map(preprocessing_test, num_parallel_calls=tf.data.AUTOTUNE)
 
     if mode == 'train':
         dataset = dataset.map(augment, num_parallel_calls=tf.data.AUTOTUNE)
@@ -110,6 +121,19 @@ def get_data(dataset, batches=10):
     images = np.stack(images)
     y_true = np.array(y_true)
     return images, y_true
+
+
+def get_data_test(dataset, batches=10):
+    data = dataset.take(batches)
+    images, y_true, magnitude = [], [], []
+    for d in list(data):
+        images.extend(d[0].numpy())
+        y_true.extend(d[1].numpy())
+        magnitude.extend(d[2].numpy())
+    images = np.stack(images)
+    y_true = np.array(y_true)
+    magnitude = np.array(magnitude)
+    return images, y_true, magnitude
 
 
 def get_num_examples(mode='train', dataset_str='structural_fitting'):

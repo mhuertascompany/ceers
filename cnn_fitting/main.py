@@ -7,7 +7,7 @@ from tensorflow.python.client import device_lib
 from contextlib import redirect_stdout
 
 from constants import MDN, INPUT_SHAPE, RESULTS_PATH, BATCHES
-from cnn_data_pipeline import input_fn, get_num_examples, get_data
+from cnn_data_pipeline import input_fn, get_num_examples, get_data, get_data_test
 from cnn_model import cnn_model_simple, load_saved_model
 from cnn_results import GraphPlotter
 
@@ -120,10 +120,9 @@ class CNNModel(object):
             result_file.write("Trained for epochs: %s\n\n"
                               "Test loss, MSE: %s %s" % (self.n_epochs, test_loss, test_mse))
 
-        images, y_true = get_data(self.ds_test, batches=1)
-        self.plotter.plot_original_maps(images, y_true, test=True)
+        images, y_true, magnitude = get_data_test(self.ds_test, batches=100)
+        self.plotter.plot_original_maps(images, y_true, magnitude=magnitude, test=True)
 
-        images, y_true = get_data(self.ds_test, batches=100)
         y_pred = self.model.predict(images).flatten()
         y_pred = np.array(y_pred)
 
@@ -132,8 +131,11 @@ class CNNModel(object):
             y_pred_distr = self.model(images)
             y_pred = y_pred_distr.mean().numpy().reshape(-1)
 
-        self.plotter.plot_evaluation_results(y_true, y_pred, y_pred_distr=y_pred_distr, mdn=MDN)
-        self.plotter.plot_evaluation_results(y_true, y_pred, y_pred_distr=y_pred_distr, mdn=MDN, logged=False)
+        self.plotter.plot_evaluation_results(y_true, y_pred, magnitude=magnitude,
+                                             y_pred_distr=y_pred_distr, mdn=MDN)
+        self.plotter.plot_evaluation_results(y_true, y_pred, magnitude=magnitude,
+                                             y_pred_distr=y_pred_distr, mdn=MDN,
+                                             logged=False)
 
     def run(self):
         """
