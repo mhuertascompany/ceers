@@ -97,12 +97,12 @@ def input_fn(mode='train', dataset_str='structural_fitting', batch_size=BATCHES)
         dataset = dataset.repeat()
         dataset = dataset.shuffle(10000)
         # Apply data preprocessing
-        dataset = dataset.map(preprocessing, num_parallel_calls=tf.data.AUTOTUNE)
+        dataset = dataset.map(preprocessing_test, num_parallel_calls=tf.data.AUTOTUNE)
     else:
         dataset = dataset.map(preprocessing_test, num_parallel_calls=tf.data.AUTOTUNE)
 
-    if mode == 'train':
-        dataset = dataset.map(augment, num_parallel_calls=tf.data.AUTOTUNE)
+    #if mode == 'train':
+    #    dataset = dataset.map(augment, num_parallel_calls=tf.data.AUTOTUNE)
 
     dataset = dataset.batch(batch_size, drop_remainder=True)
 

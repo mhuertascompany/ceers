@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 import tensorflow as tf
 import os
-
+from integrated_gradients import integrated_gradients
 
 class GraphPlotter(object):
     """
@@ -26,13 +26,12 @@ class GraphPlotter(object):
         num_examples = 9
         labels = 10 ** labels
         fig = plt.figure(figsize=(10, 10))
-
-        magnitude = magnitude or []
+        
         for i in range(num_examples):
             plt.subplot(3, 3, i + 1)
             im = plt.imshow(images[i, :, :], cmap='jet')
             plt.gca().set_title('Re: %.3f' % labels[i] +
-                                'M: {}'.format(magnitude[i]) if magnitude else '',
+                                'M: {}'.format(magnitude[i]) if magnitude is not None else '',
                                 rotation=0)
             plt.axis('off')
 
@@ -44,6 +43,18 @@ class GraphPlotter(object):
     def plot_histogram(self, images, labels, test=False):
         plt.hist(labels, bins=100, density=True)
         self.save_plot('Training histogram')
+    
+    def plot_correlation(self, re, magnitude):
+        plt.scatter(re, magnitude)
+        plt.xlabel('Log(Effective Radius)')
+        plt.ylabel('Magnitude')
+        self.save_plot('Correlation_Log')
+
+        plt.scatter(10 ** re, magnitude)
+        plt.xlabel('Effective Radius')
+        plt.ylabel('Magnitude')
+        self.save_plot('Correlation')
+
 
     def plot_training_graphs(self, history):
         self.plot_mse_loss_history(history, mode='loss', label='Loss')
@@ -85,12 +96,16 @@ class GraphPlotter(object):
 
     @staticmethod
     def scatter_predictions_vs_true(y_true, y_pred, magnitude=None):
-        plt.scatter(y_true, y_pred, c=magnitude or 'blue')
+        color = magnitude
+        if color is None:
+            color = 'blue'
+        scatter_kwargs = {"zorder":100}
+        plt.scatter(y_true, y_pred, c=color, **scatter_kwargs)
         plt.xlabel('True Values')
         plt.ylabel('Predictions')
         _ = plt.plot([y_true.min() - 0.1, y_true.max() + 0.1], 
                      [y_true.min() - 0.1, y_true.max() + 0.1])
-        if magnitude:
+        if magnitude is not None:
             plt.colorbar()
 
     def plot_prediction_vs_true(self, y_true, y_pred, magnitude=None, logged=True):
@@ -140,8 +155,13 @@ class GraphPlotter(object):
         plt.figure()
         plt.axes(aspect='equal')
         self.scatter_predictions_vs_true(y_true, y_pred, magnitude=magnitude)
+        error_kwargs = {"lw":.5, "zorder":0}
         plt.errorbar(y_true, y_pred, yerr=err, linestyle="None", fmt='o',
-                     capsize=3, color='blue', capthick=0.5, label=r'$\sigma$')
+                     color='blue', label=r'$\sigma$', 
+                     lw=0.5, zorder=0)
+
+        #plt.errorbar(y_true, y_pred, yerr=err, linestyle="None",
+        #             fmt=None, marker=None, mew=0, **error_kwargs)
 
         plt.legend(loc='upper left')
         self.save_plot('Predictions_vs_True_Error_Bars{}'.format('_log' if logged else ''))
@@ -164,8 +184,5 @@ class GraphPlotter(object):
 
         plt.legend(loc='upper left')
         self.save_plot('Predictions_vs_True_Error_Bars_Smooth{}'.format('_log' if logged else ''))
-
-
-
 
 

@@ -120,7 +120,10 @@ class CNNModel(object):
             result_file.write("Trained for epochs: %s\n\n"
                               "Test loss, MSE: %s %s" % (self.n_epochs, test_loss, test_mse))
 
-        images, y_true, magnitude = get_data_test(self.ds_test, batches=100)
+        images, y_true, magnitude = get_data_test(self.ds_train, batches=700)
+        self.plotter.plot_correlation(y_true, magnitude)
+        
+        images, y_true, magnitude = get_data_test(self.ds_test, batches=500)
         self.plotter.plot_original_maps(images, y_true, magnitude=magnitude, test=True)
 
         y_pred = self.model.predict(images).flatten()
@@ -137,6 +140,7 @@ class CNNModel(object):
                                              y_pred_distr=y_pred_distr, mdn=MDN,
                                              logged=False)
 
+
     def run(self):
         """
         Load the datasets, train and evaluate results of model
@@ -144,7 +148,7 @@ class CNNModel(object):
         """
         dataset_main = 'structural_fitting'
         self.load_datasets(dataset_main)
-        self.train_model()
+        #self.train_model()
         self.evaluate_model()
 
 
