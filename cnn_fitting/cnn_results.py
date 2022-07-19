@@ -5,6 +5,7 @@ import tensorflow as tf
 import os
 from integrated_gradients import integrated_gradients
 
+
 class GraphPlotter(object):
     """
     Class for organizing all plots produced by
@@ -31,13 +32,13 @@ class GraphPlotter(object):
             plt.subplot(3, 3, i + 1)
             im = plt.imshow(images[i, :, :], cmap='jet')
             plt.gca().set_title('Re: %.3f' % labels[i] +
-                                'M: {}'.format(magnitude[i]) if magnitude is not None else '',
+                                (', M:  %.3f' % magnitude[i] if magnitude is not None else ''),
                                 rotation=0)
             plt.axis('off')
 
         fig.set_facecolor('w')
         plt.tight_layout()
-        self.save_plot('{}Original maps.png'.format('Test ' if test else ''),
+        self.save_plot('{}Original maps'.format('Test ' if test else ''),
                        kwargs={'dpi': 200})
 
     def plot_histogram(self, images, labels, test=False):
@@ -54,7 +55,6 @@ class GraphPlotter(object):
         plt.xlabel('Effective Radius')
         plt.ylabel('Magnitude')
         self.save_plot('Correlation')
-
 
     def plot_training_graphs(self, history):
         self.plot_mse_loss_history(history, mode='loss', label='Loss')

@@ -120,8 +120,8 @@ class CNNModel(object):
             result_file.write("Trained for epochs: %s\n\n"
                               "Test loss, MSE: %s %s" % (self.n_epochs, test_loss, test_mse))
 
-        images, y_true, magnitude = get_data_test(self.ds_train, batches=700)
-        self.plotter.plot_correlation(y_true, magnitude)
+        #images, y_true, magnitude = get_data_test(self.ds_train, batches=700)
+        #self.plotter.plot_correlation(y_true, magnitude)
         
         images, y_true, magnitude = get_data_test(self.ds_test, batches=500)
         self.plotter.plot_original_maps(images, y_true, magnitude=magnitude, test=True)
@@ -140,6 +140,48 @@ class CNNModel(object):
                                              y_pred_distr=y_pred_distr, mdn=MDN,
                                              logged=False)
 
+    def cross_evaluate_model(self):
+        """
+        Cross-evaluate the performance of the CNN using the test set
+        :return:
+        """
+        log.info('*************** CROSS EVALUATING *******************')
+
+        ds_test_other = input_fn('test', 'ceers_mocks')
+        len_ds_test = get_num_examples('test', dataset_str='ceers_mocks')
+        log.info('Evaluate with test set containing {} examples'.format(len_ds_test))
+
+        test_loss, test_mse = self.model.evaluate(ds_test_other, verbose=2)
+        log.info('Cross test Loss: {}, Cross test MSE: {}'.format(test_loss, test_mse))
+
+        cross_run_dir = os.path.join(self.run_dir, 'Cross')
+        if not os.path.exists(cross_run_dir):
+            os.makedirs(cross_run_dir)
+
+        with open(cross_run_dir + "/Results_cross.txt", "w") as result_file:
+            result_file.write("Trained for epochs: %s\n\n"
+                              "Cross test loss, Cross MSE: %s %s" % (self.n_epochs, test_loss, test_mse))
+
+        # images, y_true, magnitude = get_data_test(self.ds_train, batches=700)
+        # self.plotter.plot_correlation(y_true, magnitude)
+
+        images, y_true, magnitude = get_data_test(ds_test_other, batches=50)
+        self.plotter.plot_original_maps(images, y_true, magnitude=magnitude, test=True)
+
+        y_pred = self.model.predict(images).flatten()
+        y_pred = np.array(y_pred)
+
+        y_pred_distr = None
+        if MDN:
+            y_pred_distr = self.model(images)
+            y_pred = y_pred_distr.mean().numpy().reshape(-1)
+
+        cross_plotter = GraphPlotter(cross_run_dir, self.model_id)
+        cross_plotter.plot_evaluation_results(y_true, y_pred, magnitude=magnitude,
+                                             y_pred_distr=y_pred_distr, mdn=MDN)
+        cross_plotter.plot_evaluation_results(y_true, y_pred, magnitude=magnitude,
+                                             y_pred_distr=y_pred_distr, mdn=MDN,
+                                             logged=False)
 
     def run(self):
         """
@@ -148,8 +190,9 @@ class CNNModel(object):
         """
         dataset_main = 'structural_fitting'
         self.load_datasets(dataset_main)
-        #self.train_model()
+        self.train_model()
         self.evaluate_model()
+        self.cross_evaluate_model()
 
 
 if __name__ == '__main__':
