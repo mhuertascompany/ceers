@@ -1,3 +1,3 @@
 """cnn_fitting dataset."""
 
-from .ceers_mocks import StructuralFitting
+from .ceers_mocks import CEERSMocks
