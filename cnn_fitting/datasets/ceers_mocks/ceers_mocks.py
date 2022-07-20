@@ -2,15 +2,12 @@
 
 import tensorflow_datasets as tfds
 import tensorflow as tf
-import numpy as np
 import os
 import sys
 
-from astropy.io import fits
-from astropy.table import Table
-from astropy.coordinates import SkyCoord
-from astropy.wcs import WCS
-from astropy.nddata import Cutout2D
+from astropy.cosmology import FlatLambdaCDM
+import numpy as np
+from astropy import units as u
 
 import custom_split as split
 
@@ -82,6 +79,8 @@ class CEERSMocks(tfds.core.GeneratorBasedBuilder):
         df = load_catalog_values(CEERS_MOCK_CATALOG_PATH)
         morph_df = load_morphological_values(CEERS_MOCK_MORPH_PATH, CEERS_MOCK_MORPH_IDX_PATH)
 
+        cosmo = FlatLambdaCDM(H0=67.8, Om0=0.308)
+
         band = 200
         id_200, im_200, z_200, nsel_200 = load_data(0, CEERS_MOCK_PATH, band)
         im_200 = np.expand_dims(im_200, axis=3)
@@ -93,11 +92,15 @@ class CEERSMocks(tfds.core.GeneratorBasedBuilder):
             g_row = df[df.ID == str(gid)].iloc[0]
             g_morph_row = morph_df[morph_df.ID == gid].iloc[0]
 
-            angular_size = g_morph_row.sersic_rhalf / (g_row.z + 1)
+            # convert to physical kpc
+            size = g_morph_row.sersic_rhalf / (g_row.z + 1) * u.kpc
+            d_A = cosmo.angular_diameter_distance(z=g_row.z)
+            angular_size = (size / d_A).to(u.arcsec, u.dimensionless_angles())
+
             magnitude = g_row.mf200w
 
-            #if angular_size > 2:
-            #    continue
+            if angular_size > 2:
+                continue
 
             indexes = [i for i, v in enumerate(id_200) if v.split('_')[0] == str(gid)]
             for index_ in indexes:
