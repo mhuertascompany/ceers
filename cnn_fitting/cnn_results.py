@@ -23,7 +23,7 @@ class GraphPlotter(object):
         plt.savefig(os.path.join(self.save_dir, filename + '.png'), **kwargs)
         plt.close()
 
-    def plot_original_maps(self, images, labels, magnitude=None, test=False):
+    def plot_original_maps(self, images, labels, magnitude=None, prefix=''):
         num_examples = 9
         labels = 10 ** labels
         fig = plt.figure(figsize=(10, 10))
@@ -38,7 +38,7 @@ class GraphPlotter(object):
 
         fig.set_facecolor('w')
         plt.tight_layout()
-        self.save_plot('{}Original maps'.format('Test ' if test else ''),
+        self.save_plot('{}Original maps'.format(prefix),
                        kwargs={'dpi': 200})
 
     def plot_histogram(self, images, labels, ds='Training'):
@@ -110,8 +110,8 @@ class GraphPlotter(object):
             plt.colorbar()
 
     def plot_prediction_vs_true(self, y_true, y_pred, magnitude=None, logged=True):
-        plt.figure()
-        plt.axes(aspect='equal')
+        plt.figure(figsize=(8, 8))
+        #plt.axes(aspect='equal')
         self.scatter_predictions_vs_true(y_true, y_pred, magnitude=magnitude)
         plt.legend(loc='upper left')
         self.save_plot('Predictions_vs_True{}'.format('_log' if logged else ''))
@@ -144,7 +144,7 @@ class GraphPlotter(object):
             plt.xscale('symlog')
     
     def plot_residual(self, y_true, y_pred, logged=True):
-        plt.figure()
+        plt.figure(figsize=(8, 8))
         self.plot_with_median(y_true, np.abs(y_pred-y_true)/y_true,
                               'blue', 'darkblue', log=False)
         plt.xlabel('True Values')
@@ -153,8 +153,8 @@ class GraphPlotter(object):
 
     def plot_prediction_vs_true_with_error_bars(self, y_true, y_pred, err,
                                                 magnitude=None, logged=True):
-        plt.figure()
-        plt.axes(aspect='equal')
+        plt.figure(figsize=(8, 8))
+        #plt.axes(aspect='equal')
         self.scatter_predictions_vs_true(y_true, y_pred, magnitude=magnitude)
         error_kwargs = {"lw":.5, "zorder":0}
         plt.errorbar(y_true, y_pred, yerr=err, linestyle="None", fmt='o',
@@ -174,8 +174,8 @@ class GraphPlotter(object):
         y_pred = y_pred[sorted_idxs]
         err = np.array(err)[sorted_idxs]
 
-        plt.figure()
-        plt.axes(aspect='equal')
+        plt.figure(figsize=(8, 8))
+        #plt.axes(aspect='equal')
         self.scatter_predictions_vs_true(y_true, y_pred, magnitude=magnitude)
 
         plt.fill_between(y_true, y_pred + err, y_pred - err,

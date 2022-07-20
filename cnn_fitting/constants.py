@@ -5,7 +5,7 @@ from collections import OrderedDict
 MDN = True
 INPUT_SHAPE = (64, 64, 1)
 BATCHES = 32
-DEBUG = True
+DEBUG = False
 
 if DEBUG:
     BASE_PATH = '/home/eirini/Documents/PhD/Repos/ceers/'

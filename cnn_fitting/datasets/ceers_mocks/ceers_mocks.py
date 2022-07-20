@@ -96,11 +96,12 @@ class CEERSMocks(tfds.core.GeneratorBasedBuilder):
             size = g_morph_row.sersic_rhalf / (g_row.z + 1) * u.kpc
             d_A = cosmo.angular_diameter_distance(z=g_row.z)
             angular_size = (size / d_A).to(u.arcsec, u.dimensionless_angles())
-
+            angular_size = float(angular_size / u.arcsec)
+            
             magnitude = g_row.mf200w
 
-            if angular_size > 2:
-                continue
+            #if angular_size > 2:
+            #    continue
 
             indexes = [i for i, v in enumerate(id_200) if v.split('_')[0] == str(gid)]
             for index_ in indexes:
@@ -113,7 +114,7 @@ class CEERSMocks(tfds.core.GeneratorBasedBuilder):
                     i += 1
                     # Yield with i because in our case object_id will be the same for the 4 different projections
                     yield i, {'image': img.astype("float32"),
-                              'angular_size': angular_size.astype("float32"),
+                              'angular_size': angular_size,
                               'object_id': galaxy_rot_id,
                               'magnitude': magnitude}
 

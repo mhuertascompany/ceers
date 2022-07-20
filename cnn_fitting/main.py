@@ -84,7 +84,7 @@ class CNNModel(object):
         es = EarlyStopping(monitor='val_loss', patience=50)
         mc = ModelCheckpoint(filepath=self.model_file_path, monitor='val_loss', save_best_only=True)
         history = self.model.fit(self.ds_train,
-                                 epochs=500,
+                                 epochs=500, 
                                  steps_per_epoch=self.len_ds_train // BATCHES,
                                  validation_steps=self.len_ds_val // BATCHES,
                                  validation_data=self.ds_val,
@@ -125,7 +125,7 @@ class CNNModel(object):
         
         images, y_true, magnitude = get_data_test(self.ds_test, batches=500)
         self.plotter.plot_histogram(images, y_true, ds='Test')
-        self.plotter.plot_original_maps(images, y_true, magnitude=magnitude, test=True)
+        self.plotter.plot_original_maps(images, y_true, magnitude=magnitude, prefix='Test ')
 
         y_pred = self.model.predict(images).flatten()
         y_pred = np.array(y_pred)
@@ -168,7 +168,7 @@ class CNNModel(object):
 
         images, y_true, magnitude = get_data_test(ds_test_other, batches=50)
         self.plotter.plot_histogram(images, y_true, ds='Cross Test')
-        self.plotter.plot_original_maps(images, y_true, magnitude=magnitude, test=True)
+        self.plotter.plot_original_maps(images, y_true, magnitude=magnitude, prefix='Cross Test ')
 
         y_pred = self.model.predict(images).flatten()
         y_pred = np.array(y_pred)
