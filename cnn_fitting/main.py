@@ -124,6 +124,7 @@ class CNNModel(object):
         #self.plotter.plot_correlation(y_true, magnitude)
         
         images, y_true, magnitude = get_data_test(self.ds_test, batches=500)
+        self.plotter.plot_histogram(images, y_true, ds='Test')
         self.plotter.plot_original_maps(images, y_true, magnitude=magnitude, test=True)
 
         y_pred = self.model.predict(images).flatten()
@@ -166,6 +167,7 @@ class CNNModel(object):
         # self.plotter.plot_correlation(y_true, magnitude)
 
         images, y_true, magnitude = get_data_test(ds_test_other, batches=50)
+        self.plotter.plot_histogram(images, y_true, ds='Cross Test')
         self.plotter.plot_original_maps(images, y_true, magnitude=magnitude, test=True)
 
         y_pred = self.model.predict(images).flatten()

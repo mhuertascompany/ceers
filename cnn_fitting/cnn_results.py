@@ -41,9 +41,10 @@ class GraphPlotter(object):
         self.save_plot('{}Original maps'.format('Test ' if test else ''),
                        kwargs={'dpi': 200})
 
-    def plot_histogram(self, images, labels, test=False):
+    def plot_histogram(self, images, labels, ds='Training'):
+        labels = 10 ** labels
         plt.hist(labels, bins=100, density=True)
-        self.save_plot('Training histogram')
+        self.save_plot('{} histogram'.format(ds))
     
     def plot_correlation(self, re, magnitude):
         plt.scatter(re, magnitude)

@@ -82,9 +82,6 @@ class CEERSMocks(tfds.core.GeneratorBasedBuilder):
         df = load_catalog_values(CEERS_MOCK_CATALOG_PATH)
         morph_df = load_morphological_values(CEERS_MOCK_MORPH_PATH, CEERS_MOCK_MORPH_IDX_PATH)
 
-        print(df)
-        print(morph_df)
-
         band = 200
         id_200, im_200, z_200, nsel_200 = load_data(0, CEERS_MOCK_PATH, band)
         im_200 = np.expand_dims(im_200, axis=3)
@@ -93,16 +90,14 @@ class CEERSMocks(tfds.core.GeneratorBasedBuilder):
         i = 0
 
         for gid in split_ids:
-            print ('-----------GALAXY ID', gid)
             g_row = df[df.ID == str(gid)].iloc[0]
             g_morph_row = morph_df[morph_df.ID == gid].iloc[0]
 
             angular_size = g_morph_row.sersic_rhalf / (g_row.z + 1)
-            print(angular_size)
             magnitude = g_row.mf200w
 
-            if angular_size > 2:
-                continue
+            #if angular_size > 2:
+            #    continue
 
             indexes = [i for i, v in enumerate(id_200) if v.split('_')[0] == str(gid)]
             for index_ in indexes:
