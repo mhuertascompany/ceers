@@ -77,6 +77,8 @@ class GraphPlotter(object):
             y_pred_std = y_pred_distr.stddev().numpy().reshape(-1)
             self.plot_prediction_vs_true_with_error_bars(y_true, y_pred, y_pred_std,
                                                          magnitude=magnitude, logged=logged)
+            self.plot_prediction_vs_true_with_error_bars_bins(y_true, y_pred, y_pred_std,
+                                                         magnitude=magnitude, logged=logged)
             self.plot_prediction_vs_true_with_error_bars_smooth(y_true, y_pred, y_pred_std,
                                                                 magnitude=magnitude, logged=logged)
 
@@ -154,18 +156,37 @@ class GraphPlotter(object):
     def plot_prediction_vs_true_with_error_bars(self, y_true, y_pred, err,
                                                 magnitude=None, logged=True):
         plt.figure(figsize=(8, 8))
-        #plt.axes(aspect='equal')
         self.scatter_predictions_vs_true(y_true, y_pred, magnitude=magnitude)
-        error_kwargs = {"lw":.5, "zorder":0}
         plt.errorbar(y_true, y_pred, yerr=err, linestyle="None", fmt='o',
                      color='blue', label=r'$\sigma$', 
                      lw=0.5, zorder=0)
 
-        #plt.errorbar(y_true, y_pred, yerr=err, linestyle="None",
-        #             fmt=None, marker=None, mew=0, **error_kwargs)
-
         plt.legend(loc='upper left')
         self.save_plot('Predictions_vs_True_Error_Bars{}'.format('_log' if logged else ''))
+
+    def plot_prediction_vs_true_with_error_bars_bins(self, y_true, y_pred, err,
+                                                     magnitude=None, logged=True):
+        plt.figure(figsize=(8, 8))
+        hist, edges = np.histogram(magnitude, bins=5)
+
+        for mag_bin in range(5):
+            y_true_bin = np.array([y for i, y in enumerate(y_true)
+                                   if edges[mag_bin] < magnitude[i] < edges[mag_bin+1]])
+            y_pred_bin = np.array([y for i, y in enumerate(y_pred)
+                                   if edges[mag_bin] < magnitude[i] < edges[mag_bin+1]])
+            err_bin = np.array([y for i, y in enumerate(err)
+                                if edges[mag_bin] < magnitude[i] < edges[mag_bin+1]])
+            magnitude_bin = [y for y in magnitude
+                             if edges[mag_bin] < y < edges[mag_bin+1]]
+
+            self.scatter_predictions_vs_true(y_true_bin, y_pred_bin, magnitude=magnitude_bin)
+            plt.errorbar(y_true, y_pred, yerr=err_bin, linestyle="None", fmt='o',
+                         color='blue', label=r'$\sigma$',
+                         lw=0.5, zorder=0)
+
+            plt.legend(loc='upper left')
+            self.save_plot('Predictions_vs_True_Error_Bars{}_bin_{}'.format('_log' if logged else '',
+                                                                            mag_bin))
 
     def plot_prediction_vs_true_with_error_bars_smooth(self, y_true, y_pred, err,
                                                        magnitude=None, logged=True):
