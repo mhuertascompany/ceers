@@ -178,9 +178,12 @@ class GraphPlotter(object):
                                 if edges[mag_bin] < magnitude[i] < edges[mag_bin+1]])
             magnitude_bin = [y for y in magnitude
                              if edges[mag_bin] < y < edges[mag_bin+1]]
+            
+            if len(y_true_bin) == 0:
+                continue
 
             self.scatter_predictions_vs_true(y_true_bin, y_pred_bin, magnitude=magnitude_bin)
-            plt.errorbar(y_true, y_pred, yerr=err_bin, linestyle="None", fmt='o',
+            plt.errorbar(y_true_bin, y_pred_bin, yerr=err_bin, linestyle="None", fmt='o',
                          color='blue', label=r'$\sigma$',
                          lw=0.5, zorder=0)
 
