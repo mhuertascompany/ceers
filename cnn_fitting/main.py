@@ -152,14 +152,14 @@ class CNNModel(object):
         """
         log.info('*************** CROSS EVALUATING *******************')
 
-        ds_test_other = input_fn('test', 'ceers_mocks')
+        ds_test_other = input_fn('test', 'ceers_mocks_noisy')
         len_ds_test = get_num_examples('test', dataset_str='ceers_mocks')
         log.info('Evaluate with test set containing {} examples'.format(len_ds_test))
 
         test_loss, test_mse = self.model.evaluate(ds_test_other, verbose=2)
         log.info('Cross test Loss: {}, Cross test MSE: {}'.format(test_loss, test_mse))
 
-        cross_run_dir = os.path.join(self.run_dir, 'Cross')
+        cross_run_dir = os.path.join(self.run_dir, 'Cross Noisy')
         if not os.path.exists(cross_run_dir):
             os.makedirs(cross_run_dir)
 
