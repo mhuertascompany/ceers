@@ -31,8 +31,8 @@ class GraphPlotter(object):
             plt.subplot(3, 3, i + 1)
             im = plt.imshow(images[i, :, :], cmap='jet')
             plt.gca().set_title('Re: %.1f' % 10 ** labels[i, 0] +
-                                ', S: %.1f' % 10 ** labels[i, 1] +
-                                ', E: %.1f' % 10 ** labels[i, 1] +
+                                #', S: %.1f' % 10 ** labels[i, 1] +
+                                #', E: %.1f' % 10 ** labels[i, 1] +
                                 (', M:  %.1f' % magnitude[i] if magnitude is not None else ''),
                                 rotation=0)
             plt.axis('off')
@@ -66,10 +66,9 @@ class GraphPlotter(object):
     def plot_evaluation_results(self, y_true, y_pred, magnitude=None,
                                 y_pred_distr=None, mdn=True, logged=True, label='Radius'):
         
-        print ('-----------logged', logged, y_true, y_pred)
         if not logged:
             y_true = 10 ** y_true
-            y_pred = 10 ** y_pred 
+            y_pred = 10 ** y_pred
         
         self.plot_prediction_vs_true(y_true, y_pred, magnitude=magnitude, logged=logged, label=label)
         self.plot_residual(y_true, y_pred, logged=logged, label=label)
@@ -82,7 +81,6 @@ class GraphPlotter(object):
             self.plot_prediction_vs_true_with_error_bars(y_true, y_pred, y_pred_std,
                                                          magnitude=magnitude, logged=logged, label=label)
 
-            print('------', len(y_true), len(y_pred), len(y_pred_std))
             self.plot_prediction_vs_true_with_error_bars_bins(y_true, y_pred, y_pred_std,
                                                          magnitude=magnitude, logged=logged, label=label)
             self.plot_prediction_vs_true_with_error_bars_smooth(y_true, y_pred, y_pred_std,

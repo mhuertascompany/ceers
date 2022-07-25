@@ -26,15 +26,15 @@ class CNNModelTemplate(object):
 
     def compile(self):
         opt = Adam(learning_rate=1e-3, decay=1e-6, clipnorm=1.)
-        self.model.compile(optimizer=opt,
-                           loss={
-                                'radius_output': loss_fn(self.mdn),
-                                'sidx_output': loss_fn(self.mdn),
-                                'ellipt_output': loss_fn(self.mdn)},
-                           metrics={
-                                'radius_output': 'mse',
-                                'sidx_output': 'mse',
-                                'ellipt_output': 'mse'})
+        self.model.compile(optimizer=opt, loss=loss_fn(self.mdn), metrics='mse')
+                           #loss={
+                           #     'radius_output': loss_fn(self.mdn),
+                           #     'sidx_output': loss_fn(self.mdn),
+                           #     'ellipt_output': loss_fn(self.mdn)},
+                           #metrics={
+                           #     'radius_output': 'mse',
+                           #     'sidx_output': 'mse',
+                           #     'ellipt_output': 'mse'})
 
         self.model.summary()
         return self.model
@@ -84,12 +84,12 @@ class CNNModelTemplate(object):
         """
 
         inputs = Input(shape=input_shape)
-        radius_branch = self.build_branch(inputs, 'radius_output')
-        sersic_index_branch = self.build_branch(inputs, 'sidx_output')
-        ellipticity_branch = self.build_branch(inputs, 'ellipt_output')
+        branch = self.build_branch(inputs, 'output')
+        #sersic_index_branch = self.build_branch(inputs, 'sidx_output')
+        #ellipticity_branch = self.build_branch(inputs, 'ellipt_output')
 
         model = tf.keras.Model(inputs=inputs,
-                               outputs=[radius_branch, sersic_index_branch, ellipticity_branch])
+                               outputs=[branch])
         return model
 
 

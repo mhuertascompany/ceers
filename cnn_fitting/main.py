@@ -19,7 +19,7 @@ log = logging.getLogger("input_logger")
 
 class CNNModel(object):
 
-    def __init__(self, model_id, model_fn):
+    def __init__(self, model_id, model_fn, output, output_name):
         """ Initialize variables required for training and evaluation of model"""
 
         self.model_id = model_id
@@ -31,6 +31,8 @@ class CNNModel(object):
         self.ds_test = None
         self.len_ds_train = self.len_ds_val = self.len_ds_test = 0
         self.n_epochs = 0
+        self.output = output
+        self.output_name = output_name
 
         # Create directory for this run
         self.run_dir = os.path.join(RESULTS_PATH, 'structural_fitting_log')
@@ -49,9 +51,9 @@ class CNNModel(object):
         :return:
         """
 
-        self.ds_train = input_fn('train', dataset_str)
-        self.ds_val = input_fn('validation', dataset_str)
-        self.ds_test = input_fn('test', dataset_str)
+        self.ds_train = input_fn('train', dataset_str, output=self.output)
+        self.ds_val = input_fn('validation', dataset_str, output=self.output)
+        self.ds_test = input_fn('test', dataset_str, output=self.output)
 
         self.len_ds_train = get_num_examples('train', dataset_str)
         self.len_ds_val = get_num_examples('validation', dataset_str)
@@ -77,8 +79,7 @@ class CNNModel(object):
                 self.model.summary()
 
         images, y_true = get_data(self.ds_train, batches=1000)
-        for i, label in enumerate(['Radius', 'Sersic Idx', 'Ellipticity']):
-            self.plotter.plot_histogram(images, y_true[:, i], label=label)
+        self.plotter.plot_histogram(images, y_true, label=self.output_name)
         self.plotter.plot_original_maps(images, y_true)
         
         # Train model
@@ -93,16 +94,13 @@ class CNNModel(object):
                                  use_multiprocessing=True, workers=4)
 
         self.n_epochs = len(history.history['loss'])
-        #for i, label in enumerate(['Radius', 'Sersic Idx', 'Ellipticity']):
-        #    self.plotter.plot_training_graphs(history, label)
+        self.plotter.plot_training_graphs(history)
 
         self.model.save_weights(self.model_file_path)
         #self.model = load_saved_model(self.model_file_path, mdn=True)
         log.info('Evaluate with training set on best model containing {} examples'.format(self.len_ds_train))
-        train_loss, r_loss, s_loss, \
-            e_loss, r_mse, s_mse, e_mse = self.model.evaluate(self.ds_train,
-                                                              steps=100, verbose=2)
-        log.info('Best train Loss: {}, Best train MSE: {}, {}, {}'.format(train_loss, r_mse, s_mse, e_mse))
+        train_loss, mse = self.model.evaluate(self.ds_train, steps=100, verbose=2)
+        log.info('Best train Loss: {}, Best train MSE: {}'.format(train_loss, mse))
 
     def load_saved_model(self):
         model = self.model_fn(INPUT_SHAPE, mdn=MDN).load_saved_model(self.model_file_path)
@@ -117,33 +115,27 @@ class CNNModel(object):
 
         log.info('*************** EVALUATING *******************')
         log.info('Evaluate with test set containing {} examples'.format(self.len_ds_test))
-        test_loss, r_loss, s_loss, \
-            e_loss, r_mse, s_mse, e_mse = self.model.evaluate(self.ds_test, verbose=2)
-        log.info('Test Loss: {}, Test MSE: {}, {}, {}'.format(test_loss, r_mse, s_mse, e_mse))
+        test_loss, mse = self.model.evaluate(self.ds_test, verbose=2)
+        log.info('Test Loss: {}, Test MSE: {}'.format(test_loss, mse))
 
         with open(self.run_dir + "/Results.txt", "w") as result_file:
             result_file.write("Trained for epochs: %s\n\n"
-                              "Test loss, MSE: %s %s %s %s" % (self.n_epochs, test_loss, r_mse, s_mse, e_mse))
+                              "Test loss, MSE: %s %s" % (self.n_epochs, test_loss, mse))
 
         #images, y_true, magnitude = get_data_test(self.ds_train, batches=700)
         #self.plotter.plot_correlation(y_true, magnitude)
         
         images, y_true, magnitude = get_data_test(self.ds_test, batches=500)
-        for i, label in enumerate(['Radius', 'Sersic Idx', 'Ellipticity']):
-            self.plotter.plot_histogram(images, y_true[:, i], label=label, ds='Test')
+        self.plotter.plot_histogram(images, y_true[:, 0], label=self.output_name, ds='Test')
         self.plotter.plot_original_maps(images, y_true, magnitude=magnitude, prefix='Test ')
 
         y_pred_distr = self.model(images)
-
-        for i, label in enumerate(['Radius', 'Sersic Idx', 'Ellipticity']):
-            y_pred = y_pred_distr[i].mean().numpy().reshape(-1)
-
-            #if i == 0:
-            self.plotter.plot_evaluation_results(y_true[:, i], y_pred, magnitude=magnitude,
-                                                     y_pred_distr=y_pred_distr[i], mdn=MDN, label=label)
-            self.plotter.plot_evaluation_results(y_true[:, i], y_pred, magnitude=magnitude,
-                                                 y_pred_distr=y_pred_distr[i], mdn=MDN,
-                                                 logged=False, label=label)
+        y_pred = y_pred_distr.mean().numpy().reshape(-1)
+        self.plotter.plot_evaluation_results(y_true[:, 0], y_pred, magnitude=magnitude,
+                                             y_pred_distr=y_pred_distr, mdn=MDN, label=self.output_name)
+        self.plotter.plot_evaluation_results(y_true[:, 0], y_pred, magnitude=magnitude,
+                                             y_pred_distr=y_pred_distr, mdn=MDN,
+                                             logged=False, label=self.output_name)
 
     def cross_evaluate_model(self):
         """
@@ -198,14 +190,16 @@ class CNNModel(object):
         self.load_datasets(dataset_main)
         self.train_model()
         self.evaluate_model()
-        self.cross_evaluate_model()
+        #self.cross_evaluate_model()
 
 
 if __name__ == '__main__':
     os.environ["CUDA_VISIBLE_DEVICES"] = "1"
     log.info(device_lib.list_local_devices())
 
-    with tf.device('/gpu:0'):
-        cnn_model = CNNModel(0, CNNModelTemplate)
-        cnn_model.run()
+    outputs = [('angular_size', 'Radius'), ('sersic_index', 'Sersic Idx'), ('ellipticity', 'Ellipticity')]
+    for output, output_name in outputs:
+        with tf.device('/gpu:0'):
+            cnn_model = CNNModel(0, CNNModelTemplate, output, output_name)
+            cnn_model.run()
 
