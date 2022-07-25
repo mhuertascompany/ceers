@@ -77,6 +77,13 @@ def preprocessing(example):
     angular_size = tf.where(tf.math.is_nan(angular_size), tf.zeros_like(angular_size), angular_size)
     sersic_index = example['sersic_index']
     ellipticity = example['ellipticity']
+    #if sersic_index <= 0:
+    #    sersic_index = 1e-5
+    #sersic_index = log10(sersic_index)
+    #ellipticity = example['ellipticity']
+    #if ellipticity <= 0:
+    #    ellipticity = 1e-5
+    #ellipticity = log10(ellipticity)
     return image, [angular_size, sersic_index, ellipticity]
 
 
@@ -89,6 +96,13 @@ def preprocessing_test(example):
     angular_size = tf.where(tf.math.is_nan(angular_size), tf.zeros_like(angular_size), angular_size)
     sersic_index = example['sersic_index']
     ellipticity = example['ellipticity']
+    if sersic_index <= 0:
+        sersic_index = 1e-5
+    sersic_index = log10(sersic_index)
+    ellipticity = example['ellipticity']
+    if ellipticity <= 0:
+        ellipticity = 1e-5
+    ellipticity = log10(ellipticity)    
     return image, [angular_size, sersic_index, ellipticity], example['magnitude']
 
 
@@ -112,7 +126,7 @@ def input_fn(mode='train', dataset_str='structural_fitting', batch_size=BATCHES)
     dataset = dataset.batch(batch_size, drop_remainder=True)
 
     images, y_true, magnitudes = get_data_test(dataset, get_num_examples(mode, dataset_str) // BATCHES)
-    y_true, scaler = standardize(y_true)
+    #y_true, scaler = standardize(y_true)
 
     dataset = tf.data.Dataset.from_tensor_slices((images, y_true, magnitudes))
 

@@ -31,8 +31,8 @@ class GraphPlotter(object):
             plt.subplot(3, 3, i + 1)
             im = plt.imshow(images[i, :, :], cmap='jet')
             plt.gca().set_title('Re: %.1f' % 10 ** labels[i, 0] +
-                                ', S: %.1f' % labels[i, 1] +
-                                ', E: %.1f' % labels[i, 1] +
+                                ', S: %.1f' % 10 ** labels[i, 1] +
+                                ', E: %.1f' % 10 ** labels[i, 1] +
                                 (', M:  %.1f' % magnitude[i] if magnitude is not None else ''),
                                 rotation=0)
             plt.axis('off')
@@ -43,8 +43,8 @@ class GraphPlotter(object):
                        kwargs={'dpi': 200})
 
     def plot_histogram(self, images, y_true, ds='Training', label='Radius'):
-        if label == 'Radius':
-            y_true = 10 ** y_true
+        #if label == 'Radius':
+        y_true = 10 ** y_true
         plt.hist(y_true, bins=100, density=True)
         self.save_plot('{} {} histogram'.format(ds, label))
     
@@ -65,6 +65,8 @@ class GraphPlotter(object):
 
     def plot_evaluation_results(self, y_true, y_pred, magnitude=None,
                                 y_pred_distr=None, mdn=True, logged=True, label='Radius'):
+        
+        print ('-----------logged', logged, y_true, y_pred)
         if not logged:
             y_true = 10 ** y_true
             y_pred = 10 ** y_pred 

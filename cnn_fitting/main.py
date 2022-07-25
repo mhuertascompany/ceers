@@ -85,7 +85,7 @@ class CNNModel(object):
         es = EarlyStopping(monitor='val_loss', patience=50)
         mc = ModelCheckpoint(filepath=self.model_file_path, monitor='val_loss', save_best_only=True)
         history = self.model.fit(self.ds_train,
-                                 epochs=2,
+                                 epochs=10,
                                  steps_per_epoch=self.len_ds_train // BATCHES,
                                  validation_steps=self.len_ds_val // BATCHES,
                                  validation_data=self.ds_val,
@@ -138,8 +138,8 @@ class CNNModel(object):
         for i, label in enumerate(['Radius', 'Sersic Idx', 'Ellipticity']):
             y_pred = y_pred_distr[i].mean().numpy().reshape(-1)
 
-            if i == 0:
-                self.plotter.plot_evaluation_results(y_true[:, i], y_pred, magnitude=magnitude,
+            #if i == 0:
+            self.plotter.plot_evaluation_results(y_true[:, i], y_pred, magnitude=magnitude,
                                                      y_pred_distr=y_pred_distr[i], mdn=MDN, label=label)
             self.plotter.plot_evaluation_results(y_true[:, i], y_pred, magnitude=magnitude,
                                                  y_pred_distr=y_pred_distr[i], mdn=MDN,
