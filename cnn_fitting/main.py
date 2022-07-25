@@ -196,7 +196,7 @@ class CNNModel(object):
         """
         dataset_main = 'structural_fitting'
         self.load_datasets(dataset_main)
-        self.train_model()
+        #self.train_model()
         self.evaluate_model()
         self.cross_evaluate_model()
 
