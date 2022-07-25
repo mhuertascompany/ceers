@@ -13,11 +13,18 @@ from tensorflow.python.framework import dtypes
 rng = tf.random.Generator.from_seed(123, alg='philox')
 
 
-def augment(image, label):
+def standardize(data):
+    scaler = StandardScaler()
+    scaler.fit(data)
+    normalized_data = scaler.transform(data)
+    return normalized_data, scaler
+
+
+def augment(image, label, magn):
     seed = rng.make_seeds(2)[0]
     image = tf.image.stateless_random_flip_left_right(image, seed)
     image = tf.image.stateless_random_flip_up_down(image, seed)
-    return image, label
+    return image, label, magn
 
 
 def log10(x):
@@ -97,16 +104,23 @@ def input_fn(mode='train', dataset_str='structural_fitting', batch_size=BATCHES)
         shuffle_files=shuffle
     )
 
-    if shuffle:
-        dataset = dataset.repeat()
-        dataset = dataset.shuffle(10000)
-        # Apply data preprocessing
-        dataset = dataset.map(preprocessing, num_parallel_calls=tf.data.AUTOTUNE)
-    else:
-        dataset = dataset.map(preprocessing_test, num_parallel_calls=tf.data.AUTOTUNE)
+    dataset = dataset.map(preprocessing_test, num_parallel_calls=tf.data.AUTOTUNE)
 
     if mode == 'train':
         dataset = dataset.map(augment, num_parallel_calls=tf.data.AUTOTUNE)
+
+    dataset = dataset.batch(batch_size, drop_remainder=True)
+
+    images, y_true, magnitudes = get_data_test(dataset, get_num_examples(mode, dataset_str) // BATCHES)
+    y_true, scaler = standardize(y_true)
+
+    dataset = tf.data.Dataset.from_tensor_slices((images, y_true, magnitudes))
+
+    if shuffle:
+        dataset = dataset.map(lambda x, y, z: (x, y))
+        dataset = dataset.repeat()
+        dataset = dataset.shuffle(10000)
+        # Apply data preprocessing
 
     dataset = dataset.batch(batch_size, drop_remainder=True)
 
