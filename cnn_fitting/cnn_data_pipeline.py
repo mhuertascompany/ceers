@@ -68,7 +68,9 @@ def preprocessing(example):
     image = tf.where(tf.math.is_nan(image), tf.zeros_like(image), image)
     angular_size = log10(example['angular_size'])
     angular_size = tf.where(tf.math.is_nan(angular_size), tf.zeros_like(angular_size), angular_size)
-    return image, angular_size
+    sersic_index = example['sersic_index']
+    ellipticity = example['ellipticity']
+    return image, [angular_size, sersic_index, ellipticity]
 
 
 def preprocessing_test(example):
@@ -78,7 +80,9 @@ def preprocessing_test(example):
     image = tf.where(tf.math.is_nan(image), tf.zeros_like(image), image)
     angular_size = log10(example['angular_size'])
     angular_size = tf.where(tf.math.is_nan(angular_size), tf.zeros_like(angular_size), angular_size)
-    return image, angular_size, example['magnitude']
+    sersic_index = example['sersic_index']
+    ellipticity = example['ellipticity']
+    return image, [angular_size, sersic_index, ellipticity], example['magnitude']
 
 
 def input_fn(mode='train', dataset_str='structural_fitting', batch_size=BATCHES):

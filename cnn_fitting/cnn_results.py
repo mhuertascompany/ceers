@@ -25,14 +25,15 @@ class GraphPlotter(object):
 
     def plot_original_maps(self, images, labels, magnitude=None, prefix=''):
         num_examples = 9
-        labels = 10 ** labels
         fig = plt.figure(figsize=(10, 10))
         
         for i in range(num_examples):
             plt.subplot(3, 3, i + 1)
             im = plt.imshow(images[i, :, :], cmap='jet')
-            plt.gca().set_title('Re: %.3f' % labels[i] +
-                                (', M:  %.3f' % magnitude[i] if magnitude is not None else ''),
+            plt.gca().set_title('Re: %.1f' % 10 ** labels[i, 0] +
+                                ', S: %.1f' % labels[i, 1] +
+                                ', E: %.1f' % labels[i, 1] +
+                                (', M:  %.1f' % magnitude[i] if magnitude is not None else ''),
                                 rotation=0)
             plt.axis('off')
 
@@ -41,10 +42,11 @@ class GraphPlotter(object):
         self.save_plot('{}Original maps'.format(prefix),
                        kwargs={'dpi': 200})
 
-    def plot_histogram(self, images, labels, ds='Training'):
-        labels = 10 ** labels
-        plt.hist(labels, bins=100, density=True)
-        self.save_plot('{} histogram'.format(ds))
+    def plot_histogram(self, images, y_true, ds='Training', label='Radius'):
+        if label == 'Radius':
+            y_true = 10 ** y_true
+        plt.hist(y_true, bins=100, density=True)
+        self.save_plot('{} {} histogram'.format(ds, label))
     
     def plot_correlation(self, re, magnitude):
         plt.scatter(re, magnitude)
@@ -62,13 +64,13 @@ class GraphPlotter(object):
         self.plot_mse_loss_history(history, mode='mse', label='MSE')
 
     def plot_evaluation_results(self, y_true, y_pred, magnitude=None,
-                                y_pred_distr=None, mdn=True, logged=True):
+                                y_pred_distr=None, mdn=True, logged=True, label='Radius'):
         if not logged:
             y_true = 10 ** y_true
             y_pred = 10 ** y_pred 
         
-        self.plot_prediction_vs_true(y_true, y_pred, magnitude=magnitude, logged=logged)
-        self.plot_residual(y_true, y_pred, logged=logged)
+        self.plot_prediction_vs_true(y_true, y_pred, magnitude=magnitude, logged=logged, label=label)
+        self.plot_residual(y_true, y_pred, logged=logged, label=label)
 
         if mdn:
             y_pred = y_pred_distr.mean().numpy().reshape(-1)
@@ -76,11 +78,13 @@ class GraphPlotter(object):
                 y_pred = 10 ** y_pred
             y_pred_std = y_pred_distr.stddev().numpy().reshape(-1)
             self.plot_prediction_vs_true_with_error_bars(y_true, y_pred, y_pred_std,
-                                                         magnitude=magnitude, logged=logged)
+                                                         magnitude=magnitude, logged=logged, label=label)
+
+            print('------', len(y_true), len(y_pred), len(y_pred_std))
             self.plot_prediction_vs_true_with_error_bars_bins(y_true, y_pred, y_pred_std,
-                                                         magnitude=magnitude, logged=logged)
+                                                         magnitude=magnitude, logged=logged, label=label)
             self.plot_prediction_vs_true_with_error_bars_smooth(y_true, y_pred, y_pred_std,
-                                                                magnitude=magnitude, logged=logged)
+                                                                magnitude=magnitude, logged=logged, label=label)
 
     def plot_mse_loss_history(self, history, mode='loss', label='Loss'):
         plt.figure()
@@ -111,12 +115,11 @@ class GraphPlotter(object):
         if magnitude is not None:
             plt.colorbar()
 
-    def plot_prediction_vs_true(self, y_true, y_pred, magnitude=None, logged=True):
+    def plot_prediction_vs_true(self, y_true, y_pred, magnitude=None, logged=True, label='Radius'):
         plt.figure(figsize=(8, 8))
-        #plt.axes(aspect='equal')
         self.scatter_predictions_vs_true(y_true, y_pred, magnitude=magnitude)
         plt.legend(loc='upper left')
-        self.save_plot('Predictions_vs_True{}'.format('_log' if logged else ''))
+        self.save_plot('Predictions_vs_True{} - {}'.format('_log' if logged else '', label))
 
     def plot_with_median(self, X, Y, color1, color2, log=True, percentiles=True, show=False):
         """
@@ -145,16 +148,16 @@ class GraphPlotter(object):
         if log:
             plt.xscale('symlog')
     
-    def plot_residual(self, y_true, y_pred, logged=True):
+    def plot_residual(self, y_true, y_pred, logged=True, label=''):
         plt.figure(figsize=(8, 8))
         self.plot_with_median(y_true, np.abs(y_pred-y_true)/y_true,
                               'blue', 'darkblue', log=False)
         plt.xlabel('True Values')
         plt.ylabel('|Predictions - True|/True')
-        self.save_plot('Relative_error{}'.format('_log' if logged else ''))
+        self.save_plot('Relative_error{} - {}'.format('_log' if logged else '', label))
 
     def plot_prediction_vs_true_with_error_bars(self, y_true, y_pred, err,
-                                                magnitude=None, logged=True):
+                                                magnitude=None, logged=True, label=''):
         plt.figure(figsize=(8, 8))
         self.scatter_predictions_vs_true(y_true, y_pred, magnitude=magnitude)
         plt.errorbar(y_true, y_pred, yerr=err, linestyle="None", fmt='o',
@@ -162,10 +165,10 @@ class GraphPlotter(object):
                      lw=0.5, zorder=0)
 
         plt.legend(loc='upper left')
-        self.save_plot('Predictions_vs_True_Error_Bars{}'.format('_log' if logged else ''))
+        self.save_plot('Predictions_vs_True_Error_Bars{} - {}'.format('_log' if logged else '', label))
 
     def plot_prediction_vs_true_with_error_bars_bins(self, y_true, y_pred, err,
-                                                     magnitude=None, logged=True):
+                                                     magnitude=None, logged=True, label=''):
         plt.figure(figsize=(8, 8))
         hist, edges = np.histogram(magnitude, bins=5)
 
@@ -180,16 +183,17 @@ class GraphPlotter(object):
                              if edges[mag_bin] < y < edges[mag_bin+1]]
 
             self.scatter_predictions_vs_true(y_true_bin, y_pred_bin, magnitude=magnitude_bin)
-            plt.errorbar(y_true, y_pred, yerr=err_bin, linestyle="None", fmt='o',
+            print(len(y_true), len(y_pred), len(err_bin))
+            plt.errorbar(y_true_bin, y_pred_bin, yerr=err_bin, linestyle="None", fmt='o',
                          color='blue', label=r'$\sigma$',
                          lw=0.5, zorder=0)
 
             plt.legend(loc='upper left')
-            self.save_plot('Predictions_vs_True_Error_Bars{}_bin_{}'.format('_log' if logged else '',
-                                                                            mag_bin))
+            self.save_plot('Predictions_vs_True_Error_Bars{}_bin_{} - {}'.format('_log' if logged else '',
+                                                                                 mag_bin, label))
 
     def plot_prediction_vs_true_with_error_bars_smooth(self, y_true, y_pred, err,
-                                                       magnitude=None, logged=True):
+                                                       magnitude=None, logged=True, label=''):
         sorted_idxs = np.argsort(y_true)
         y_true = y_true[sorted_idxs]
         y_pred = y_pred[sorted_idxs]
@@ -205,6 +209,6 @@ class GraphPlotter(object):
                          alpha=0.2, color='b', label=r'$2\sigma$')
 
         plt.legend(loc='upper left')
-        self.save_plot('Predictions_vs_True_Error_Bars_Smooth{}'.format('_log' if logged else ''))
+        self.save_plot('Predictions_vs_True_Error_Bars_Smooth{} - {}'.format('_log' if logged else '', label))
 
 

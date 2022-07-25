@@ -8,7 +8,7 @@ from contextlib import redirect_stdout
 
 from constants import MDN, INPUT_SHAPE, RESULTS_PATH, BATCHES
 from cnn_data_pipeline import input_fn, get_num_examples, get_data, get_data_test
-from cnn_model import cnn_model_simple, load_saved_model
+from cnn_model import cnn_model_simple, load_saved_model, CNNModelTemplate
 from cnn_results import GraphPlotter
 
 
@@ -70,39 +70,43 @@ class CNNModel(object):
         log.info('*************** TRAINING *******************')
 
         tf.compat.v1.reset_default_graph()
-        self.model = self.model_fn(INPUT_SHAPE, mdn=MDN)
+        self.model = self.model_fn(INPUT_SHAPE, mdn=MDN).compile()
 
         with open(self.run_dir + '/modelsummary_{}.txt'.format(self.model_id), 'w') as f:
             with redirect_stdout(f):
                 self.model.summary()
 
         images, y_true = get_data(self.ds_train, batches=1000)
-        self.plotter.plot_histogram(images, y_true)
+        for i, label in enumerate(['Radius', 'Sersic Idx', 'Ellipticity']):
+            self.plotter.plot_histogram(images, y_true[:, i], label=label)
         self.plotter.plot_original_maps(images, y_true)
         
         # Train model
         es = EarlyStopping(monitor='val_loss', patience=50)
         mc = ModelCheckpoint(filepath=self.model_file_path, monitor='val_loss', save_best_only=True)
         history = self.model.fit(self.ds_train,
-                                 epochs=500, 
+                                 epochs=2,
                                  steps_per_epoch=self.len_ds_train // BATCHES,
                                  validation_steps=self.len_ds_val // BATCHES,
                                  validation_data=self.ds_val,
-                                 callbacks=[es, mc],
+                                 callbacks=[es],
                                  use_multiprocessing=True, workers=4)
 
         self.n_epochs = len(history.history['loss'])
-        self.plotter.plot_training_graphs(history)
+        #for i, label in enumerate(['Radius', 'Sersic Idx', 'Ellipticity']):
+        #    self.plotter.plot_training_graphs(history, label)
 
-        self.model = load_saved_model(self.model_file_path, mdn=True)
+        self.model.save_weights(self.model_file_path)
+        #self.model = load_saved_model(self.model_file_path, mdn=True)
         log.info('Evaluate with training set on best model containing {} examples'.format(self.len_ds_train))
-        train_loss, train_mse = self.model.evaluate(self.ds_train,
-                                                    steps=100, verbose=2)
-        log.info('Best train Loss: {}, Best train MSE: {}'.format(train_loss, train_mse))
+        train_loss, r_loss, s_loss, \
+            e_loss, r_mse, s_mse, e_mse = self.model.evaluate(self.ds_train,
+                                                              steps=100, verbose=2)
+        log.info('Best train Loss: {}, Best train MSE: {}, {}, {}'.format(train_loss, r_mse, s_mse, e_mse))
 
     def load_saved_model(self):
-        self.model = load_saved_model(self.model_file_path, mdn=True)
-        return self.model
+        model = self.model_fn(INPUT_SHAPE, mdn=MDN).load_saved_model(self.model_file_path)
+        return model
 
     def evaluate_model(self):
         """
@@ -113,33 +117,33 @@ class CNNModel(object):
 
         log.info('*************** EVALUATING *******************')
         log.info('Evaluate with test set containing {} examples'.format(self.len_ds_test))
-        test_loss, test_mse = self.model.evaluate(self.ds_test, verbose=2)
-        log.info('Test Loss: {}, Test MSE: {}'.format(test_loss, test_mse))
+        test_loss, r_loss, s_loss, \
+            e_loss, r_mse, s_mse, e_mse = self.model.evaluate(self.ds_test, verbose=2)
+        log.info('Test Loss: {}, Test MSE: {}, {}, {}'.format(test_loss, r_mse, s_mse, e_mse))
 
         with open(self.run_dir + "/Results.txt", "w") as result_file:
             result_file.write("Trained for epochs: %s\n\n"
-                              "Test loss, MSE: %s %s" % (self.n_epochs, test_loss, test_mse))
+                              "Test loss, MSE: %s %s %s %s" % (self.n_epochs, test_loss, r_mse, s_mse, e_mse))
 
         #images, y_true, magnitude = get_data_test(self.ds_train, batches=700)
         #self.plotter.plot_correlation(y_true, magnitude)
         
         images, y_true, magnitude = get_data_test(self.ds_test, batches=500)
-        self.plotter.plot_histogram(images, y_true, ds='Test')
+        for i, label in enumerate(['Radius', 'Sersic Idx', 'Ellipticity']):
+            self.plotter.plot_histogram(images, y_true[:, i], label=label, ds='Test')
         self.plotter.plot_original_maps(images, y_true, magnitude=magnitude, prefix='Test ')
 
-        y_pred = self.model.predict(images).flatten()
-        y_pred = np.array(y_pred)
+        y_pred_distr = self.model(images)
 
-        y_pred_distr = None
-        if MDN:
-            y_pred_distr = self.model(images)
-            y_pred = y_pred_distr.mean().numpy().reshape(-1)
+        for i, label in enumerate(['Radius', 'Sersic Idx', 'Ellipticity']):
+            y_pred = y_pred_distr[i].mean().numpy().reshape(-1)
 
-        self.plotter.plot_evaluation_results(y_true, y_pred, magnitude=magnitude,
-                                             y_pred_distr=y_pred_distr, mdn=MDN)
-        self.plotter.plot_evaluation_results(y_true, y_pred, magnitude=magnitude,
-                                             y_pred_distr=y_pred_distr, mdn=MDN,
-                                             logged=False)
+            if i == 0:
+                self.plotter.plot_evaluation_results(y_true[:, i], y_pred, magnitude=magnitude,
+                                                     y_pred_distr=y_pred_distr[i], mdn=MDN, label=label)
+            self.plotter.plot_evaluation_results(y_true[:, i], y_pred, magnitude=magnitude,
+                                                 y_pred_distr=y_pred_distr[i], mdn=MDN,
+                                                 logged=False, label=label)
 
     def cross_evaluate_model(self):
         """
@@ -202,6 +206,6 @@ if __name__ == '__main__':
     log.info(device_lib.list_local_devices())
 
     with tf.device('/gpu:0'):
-        cnn_model = CNNModel(0, cnn_model_simple)
+        cnn_model = CNNModel(0, CNNModelTemplate)
         cnn_model.run()
 
