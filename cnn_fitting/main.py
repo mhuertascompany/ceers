@@ -19,7 +19,7 @@ log = logging.getLogger("input_logger")
 
 class CNNModel(object):
 
-    def __init__(self, model_id, model_fn, output, output_name):
+    def __init__(self, model_id, model_fn, output, output_name, logged=True):
         """ Initialize variables required for training and evaluation of model"""
 
         self.model_id = model_id
@@ -33,6 +33,7 @@ class CNNModel(object):
         self.n_epochs = 0
         self.output = output
         self.output_name = output_name
+        self.logged = logged
 
         # Create directory for this run
         self.run_dir = os.path.join(RESULTS_PATH, 'structural_fitting_log')
@@ -51,9 +52,9 @@ class CNNModel(object):
         :return:
         """
 
-        self.ds_train = input_fn('train', dataset_str, output=self.output)
-        self.ds_val = input_fn('validation', dataset_str, output=self.output)
-        self.ds_test = input_fn('test', dataset_str, output=self.output)
+        self.ds_train = input_fn('train', dataset_str, output=self.output, logged=self.logged)
+        self.ds_val = input_fn('validation', dataset_str, output=self.output, logged=self.logged)
+        self.ds_test = input_fn('test', dataset_str, output=self.output, logged=self.logged)
 
         self.len_ds_train = get_num_examples('train', dataset_str)
         self.len_ds_val = get_num_examples('validation', dataset_str)
@@ -86,7 +87,7 @@ class CNNModel(object):
         es = EarlyStopping(monitor='val_loss', patience=50)
         mc = ModelCheckpoint(filepath=self.model_file_path, monitor='val_loss', save_best_only=True)
         history = self.model.fit(self.ds_train,
-                                 epochs=10,
+                                 epochs=100,
                                  steps_per_epoch=self.len_ds_train // BATCHES,
                                  validation_steps=self.len_ds_val // BATCHES,
                                  validation_data=self.ds_val,
@@ -197,9 +198,9 @@ if __name__ == '__main__':
     os.environ["CUDA_VISIBLE_DEVICES"] = "1"
     log.info(device_lib.list_local_devices())
 
-    outputs = [('angular_size', 'Radius'), ('sersic_index', 'Sersic Idx'), ('ellipticity', 'Ellipticity')]
-    for output, output_name in outputs:
+    outputs = [('angular_size', 'Radius', True), ('sersic_index', 'Sersic Idx', True), ('ellipticity', 'Ellipticity', False)]
+    for output, output_name, logged in outputs:
         with tf.device('/gpu:0'):
-            cnn_model = CNNModel(0, CNNModelTemplate, output, output_name)
+            cnn_model = CNNModel(0, CNNModelTemplate, output, output_name, logged)
             cnn_model.run()
 

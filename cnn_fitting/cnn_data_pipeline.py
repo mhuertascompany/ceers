@@ -82,7 +82,7 @@ def preprocessing(example, output='angular_size', logged=True):
     return image, [output], example['magnitude']
 
 
-def input_fn(mode='train', dataset_str='structural_fitting', output='angular_size', batch_size=BATCHES):
+def input_fn(mode='train', dataset_str='structural_fitting', output='angular_size', logged=True, batch_size=BATCHES):
     """
     mode: 'train', 'validation' or 'test'
     """
@@ -95,7 +95,7 @@ def input_fn(mode='train', dataset_str='structural_fitting', output='angular_siz
     )
 
     # Apply data preprocessing
-    dataset = dataset.map(lambda x: preprocessing(x, output=output),
+    dataset = dataset.map(lambda x: preprocessing(x, output=output, logged=logged),
                           num_parallel_calls=tf.data.AUTOTUNE)
 
     if mode == 'train':

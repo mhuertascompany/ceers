@@ -119,6 +119,7 @@ class GraphPlotter(object):
         plt.figure(figsize=(8, 8))
         self.scatter_predictions_vs_true(y_true, y_pred, magnitude=magnitude)
         plt.legend(loc='upper left')
+        plt.title(label + ' (Log)' if logged else '')
         self.save_plot('Predictions_vs_True{} - {}'.format('_log' if logged else '', label))
 
     def plot_with_median(self, X, Y, color1, color2, log=True, percentiles=True, show=False):
@@ -165,6 +166,7 @@ class GraphPlotter(object):
                      lw=0.5, zorder=0)
 
         plt.legend(loc='upper left')
+        plt.title(label + (' (Log)' if logged else ''))
         self.save_plot('Predictions_vs_True_Error_Bars{} - {}'.format('_log' if logged else '', label))
 
     def plot_prediction_vs_true_with_error_bars_bins(self, y_true, y_pred, err,
@@ -191,6 +193,8 @@ class GraphPlotter(object):
                          lw=0.5, zorder=0)
 
             plt.legend(loc='upper left')
+            plt.title(label + (' (Log)' if logged else '') + 
+                    ' - Magnitude: %.1f - %.1f' % (edges[mag_bin], edges[mag_bin+1]))
             self.save_plot('Predictions_vs_True_Error_Bars{}_bin_{} - {}'.format('_log' if logged else '',
                                                                                  mag_bin, label))
 
