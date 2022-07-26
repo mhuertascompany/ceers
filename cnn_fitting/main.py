@@ -80,7 +80,7 @@ class CNNModel(object):
                 self.model.summary()
 
         images, y_true = get_data(self.ds_train, batches=1000)
-        self.plotter.plot_histogram(images, y_true, label=self.output_name)
+        self.plotter.plot_histogram(y_true, label=self.output_name, logged=self.logged)
         self.plotter.plot_original_maps(images, y_true)
         
         # Train model
@@ -127,16 +127,20 @@ class CNNModel(object):
         #self.plotter.plot_correlation(y_true, magnitude)
         
         images, y_true, magnitude = get_data_test(self.ds_test, batches=500)
-        self.plotter.plot_histogram(images, y_true[:, 0], label=self.output_name, ds='Test')
+        self.plotter.plot_histogram(y_true[:, 0], label=self.output_name, ds='Test', logged=self.logged)
         self.plotter.plot_original_maps(images, y_true, magnitude=magnitude, prefix='Test ')
 
         y_pred_distr = self.model(images)
         y_pred = y_pred_distr.mean().numpy().reshape(-1)
         self.plotter.plot_evaluation_results(y_true[:, 0], y_pred, magnitude=magnitude,
-                                             y_pred_distr=y_pred_distr, mdn=MDN, label=self.output_name)
-        self.plotter.plot_evaluation_results(y_true[:, 0], y_pred, magnitude=magnitude,
-                                             y_pred_distr=y_pred_distr, mdn=MDN,
-                                             logged=False, label=self.output_name)
+                                             y_pred_distr=y_pred_distr, mdn=MDN, label=self.output_name,
+                                             logged=self.logged)
+        if self.logged:
+            y_true = 10 ** y_true
+            y_pred = 10 ** y_pred
+            self.plotter.plot_evaluation_results(y_true[:, 0], y_pred, magnitude=magnitude,
+                                                 y_pred_distr=y_pred_distr, mdn=MDN,
+                                                 logged=False, label=self.output_name)
 
     def cross_evaluate_model(self):
         """
@@ -164,23 +168,22 @@ class CNNModel(object):
         # self.plotter.plot_correlation(y_true, magnitude)
 
         images, y_true, magnitude = get_data_test(ds_test_other, batches=50)
-        self.plotter.plot_histogram(images, y_true, ds='Cross Test')
+        self.plotter.plot_histogram(y_true, label=self.output_name, ds='Cross Test', logged=self.logged)
         self.plotter.plot_original_maps(images, y_true, magnitude=magnitude, prefix='Cross Test ')
 
-        y_pred = self.model.predict(images).flatten()
-        y_pred = np.array(y_pred)
-
-        y_pred_distr = None
-        if MDN:
-            y_pred_distr = self.model(images)
-            y_pred = y_pred_distr.mean().numpy().reshape(-1)
+        y_pred_distr = self.model(images)
+        y_pred = y_pred_distr.mean().numpy().reshape(-1)
 
         cross_plotter = GraphPlotter(cross_run_dir, self.model_id)
-        cross_plotter.plot_evaluation_results(y_true, y_pred, magnitude=magnitude,
-                                             y_pred_distr=y_pred_distr, mdn=MDN)
-        cross_plotter.plot_evaluation_results(y_true, y_pred, magnitude=magnitude,
-                                             y_pred_distr=y_pred_distr, mdn=MDN,
-                                             logged=False)
+        cross_plotter.plot_evaluation_results(y_true[:, 0], y_pred, magnitude=magnitude,
+                                             y_pred_distr=y_pred_distr, mdn=MDN, label=self.output_name,
+                                             logged=self.logged)
+        if self.logged:
+            y_true = 10 ** y_true
+            y_pred = 10 ** y_pred
+            cross_plotter.plot_evaluation_results(y_true[:, 0], y_pred, magnitude=magnitude,
+                                                 y_pred_distr=y_pred_distr, mdn=MDN,
+                                                 logged=False, label=self.output_name)
 
     def run(self):
         """
