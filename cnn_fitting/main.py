@@ -44,7 +44,7 @@ class CNNModel(object):
 
         # Save model in dedicated save_models folder
         # (so that it is not copied along with the rest of the results)
-        self.model_file_path = RESULTS_PATH + '/saved_models/model.h5'
+        self.model_file_path = RESULTS_PATH + '/saved_models/model_{}.h5'.format(self.output_name)
 
     def load_datasets(self, dataset_str='structural_fitting'):
         """
