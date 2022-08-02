@@ -44,6 +44,8 @@ class CEERSMocksNoisy(tfds.core.GeneratorBasedBuilder):
             features=tfds.features.FeaturesDict({
                 'image': tfds.features.Tensor(shape=INPUT_SHAPE[:-1], dtype=tf.float32),
                 'angular_size': tf.float32,
+                'sersic_index': tf.float32,
+                'ellipticity': tf.float32,
                 'object_id': tf.string,
                 'magnitude': tf.float32
             }),
@@ -97,6 +99,9 @@ class CEERSMocksNoisy(tfds.core.GeneratorBasedBuilder):
             d_A = cosmo.angular_diameter_distance(z=g_row.z)
             angular_size = (size / d_A).to(u.arcsec, u.dimensionless_angles())
 
+            sersic_index = g_morph_row.sersic_n
+            ellipticity = g_morph_row.sersic_ellip
+
             magnitude = g_row.mf200w
 
             #if angular_size > 2:
@@ -114,6 +119,8 @@ class CEERSMocksNoisy(tfds.core.GeneratorBasedBuilder):
                     # Yield with i because in our case object_id will be the same for the 4 different projections
                     yield i, {'image': img.astype("float32"),
                               'angular_size': angular_size.astype("float32"),
+                              'sersic_index': sersic_index.astype("float32"),
+                              'ellipticity': ellipticity.astype("float32"),
                               'object_id': galaxy_rot_id,
                               'magnitude': magnitude}
 

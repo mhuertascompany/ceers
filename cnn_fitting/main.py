@@ -20,7 +20,7 @@ log = logging.getLogger("input_logger")
 class CNNModel(object):
 
     def __init__(self, model_id, model_fn, output, output_name, logged=True):
-        """ Initialize variables required for training and evaluation of model"""
+        """ Initialize variables required for training and evaluation of model """
 
         self.model_id = model_id
         self.model_fn = model_fn
@@ -194,14 +194,17 @@ class CNNModel(object):
         self.load_datasets(dataset_main)
         self.train_model()
         self.evaluate_model()
-        #self.cross_evaluate_model()
+        self.cross_evaluate_model()
 
 
 if __name__ == '__main__':
     os.environ["CUDA_VISIBLE_DEVICES"] = "1"
     log.info(device_lib.list_local_devices())
 
-    outputs = [('angular_size', 'Radius', True), ('sersic_index', 'Sersic Idx', True), ('ellipticity', 'Ellipticity', False)]
+    outputs = [('angular_size', 'Radius', True),
+               ('sersic_index', 'Sersic Idx', True),
+               ('ellipticity', 'Ellipticity', False)]
+
     for output, output_name, logged in outputs:
         with tf.device('/gpu:0'):
             cnn_model = CNNModel(0, CNNModelTemplate, output, output_name, logged)
