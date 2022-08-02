@@ -12,7 +12,7 @@ from astropy.nddata import Cutout2D
 
 sys.path.append(os.path.abspath('../..'))
 
-from constants import GALAXY_IDS_PATH, SPLITS, DATA_PATH
+from constants import GALAXY_IDS_PATH, SPLITS, DATA_PATH, MAGNITUDE_CUT, INPUT_SHAPE
 
 
 def split_galaxy_ids(ids_file, splits):
@@ -63,12 +63,12 @@ def resolve_galaxy_ids():
     image = ceers[1].data
     w = WCS(ceers[1].header)
 
-    cut = cat.query("NIRCam_F200W<27")
+    cut = cat.query("NIRCam_F200W<{}".format(MAGNITUDE_CUT))
 
     for gid in reversed(cut.index):
         c = SkyCoord(cat.ra[gid], cat.dec[gid], unit="deg")
         try:
-            Cutout2D(image, c, (64, 64), wcs=w).data
+            Cutout2D(image, c, INPUT_SHAPE[:-1], wcs=w).data
         except:
             continue
         galaxy_ids.append(gid)
@@ -83,7 +83,6 @@ def create_custom_split(splits):
     # get them and save them to file
     if not os.path.exists(galaxy_ids_file):
         resolve_galaxy_ids()
-
     galaxy_splits = split_galaxy_ids(galaxy_ids_file, splits)
     return galaxy_splits
 

@@ -16,7 +16,7 @@ import custom_split as split
 
 sys.path.append(os.path.abspath('../..'))
 
-from constants import DATA_PATH, SPLITS
+from constants import DATA_PATH, SPLITS, INPUT_SHAPE
 
 
 _DESCRIPTION = """
@@ -42,10 +42,11 @@ _CITATION = """
 class StructuralFitting(tfds.core.GeneratorBasedBuilder):
     """ DatasetBuilder for cnn_fitting dataset. """
 
-    VERSION = tfds.core.Version('2.0.0')
+    VERSION = tfds.core.Version('3.0.0')
     RELEASE_NOTES = {
       '1.0.0': 'Initial release.',
-      '2.0.0': 'Include both filters'
+      '2.0.0': 'Include both filters',
+      '3.0.0': 'Add sersic index and ellipticity'
     }
 
     def _info(self) -> tfds.core.DatasetInfo:
@@ -55,9 +56,12 @@ class StructuralFitting(tfds.core.GeneratorBasedBuilder):
             builder=self,
             description=_DESCRIPTION,
             features=tfds.features.FeaturesDict({
-                'image': tfds.features.Tensor(shape=(64, 64), dtype=tf.float32),
+                'image': tfds.features.Tensor(shape=INPUT_SHAPE[:-1], dtype=tf.float32),
                 'angular_size': tf.float32,
-                'object_id': tf.string
+                'sersic_index': tf.float32,
+                'ellipticity': tf.float32,
+                'object_id': tf.string,
+                'magnitude': tf.float32
             }),
             supervised_keys=('image', 'angular_size'),
             homepage='https://dataset-homepage/',
@@ -108,25 +112,36 @@ class StructuralFitting(tfds.core.GeneratorBasedBuilder):
             for gid in split_ids:
                 c = SkyCoord(cat.ra[gid], cat.dec[gid], unit="deg")
                 angular_size = cat.angular_size[gid]
+                sersic_index = cat.sersic_index[gid]
+                ellipticity = cat.ellipticity[gid]
+
+                magnitude = cat.NIRCam_F150W[gid]
+                if filter_v == 200:
+                    magnitude = cat.NIRCam_F150W[gid]
+
                 try:
-                    img = Cutout2D(image, c, (64, 64), wcs=w).data
+                    img = Cutout2D(image, c, INPUT_SHAPE[:-1], wcs=w).data
                     if np.where(img == 0.0)[0].size > 0.75 * img.size:
                         continue
 
-                    if img.size != 64*64:
+                    if img.size != INPUT_SHAPE[0]*INPUT_SHAPE[1]:
                         continue
 
                     if np.all(img == img[0, 0]):
                         continue
 
-                    if not np.isfinite(angular_size):
+                    if (not np.isfinite(angular_size) or
+                            not np.isfinite(sersic_index) or not np.isfinite(ellipticity)):
                         continue
 
                     i += 1
                     # Yield with i because in our case object_id will be the same for the 4 different projections
                     yield i, {'image': img.astype("float32"),
                               'angular_size': angular_size.astype("float32"),
-                              'object_id': '{}_{}'.format(gid, filter_v)}
+                              'sersic_index': sersic_index.astype("float32"),
+                              'ellipticity': ellipticity.astype("float32"),
+                              'object_id': '{}_{}'.format(gid, filter_v),
+                              'magnitude': magnitude}
 
                 except Exception as e:
                     print("Galaxy id not added to the dataset: object_id=", gid,

@@ -13,11 +13,18 @@ from tensorflow.python.framework import dtypes
 rng = tf.random.Generator.from_seed(123, alg='philox')
 
 
-def augment(image, label):
+def standardize(data):
+    scaler = StandardScaler()
+    scaler.fit(data)
+    normalized_data = scaler.transform(data)
+    return normalized_data, scaler
+
+
+def augment(image, label, magn):
     seed = rng.make_seeds(2)[0]
     image = tf.image.stateless_random_flip_left_right(image, seed)
     image = tf.image.stateless_random_flip_up_down(image, seed)
-    return image, label
+    return image, label, magn
 
 
 def log10(x):
@@ -61,17 +68,21 @@ def _per_image_standardization(image):
     return image
 
 
-def preprocessing(example):
+def preprocessing(example, output='angular_size', logged=True):
     image = example['image']
     image = tf.expand_dims(image, axis=-1)
     image = _per_image_standardization(image)
     image = tf.where(tf.math.is_nan(image), tf.zeros_like(image), image)
-    angular_size = log10(example['angular_size'])
-    angular_size = tf.where(tf.math.is_nan(angular_size), tf.zeros_like(angular_size), angular_size)
-    return image, angular_size
+    output = example[output]
+    if logged:
+        if output <= 0:
+            output = 1e-10
+        output = log10(output)
+        output = tf.where(tf.math.is_nan(output), tf.zeros_like(output), output)
+    return image, [output], example['magnitude']
 
 
-def input_fn(mode='train', dataset_str='structural_fitting', batch_size=BATCHES):
+def input_fn(mode='train', dataset_str='structural_fitting', output='angular_size', logged=True, batch_size=BATCHES):
     """
     mode: 'train', 'validation' or 'test'
     """
@@ -83,15 +94,23 @@ def input_fn(mode='train', dataset_str='structural_fitting', batch_size=BATCHES)
         shuffle_files=shuffle
     )
 
-    if shuffle:
-        dataset = dataset.repeat()
-        dataset = dataset.shuffle(10000)
-
     # Apply data preprocessing
-    dataset = dataset.map(preprocessing, num_parallel_calls=tf.data.AUTOTUNE)
+    dataset = dataset.map(lambda x: preprocessing(x, output=output, logged=logged),
+                          num_parallel_calls=tf.data.AUTOTUNE)
 
     if mode == 'train':
         dataset = dataset.map(augment, num_parallel_calls=tf.data.AUTOTUNE)
+
+    dataset = dataset.batch(batch_size, drop_remainder=True)
+
+    images, y_true, magnitudes = get_data_test(dataset, get_num_examples(mode, dataset_str) // BATCHES)
+
+    dataset = tf.data.Dataset.from_tensor_slices((images, y_true, magnitudes))
+
+    if shuffle:
+        dataset = dataset.map(lambda x, y, z: (x, y))
+        dataset = dataset.repeat()
+        dataset = dataset.shuffle(10000)
 
     dataset = dataset.batch(batch_size, drop_remainder=True)
 
@@ -110,6 +129,19 @@ def get_data(dataset, batches=10):
     images = np.stack(images)
     y_true = np.array(y_true)
     return images, y_true
+
+
+def get_data_test(dataset, batches=10):
+    data = dataset.take(batches)
+    images, y_true, magnitude = [], [], []
+    for d in list(data):
+        images.extend(d[0].numpy())
+        y_true.extend(d[1].numpy())
+        magnitude.extend(d[2].numpy())
+    images = np.stack(images)
+    y_true = np.array(y_true)
+    magnitude = np.array(magnitude)
+    return images, y_true, magnitude
 
 
 def get_num_examples(mode='train', dataset_str='structural_fitting'):
