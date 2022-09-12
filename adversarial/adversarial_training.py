@@ -28,7 +28,7 @@ os.environ["CUDA_VISIBLE_DEVICES"]="2"
 
 ## read data
 
-filter = "f356w"
+filter = "f200w"
 
 
 data_path = "/scratch/mhuertas/CEERS/"
