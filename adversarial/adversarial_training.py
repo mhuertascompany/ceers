@@ -267,7 +267,7 @@ class DomainPredictor(Model):
   def __init__(self):
     super(DomainPredictor, self).__init__()   
     self.d3 = Dense(128, activation='relu')
-    self.d4 = Dense(164, activation='relu')
+    self.d4 = Dense(64, activation='relu')
     self.d5 = Dense(2, activation='softmax')
     self.dr = layers.Dropout(0.4)
 
