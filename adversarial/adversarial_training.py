@@ -266,13 +266,16 @@ label_predictor = LabelPredictor()
 class DomainPredictor(Model):
   def __init__(self):
     super(DomainPredictor, self).__init__()   
-    self.d3 = Dense(64, activation='relu')
-    self.d4 = Dense(2, activation='softmax')
+    self.d3 = Dense(128, activation='relu')
+    self.d4 = Dense(164, activation='relu')
+    self.d5 = Dense(2, activation='softmax')
+    self.dr = layers.Dropout(0.4)
 
   def call(self, feats):
     feats = self.d3(feats)
-    #feats = self.d3(feats)
-    return self.d4(feats)
+    feats = self.d4(feats)
+    feats = self.dr(feats)
+    return self.d5(feats)
 
 domain_predictor = DomainPredictor()
 
@@ -411,7 +414,7 @@ for epoch in range(EPOCHS):
 
 
 label_predictor.save_weights(data_path+"adversarial_label_irr01_asinh_resnet_"+filter+"v01_0910.weights")
-feature_predictor.save_weights(data_path+"adversarial__irr01_asinh_resnet_"+filter+"v01_0910.weights")
+feature_generator.save_weights(data_path+"adversarial__irr01_asinh_resnet_"+filter+"v01_0910.weights")
 
 
 chunk=1000
