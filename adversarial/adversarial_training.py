@@ -387,7 +387,7 @@ def reset_metrics():
     m_test_accuracy.reset_states()
 
 
-EPOCHS = 50
+EPOCHS = 30
 
 alpha = 10
 for epoch in range(EPOCHS):
