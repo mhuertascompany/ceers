@@ -387,7 +387,7 @@ def reset_metrics():
     m_test_accuracy.reset_states()
 
 
-EPOCHS = 30
+EPOCHS = 100
 
 alpha = 10
 for epoch in range(EPOCHS):
@@ -438,6 +438,6 @@ while(n<len(JWST_X)):
     #bd.append(p[:,3])
     
 df = pd.DataFrame(list(zip(idvec,ravec,decvec,np.concatenate(sph).ravel(),np.concatenate(dk).ravel(),np.concatenate(irr).ravel())),columns =['ID_CEERS', 'ra','dec','sph','disk','irr'])
-df.to_csv(data_path+"CEERS_v007_adversarial_irr01_asinh_"+filter+"_0910.csv")
+df.to_csv(data_path+"CEERS_v01_adversarial_irr01_asinh_"+filter+"_0910.csv")
 
 
