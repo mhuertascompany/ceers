@@ -112,7 +112,7 @@ with PdfPages('sph_CEERS_f200w.pdf') as pdf:
                 j+=1
                 #print("nothing")
                 continue
-            for idn,ra,dec,z,logm in zip(mcut.ID_CEERS_1,mcut.ra,mcut.dec,mcut.z_final,mcut.mass):
+            for idn,ra,dec,z,logm in zip(mcut.ID_CEERS_2,mcut.RA_1,mcut.DEC_1,mcut.z,mcut.mass):
                 read=0
                 k=0
                 while read==0:
