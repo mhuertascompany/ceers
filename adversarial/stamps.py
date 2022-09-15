@@ -286,7 +286,7 @@ with PdfPages('irr_CEERS_'+filter+'.pdf') as pdf:
                 k=0
                 print(k)
                 while read==0:
-                    pdb.set_trace()
+                    #pdb.set_trace()
                     nir_f200=nir_f200_list[k]
                     w200=w[k]
                     k+=1
