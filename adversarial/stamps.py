@@ -92,7 +92,7 @@ zmax=zlow+zbin
 
 
 
-mbins = [9,9.5,10,10.5,11,11.5]
+mbins = [9.5,10,10.5,11,11.5]
 
 j=1
 k=0
@@ -115,6 +115,7 @@ with PdfPages('sph_CEERS_f200w.pdf') as pdf:
             for idn,ra,dec,z,logm in zip(mcut.ID_CEERS_2,mcut.RA_1,mcut.DEC_1,mcut.z,mcut.mass):
                 read=0
                 k=0
+                print(k)
                 while read==0:
                     nir_f200=nir_f200_list[k]
                     w200=w[k]
