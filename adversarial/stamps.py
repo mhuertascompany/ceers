@@ -53,7 +53,7 @@ ceers_cat['morph_flag_f444']=np.array(morph_flag)
 
 
 
-filter ='f200w'
+filter ='f356w'
 
 ceers_pointings = ["1","2","3","6"]
 #ceers_pointings = ["1","3","6"]
