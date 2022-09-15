@@ -172,6 +172,10 @@ with PdfPages('sph_CEERS_f200w.pdf') as pdf:
     print("final saving")
 
 
+zlow=1
+zbin=0.5
+zmax=zlow+zbin
+
 
 with PdfPages('disk_CEERS_f200w.pdf') as pdf:
     while zmax<5:
