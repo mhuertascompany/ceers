@@ -30,6 +30,7 @@ ceers_cat['morph_flag_f356']=np.array(morph_flag)
 
 morph_flag=[]
 
+
 for sph,dk,irr in zip(ceers_cat.sph_200,ceers_cat.disk_200,ceers_cat.irr_200):
     maxpos = np.argmax([sph,dk,irr])
     morph_flag.append(maxpos)
