@@ -99,7 +99,7 @@ k=0
 
 with PdfPages('sph_CEERS_f200w.pdf') as pdf:
     while zmax<5:
-        sel = ceers_cat.query('(morph_flag_f200==0 or morph_flag_f200==3) and z>'+str(zlow)+' and z<'+str(zmax))
+        sel = ceers_cat.query('(morph_flag_f200==0) and z>'+str(zlow)+' and z<'+str(zmax))
         zlow+=zbin
         zmax+=zbin
         
@@ -172,3 +172,77 @@ with PdfPages('sph_CEERS_f200w.pdf') as pdf:
     print("final saving")
 
 
+
+with PdfPages('disk_CEERS_f200w.pdf') as pdf:
+    while zmax<5:
+        sel = ceers_cat.query('(morph_flag_f200==1) and z>'+str(zlow)+' and z<'+str(zmax))
+        zlow+=zbin
+        zmax+=zbin
+        
+        for mlow,mup in zip(mbins[:-1],mbins[1:]): 
+            try:
+                mcut = sel.query("mass>"+str(mlow)+"and mass<"+str(mup)).sample(n=1)
+                print(mlow,mup)
+                print(zlow,zmax)
+            except:
+                j+=1
+                #print("nothing")
+                continue
+            for idn,ra,dec,z,logm in zip(mcut.ID_CEERS_2,mcut.RA_1,mcut.DEC_1,mcut.z,mcut.mass):
+                read=0
+                k=0
+                print(k)
+                while read==0:
+                    nir_f200=nir_f200_list[k]
+                    w200=w[k]
+                    k+=1
+                    try:
+                        position = SkyCoord(ra,dec,unit="deg")
+
+                        stamp = Cutout2D(nir_f200[1].data,position,64,wcs=w200)
+
+                        if np.max(stamp.data)<=0 or np.count_nonzero(stamp.data==0)>10:
+                            continue
+                        hdu = fits.PrimaryHDU(stamp.data)
+                        hdu.writeto('tmp.fits', overwrite=True) 
+                        print("read!")
+                        print(j)
+                        read=1
+
+                    except:
+                        #print("error reading")
+                        continue
+                        
+                    if j==1:
+                        fig = plt.figure(figsize=(50,50))
+                        ax = plt.subplot(5,5,j,frameon=False)
+                    bb=ax.get_position()
+                       
+                    print("here")
+            
+
+                    if read ==1:    
+                        bounds = [0.02+0.16*np.mod((j-1),5),0.75+0.02-0.16*((j-1)//5),0.14,0.14]
+                        gc = aplpy.FITSFigure('tmp.fits',figure=fig, subplot=bounds)
+                        gc.show_grayscale(stretch='sqrt',invert=True)
+                        gc.tick_labels.hide()
+                        ax.set_yticklabels([])
+                        ax.set_xticklabels([])
+
+                        plt.xticks([],[])
+                        plt.yticks([],[])
+
+                        plt.text(5, 5, '$\log M_*=$'+'%04.2f' % logm, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
+                        plt.text(5, 15, '$z=$'+'%04.2f' % z, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
+                        print("z="+str(z))
+                        j+=1
+                        print(j)
+                        if j==26:
+                            plt.tight_layout()
+                            pdf.savefig()
+                            print("saving")
+                            j=1
+                        #k+=1
+    plt.tight_layout()
+    pdf.savefig()
+    print("final saving")
