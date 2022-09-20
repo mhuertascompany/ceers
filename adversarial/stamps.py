@@ -101,6 +101,7 @@ k=0
 with PdfPages('sph_CEERS_'+filter+'.pdf') as pdf:
     while zmax<5:
         sel = ceers_cat.query('(morph_flag_f200==0) and z>'+str(zlow)+' and z<'+str(zmax))
+        pdb.set_trace()
         zlow+=zbin
         zmax+=zbin
         
