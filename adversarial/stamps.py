@@ -31,9 +31,9 @@ candels_cat = pd.read_csv(data_path+"CANDELS_morphology.csv")
 morph_flag=[]
 
 
-for sph,dk,irr,bd in zip(ceers_cat.sph_200,ceers_cat.disk_200,ceers_cat.irr_200,ceers_cat.bd_200):
+for sph,dk,irr,bd in zip(ceers_cat.sph_200,ceers_cat.disk_200,ceers_cat.irr_200,1-(ceers_cat.sph_200+ceers_cat.disk_200+ceers_cat.irr_200)):
     maxpos = np.argmax([sph,dk,irr,bd])
-    pdb.set_trace()
+    #pdb.set_trace()
     morph_flag.append(maxpos)
 #morph_flag=np.array(morph_flag)
 #morph_flag[(ceers_cat.disk_f200>0.3)]=1    
