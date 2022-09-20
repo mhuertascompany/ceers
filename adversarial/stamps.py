@@ -345,6 +345,15 @@ with PdfPages('irr_CEERS_'+filter+'.pdf') as pdf:
     print("final saving")    
 
 
+zlow=1
+zbin=0.5
+zmax=zlow+zbin
+
+mbins = [9.5,10,10.5,11,11.5]
+
+j=1
+k=0   
+
 
 with PdfPages('bd_CEERS_'+filter+'.pdf') as pdf:
     while zmax<5:
