@@ -13,40 +13,40 @@ import aplpy
 from matplotlib.backends.backend_pdf import PdfPages
 
 data_path = "/scratch/mhuertas/CEERS/"
-ceers_cat = pd.read_csv(data_path+"specz_PG_matched_SFR_mstar_z_RADEC_morphADV_200_356_400.csv")
+ceers_cat = pd.read_csv(data_path+"specz_PG_matched_SFR_mstar_z_RADEC_morphADV_200_4class.csv")
 candels_cat = pd.read_csv(data_path+"CANDELS_morphology.csv")
 
 
-morph_flag=[]
+#morph_flag=[]
 
-for sph,dk,irr in zip(ceers_cat.sph_356,ceers_cat.disk_356,ceers_cat.irr_356):
-    maxpos = np.argmax([sph,dk,irr])
-    morph_flag.append(maxpos)
+#for sph,dk,irr in zip(ceers_cat.sph_356,ceers_cat.disk_356,ceers_cat.irr_356):
+#    maxpos = np.argmax([sph,dk,irr])
+#    morph_flag.append(maxpos)
     
 #morph_flag=np.array(morph_flag)
 #morph_flag[(ceers_cat.disk_f356>0.3)]=1
 #morph_flag[(ceers_cat.irr_f356>0.3) & (ceers_cat.sph_f356>0.3)]=3
-ceers_cat['morph_flag_f356']=np.array(morph_flag)
+#ceers_cat['morph_flag_f356']=np.array(morph_flag)
 
 morph_flag=[]
 
 
-for sph,dk,irr in zip(ceers_cat.sph_200,ceers_cat.disk_200,ceers_cat.irr_200):
-    maxpos = np.argmax([sph,dk,irr])
+for sph,dk,irr,bd in zip(ceers_cat.sph_200,ceers_cat.disk_200,ceers_cat.irr_200,ceers_cat.bd_200):
+    maxpos = np.argmax([sph,dk,irr,bd])
     morph_flag.append(maxpos)
 #morph_flag=np.array(morph_flag)
 #morph_flag[(ceers_cat.disk_f200>0.3)]=1    
 ceers_cat['morph_flag_f200']=np.array(morph_flag)
 
 
-morph_flag=[]
+#morph_flag=[]
 
-for sph,dk,irr in zip(ceers_cat.sph_444,ceers_cat.disk_444,ceers_cat.irr_444):
-    maxpos = np.argmax([sph,dk,irr])
-    morph_flag.append(maxpos)
+#for sph,dk,irr in zip(ceers_cat.sph_444,ceers_cat.disk_444,ceers_cat.irr_444):
+#    maxpos = np.argmax([sph,dk,irr])
+#    morph_flag.append(maxpos)
 #morph_flag=np.array(morph_flag)
 #morph_flag[(ceers_cat.disk_f200>0.3)]=1    
-ceers_cat['morph_flag_f444']=np.array(morph_flag)
+#ceers_cat['morph_flag_f444']=np.array(morph_flag)
 
 #ceers_cat.to_csv(data_path+"CEERS_v005_adamatchmorph_200_irr02_barro_PG_100_tau09_morphflag.csv")
 
@@ -54,7 +54,7 @@ ceers_cat['morph_flag_f444']=np.array(morph_flag)
 
 
 
-filter ='f356w'
+filter ='f200w'
 
 ceers_pointings = ["1","2","3","6"]
 #ceers_pointings = ["1","3","6"]
@@ -270,6 +270,83 @@ k=0
 with PdfPages('irr_CEERS_'+filter+'.pdf') as pdf:
     while zmax<5:
         sel = ceers_cat.query('(morph_flag_f200==2) and z>'+str(zlow)+' and z<'+str(zmax))
+        zlow+=zbin
+        zmax+=zbin
+        
+        for mlow,mup in zip(mbins[:-1],mbins[1:]): 
+            try:
+                mcut = sel.query("mass>"+str(mlow)+"and mass<"+str(mup)).sample(n=1)
+                print(mlow,mup)
+                print(zlow,zmax)
+            except:
+                j+=1
+                #print("nothing")
+                continue
+            for idn,ra,dec,z,logm in zip(mcut.ID_CEERS_2,mcut.RA_1,mcut.DEC_1,mcut.z,mcut.mass):
+                read=0
+                k=0
+                print(k)
+                while read==0:
+                    #pdb.set_trace()
+                    nir_f200=nir_f200_list[k]
+                    w200=w[k]
+                    k+=1
+                    try:
+                        position = SkyCoord(ra,dec,unit="deg")
+
+                        stamp = Cutout2D(nir_f200[1].data,position,64,wcs=w200)
+
+                        if np.max(stamp.data)<=0 or np.count_nonzero(stamp.data==0)>10:
+                            continue
+                        hdu = fits.PrimaryHDU(stamp.data)
+                        hdu.writeto('tmp.fits', overwrite=True) 
+                        print("read!")
+                        print(j)
+                        read=1
+
+                    except:
+                        #print("error reading")
+                        continue
+                        
+                    if j==1:
+                        fig = plt.figure(figsize=(50,50))
+                        ax = plt.subplot(5,5,j,frameon=False)
+                    bb=ax.get_position()
+                       
+                    print("here")
+            
+
+                    if read ==1:    
+                        bounds = [0.02+0.16*np.mod((j-1),5),0.75+0.02-0.16*((j-1)//5),0.14,0.14]
+                        gc = aplpy.FITSFigure('tmp.fits',figure=fig, subplot=bounds)
+                        gc.show_grayscale(stretch='sqrt',invert=True)
+                        gc.tick_labels.hide()
+                        ax.set_yticklabels([])
+                        ax.set_xticklabels([])
+
+                        plt.xticks([],[])
+                        plt.yticks([],[])
+
+                        plt.text(5, 5, '$\log M_*=$'+'%04.2f' % logm, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
+                        plt.text(5, 15, '$z=$'+'%04.2f' % z, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
+                        print("z="+str(z))
+                        j+=1
+                        print(j)
+                        if j==26:
+                            plt.tight_layout()
+                            pdf.savefig()
+                            print("saving")
+                            j=1
+                        #k+=1
+    plt.tight_layout()
+    pdf.savefig()
+    print("final saving")    
+
+
+
+with PdfPages('bd_CEERS_'+filter+'.pdf') as pdf:
+    while zmax<5:
+        sel = ceers_cat.query('(morph_flag_f200==3) and z>'+str(zlow)+' and z<'+str(zmax))
         zlow+=zbin
         zmax+=zbin
         
