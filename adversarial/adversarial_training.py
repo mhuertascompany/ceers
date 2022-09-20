@@ -435,9 +435,12 @@ while(n<len(JWST_X)):
     sph.append(p[:,0])
     dk.append(p[:,1])
     irr.append(p[:,2])
-    #bd.append(p[:,3])
+    bd.append(p[:,3])
     
-df = pd.DataFrame(list(zip(idvec,ravec,decvec,np.concatenate(sph).ravel(),np.concatenate(dk).ravel(),np.concatenate(irr).ravel())),columns =['ID_CEERS', 'ra','dec','sph','disk','irr'])
+#df = pd.DataFrame(list(zip(idvec,ravec,decvec,np.concatenate(sph).ravel(),np.concatenate(dk).ravel(),np.concatenate(irr).ravel())),columns =['ID_CEERS', 'ra','dec','sph','disk','irr'])
+
+
+df = pd.DataFrame(list(zip(idvec,ravec,decvec,np.concatenate(sph).ravel(),np.concatenate(dk).ravel(),np.concatenate(irr).ravel(),np.concatenate(bd).ravel())),columns =['ID_CEERS', 'ra','dec','sph','disk','irr','bd'])
 df.to_csv(data_path+"CEERS_v01_adversarial_irr01_asinh_"+filter+"_0920_4class.csv")
 
 
