@@ -432,6 +432,6 @@ def plot_stamps(filter='f200w'):
         print("final saving")    
 
 
-plot_stamps('f200w')
-plot_stamps('f356w')
-plot_stamps('f356w')
+#plot_stamps('f200w')
+#plot_stamps('f356w')
+plot_stamps('f444w')
