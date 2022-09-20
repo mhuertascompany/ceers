@@ -28,7 +28,7 @@ os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
 ## read data
 
-filter = "f444w"
+filter = "f200w"
 
 
 data_path = "/scratch/mhuertas/CEERS/"
@@ -242,7 +242,7 @@ def get_network(image_size=32, num_classes=4):
   #trunk_outputs = layers.GlobalAveragePooling2D()(bn5)
   outputs = layers.Flatten()(bn5) 
   #d1 = layers.Dense(64, activation = "relu")(fl)
-  #dr1 = layers.Dropout(0.4)(fl)
+  outputs = layers.Dropout(0.4)(outputs)
   #outputs = layers.Dense(num_classes)(dr1)
   return keras.Model(inputs, outputs)
 
@@ -387,9 +387,9 @@ def reset_metrics():
     m_test_accuracy.reset_states()
 
 
-EPOCHS = 100
+EPOCHS = 50
 
-alpha = 10
+alpha = 1
 for epoch in range(EPOCHS):
   reset_metrics()
   
