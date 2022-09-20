@@ -88,7 +88,7 @@ def plot_stamps(filter='f200w'):
   
         cats.append(cat_ceers.query("pointing=='nircam"+c+"'"))   #CEERS_NIRCam6_v0.07.4_photom.fits  
 
-    zlow=1
+    zlow=0.5
     zbin=0.5
     zmax=zlow+zbin
 
@@ -176,7 +176,7 @@ def plot_stamps(filter='f200w'):
         print("final saving")
 
 
-    zlow=1
+    zlow=0.5
     zbin=0.5
     zmax=zlow+zbin
 
@@ -260,7 +260,7 @@ def plot_stamps(filter='f200w'):
         pdf.savefig()
         print("final saving")
 
-    zlow=1
+    zlow=0.5
     zbin=0.5
     zmax=zlow+zbin
 
@@ -346,7 +346,7 @@ def plot_stamps(filter='f200w'):
         print("final saving")    
 
 
-    zlow=1
+    zlow=0.5
     zbin=0.5
     zmax=zlow+zbin
 
