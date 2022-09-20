@@ -33,6 +33,7 @@ morph_flag=[]
 
 for sph,dk,irr,bd in zip(ceers_cat.sph_200,ceers_cat.disk_200,ceers_cat.irr_200,ceers_cat.bd_200):
     maxpos = np.argmax([sph,dk,irr,bd])
+    pdb.set_trace()
     morph_flag.append(maxpos)
 #morph_flag=np.array(morph_flag)
 #morph_flag[(ceers_cat.disk_f200>0.3)]=1    
@@ -101,7 +102,7 @@ k=0
 with PdfPages('sph_CEERS_'+filter+'.pdf') as pdf:
     while zmax<5:
         sel = ceers_cat.query('(morph_flag_f200==0) and z>'+str(zlow)+' and z<'+str(zmax))
-        pdb.set_trace()
+        
         zlow+=zbin
         zmax+=zbin
         
