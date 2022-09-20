@@ -75,7 +75,7 @@ def plot_stamps(filter='f200w'):
 
     ceers_pointings = ["1","2","3","6"]
     
-    #cat_ceers =   pd.read_csv(data_path+"specz_PG_matched_SFR_mstar_z_RADEC.csv")
+    cat_ceers =   pd.read_csv(data_path+"specz_PG_matched_SFR_mstar_z_RADEC.csv")
     
     nir_f200_list=[]
     w=[]
