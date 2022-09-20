@@ -115,7 +115,7 @@ with PdfPages('sph_CEERS_'+filter+'.pdf') as pdf:
                 j+=1
                 #print("nothing")
                 continue
-            for idn,ra,dec,z,logm in zip(mcut.ID_CEERS_2,mcut.RA_1,mcut.DEC_1,mcut.z,mcut.mass):
+            for idn,ra,dec,z,logm in zip(mcut.ID_CEERS,mcut.RA_1,mcut.DEC_1,mcut.z,mcut.mass):
                 read=0
                 k=0
                 print(k)
@@ -200,7 +200,7 @@ with PdfPages('disk_CEERS_'+filter+'.pdf') as pdf:
                 j+=1
                 #print("nothing")
                 continue
-            for idn,ra,dec,z,logm in zip(mcut.ID_CEERS_2,mcut.RA_1,mcut.DEC_1,mcut.z,mcut.mass):
+            for idn,ra,dec,z,logm in zip(mcut.ID_CEERS,mcut.RA_1,mcut.DEC_1,mcut.z,mcut.mass):
                 read=0
                 k=0
                 print(k)
@@ -284,7 +284,7 @@ with PdfPages('irr_CEERS_'+filter+'.pdf') as pdf:
                 j+=1
                 #print("nothing")
                 continue
-            for idn,ra,dec,z,logm in zip(mcut.ID_CEERS_2,mcut.RA_1,mcut.DEC_1,mcut.z,mcut.mass):
+            for idn,ra,dec,z,logm in zip(mcut.ID_CEERS,mcut.RA_1,mcut.DEC_1,mcut.z,mcut.mass):
                 read=0
                 k=0
                 print(k)
@@ -361,7 +361,7 @@ with PdfPages('bd_CEERS_'+filter+'.pdf') as pdf:
                 j+=1
                 #print("nothing")
                 continue
-            for idn,ra,dec,z,logm in zip(mcut.ID_CEERS_2,mcut.RA_1,mcut.DEC_1,mcut.z,mcut.mass):
+            for idn,ra,dec,z,logm in zip(mcut.ID_CEERS,mcut.RA_1,mcut.DEC_1,mcut.z,mcut.mass):
                 read=0
                 k=0
                 print(k)
