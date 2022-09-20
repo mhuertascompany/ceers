@@ -74,9 +74,9 @@ def plot_stamps(filter='f200w'):
 
 
     ceers_pointings = ["1","2","3","6"]
-    #ceers_pointings = ["1","3","6"]
-    cat_ceers =   pd.read_csv(data_path+"specz_PG_matched_SFR_mstar_z_RADEC.csv")
-    #ceers_pointings = ["2"]
+    
+    #cat_ceers =   pd.read_csv(data_path+"specz_PG_matched_SFR_mstar_z_RADEC.csv")
+    
     nir_f200_list=[]
     w=[]
     cats = []
@@ -120,7 +120,7 @@ def plot_stamps(filter='f200w'):
                     read=0
                     k=0
                     print(k)
-                    while read==0:
+                    while read==0 and k<4:
                         nir_f200=nir_f200_list[k]
                         w200=w[k]
                         k+=1
@@ -205,7 +205,7 @@ def plot_stamps(filter='f200w'):
                     read=0
                     k=0
                     print(k)
-                    while read==0:
+                    while read==0 and k<4:
                         nir_f200=nir_f200_list[k]
                         w200=w[k]
                         k+=1
@@ -289,7 +289,7 @@ def plot_stamps(filter='f200w'):
                     read=0
                     k=0
                     print(k)
-                    while read==0:
+                    while read==0 and k<4:
                         #pdb.set_trace()
                         nir_f200=nir_f200_list[k]
                         w200=w[k]
@@ -375,7 +375,7 @@ def plot_stamps(filter='f200w'):
                     read=0
                     k=0
                     print(k)
-                    while read==0:
+                    while read==0 and k<4:
                         #pdb.set_trace()
                         nir_f200=nir_f200_list[k]
                         w200=w[k]
