@@ -105,11 +105,11 @@ with PdfPages('sph_CEERS_'+filter+'.pdf') as pdf:
         zmax+=zbin
         
         for mlow,mup in zip(mbins[:-1],mbins[1:]): 
-            try:
+            if True:
                 mcut = sel.query("mass>"+str(mlow)+"and mass<"+str(mup)).sample(n=1)
                 print(mlow,mup)
                 print(zlow,zmax)
-            except:
+            else:
                 j+=1
                 #print("nothing")
                 continue
