@@ -105,7 +105,7 @@ for wfc3_f160,w_c,f in zip(wfc3_f160_list,wf160,fields):
                     label.append(2) 
                     X.append(norm)
                 elif ((fsph>0.66 and fdk>0.66 and firr<0.1)):
-                    label.append(0)
+                    label.append(3)
                     X.append(norm)     
 
 
@@ -163,19 +163,19 @@ CANDELS_X = tf.convert_to_tensor(X[0:train_s], dtype=tf.float32)
 CANDELS_X = tf.expand_dims(CANDELS_X, -1)
 #CANDELS_X = tf.tile(CANDELS_X, [1,1,1,3])
 print(tf.shape(CANDELS_X))
-label_candels = tf.one_hot(label[0:train_s], 3).numpy()
+label_candels = tf.one_hot(label[0:train_s], 4).numpy()
 
 CANDELS_X_t = tf.convert_to_tensor(X[train_s:train_s+test_s], dtype=tf.float32)
 CANDELS_X_t = tf.expand_dims(CANDELS_X_t, -1)
 #CANDELS_X = tf.tile(CANDELS_X, [1,1,1,3])
 print(tf.shape(CANDELS_X_t))
-label_candels_t = tf.one_hot(label[train_s:train_s+test_s], 3).numpy()
+label_candels_t = tf.one_hot(label[train_s:train_s+test_s], 4).numpy()
 
 JWST_X = tf.convert_to_tensor(X_JWST, dtype=tf.float32)
 JWST_X = tf.expand_dims(JWST_X, -1)
 label_JWST = np.zeros(len(JWST_X))
 #JWST_X = tf.tile(JWST_X, [1,1,1,3])
-label_JWST = tf.one_hot(np.zeros(len(JWST_X)), 3).numpy()
+label_JWST = tf.one_hot(np.zeros(len(JWST_X)), 4).numpy()
 
 
 
@@ -193,7 +193,7 @@ mnist_m_train_ds = tf.data.Dataset.from_tensor_slices((JWST_X,tf.cast(label_JWST
 mnist_m_test_ds = tf.data.Dataset.from_tensor_slices((JWST_X,tf.cast(label_JWST, tf.int8))).batch(32)
 
 
-def get_network(image_size=32, num_classes=3):
+def get_network(image_size=32, num_classes=4):
   inputs = keras.Input(shape=(image_size, image_size, 1))
   rot = tf.keras.layers.RandomRotation(0.25)(inputs)
   flip = tf.keras.layers.RandomFlip()(rot)
@@ -438,6 +438,6 @@ while(n<len(JWST_X)):
     #bd.append(p[:,3])
     
 df = pd.DataFrame(list(zip(idvec,ravec,decvec,np.concatenate(sph).ravel(),np.concatenate(dk).ravel(),np.concatenate(irr).ravel())),columns =['ID_CEERS', 'ra','dec','sph','disk','irr'])
-df.to_csv(data_path+"CEERS_v01_adversarial_irr01_asinh_"+filter+"_0910.csv")
+df.to_csv(data_path+"CEERS_v01_adversarial_irr01_asinh_"+filter+"_0920_4class.csv")
 
 
