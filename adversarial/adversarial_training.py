@@ -253,7 +253,7 @@ class LabelPredictor(Model):
   def __init__(self):
     super(LabelPredictor, self).__init__() 
     self.d1 = Dense(128, activation='relu')
-    self.d2 = Dense(3, activation='softmax')
+    self.d2 = Dense(4, activation='softmax')
     self.dr = layers.Dropout(0.4)
 
   def call(self, feats):  
