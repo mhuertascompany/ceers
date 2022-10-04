@@ -144,11 +144,11 @@ irr=[]
 bd=[]
     
 n=0    
-while(n<len(TNG200)):
-    if n+chunk>len(TNG200):
-        p = label_predictor(feature_generator(TNG200[n:]))
+while(n<len(TNG_X)):
+    if n+chunk>len(TNG_X):
+        p = label_predictor(feature_generator(TNG_X[n:]))
     else:    
-        p = label_predictor(feature_generator(TNG200[n:n+chunk]))
+        p = label_predictor(feature_generator(TNG_X[n:n+chunk]))
     n=n+chunk
     print(len(p))
     sph.append(p[:,0])
