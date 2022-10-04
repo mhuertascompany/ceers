@@ -39,7 +39,7 @@ for stamp in TNG200:
 
     transform = AsinhStretch() + interval
     norm = transform(stamp[32-16:32+16,32-16:32+16])
-    X.append(stamp)
+    X.append(norm)
 
 
 TNG_X = tf.convert_to_tensor(X, dtype=tf.float32)
