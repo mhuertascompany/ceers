@@ -18,6 +18,9 @@ from tensorflow.keras import layers
 from tensorflow.keras import regularizers
 from official.vision.image_classification.augment import RandAugment
 import matplotlib.pyplot as plt
+from astropy.visualization import MinMaxInterval
+interval = MinMaxInterval()
+from astropy.visualization import AsinhStretch,LogStretch
 
 
 os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"   
