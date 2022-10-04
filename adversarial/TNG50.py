@@ -25,9 +25,9 @@ os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
 
 ## load data with CEERS noise
-TNG200 = np.load("/scratch/mhuertas/data/CEERS/TNG50/image_CEERS_64pix_F200W_aug0.npy")
-TNG356 = np.load("/scratch/mhuertas/data/CEERS/TNG50/image_CEERS_64pix_F356W_aug0.npy")
-ids = np.load("/scratch/mhuertas/data/CEERS/TNG50/id_TNG50_64pix_aug0.npy",allow_pickle=True)
+TNG200 = np.load("/scratch/mhuertas/CEERS/TNG50/image_CEERS_64pix_F200W_aug0.npy")
+TNG356 = np.load("/scratch/mhuertas/CEERS/TNG50/image_CEERS_64pix_F356W_aug0.npy")
+ids = np.load("/scratch/mhuertas/CEERS/TNG50/id_TNG50_64pix_aug0.npy",allow_pickle=True)
 
 X=[]
 for stamp in TNG200:
