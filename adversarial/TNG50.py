@@ -33,7 +33,7 @@ TNG356 = np.load("/scratch/mhuertas/CEERS/TNG50/image_CEERS_64pix_F356W_aug0.npy
 ids = np.load("/scratch/mhuertas/CEERS/TNG50/id_TNG50_64pix_aug0.npy",allow_pickle=True)
 
 X=[]
-for stamp in TNG200:
+for stamp in TNG356:
     if np.max(stamp)<=0 or np.count_nonzero(stamp==0)>10:
         continue
 
@@ -131,7 +131,7 @@ label_predictor = LabelPredictor()
 
 
 
-filter = 'f200w'
+filter = 'f356w'
 label_predictor.load_weights(data_path+"adversarial_label_irr01_asinh_resnet_"+filter+"v01_0910.weights")
 feature_generator.load_weights(data_path+"adversarial__irr01_asinh_resnet_"+filter+"v01_0910.weights")
 
