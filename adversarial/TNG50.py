@@ -38,7 +38,7 @@ for stamp in TNG200:
         continue
 
     transform = AsinhStretch() + interval
-    norm = transform(stamp[32-16:32+16,32-16+32+16])
+    norm = transform(stamp[32-16:32+16,32-16:32+16])
     X.append(stamp)
 
 
