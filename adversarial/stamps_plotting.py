@@ -43,9 +43,7 @@ for c in ceers_pointings:
 from matplotlib.backends.backend_pdf import PdfPages
 import aplpy
 
-zlow=1
-zbin=0.5
-zmax=zlow+zbin
+zbins = [0,1,3,6]
 
 
 
@@ -56,10 +54,9 @@ j=1
 k=0
 
 with PdfPages(data_path+'figures/sph_CEERS_f200w.pdf') as pdf_ceers,PdfPages(data_path+'figures/sph_CANDELS_f160w.pdf') as pdf_candels:
-    while zmax<6:
-        sel = candels_ceers.query('(morph_flag_f200==0 or morph_flag_f200==3) and (morph_CANDELS==0 or morph_CANDELS==3) and z>'+str(zlow)+' and z<'+str(zmax))
-        zlow+=zbin
-        zmax+=zbin
+    for zlow,zup in zip(zbins[:-1],zbins[1:]):
+        sel = candels_ceers.query('(morph_flag_f200==0 or morph_flag_f200==3) and (morph_CANDELS==0 or morph_CANDELS==3) and z>'+str(zlow)+' and z<'+str(zup))
+        
         
         for mlow,mup in zip(mbins[:-1],mbins[1:]): 
             try:
@@ -112,7 +109,7 @@ with PdfPages(data_path+'figures/sph_CEERS_f200w.pdf') as pdf_ceers,PdfPages(dat
 
                     if read ==1:
                         nir_f160=wfc3_f160_list[k-1]
-                        stamp_candels =Cutout2D(nir_f160[1].data,position,32,wcs = wf160[k-1])
+                        stamp_candels =Cutout2D(nir_f160[1].data,position,64,wcs = wf160[k-1])
                         hdu = fits.PrimaryHDU(stamp_candels.data)
                         hdu.writeto('tmp_candels.fits', overwrite=True) 
                         
