@@ -10,7 +10,7 @@ import h5py
 import pandas as pd
 
 data_path = "/scratch/mhuertas/CEERS/data_release/"
-ceers_cat = pd.read_csv(data_path+"cats/specz_PG_matched_SFR_mstar_z_RADEC_morphADV_200_356_400_4class.csv")
+ceers_cat = pd.read_csv(data_path+"cats/CEERS_v01_specz_PG_matched_SFR_mstar_z_RADEC_morphADV_200_356_400_4class_morphflag.csv")
 candels_ceers = pd.read_csv(data_path+"cats/CANDELS_CEERS_match_morphflag.csv")
 
 
