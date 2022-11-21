@@ -57,7 +57,7 @@ k=0
 
 with PdfPages(data_path+'figures/sph_CEERS_f200w.pdf') as pdf_ceers,PdfPages(data_path+'figures/sph_CANDELS_f160w.pdf') as pdf_candels:
     while zmax<6:
-        sel = candels_ceers.query('(morph_flag_f200==0 or morph_flag_f200==3) and (morph_CANDELS==0 or morph_CANDELS==3) z>'+str(zlow)+' and z<'+str(zmax))
+        sel = candels_ceers.query('(morph_flag_f200==0 or morph_flag_f200==3) and (morph_CANDELS==0 or morph_CANDELS==3) and z>'+str(zlow)+' and z<'+str(zmax))
         zlow+=zbin
         zmax+=zbin
         
