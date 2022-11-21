@@ -34,7 +34,7 @@ wf160=[]
 #candels_images = ["hlsp_candels_hst_wfc3_egs-tot-60mas_f160w_v1.0_drz.fits","hlsp_candels_hst_wfc3_gs-tot_f160w_v1.0_drz.fits","hlsp_candels_hst_wfc3_cos-tot_f160w_v1.0_drz.fits","hlsp_candels_hst_wfc3_uds-tot_f160w_v1.0_drz.fits"]
 candels_images = ["hlsp_candels_hst_wfc3_egs-tot-60mas_f160w_v1.0_drz.fits"]
 for c in candels_images:
-    wfc3_f160 = fits.open(data_path+"HST/"+c)
+    wfc3_f160 = fits.open(data_path+"images/"+c)
     wfc3_f160_list.append(wfc3_f160)
     wf160.append(WCS(wfc3_f160[0].header))
     wf160[-1].sip = None
