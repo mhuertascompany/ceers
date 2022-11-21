@@ -62,7 +62,7 @@ with PdfPages(data_path+'figures/sph_CEERS_f200w.pdf') as pdf_ceers,PdfPages(dat
             try:
                 mcut = sel.query("mass>"+str(mlow)+"and mass<"+str(mup)).sample(n=1)
                 print(mlow,mup)
-                print(zlow,zmax)
+                print(zlow,zup)
             except:
                 j+=1
                 #print("nothing")
