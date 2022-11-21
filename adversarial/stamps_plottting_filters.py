@@ -17,15 +17,7 @@ candels_ceers = pd.read_csv(data_path+"cats/CANDELS_CEERS_match_morphflag.csv")
 
 
 
-ceers_pointings = ["1","2","3","6"]
-nir_f200_list=[]
-w=[]
-cats = []
-for c in ceers_pointings:
-  nir_f200 = fits.open(data_path+"images/hlsp_ceers_jwst_nircam_nircam"+c+"_"+wl+"_dr0.5_i2d.fits.gz")
-  nir_f200_list.append(nir_f200)
-  w.append(WCS(nir_f200[1].header))
-  cats.append(candels_ceers)
+
 
 # egs_all_wfc3_ir_f160w_030mas_v1.9_nircam1_mef.fits.gz
 
@@ -140,4 +132,13 @@ wl_vec = ['f200w','f356w','f444w']
 morph_vec=[0,1,2,3]
 
 for wl,morph in zip(wl_vec,morph_vec):
+    ceers_pointings = ["1","2","3","6"]
+    nir_f200_list=[]
+    w=[]
+    cats = []
+    for c in ceers_pointings:
+        nir_f200 = fits.open(data_path+"images/hlsp_ceers_jwst_nircam_nircam"+c+"_"+wl+"_dr0.5_i2d.fits.gz")
+        nir_f200_list.append(nir_f200)
+        w.append(WCS(nir_f200[1].header))
+        
     plot_stamps(wl,morph,ceers_cat,nir_f200_list,w)
