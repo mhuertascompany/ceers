@@ -74,6 +74,9 @@ with PdfPages(data_path+'figures/sph_CEERS_f200w.pdf') as pdf_ceers,PdfPages(dat
                 read=0
                 k=0
                 while read==0:
+                    if k>=4:
+                        read=-1
+                        continue
                     nir_f200=nir_f200_list[k]
                     w200=w[k]
                     k+=1
