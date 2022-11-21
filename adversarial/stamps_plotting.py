@@ -36,7 +36,7 @@ candels_images = ["hlsp_candels_hst_wfc3_egs-tot-60mas_f160w_v1.0_drz.fits"]
 for c in ceers_pointings:
     wfc3_f160 = fits.open(data_path+"images/egs_all_wfc3_ir_f160w_030mas_v1.9_nircam"+c+"_mef.fits.gz")
     wfc3_f160_list.append(wfc3_f160)
-    wf160.append(WCS(wfc3_f160[0].header))
+    wf160.append(WCS(wfc3_f160[1].header))
     wf160[-1].sip = None
 
 
