@@ -48,7 +48,7 @@ zbins = [0,1,3,6]
 
 
 
-mbins = [9,10,11,12]
+mbins = [9,10,10.5,11.5]
 
 j=1
 k=0
@@ -114,7 +114,7 @@ with PdfPages(data_path+'figures/sph_CEERS_f200w.pdf') as pdf_ceers,PdfPages(dat
                         hdu.writeto('tmp_candels.fits', overwrite=True) 
                         
                         plt.figure(1)
-                        bounds = [0.02+0.3*np.mod((j-1),3),0.75+0.02-0.3*((j-1)//3),0.28,0.28]
+                        bounds = [0.02+0.3*np.mod((j-1),3),0.9+0.02-0.3*((j-1)//3),0.28,0.28]
                         gc = aplpy.FITSFigure('tmp_ceers.fits',figure=fig_ceers, subplot=bounds)
                         gc.show_grayscale(stretch='sqrt',invert=True)
                         gc.tick_labels.hide()
