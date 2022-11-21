@@ -55,7 +55,7 @@ k=0
 
 with PdfPages(data_path+'figures/sph_CEERS_f200w.pdf') as pdf_ceers,PdfPages(data_path+'figures/sph_CANDELS_f160w.pdf') as pdf_candels:
     for zlow,zup in zip(zbins[:-1],zbins[1:]):
-        sel = candels_ceers.query('(morph_flag_f200==0 or morph_flag_f200==3) and (morph_CANDELS==0 or morph_CANDELS==3) and z>'+str(zlow)+' and z<'+str(zup))
+        sel = candels_ceers.query('(morph_flag_f200==1 or morph_flag_f200==2) and (morph_CANDELS==0 or morph_CANDELS==3) and z>'+str(zlow)+' and z<'+str(zup))
         
         
         for mlow,mup in zip(mbins[:-1],mbins[1:]): 
@@ -139,8 +139,8 @@ with PdfPages(data_path+'figures/sph_CEERS_f200w.pdf') as pdf_ceers,PdfPages(dat
                         plt.xticks([],[])
                         plt.yticks([],[])
 
-                        plt.text(3, 3, '$\log M_*=$'+'%04.2f' % logm, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
-                        plt.text(3, 8, '$z=$'+'%04.2f' % z, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
+                        plt.text(5, 5, '$\log M_*=$'+'%04.2f' % logm, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
+                        plt.text(5, 15, '$z=$'+'%04.2f' % z, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
                         print("z="+str(z))
                         
                         
