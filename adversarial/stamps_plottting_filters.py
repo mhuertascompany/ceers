@@ -15,8 +15,7 @@ candels_ceers = pd.read_csv(data_path+"cats/CANDELS_CEERS_match_morphflag.csv")
 
 
 
-wl = 'f200w'
-morph=0
+
 
 ceers_pointings = ["1","2","3","6"]
 nir_f200_list=[]
@@ -137,5 +136,8 @@ def plot_stamps(wl,morph,ceers_cat,nir_f200_list,w):
         print("final saving")
 
 
+wl_vec = ['f200w','f356w','f444w']
+morph_vec=[0,1,2,3]
 
-plot_stamps(wl,morph,ceers_cat,nir_f200_list,w)
+for wl,morph in zip(wl_vec,morph_vec):
+    plot_stamps(wl,morph,ceers_cat,nir_f200_list,w)
