@@ -48,7 +48,7 @@ zbins = [0,1,3,6]
 
 
 
-mbins = [9,9.5,10,10.5,11,11.5]
+mbins = [9,10,11,12]
 
 j=1
 k=0
@@ -98,10 +98,10 @@ with PdfPages(data_path+'figures/sph_CEERS_f200w.pdf') as pdf_ceers,PdfPages(dat
                     
                     
                     if j==1:
-                        fig_ceers = plt.figure(1, figsize=(50,50),clear=True)
-                        ax_ceers = plt.subplot(5,5,j,frameon=False)
-                        fig_candels = plt.figure(2,figsize=(50,50),clear=True)
-                        ax_candels = plt.subplot(5,5,j,frameon=False)
+                        fig_ceers = plt.figure(1, figsize=(30,30),clear=True)
+                        ax_ceers = plt.subplot(3,3,j,frameon=False)
+                        fig_candels = plt.figure(2,figsize=(30,30),clear=True)
+                        ax_candels = plt.subplot(3,3,j,frameon=False)
                     bb=ax_ceers.get_position()
                        
                     print("here")
@@ -114,7 +114,7 @@ with PdfPages(data_path+'figures/sph_CEERS_f200w.pdf') as pdf_ceers,PdfPages(dat
                         hdu.writeto('tmp_candels.fits', overwrite=True) 
                         
                         plt.figure(1)
-                        bounds = [0.02+0.16*np.mod((j-1),5),0.75+0.02-0.16*((j-1)//5),0.14,0.14]
+                        bounds = [0.02+0.16*np.mod((j-1),3),0.75+0.02-0.16*((j-1)//3),0.14,0.14]
                         gc = aplpy.FITSFigure('tmp_ceers.fits',figure=fig_ceers, subplot=bounds)
                         gc.show_grayscale(stretch='sqrt',invert=True)
                         gc.tick_labels.hide()
