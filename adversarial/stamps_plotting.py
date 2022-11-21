@@ -70,7 +70,7 @@ with PdfPages(data_path+'figures/sph_CEERS_f200w.pdf') as pdf_ceers,PdfPages(dat
                 j+=1
                 #print("nothing")
                 continue
-            for idn,ra,dec,z,logm in zip(mcut.ID_1a,mcut.ra,mcut.dec,mcut.z,mcut.mass):
+            for idn,ra,dec,z,logm in zip(mcut.ID_1a,mcut.RA_1,mcut.DEC_1,mcut.z,mcut.mass):
                 read=0
                 k=0
                 while read==0:
