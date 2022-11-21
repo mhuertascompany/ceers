@@ -46,7 +46,7 @@ k=0
 
 with PdfPages(data_path+'figures/'+'morph_'+str(morph)+'_CEERS_'+str(wl)+'.pdf') as pdf_ceers:
     for zlow,zup in zip(zbins[:-1],zbins[1:]):
-        sel = ceers_cat.query('(morph_flag_f200=='+str(morph)+' and z>'+str(zlow)+' and z<'+str(zup))
+        sel = ceers_cat.query('morph_flag_f200=='+str(morph)+' and z>'+str(zlow)+' and z<'+str(zup))
         
         
         for mlow,mup in zip(mbins[:-1],mbins[1:]): 
