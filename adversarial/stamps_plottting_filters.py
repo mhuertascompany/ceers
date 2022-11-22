@@ -95,7 +95,7 @@ def plot_stamps(wl,morph,ceers_cat,nir_f200_list,w):
                             
                             
                             plt.figure(1)
-                            bounds = [0.02+0.3*np.mod((j-1),3),0.6+0.02-0.3*((j-1)//3),0.28,0.28]
+                            bounds = [0.02+0.3*np.mod((j-1),3),0.7+0.02-0.3*((j-1)//3),0.28,0.28]
                             gc = aplpy.FITSFigure('tmp_ceers.fits',figure=fig_ceers, subplot=bounds)
                             gc.show_grayscale(stretch='sqrt',invert=True)
                             gc.tick_labels.hide()
