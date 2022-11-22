@@ -113,7 +113,7 @@ def plot_stamps(wl,morph,ceers_cat,nir_f200_list,w):
                             #gc.scalebar.set_label(str(kpc_per_arcsec*0.1))
                             
                             gc.scalebar.set_corner('bottom right')
-                            gc.scalebar.set_label('%04.2f kpc' % str(kpc_per_arcsec.value*0.1))
+                            gc.scalebar.set_label('%04.2f kpc' % kpc_per_arcsec.value*0.1)
                             #gc.scalebar.set_label('1 kpc')
                             gc.scalebar.set_color('black')
                             gc.scalebar.set_linestyle('solid')
