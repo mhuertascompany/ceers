@@ -73,7 +73,7 @@ def plot_stamps(wl,morph,ceers_cat,nir_f200_list,w):
 
                             if np.max(stamp.data)<=0 or np.count_nonzero(stamp.data==0)>10:
                                 continue
-                            hdu = fits.PrimaryHDU(stamp.data)
+                            hdu = fits.PrimaryHDU(stamp.data,header=stamp.header)
                             hdu.writeto('tmp_ceers.fits', overwrite=True) 
                             print("read!")
                             print(j)
