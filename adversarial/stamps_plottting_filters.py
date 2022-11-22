@@ -106,7 +106,7 @@ def plot_stamps(wl,morph,ceers_cat,nir_f200_list,w):
                             gc.axis_labels.hide()
 
                             gc.tick_labels.hide()
-                            gc.add_scalebar(lenght=0.1/0.03 * u.pixel)
+                            gc.add_scalebar(0.1/0.03 * u.pixel)
                             #gc.scalebar.set_length(0.1/0.03 * u.pixel)
                             gc.scalebar.set_label(str(kpc_per_arcsec*0.1))
                             gc.scalebar.set_corner('top right')
