@@ -8,6 +8,9 @@ import pdb
 import matplotlib.pyplot as plt
 import h5py    
 import pandas as pd
+from astropy import units as u
+from astropy.cosmology import Planck13 as cosmo
+
 
 data_path = "/scratch/mhuertas/CEERS/data_release/"
 ceers_cat = pd.read_csv(data_path+"cats/CEERS_v01_specz_PG_matched_SFR_mstar_z_RADEC_morphADV_200_356_400_4class_morphflag.csv")
@@ -95,10 +98,21 @@ def plot_stamps(wl,morph,ceers_cat,nir_f200_list,w):
                             
                             
                             plt.figure(1)
-                            bounds = [0.02+0.3*np.mod((j-1),3),0.68+0.02-0.3*((j-1)//3),0.3,0.3]
+                            bounds = [0.02+0.3*np.mod((j-1),3),0.68+0.02-0.3*((j-1)//3),0.32,0.32]
                             gc = aplpy.FITSFigure('tmp_ceers.fits',figure=fig_ceers, subplot=bounds)
+                            kpc_per_arcsec=cosmo.kpc_proper_per_arcmin(z)/60.
+                            
                             gc.show_grayscale(stretch='sqrt',invert=True)
+                            gc.axis_labels.hide()
+
                             gc.tick_labels.hide()
+                            gc.scalebar.set_length(0.1/0.03 * u.pixel)
+                            gc.scalebar.set_label(str(kpc_per_arcsec*0.1))
+                            gc.scalebar.set_corner('top right')
+                            gc.scalebar.set_color('white')
+                            gc.scalebar.set_linestyle('solid')
+                            gc.scalebar.set_linewidth(3)
+                            
                             ax_ceers.set_yticklabels([])
                             ax_ceers.set_xticklabels([])
 
