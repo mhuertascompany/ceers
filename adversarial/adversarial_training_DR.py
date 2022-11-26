@@ -415,8 +415,8 @@ for epoch in range(EPOCHS):
                          m_test_accuracy.result()*100,))
 
 
-label_predictor.save_weights(data_path+"adversarial_asinh_resnet_"+filter+"vDR05_1122.weights")
-feature_generator.save_weights(data_path+"adversarial_asinh_resnet_"+filter+"vDR05_1122.weights")
+label_predictor.save_weights(data_path+"models/adversarial_asinh_resnet_"+filter+"vDR05_1122.weights")
+feature_generator.save_weights(data_path+"models/adversarial_asinh_resnet_"+filter+"vDR05_1122.weights")
 
 
 chunk=1000
