@@ -32,10 +32,10 @@ filter = "f200w"
 
 
 data_path = "/scratch/mhuertas/CEERS/data_release/"
-candels_cat = pd.read_csv(data_path+"CANDELS_morphology.csv")
+candels_cat = pd.read_csv(data_path+"cats/CANDELS_morphology.csv")
 
 
-cat_ceers =   pd.read_hdf(data_path+"ceers_v0.2_photoz_stellar_params_nov17.hdf5",key='data'
+cat_ceers =   pd.read_hdf(data_path+"cats/ceers_v0.2_photoz_stellar_params_nov17.hdf5",key='data'
 )
 
 ceers_pointings = ["1","2","3","6"]
@@ -115,13 +115,15 @@ for wfc3_f160,w_c,f in zip(wfc3_f160_list,wf160,fields):
 
 X_JWST=[]
 idvec=[]
+fullvec=[]
+fieldvec=[]
 ravec=[]
 decvec=[]
 for nir_f200,w_v,cat in zip(nir_f200_list,w,cats):
   
   sel = cat.query('gf_F200W_MAG<26')
   #print(cat)  
-  for idn,ra,dec in zip(sel.ID,sel.RA,sel.DEC):
+  for full,idn, field, ra,dec in zip(sel.fullname,sel.id, sel.FIELD, sel.RA,sel.DEC):
           try:
               position = SkyCoord(ra,dec,unit="deg")
             #print(ra,dec)
@@ -135,7 +137,9 @@ for nir_f200,w_v,cat in zip(nir_f200_list,w,cats):
             #pdb.set_trace()
             #stamp_name = data_path+"NirCam/CANDELS_stamps/v005/f200fullres/CANDELS-CEERS"+str(idn)+"_f200w_v005.fits"
               X_JWST.append(norm)
-              idvec.append(idn) 
+              idvec.append(idn)
+              fullvec.append(full)
+              fieldvec.append(field) 
               ravec.append(ra)
               decvec.append(dec)  
             #if (fsph>0.66 and fdk<0.66 and firr<0.1):
@@ -438,7 +442,7 @@ while(n<len(JWST_X)):
 #df = pd.DataFrame(list(zip(idvec,ravec,decvec,np.concatenate(sph).ravel(),np.concatenate(dk).ravel(),np.concatenate(irr).ravel())),columns =['ID_CEERS', 'ra','dec','sph','disk','irr'])
 
 
-df = pd.DataFrame(list(zip(idvec,ravec,decvec,np.concatenate(sph).ravel(),np.concatenate(dk).ravel(),np.concatenate(irr).ravel(),np.concatenate(bd).ravel())),columns =['ID_CEERS', 'ra','dec','sph','disk','irr','bd'])
+df = pd.DataFrame(list(zip(fullvec,idvec,fieldvec,ravec,decvec,np.concatenate(sph).ravel(),np.concatenate(dk).ravel(),np.concatenate(irr).ravel(),np.concatenate(bd).ravel())),columns =['fullname','id','FIELD', 'ra','dec','sph','disk','irr','bd'])
 df.to_csv(data_path+"CEERS_DR05_adversarial_asinh_"+filter+"_1122_4class.csv")
 
 
