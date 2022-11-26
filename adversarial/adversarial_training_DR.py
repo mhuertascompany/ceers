@@ -121,7 +121,7 @@ ravec=[]
 decvec=[]
 for nir_f200,w_v,cat in zip(nir_f200_list,w,cats):
   
-  sel = cat.query('gf_F200W_MAG<26')
+  sel = cat.query('gf_F200W_MAG<26 and gf_F200W_MAG>0')
   #print(cat)  
   for full,idn, field, ra,dec in zip(sel.fullname,sel.id, sel.FIELD, sel.RA,sel.DEC):
           try:
@@ -443,6 +443,6 @@ while(n<len(JWST_X)):
 
 
 df = pd.DataFrame(list(zip(fullvec,idvec,fieldvec,ravec,decvec,np.concatenate(sph).ravel(),np.concatenate(dk).ravel(),np.concatenate(irr).ravel(),np.concatenate(bd).ravel())),columns =['fullname','id','FIELD', 'ra','dec','sph','disk','irr','bd'])
-df.to_csv(data_path+"CEERS_DR05_adversarial_asinh_"+filter+"_1122_4class.csv")
+df.to_csv(data_path+"cats/CEERS_DR05_adversarial_asinh_"+filter+"_1122_4class.csv")
 
 
