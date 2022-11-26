@@ -49,7 +49,7 @@ def plot_stamps(wl,morph,ceers_cat,nir_f200_list,w):
                     j+=1
                     #print("nothing")
                     continue
-                for idn,ra,dec,z,logm in zip(mcut.id,mcut.RA,mcut.DEC,mcut.rb_z,mcut.rb_synth_Mass_me_solar_exp):
+                for idn,full,ra,dec,z,logm in zip(mcut.id,mcut.fullname,mcut.RA,mcut.DEC,mcut.rb_z,mcut.rb_synth_Mass_me_solar_exp):
                     read=0
                     k=0
                     while read==0:
@@ -124,6 +124,7 @@ def plot_stamps(wl,morph,ceers_cat,nir_f200_list,w):
                             plt.xticks([],[])
                             plt.yticks([],[])
 
+                            plt.text(5, 95, full, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)    
                             plt.text(5, 5, '$\log M_*=$'+'%04.2f' % logm, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
                             plt.text(5, 15, '$z=$'+'%04.2f' % z, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
                             print("z="+str(z))
