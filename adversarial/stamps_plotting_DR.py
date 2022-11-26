@@ -10,8 +10,8 @@ import h5py
 import pandas as pd
 
 data_path = "/scratch/mhuertas/CEERS/data_release/"
-ceers_cat = pd.read_csv(data_path+"cats/CEERS_DR05_adversarial_asinh_3filters_1122_4class_v02_stellar_params.csv")
-candels_ceers = pd.read_csv(data_path+"cats/CANDELS_CEERS_match_DR05.csv")
+ceers_cat = pd.read_csv(data_path+"cats/CEERS_DR05_adversarial_asinh_3filters_1122_4class_v02_stellar_params_morphflag.csv")
+candels_ceers = pd.read_csv(data_path+"cats/CANDELS_CEERS_match_morphflag_DR05.csv")
 
 
 # egs_all_wfc3_ir_f160w_030mas_v1.9_nircam1_mef.fits.gz
