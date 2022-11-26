@@ -8,6 +8,8 @@ import pdb
 import matplotlib.pyplot as plt
 import h5py    
 import pandas as pd
+from astropy import units as u
+from astropy.cosmology import Planck13 as cosmo
 
 data_path = "/scratch/mhuertas/CEERS/data_release/"
 ceers_cat = pd.read_csv(data_path+"cats/CEERS_DR05_adversarial_asinh_3filters_1122_4class_v02_stellar_params_morphflag.csv")
