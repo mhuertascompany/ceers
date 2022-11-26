@@ -124,7 +124,7 @@ def plot_stamps(wl,morph,ceers_cat,nir_f200_list,w):
                             plt.xticks([],[])
                             plt.yticks([],[])
 
-                            plt.text(5, 95, full, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)    
+                            plt.text(5, 60, full, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)    
                             plt.text(5, 5, '$\log M_*=$'+'%04.2f' % logm, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
                             plt.text(5, 15, '$z=$'+'%04.2f' % z, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
                             print("z="+str(z))
