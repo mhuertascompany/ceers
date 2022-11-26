@@ -23,11 +23,9 @@ from matplotlib.backends.backend_pdf import PdfPages
 import aplpy
 
 zbins = [0,1,3,6]
-
-
-
-
 mbins = [9,10,10.5,11.5]
+
+
 
 
 def plot_stamps(wl,morph,ceers_cat,nir_f200_list,w):
@@ -37,12 +35,14 @@ def plot_stamps(wl,morph,ceers_cat,nir_f200_list,w):
 
     with PdfPages(data_path+'figures/'+'morph_'+str(morph)+'_CEERS_DR05'+str(wl)+'.pdf') as pdf_ceers:
         for zlow,zup in zip(zbins[:-1],zbins[1:]):
-            sel = ceers_cat.query('morph_flag_f200=='+str(morph)+' and rb_z>'+str(zlow)+' and rb_z<'+str(zup))
+            #sel = ceers_cat.query('morph_flag_f200=='+str(morph)+' and rb_z>'+str(zlow)+' and rb_z<'+str(zup))
+            sel = ceers_cat.query('morph_flag_f200=='+str(morph)+' and delta>0.9')
             
             
             for mlow,mup in zip(mbins[:-1],mbins[1:]): 
                 try:
-                    mcut = sel.query("rb_synth_Mass_me_solar_exp>"+str(mlow)+"and rb_synth_Mass_me_solar_exp<"+str(mup)).sample(n=1)
+                    #mcut = sel.query("rb_synth_Mass_me_solar_exp>"+str(mlow)+"and rb_synth_Mass_me_solar_exp<"+str(mup)).sample(n=1)
+                    mcut = sel.sample(n=1)
                     print(mlow,mup)
                     print(zlow,zup)
                 except:
