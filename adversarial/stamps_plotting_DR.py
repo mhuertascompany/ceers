@@ -47,7 +47,7 @@ def plot_stamps(wl,morph,ceers_cat,nir_f200_list,w):
                     j+=1
                     #print("nothing")
                     continue
-                for idn,ra,dec,z,logm in zip(mcut.ID_1a,mcut.RA_1,mcut.DEC_1,mcut.z,mcut.mass):
+                for idn,ra,dec,z,logm in zip(mcut.id,mcut.RA,mcut.DEC,mcut.rb_z,mcut.rb_synth_Mass_me_solar_exp):
                     read=0
                     k=0
                     while read==0:
