@@ -397,13 +397,18 @@ for f in filters:
     feature_generator = get_network()
     label_predictor = LabelPredictor()
     domain_predictor = DomainPredictor()
+    label_predictor.save_weights(data_path+"initial_pred.weights")
+    feature_generator.save_weights(data_path+"initial_feature.weights")  
+    domain_predictor.save_weights(data_path+"initial_domain.weights")          
 
     
 
     for num in range(nruns):
 
         CANDELS_X,label_candels,CANDELS_X_t,label_candels_t,JWST_X,label_JWST = create_datasets(X,label,X_JWST)
-
+        label_predictor.load_weights(data_path+"initial_pred.weights")
+        feature_generator.load_weights(data_path+"initial_feature.weights")
+        domain_predictor.load_weights(data_path+"initial_domain.weights")
         
 
         all_train_domain_images = np.vstack((CANDELS_X, JWST_X))
