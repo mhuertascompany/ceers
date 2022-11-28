@@ -162,8 +162,8 @@ def read_JWST_data(filter,data_path):
 
 def create_datasets(X_C,label_C,X_JWST,sh=True):
 
-    train_s=len(X)*4//5
-    test_s=len(X)*1//5
+    train_s=len(X_C)*4//5
+    test_s=len(X_C)*1//5
     if sh==True:
         print("I am shuffling the training")
         X, label = shuffle(X_C, label_C, random_state=0)
