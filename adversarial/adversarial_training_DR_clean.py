@@ -167,6 +167,9 @@ def create_datasets(X_C,label_C,X_JWST,sh=False):
     if sh==True:
         print("I am shuffling the training")
         X, label = shuffle(X_C, label_C, random_state=0)
+    else:
+        X=X_C
+        label=label_C    
 
   
 
