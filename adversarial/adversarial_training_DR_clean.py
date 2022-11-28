@@ -372,48 +372,52 @@ data_path = "/scratch/mhuertas/CEERS/data_release/"
 
 for f in filters:
     X,label,X_JWST,fullvec,idvec,fieldvec,ravec,decvec = read_data(f,data_path)
+    all_train_domain_images = np.vstack((CANDELS_X, JWST_X))
+    channel_mean = all_train_domain_images.mean((0,1,2))
+
+    train_ds = tf.data.Dataset.from_tensor_slices((CANDELS_X, label_candels)).shuffle(10000).batch(32)
+    test_ds = tf.data.Dataset.from_tensor_slices((CANDELS_X_t, label_candels_t)).batch(32)
+
+
+
+    mnist_m_train_ds = tf.data.Dataset.from_tensor_slices((JWST_X,tf.cast(label_JWST, tf.int8))).batch(32)
+    mnist_m_test_ds = tf.data.Dataset.from_tensor_slices((JWST_X,tf.cast(label_JWST, tf.int8))).batch(32)
+
+
+        
+
+    x_train_domain_labels = np.ones([len(label_candels)])
+    mnist_m_train_domain_labels = np.zeros([len(label_JWST)])
+    all_train_domain_labels = np.hstack((x_train_domain_labels, mnist_m_train_domain_labels))
+    all_train_domain_labels = tf.one_hot(np.zeros(len(all_train_domain_labels)), 2).numpy()
+    domain_train_ds = tf.data.Dataset.from_tensor_slices((all_train_domain_images, tf.cast(all_train_domain_labels, tf.int8))).shuffle(60000).batch(32)
+
+    loss_object = tf.keras.losses.CategoricalCrossentropy()
+    d_optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
+    f_optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
+
+    train_loss = tf.keras.metrics.Mean(name='train_loss')
+    train_accuracy = tf.keras.metrics.CategoricalAccuracy(name='train_accuracy')
+
+    test_loss = tf.keras.metrics.Mean(name='test_loss')
+    test_accuracy = tf.keras.metrics.CategoricalAccuracy(name='test_accuracy')
+
+    m_test_loss = tf.keras.metrics.Mean(name='m_test_loss')
+    m_test_accuracy = tf.keras.metrics.CategoricalAccuracy(name='m_test_accuracy')
+
+    conf_train_loss = tf.keras.metrics.Mean(name='c_train_loss')
+    conf_train_accuracy = tf.keras.metrics.CategoricalAccuracy(name='c_train_accuracy')
 
     for num in range(nruns):
-
+        
         CANDELS_X,label_candels,CANDELS_X_t,label_candels_t,JWST_X,label_JWST = create_datasets(X,label,X_JWST)
-
-        all_train_domain_images = np.vstack((CANDELS_X, JWST_X))
-        channel_mean = all_train_domain_images.mean((0,1,2))
-
-        train_ds = tf.data.Dataset.from_tensor_slices((CANDELS_X, label_candels)).shuffle(10000).batch(32)
-        test_ds = tf.data.Dataset.from_tensor_slices((CANDELS_X_t, label_candels_t)).batch(32)
-
-
-
-        mnist_m_train_ds = tf.data.Dataset.from_tensor_slices((JWST_X,tf.cast(label_JWST, tf.int8))).batch(32)
-        mnist_m_test_ds = tf.data.Dataset.from_tensor_slices((JWST_X,tf.cast(label_JWST, tf.int8))).batch(32)
-
-
         feature_generator = get_network()
         label_predictor = LabelPredictor()
         domain_predictor = DomainPredictor()
 
-        x_train_domain_labels = np.ones([len(label_candels)])
-        mnist_m_train_domain_labels = np.zeros([len(label_JWST)])
-        all_train_domain_labels = np.hstack((x_train_domain_labels, mnist_m_train_domain_labels))
-        all_train_domain_labels = tf.one_hot(np.zeros(len(all_train_domain_labels)), 2).numpy()
-        domain_train_ds = tf.data.Dataset.from_tensor_slices((all_train_domain_images, tf.cast(all_train_domain_labels, tf.int8))).shuffle(60000).batch(32)
+        
 
-        loss_object = tf.keras.losses.CategoricalCrossentropy()
-        d_optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
-        f_optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
-
-        train_loss = tf.keras.metrics.Mean(name='train_loss')
-        train_accuracy = tf.keras.metrics.CategoricalAccuracy(name='train_accuracy')
-
-        test_loss = tf.keras.metrics.Mean(name='test_loss')
-        test_accuracy = tf.keras.metrics.CategoricalAccuracy(name='test_accuracy')
-
-        m_test_loss = tf.keras.metrics.Mean(name='m_test_loss')
-        m_test_accuracy = tf.keras.metrics.CategoricalAccuracy(name='m_test_accuracy')
-
-        conf_train_loss = tf.keras.metrics.Mean(name='c_train_loss')
-        conf_train_accuracy = tf.keras.metrics.CategoricalAccuracy(name='c_train_accuracy')
+        
 
 
 
