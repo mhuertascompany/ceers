@@ -440,8 +440,8 @@ for f in filters:
                                 m_test_accuracy.result()*100,))
 
 
-        label_predictor.save_weights(data_path+"models/adversarial_asinh_resnet_"+filter+"vDR05_1122_shuffle_"+str(num)+".weights")
-        feature_generator.save_weights(data_path+"models/adversarial_asinh_resnet_"+filter+"vDR05_1122_shuffle_"+str(num)+".weights")           
+        label_predictor.save_weights(data_path+"models/adversarial_asinh_resnet_"+f+"vDR05_1122_shuffle_"+str(num)+".weights")
+        feature_generator.save_weights(data_path+"models/adversarial_asinh_resnet_"+f+"vDR05_1122_shuffle_"+str(num)+".weights")           
         chunk=1000
 
         sph=[]
@@ -471,5 +471,5 @@ for f in filters:
             df['bd_'+str(num)+'_'+f]=np.concatenate(bd).ravel()  
     today = date.today()
     d4 = today.strftime("%b-%d-%Y")        
-    df.to_csv(data_path+"cats/CEERS_DR05_adversarial_asinh_"+filter+"_"+d4+"_4class_shuffle_"+str(nruns)+"_"+str(EPOCHS)+".csv")
+    df.to_csv(data_path+"cats/CEERS_DR05_adversarial_asinh_"+f+"_"+d4+"_4class_shuffle_"+str(nruns)+"_"+str(EPOCHS)+".csv")
 
