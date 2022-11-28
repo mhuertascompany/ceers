@@ -160,7 +160,7 @@ def read_JWST_data(filter,data_path):
 
 
 
-def create_datasets(X_C,label_C,X_JWST,sh=True):
+def create_datasets(X_C,label_C,X_JWST,sh=False):
 
     train_s=len(X_C)*4//5
     test_s=len(X_C)*1//5
