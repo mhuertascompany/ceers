@@ -38,20 +38,10 @@ os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
 
 
-def read_data(filter,data_path):
+def read_CANDELS_data(data_path):
     
     candels_cat = pd.read_csv(data_path+"cats/CANDELS_morphology.csv")
-    cat_ceers =   pd.read_hdf(data_path+"cats/ceers_v0.2_photoz_stellar_params_nov17.hdf5",key='data')
-
-    ceers_pointings = ["1","2","3","6"]
-    nir_f200_list=[]
-    w=[]
-    cats = []
-    for c in ceers_pointings:
-        nir_f200 = fits.open(data_path+"images/hlsp_ceers_jwst_nircam_nircam"+c+"_"+filter+"_dr0.5_i2d.fits.gz")
-        nir_f200_list.append(nir_f200)
-        w.append(WCS(nir_f200[1].header))
-        cats.append(cat_ceers.query("FIELD=="+c))
+    
 
 
     wfc3_f160_list=[]
@@ -113,7 +103,20 @@ def read_data(filter,data_path):
                     continue
 
 
+    return X,label                     
 
+def read_JWST_data(filter,data_path):
+    cat_ceers =   pd.read_hdf(data_path+"cats/ceers_v0.2_photoz_stellar_params_nov17.hdf5",key='data')
+
+    ceers_pointings = ["1","2","3","6"]
+    nir_f200_list=[]
+    w=[]
+    cats = []
+    for c in ceers_pointings:
+        nir_f200 = fits.open(data_path+"images/hlsp_ceers_jwst_nircam_nircam"+c+"_"+filter+"_dr0.5_i2d.fits.gz")
+        nir_f200_list.append(nir_f200)
+        w.append(WCS(nir_f200[1].header))
+        cats.append(cat_ceers.query("FIELD=="+c))
 
     X_JWST=[]
     idvec=[]
@@ -153,7 +156,7 @@ def read_data(filter,data_path):
                 except:
                     continue
 
-    return X,label,X_JWST,fullvec,idvec,fieldvec,ravec,decvec                   
+    return X_JWST,fullvec,idvec,fieldvec,ravec,decvec                   
 
 
 
@@ -369,28 +372,11 @@ nruns = 2
 filters=['f200w','f356w','f444w']
 data_path = "/scratch/mhuertas/CEERS/data_release/"
 
-
+X,label = read_CANDELS_data(data_path)
 for f in filters:
-    X,label,X_JWST,fullvec,idvec,fieldvec,ravec,decvec = read_data(f,data_path)
-    all_train_domain_images = np.vstack((CANDELS_X, JWST_X))
-    channel_mean = all_train_domain_images.mean((0,1,2))
-
-    train_ds = tf.data.Dataset.from_tensor_slices((CANDELS_X, label_candels)).shuffle(10000).batch(32)
-    test_ds = tf.data.Dataset.from_tensor_slices((CANDELS_X_t, label_candels_t)).batch(32)
-
-
-
-    mnist_m_train_ds = tf.data.Dataset.from_tensor_slices((JWST_X,tf.cast(label_JWST, tf.int8))).batch(32)
-    mnist_m_test_ds = tf.data.Dataset.from_tensor_slices((JWST_X,tf.cast(label_JWST, tf.int8))).batch(32)
-
-
-        
-
-    x_train_domain_labels = np.ones([len(label_candels)])
-    mnist_m_train_domain_labels = np.zeros([len(label_JWST)])
-    all_train_domain_labels = np.hstack((x_train_domain_labels, mnist_m_train_domain_labels))
-    all_train_domain_labels = tf.one_hot(np.zeros(len(all_train_domain_labels)), 2).numpy()
-    domain_train_ds = tf.data.Dataset.from_tensor_slices((all_train_domain_images, tf.cast(all_train_domain_labels, tf.int8))).shuffle(60000).batch(32)
+    
+    X_JWST,fullvec,idvec,fieldvec,ravec,decvec = read_JWST_data(f,data_path)
+    
 
     loss_object = tf.keras.losses.CategoricalCrossentropy()
     d_optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
@@ -409,12 +395,32 @@ for f in filters:
     conf_train_accuracy = tf.keras.metrics.CategoricalAccuracy(name='c_train_accuracy')
 
     for num in range(nruns):
-        
+
         CANDELS_X,label_candels,CANDELS_X_t,label_candels_t,JWST_X,label_JWST = create_datasets(X,label,X_JWST)
+
         feature_generator = get_network()
         label_predictor = LabelPredictor()
         domain_predictor = DomainPredictor()
 
+        all_train_domain_images = np.vstack((CANDELS_X, JWST_X))
+        channel_mean = all_train_domain_images.mean((0,1,2))
+
+        train_ds = tf.data.Dataset.from_tensor_slices((CANDELS_X, label_candels)).shuffle(10000).batch(32)
+        test_ds = tf.data.Dataset.from_tensor_slices((CANDELS_X_t, label_candels_t)).batch(32)
+
+
+
+        mnist_m_train_ds = tf.data.Dataset.from_tensor_slices((JWST_X,tf.cast(label_JWST, tf.int8))).batch(32)
+        mnist_m_test_ds = tf.data.Dataset.from_tensor_slices((JWST_X,tf.cast(label_JWST, tf.int8))).batch(32)
+
+
+        
+
+        x_train_domain_labels = np.ones([len(label_candels)])
+        mnist_m_train_domain_labels = np.zeros([len(label_JWST)])
+        all_train_domain_labels = np.hstack((x_train_domain_labels, mnist_m_train_domain_labels))
+        all_train_domain_labels = tf.one_hot(np.zeros(len(all_train_domain_labels)), 2).numpy()
+        domain_train_ds = tf.data.Dataset.from_tensor_slices((all_train_domain_images, tf.cast(all_train_domain_labels, tf.int8))).shuffle(60000).batch(32)
         
 
         
