@@ -394,7 +394,9 @@ X,label = read_CANDELS_data(data_path)
 for f in filters:
     
     X_JWST,fullvec,idvec,fieldvec,ravec,decvec = read_JWST_data(f,data_path)
-    
+    feature_generator = get_network()
+    label_predictor = LabelPredictor()
+    domain_predictor = DomainPredictor()
 
     
 
@@ -402,9 +404,7 @@ for f in filters:
 
         CANDELS_X,label_candels,CANDELS_X_t,label_candels_t,JWST_X,label_JWST = create_datasets(X,label,X_JWST)
 
-        feature_generator = get_network()
-        label_predictor = LabelPredictor()
-        domain_predictor = DomainPredictor()
+        
 
         all_train_domain_images = np.vstack((CANDELS_X, JWST_X))
         channel_mean = all_train_domain_images.mean((0,1,2))
