@@ -160,13 +160,13 @@ def read_JWST_data(filter,data_path):
 
 
 
-def create_datasets(X,label,X_JWST,sh=True):
+def create_datasets(X_C,label_C,X_JWST,sh=True):
 
     train_s=len(X)*4//5
     test_s=len(X)*1//5
     if sh==True:
         print("I am shuffling the training")
-        X, label = shuffle(X, label, random_state=0)
+        X, label = shuffle(X_C, label_C, random_state=0)
 
   
 
@@ -365,9 +365,9 @@ def reset_metrics():
 
 
 
-EPOCHS = 50
+EPOCHS = 1
 alpha = 1
-nruns = 10
+nruns = 2
 
 filters=['f200w','f356w','f444w']
 data_path = "/scratch/mhuertas/CEERS/data_release/"
