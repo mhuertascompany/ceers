@@ -371,6 +371,21 @@ nruns = 2
 
 filters=['f200w','f356w','f444w']
 data_path = "/scratch/mhuertas/CEERS/data_release/"
+loss_object = tf.keras.losses.CategoricalCrossentropy()
+d_optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
+f_optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
+
+train_loss = tf.keras.metrics.Mean(name='train_loss')
+train_accuracy = tf.keras.metrics.CategoricalAccuracy(name='train_accuracy')
+
+test_loss = tf.keras.metrics.Mean(name='test_loss')
+test_accuracy = tf.keras.metrics.CategoricalAccuracy(name='test_accuracy')
+
+m_test_loss = tf.keras.metrics.Mean(name='m_test_loss')
+m_test_accuracy = tf.keras.metrics.CategoricalAccuracy(name='m_test_accuracy')
+
+conf_train_loss = tf.keras.metrics.Mean(name='c_train_loss')
+conf_train_accuracy = tf.keras.metrics.CategoricalAccuracy(name='c_train_accuracy')
 
 X,label = read_CANDELS_data(data_path)
 for f in filters:
@@ -378,21 +393,7 @@ for f in filters:
     X_JWST,fullvec,idvec,fieldvec,ravec,decvec = read_JWST_data(f,data_path)
     
 
-    loss_object = tf.keras.losses.CategoricalCrossentropy()
-    d_optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
-    f_optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
-
-    train_loss = tf.keras.metrics.Mean(name='train_loss')
-    train_accuracy = tf.keras.metrics.CategoricalAccuracy(name='train_accuracy')
-
-    test_loss = tf.keras.metrics.Mean(name='test_loss')
-    test_accuracy = tf.keras.metrics.CategoricalAccuracy(name='test_accuracy')
-
-    m_test_loss = tf.keras.metrics.Mean(name='m_test_loss')
-    m_test_accuracy = tf.keras.metrics.CategoricalAccuracy(name='m_test_accuracy')
-
-    conf_train_loss = tf.keras.metrics.Mean(name='c_train_loss')
-    conf_train_accuracy = tf.keras.metrics.CategoricalAccuracy(name='c_train_accuracy')
+    
 
     for num in range(nruns):
 
