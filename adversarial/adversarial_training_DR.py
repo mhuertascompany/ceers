@@ -18,6 +18,13 @@ from tensorflow.keras import layers
 from tensorflow.keras import regularizers
 from official.vision.image_classification.augment import RandAugment
 
+from sklearn.utils import shuffle
+import pdb
+from astropy.visualization import MinMaxInterval
+interval = MinMaxInterval()
+from astropy.visualization import AsinhStretch,LogStretch
+
+
 import os
 
 import matplotlib.pyplot as plt
@@ -29,14 +36,15 @@ os.environ["CUDA_VISIBLE_DEVICES"]="0"
 ## read data
 
 filter = "f444w"
+shuffle=True
+
 
 
 data_path = "/scratch/mhuertas/CEERS/data_release/"
 candels_cat = pd.read_csv(data_path+"cats/CANDELS_morphology.csv")
 
 
-cat_ceers =   pd.read_hdf(data_path+"cats/ceers_v0.2_photoz_stellar_params_nov17.hdf5",key='data'
-)
+cat_ceers =   pd.read_hdf(data_path+"cats/ceers_v0.2_photoz_stellar_params_nov17.hdf5",key='data')
 
 ceers_pointings = ["1","2","3","6"]
 nir_f200_list=[]
@@ -59,10 +67,7 @@ for c in candels_images:
     wf160[-1].sip = None
 
 
-import pdb
-from astropy.visualization import MinMaxInterval
-interval = MinMaxInterval()
-from astropy.visualization import AsinhStretch,LogStretch
+
 fields = ["egs","GDS","COSMOS","UDS"]
 X=[]
 label=[]
@@ -111,7 +116,8 @@ for wfc3_f160,w_c,f in zip(wfc3_f160_list,wf160,fields):
                 continue
 
 
-
+if shuffle==True:
+    X, label = shuffle(X, label, random_state=0)
 
 X_JWST=[]
 idvec=[]
@@ -160,6 +166,8 @@ test_s=len(X)*1//5
 
 print(train_s)
 print(test_s)
+
+
 
 CANDELS_X = tf.convert_to_tensor(X[0:train_s], dtype=tf.float32)
 CANDELS_X = tf.expand_dims(CANDELS_X, -1)
@@ -415,8 +423,8 @@ for epoch in range(EPOCHS):
                          m_test_accuracy.result()*100,))
 
 
-label_predictor.save_weights(data_path+"models/adversarial_asinh_resnet_"+filter+"vDR05_1122.weights")
-feature_generator.save_weights(data_path+"models/adversarial_asinh_resnet_"+filter+"vDR05_1122.weights")
+label_predictor.save_weights(data_path+"models/adversarial_asinh_resnet_"+filter+"vDR05_1122_shuffle.weights")
+feature_generator.save_weights(data_path+"models/adversarial_asinh_resnet_"+filter+"vDR05_1122_shuffle.weights")
 
 
 chunk=1000
@@ -443,6 +451,6 @@ while(n<len(JWST_X)):
 
 
 df = pd.DataFrame(list(zip(fullvec,idvec,fieldvec,ravec,decvec,np.concatenate(sph).ravel(),np.concatenate(dk).ravel(),np.concatenate(irr).ravel(),np.concatenate(bd).ravel())),columns =['fullname','id','FIELD', 'ra','dec','sph','disk','irr','bd'])
-df.to_csv(data_path+"cats/CEERS_DR05_adversarial_asinh_"+filter+"_1122_4class.csv")
+df.to_csv(data_path+"cats/CEERS_DR05_adversarial_asinh_"+filter+"_1122_4class_shuffle.csv")
 
 
