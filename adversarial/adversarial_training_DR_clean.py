@@ -372,7 +372,7 @@ EPOCHS = 50
 alpha = 1
 nruns = 10
 
-filters=['f200w','f356w','f444w']
+filters=['f356w','f444w']
 data_path = "/scratch/mhuertas/CEERS/data_release/"
 loss_object = tf.keras.losses.CategoricalCrossentropy()
 d_optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
@@ -389,17 +389,18 @@ m_test_accuracy = tf.keras.metrics.CategoricalAccuracy(name='m_test_accuracy')
 
 conf_train_loss = tf.keras.metrics.Mean(name='c_train_loss')
 conf_train_accuracy = tf.keras.metrics.CategoricalAccuracy(name='c_train_accuracy')
+feature_generator = get_network()
+label_predictor = LabelPredictor()
+domain_predictor = DomainPredictor()
+label_predictor.save_weights(data_path+"initial_pred.weights")
+feature_generator.save_weights(data_path+"initial_feature.weights")  
+domain_predictor.save_weights(data_path+"initial_domain.weights") 
 
 X,label = read_CANDELS_data(data_path)
 for f in filters:
     
     X_JWST,fullvec,idvec,fieldvec,ravec,decvec = read_JWST_data(f,data_path)
-    feature_generator = get_network()
-    label_predictor = LabelPredictor()
-    domain_predictor = DomainPredictor()
-    label_predictor.save_weights(data_path+"initial_pred.weights")
-    feature_generator.save_weights(data_path+"initial_feature.weights")  
-    domain_predictor.save_weights(data_path+"initial_domain.weights")          
+             
 
     
 
