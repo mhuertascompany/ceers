@@ -368,9 +368,9 @@ def reset_metrics():
 
 
 
-EPOCHS = 1
+EPOCHS = 50
 alpha = 1
-nruns = 2
+nruns = 10
 
 filters=['f200w','f356w','f444w']
 data_path = "/scratch/mhuertas/CEERS/data_release/"
