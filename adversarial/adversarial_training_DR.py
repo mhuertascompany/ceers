@@ -190,6 +190,11 @@ label_JWST = tf.one_hot(np.zeros(len(JWST_X)), 4).numpy()
 
 
 
+
+
+
+
+
 all_train_domain_images = np.vstack((CANDELS_X, JWST_X))
 channel_mean = all_train_domain_images.mean((0,1,2))
 
