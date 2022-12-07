@@ -8,12 +8,13 @@ import pdb
 import matplotlib.pyplot as plt
 import h5py    
 import pandas as pd
+from astropy.cosmology import Planck13 as cosmo
+from astropy import units as u
 
 data_path = "/scratch/mhuertas/CEERS/data_release/"
-ceers_cat = pd.read_csv(data_path+"cats/specz_PG_matched_SFR_mstar_z_RADEC_morphADV_200_356_400_4class.csv")
-candels_ceers = pd.read_csv(data_path+"cats/CANDELS_CEERS_match_morphflag.csv")
 
-
+ceers_cat = pd.read_csv(data_path+"cats/CEERS_DR05_adversarial_asinh_3filters_1122_4class_ensemble_v02_stellar_params_morphflag_delta.csv")
+candels_ceers = pd.read_csv(data_path+"cats/CANDELS_CEERS_match_DR05_ensemble_morphflag.csv")
 
 wl = 'f200w'
 
@@ -55,19 +56,19 @@ k=0
 
 with PdfPages(data_path+'figures/sph_CEERS_f200w.pdf') as pdf_ceers,PdfPages(data_path+'figures/sph_CANDELS_f160w.pdf') as pdf_candels:
     for zlow,zup in zip(zbins[:-1],zbins[1:]):
-        sel = candels_ceers.query('(morph_flag_f200==1 or morph_flag_f200==2) and (morph_CANDELS==0 or morph_CANDELS==3) and z>'+str(zlow)+' and z<'+str(zup))
+        sel = candels_ceers.query('(morph_flag_f200w==1 or morph_flag_f200w==2) and (morph_CANDELS==0 or morph_CANDELS==3) and rb_z>'+str(zlow)+' and rb_z<'+str(zup))
         
         
         for mlow,mup in zip(mbins[:-1],mbins[1:]): 
             try:
-                mcut = sel.query("mass>"+str(mlow)+"and mass<"+str(mup)).sample(n=1)
+                mcut = sel.query("rb_synth_Mass_me_solar_exp>"+str(mlow)+"and rb_synth_Mass_me_solar_exp<"+str(mup)).sample(n=1)
                 print(mlow,mup)
                 print(zlow,zup)
             except:
                 j+=1
                 #print("nothing")
                 continue
-            for idn,ra,dec,z,logm in zip(mcut.ID_1a,mcut.RA_1,mcut.DEC_1,mcut.z,mcut.mass):
+            for idn,full,ra,dec,z,logm in zip(mcut.id,mcut.fullname,mcut.RA,mcut.DEC,mcut.rb_z,mcut.rb_synth_Mass_me_solar_exp):
                 read=0
                 k=0
                 while read==0:
@@ -116,14 +117,34 @@ with PdfPages(data_path+'figures/sph_CEERS_f200w.pdf') as pdf_ceers,PdfPages(dat
                         plt.figure(1)
                         bounds = [0.02+0.3*np.mod((j-1),3),0.6+0.02-0.3*((j-1)//3),0.28,0.28]
                         gc = aplpy.FITSFigure('tmp_ceers.fits',figure=fig_ceers, subplot=bounds)
-                        gc.show_grayscale(stretch='sqrt',invert=True)
+                        kpc_per_arcsec=cosmo.kpc_proper_per_arcmin(z)/60.
+                            
+                           
+                        gc.axis_labels.hide()
+
                         gc.tick_labels.hide()
+                        gc.add_scalebar(0.1 * u.arcsec)
+                            
+                            
+                        gc.scalebar.set_corner('bottom right')
+                        scale = kpc_per_arcsec.value*0.1
+                        gc.scalebar.set_label('%04.2f kpc' % scale)
+                        #gc.scalebar.set_label('1 kpc')
+                        gc.scalebar.set_color('black')
+                        gc.scalebar.set_linestyle('solid')
+                        gc.scalebar.set_linewidth(3)
+                        gc.scalebar.set_font(size=30, weight='medium', \
+                      stretch='normal', family='sans-serif', \
+                      style='normal', variant='normal')
+                        gc.show_grayscale(stretch='sqrt',invert=True)
+
                         ax_ceers.set_yticklabels([])
                         ax_ceers.set_xticklabels([])
 
                         plt.xticks([],[])
                         plt.yticks([],[])
 
+                        plt.text(5, 55, full, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)    
                         plt.text(5, 5, '$\log M_*=$'+'%04.2f' % logm, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
                         plt.text(5, 15, '$z=$'+'%04.2f' % z, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
                         print("z="+str(z))
@@ -131,14 +152,34 @@ with PdfPages(data_path+'figures/sph_CEERS_f200w.pdf') as pdf_ceers,PdfPages(dat
                         plt.figure(2)
                         #bounds = [0.02+0.16*np.mod((j-1),5),0.75+0.02-0.16*((j-1)//5),0.14,0.14]
                         gc = aplpy.FITSFigure('tmp_candels.fits',figure=fig_candels, subplot=bounds)
-                        gc.show_grayscale(stretch='sqrt',invert=True)
+                        kpc_per_arcsec=cosmo.kpc_proper_per_arcmin(z)/60.
+                            
+                           
+                        gc.axis_labels.hide()
+
                         gc.tick_labels.hide()
-                        ax_candels.set_yticklabels([])
-                        ax_candels.set_xticklabels([])
+                        gc.add_scalebar(0.1 * u.arcsec)
+                            
+                            
+                        gc.scalebar.set_corner('bottom right')
+                        scale = kpc_per_arcsec.value*0.1
+                        gc.scalebar.set_label('%04.2f kpc' % scale)
+                        #gc.scalebar.set_label('1 kpc')
+                        gc.scalebar.set_color('black')
+                        gc.scalebar.set_linestyle('solid')
+                        gc.scalebar.set_linewidth(3)
+                        gc.scalebar.set_font(size=30, weight='medium', \
+                      stretch='normal', family='sans-serif', \
+                      style='normal', variant='normal')
+                        gc.show_grayscale(stretch='sqrt',invert=True)
+
+                        ax_ceers.set_yticklabels([])
+                        ax_ceers.set_xticklabels([])
 
                         plt.xticks([],[])
                         plt.yticks([],[])
 
+                        plt.text(5, 55, full, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)    
                         plt.text(5, 5, '$\log M_*=$'+'%04.2f' % logm, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
                         plt.text(5, 15, '$z=$'+'%04.2f' % z, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
                         print("z="+str(z))
