@@ -87,6 +87,7 @@ with PdfPages(data_path+'figures/sph_CEERS_f200w.pdf') as pdf_ceers,PdfPages(dat
                         if np.max(stamp.data)<=0 or np.count_nonzero(stamp.data==0)>10:
                             continue
                         hdu = fits.PrimaryHDU(stamp.data)
+                        hdu.header.update(stamp.wcs.to_header())
                         hdu.writeto('tmp_ceers.fits', overwrite=True) 
                         print("read!")
                         print(j)
@@ -112,6 +113,7 @@ with PdfPages(data_path+'figures/sph_CEERS_f200w.pdf') as pdf_ceers,PdfPages(dat
                         nir_f160=wfc3_f160_list[k-1]
                         stamp_candels =Cutout2D(nir_f160[1].data,position,64,wcs = wf160[k-1])
                         hdu = fits.PrimaryHDU(stamp_candels.data)
+                        hdu.header.update(stamp.wcs.to_header())
                         hdu.writeto('tmp_candels.fits', overwrite=True) 
                         
                         plt.figure(1)
