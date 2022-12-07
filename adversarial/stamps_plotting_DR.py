@@ -12,7 +12,7 @@ from astropy import units as u
 from astropy.cosmology import Planck13 as cosmo
 
 data_path = "/scratch/mhuertas/CEERS/data_release/"
-ceers_cat = pd.read_csv(data_path+"cats/CEERS_DR05_adversarial_asinh_3filters_1122_4class_v02_stellar_params_morphflag_delta.csv")
+ceers_cat = pd.read_csv(data_path+"cats/CEERS_DR05_adversarial_asinh_3filters_1122_4class_ensemble_v02_stellar_params_morphflag_delta.csv")
 candels_ceers = pd.read_csv(data_path+"cats/CANDELS_CEERS_match_morphflag_DR05.csv")
 
 
