@@ -135,7 +135,7 @@ def read_JWST_data(filter,data_path):
         #print(cat)  
         for idn, field, ra,dec in zip(sel.CATID, sel.FIELD, sel.RA,sel.DEC):
                 try:
-                    full = 'nircam_'+str(field)+'_'+str(idn)_
+                    full = 'nircam_'+str(field)+'_'+str(idn)
                     position = SkyCoord(ra,dec,unit="deg")
                     #print(ra,dec)
                     stamp = Cutout2D(nir_f200['SCI'].data,position,32,wcs=w_v)
