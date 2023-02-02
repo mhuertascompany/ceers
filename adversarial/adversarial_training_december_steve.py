@@ -109,7 +109,7 @@ def read_JWST_data(filter,data_path):
     cat_ceers =   pd.read_csv(data_path+"CEERS_v0.51_photom.csv")
     cat_ceers["F200_AB"] = 2.5*(23-np.log10(cat_ceers.FLUX_200*1e-9))-48.6
 
-    ceers_pointings = np.range(10) #["1","2","3","4","5","6","7","8","9","10"]
+    ceers_pointings = np.arange(1,11) #["1","2","3","4","5","6","7","8","9","10"]
     nir_f200_list=[]
     w=[]
     cats = []
