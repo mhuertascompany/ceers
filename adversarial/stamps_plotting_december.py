@@ -40,12 +40,12 @@ def plot_stamps(wl,morph,ceers_cat,nir_f200_list,w):
             
             
             for mlow,mup in zip(mbins[:-1],mbins[1:]): 
-                try:
+                if True:
                     mcut = sel.query("logM_50>"+str(mlow)+"and logM_50"+str(mup)).sample(n=1)
                     #mcut = sel.sample(n=1)
                     print(mlow,mup)
                     print(zlow,zup)
-                except:
+                else:
                     j+=1
                     #print("nothing")
                     continue
