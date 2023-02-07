@@ -47,13 +47,13 @@ def plot_stamps(wl,morph,ceers_cat,nir_f200_list,w):
                     print(zlow,zup)
                 except:
                     j+=1
-                    #print("nothing")
+                    print("nothing")
                     continue
                 for idn,full,ra,dec,z,logm in zip(mcut.ID_1,mcut.fullname,mcut.RA,mcut.DEC,mcut.zfit_50,mcut.logM_50):
                     read=0
                     k=0
                     while read==0:
-                        if k>=4:
+                        if k>=10:
                             read=-1
                             continue
                         nir_f200=nir_f200_list[k]
