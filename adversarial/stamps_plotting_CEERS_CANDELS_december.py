@@ -56,7 +56,7 @@ k=0
 
 with PdfPages(data_path+'figures/sph_CEERS_f200w.pdf') as pdf_ceers,PdfPages(data_path+'figures/sph_CANDELS_f160w.pdf') as pdf_candels:
     for zlow,zup in zip(zbins[:-1],zbins[1:]):
-        sel = candels_ceers.query('(morph_flag_f200w==1 or morph_flag_f200w==2) and (morph_CANDELS==0 or morph_CANDELS==3) and rb_z>'+str(zlow)+' and rb_z<'+str(zup))
+        sel = candels_ceers.query('(morph_flag_f200w==1 or morph_flag_f200w==2) and (morph_CANDELS==0 or morph_CANDELS==3) and zfit_50>'+str(zlow)+' and zfit_50<'+str(zup))
         
         
         for mlow,mup in zip(mbins[:-1],mbins[1:]): 
