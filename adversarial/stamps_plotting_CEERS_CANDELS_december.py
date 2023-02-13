@@ -60,13 +60,13 @@ with PdfPages(data_path+'figures/sph_CEERS_f200w.pdf') as pdf_ceers,PdfPages(dat
         
         
         for mlow,mup in zip(mbins[:-1],mbins[1:]): 
-            try:
+            if True:
                 mcut = sel.query("logM_50>"+str(9)+"and logM_50<"+str(11)).sample(n=1)
                 print(mlow,mup)
                 print(zlow,zup)
-            except:
+            else:
                 j+=1
-                #print("nothing")
+                print("nothing")
                 continue
             
             for idn,full,ra,dec,z,logm in zip(mcut.ID_1,mcut.fullname,mcut.RA_1,mcut.DEC_1,mcut.zfit_50,mcut.logM_50):
