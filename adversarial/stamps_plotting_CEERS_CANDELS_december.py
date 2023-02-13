@@ -46,22 +46,22 @@ import aplpy
 
 zbins = [0,1,3,6]
 
+mbins = [9,10,10.5,11.5]
 
 
-
-mbins = [9,11.5]
+#mbins = [9,11.5]
 
 j=1
 k=0
 
 with PdfPages(data_path+'figures/sph_CEERS_f200w.pdf') as pdf_ceers,PdfPages(data_path+'figures/sph_CANDELS_f160w.pdf') as pdf_candels:
     for zlow,zup in zip(zbins[:-1],zbins[1:]):
-        sel = candels_ceers.query('(morph_flag_f200w==1 or morph_flag_f200w==2) and (morph_CANDELS==0 or morph_CANDELS==3) and zfit_50>'+str(zlow)+' and zfit_50<'+str(zup))
+        sel = candels_ceers.query('(morph_flag_f200w==1 or morph_flag_f200w==2) and (morph_CANDELS==0 or morph_CANDELS==3) and zfit_50>'+str(0)+' and zfit_50<'+str(6))
         
         
         for mlow,mup in zip(mbins[:-1],mbins[1:]): 
             try:
-                mcut = sel.query("logM_50>"+str(mlow)+"and logM_50<"+str(mup)).sample(n=1)
+                mcut = sel.query("logM_50>"+str(9)+"and logM_50<"+str(11)).sample(n=1)
                 print(mlow,mup)
                 print(zlow,zup)
             except:
