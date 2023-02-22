@@ -33,7 +33,7 @@ def plot_stamps(wl,morph,ceers_cat,nir_f200_list,w):
     j=1
     k=0
 
-    with PdfPages(data_path+'figures/'+'morph_'+str(morph)+'_CEERS_DR05_december_lowmass_f200_f444.pdf') as pdf_ceers:
+    with PdfPages(data_path+'figures/'+'morph_'+str(morph)+'_CEERS_DR05_december_lowmass_f200_f444_444imaging.pdf') as pdf_ceers:
         for zlow,zup in zip(zbins[:-1],zbins[1:]):
             sel = ceers_cat.query(' (morph_flag_f200w==0 or morph_flag_f200w==3) and (morph_flag_f444w==1 or morph_flag_f444w==2) and zfit_50>'+str(0)+' and zfit_50<'+str(2))
             #sel = ceers_cat.query('morph_flag_f200=='+str(morph)+' and delta>0.9')
@@ -148,7 +148,7 @@ def plot_stamps(wl,morph,ceers_cat,nir_f200_list,w):
         print("final saving")
 
 
-wl_vec = ['f200w']
+wl_vec = ['f444w']
 morph_vec=[0]
 
 for wl in wl_vec:
