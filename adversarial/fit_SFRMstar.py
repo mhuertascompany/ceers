@@ -62,13 +62,14 @@ ceers_cat['timescale']=(10**ceers_cat.logSFRinst_50/10**ceers_cat.logM_50)/(cosm
 
 # forward model
 def forwardmodel(logmstar,logmstar_16,logmstar_84,alpha,beta,logSFR_16,logSFR_84): 
+
   #
   return ((alpha*(np.random.normal(size=len(logmstar))*(logmstar_84-logmstar_16)+logmstar-10.5)+beta))+np.random.normal(size=len(logmstar))*(logSFR_84-logSFR_16)
 
 
 
 def create_sims(ceers_cat,nsims,zbin,timescale):
-    sel = ceers_cat.query("zfit_50>"+str(zbin[0])+"and zfit_50<"+str(zbin[1])+" and timescale>"+str(timescale)+" and logSFR100_50<3 and logSFR100_50>-2 and logM_50>9 and logM_50<11 and logM_16.notna() and logM_84.notna() and logSFR100_16.notna() and logSFR100_84.notna()")
+    sel = ceers_cat.query("zfit_50>"+str(zbin[0])+"and zfit_50<"+str(zbin[1])+" and logM_50>9 and logM_50<10.3 and logM_16.notna() and logM_84.notna() and logSFR100_16.notna() and logSFR100_84.notna()")
     mass=sel['logM_50']
     mass_16 = sel['logM_16']
     mass_84 = sel['logM_84']
@@ -223,7 +224,7 @@ for zlow,zup in zip(zbins[:-1],zbins[1:]):
 
   # Optuna Parameters
   n_trials    = 1
-  study_name  = 'SFMS.powerlaw.'+str(zlow)+'.'+str(zup)
+  study_name  = 'SFMS.powerlaw.noclip.'+str(zlow)+'.'+str(zup)
   n_jobs     = 1
 
   if not os.path.isdir(os.path.join(output_dir, study_name)): 
