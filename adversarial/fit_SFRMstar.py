@@ -66,7 +66,7 @@ def forwardmodel(logmstar,logmstar_16,logmstar_84,alpha,beta,sigma,logSFR_16,log
 
 
 def create_sims(ceers_cat,nsims,zbin,timescale):
-    sel = ceers_cat.query("zfit_50>"+str(zbin[0])+"and zfit_50<"+str(zbin[1])+" and timescale"+str(timescale)+" and logSFR100_50<3 and logSFR100_50>-2 and logM_50>9 and logM_50<11 and logM_16.notna() and logM_84.notna() and logSFR100_16.notna() and logSFR100_84.notna()")
+    sel = ceers_cat.query("zfit_50>"+str(zbin[0])+"and zfit_50<"+str(zbin[1])+" and timescale>"+str(timescale)+" and logSFR100_50<3 and logSFR100_50>-2 and logM_50>9 and logM_50<11 and logM_16.notna() and logM_84.notna() and logSFR100_16.notna() and logSFR100_84.notna()")
     mass=sel['logM_50']
     mass_16 = sel['logM_16']
     mass_84 = sel['logM_84']
