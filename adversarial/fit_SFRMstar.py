@@ -42,6 +42,7 @@ import copy
 import optuna 
 import torch.optim as optim
 from sklearn.model_selection import train_test_split
+from astropy.cosmology import Planck13 as cosmo
 
 device = ("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -56,6 +57,7 @@ device = ("cuda" if torch.cuda.is_available() else "cpu")
 data_path = "/scratch/mhuertas/CEERS/data_release/"
 ceers_cat = pd.read_csv(data_path+"cats/CEERS_DR05_adversarial_asinh_3filters_1122_4class_ensemble_v02_stellar_params_morphflag_delta_10points_DenseBasis.csv")
 
+ceers_cat['timescale']=(10**ceers_cat.logSFRinst_50/10**ceers_cat.logM_50)/(cosmo.H(ceers_cat.zfit_50)*3.24078e-20*3.154e+7)
 
 
 # forward model
