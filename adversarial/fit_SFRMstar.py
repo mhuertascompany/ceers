@@ -61,7 +61,7 @@ ceers_cat['timescale']=(10**ceers_cat.logSFRinst_50/10**ceers_cat.logM_50)/(cosm
 
 
 # forward model
-def forwardmodel(logmstar,logmstar_16,logmstar_84,alpha,beta,sigma,logSFR_16,logSFR_84): 
+def forwardmodel(logmstar,logmstar_16,logmstar_84,alpha,beta,logSFR_16,logSFR_84): 
   #
   return ((alpha*(np.random.normal(size=len(logmstar))*(logmstar_84-logmstar_16)+logmstar-10.5)+beta))+np.random.normal(size=len(logmstar))*sigma+np.random.normal(size=len(logmstar))*(logSFR_84-logSFR_16)
 
@@ -77,7 +77,7 @@ def create_sims(ceers_cat,nsims,zbin,timescale):
 
     alpha_range = [-.3,1.3]
     beta_range=[-1,1]
-    sigma_range=[0,0.5]
+    #sigma_range=[0,0.5]
 
     
     alpha = np.random.uniform(low=alpha_range[0],high=alpha_range[1],size=nsims)
