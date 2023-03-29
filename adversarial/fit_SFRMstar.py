@@ -234,6 +234,7 @@ for zlow,zup in zip(zbins[:-1],zbins[1:]):
 
   sampler     = optuna.samplers.TPESampler(n_startup_trials=n_startup_trials)
   study       = optuna.create_study(study_name=study_name, sampler=sampler, storage=storage, directions=["minimize"], load_if_exists=True)
+  study.optimize(Objective, n_trials=n_trials, n_jobs=n_jobs)
 
 
 
