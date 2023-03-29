@@ -76,7 +76,7 @@ def create_sims(ceers_cat,nsims,zbin,timescale):
     sfr_84 = sel['logSFR100_84']
 
     alpha_range = [-.3,1.3]
-    beta_range=[-1,1]
+    beta_range=[-1,2]
     #sigma_range=[0,0.5]
 
     
@@ -84,7 +84,7 @@ def create_sims(ceers_cat,nsims,zbin,timescale):
     beta = np.random.uniform(low=beta_range[0],high=beta_range[1],size=nsims)
     #sigma = np.random.uniform(low=beta_range[0],high=beta_range[1],size=nsims)
 
-    thetas=np.zeros((nsims,3))
+    thetas=np.zeros((nsims,2))
     thetas[:,0]=alpha
     thetas[:,1]=beta
     #thetas[:,2]=sigma
