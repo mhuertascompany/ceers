@@ -61,10 +61,10 @@ ceers_cat['timescale']=(10**ceers_cat.logSFRinst_50/10**ceers_cat.logM_50)/(cosm
 
 
 # forward model
-def forwardmodel(logmstar,logmstar_16,logmstar_84,alpha,beta,logSFR_16,logSFR_84): 
+def forwardmodel(logmstar,logmstar_16,logmstar_84,alpha,beta,sfr_err_scaled): 
 
-  #
-  return ((alpha*(np.random.normal(size=len(logmstar))*(logmstar_84-logmstar_16)+logmstar-10.5)+beta))+np.random.normal(size=len(logmstar))*(logSFR_84-logSFR_16)
+  logSFR = alpha*(np.random.normal(size=len(logmstar))*(logmstar_84-logmstar_16)+logmstar-10.5)+beta
+  return logSFR+np.random.normal(size=len(logmstar))*(sfr_err_scaled*logSFR)
 
 
 
@@ -75,6 +75,7 @@ def create_sims(ceers_cat,nsims,zbin,timescale):
     mass_84 = sel['logM_84']
     sfr_16 = sel['logSFR100_16']
     sfr_84 = sel['logSFR100_84']
+    sfr_err_scaled = (sfr_84-sfr_16)/sel['logSFR100_50']
 
     alpha_range = [-.3,1.3]
     beta_range=[-1,2]
@@ -90,7 +91,7 @@ def create_sims(ceers_cat,nsims,zbin,timescale):
     thetas[:,1]=beta
     #thetas[:,2]=sigma
 
-    return thetas, np.array([forwardmodel(mass,mass_16,mass_84,tt[0], tt[1],sfr_16,sfr_84,) for tt in thetas])
+    return thetas, np.array([forwardmodel(mass,mass_16,mass_84,tt[0], tt[1],sfr_err_scaled) for tt in thetas])
 
 
 
@@ -224,7 +225,7 @@ for zlow,zup in zip(zbins[:-1],zbins[1:]):
 
   # Optuna Parameters
   n_trials    = 5
-  study_name  = 'SFMS.powerlaw.noclip.zsteve.'+str(zlow)+'.'+str(zup)
+  study_name  = 'SFMS.powerlaw.noclip.zsteve.scalederr'+str(zlow)+'.'+str(zup)
   n_jobs     = 1
 
   if not os.path.isdir(os.path.join(output_dir, study_name)): 
