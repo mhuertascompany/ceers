@@ -60,11 +60,77 @@ ceers_cat = pd.read_csv(data_path+"cats/CEERS_DR05_adversarial_asinh_3filters_11
 ceers_cat['timescale']=(10**ceers_cat.logSFRinst_50/10**ceers_cat.logM_50)/(cosmo.H(ceers_cat.zfit_50)*3.24078e-20*3.154e+7)
 
 
+
+
+def sample_from_quantiles(quantile_vals, quantiles = [16,50,84], 
+                          val_0 = -5, val_100 = 5, pdf_res = 1000, nsamp = 10000,
+                          return_cdf = False, vb = False):
+    """
+    Fn to sample from an empirical PDF corresponding to input quantiles.
+    Make sure val_0 and val_100 are far enough from the quantiles to avoid compressing the PDF tails
+    Change nsamp for the number of samples, and pdf_res according to how finely you care about the sampling
+    """
+
+    quantiles = np.array(quantiles)
+    quantile_vals = np.array(quantile_vals)
+
+    # make an array with the quantiles
+    qarr = np.zeros((len(quantiles)+2,))
+    parr = np.zeros((len(quantiles)+2,))
+    parr[1:-1] = quantiles
+    parr[-1] = 100
+    qarr[1:-1] = quantile_vals
+    qarr[0] = val_0
+    qarr[-1] = val_100
+
+    # interpolate the quantile values to get the CDF
+    cdf_x = np.linspace(val_0, val_100, pdf_res)
+    interp_arr = pin(qarr, parr)
+    cdf_y = interp_arr(cdf_x)
+
+    # Compute the PDF if needed
+    # pdf_x = cdf_x[0:-1] + np.mean(np.diff(cdf_x))/2
+    # pdf_y = np.diff(cdf_y)
+
+    # Sample from the computed CDF
+    sample_qts = np.random.uniform(size=nsamp)*100
+    sample_vals = cdf_x[np.array([np.argmin(np.abs(sample_qts[i] - cdf_y)) for i in range(len(sample_qts))])]
+
+    if vb == True:
+        
+        plt.scatter(qarr, parr)
+        plt.plot(cdf_x,cdf_y)
+        plt.xlabel('x'); plt.ylabel('CDF(x)')
+        plt.show()
+
+        plt.hist(sample_vals,30, density=True)
+        for i in range(len(quantiles)):
+            plt.axvline(quantile_vals[i],color='k',linestyle='--',alpha=0.7)
+        plt.xlabel('x');plt.ylabel('P(x)')
+        plt.show()
+        
+        print('input quantiles and limits', qarr, parr)
+        print('recovered summary quantiles', np.nanpercentile(sample_vals, quantiles))   
+
+
+    if return_cdf == True:
+        return cdf_x, cdf_y
+    else:
+        return sample_vals
+
 # forward model
-def forwardmodel(logmstar,logmstar_16,logmstar_84,alpha,beta,sfr_err_scaled): 
+def forwardmodel_scaled(logmstar,logmstar_16,logmstar_84,alpha,beta,sfr_err_scaled): 
 
   logSFR = alpha*(np.random.normal(size=len(logmstar))*(logmstar_84-logmstar_16)+logmstar-10.5)+beta
   return logSFR+np.random.normal(size=len(logmstar))*(sfr_err_scaled*logSFR)
+
+
+def forwardmodel(logmstar,logmstar_16,logmstar_84,alpha,beta,SFR_sort,SFR16_sort,SFR84_sort): 
+
+  logSFR = alpha*(np.random.normal(size=len(logmstar))*(logmstar_84-logmstar_16)+logmstar-10.5)+beta
+  logsfr_16 = np.interp(logSFR,SFR_sort,SFR16_sort)
+  logsfr_84 = np.interp(logSFR,SFR_sort,SFR84_sort)
+  return logSFR+np.random.normal(size=len(logmstar))*(logsfr_84-logsfr_16)
 
 
 
@@ -75,7 +141,13 @@ def create_sims(ceers_cat,nsims,zbin,timescale):
     mass_84 = sel['logM_84']
     sfr_16 = sel['logSFR100_16']
     sfr_84 = sel['logSFR100_84']
+    sfr = sel['logSFR100_50']
     sfr_err_scaled = (sfr_84-sfr_16)/sel['logSFR100_50']
+    #SFR=ceers_cat.logSFR100_50.values
+    #SFR16 = ceers_cat.logSFR100_16.values
+    nd = np.argsort(sfr, axis=0) 
+
+
 
     alpha_range = [-.3,1.3]
     beta_range=[-1,2]
@@ -91,7 +163,7 @@ def create_sims(ceers_cat,nsims,zbin,timescale):
     thetas[:,1]=beta
     #thetas[:,2]=sigma
 
-    return thetas, np.array([forwardmodel(mass,mass_16,mass_84,tt[0], tt[1],sfr_err_scaled) for tt in thetas])
+    return thetas, np.array([forwardmodel(mass,mass_16,mass_84,tt[0], tt[1],sfr[nd],sfr_16[nd],sfr_84[nd]) for tt in thetas])
 
 
 
@@ -225,7 +297,7 @@ for zlow,zup in zip(zbins[:-1],zbins[1:]):
 
   # Optuna Parameters
   n_trials    = 5
-  study_name  = 'SFMS.powerlaw.noclip.zsteve.scalederr'+str(zlow)+'.'+str(zup)
+  study_name  = 'SFMS.powerlaw.noclip.zsteve.interp'+str(zlow)+'.'+str(zup)
   n_jobs     = 1
 
   if not os.path.isdir(os.path.join(output_dir, study_name)): 
