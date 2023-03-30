@@ -224,7 +224,7 @@ for zlow,zup in zip(zbins[:-1],zbins[1:]):
 
   # Optuna Parameters
   n_trials    = 5
-  study_name  = 'SFMS.powerlaw.noclip.'+str(zlow)+'.'+str(zup)
+  study_name  = 'SFMS.powerlaw.noclip.zsteve.'+str(zlow)+'.'+str(zup)
   n_jobs     = 1
 
   if not os.path.isdir(os.path.join(output_dir, study_name)): 
