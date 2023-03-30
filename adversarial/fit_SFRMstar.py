@@ -135,7 +135,7 @@ def forwardmodel(logmstar,logmstar_16,logmstar_84,alpha,beta,SFR_sort,SFR16_sort
 
 
 def create_sims(ceers_cat,nsims,zbin,timescale):
-    sel = ceers_cat.query("zfit_50>"+str(zbin[0])+"and zfit_50<"+str(zbin[1])+" and logM_50>9 and logM_50<10.3 and logM_16.notna() and logM_84.notna() and logSFR100_16.notna() and logSFR100_84.notna()")
+    sel = ceers_cat.query("timescale>0.33 and zfit_50>"+str(zbin[0])+"and zfit_50<"+str(zbin[1])+" and logM_50>9 and logM_50<10.3 and logM_16.notna() and logM_84.notna() and logSFR100_16.notna() and logSFR100_84.notna()")
     mass=sel['logM_50'].values
     mass_16 = sel['logM_16'].values
     mass_84 = sel['logM_84'].values
@@ -297,7 +297,7 @@ for zlow,zup in zip(zbins[:-1],zbins[1:]):
 
   # Optuna Parameters
   n_trials    = 5
-  study_name  = 'SFMS.powerlaw.noclip.zsteve.interp'+str(zlow)+'.'+str(zup)
+  study_name  = 'SFMS.powerlaw.noclip.zsteve.interp.timescale.'+str(zlow)+'.'+str(zup)
   n_jobs     = 1
 
   if not os.path.isdir(os.path.join(output_dir, study_name)): 
