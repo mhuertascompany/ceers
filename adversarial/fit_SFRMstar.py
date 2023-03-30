@@ -223,7 +223,7 @@ for zlow,zup in zip(zbins[:-1],zbins[1:]):
 
 
   # Optuna Parameters
-  n_trials    = 1
+  n_trials    = 5
   study_name  = 'SFMS.powerlaw.noclip.'+str(zlow)+'.'+str(zup)
   n_jobs     = 1
 
