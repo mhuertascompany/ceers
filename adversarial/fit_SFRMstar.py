@@ -136,12 +136,12 @@ def forwardmodel(logmstar,logmstar_16,logmstar_84,alpha,beta,SFR_sort,SFR16_sort
 
 def create_sims(ceers_cat,nsims,zbin,timescale):
     sel = ceers_cat.query("zfit_50>"+str(zbin[0])+"and zfit_50<"+str(zbin[1])+" and logM_50>9 and logM_50<10.3 and logM_16.notna() and logM_84.notna() and logSFR100_16.notna() and logSFR100_84.notna()")
-    mass=sel['logM_50']
-    mass_16 = sel['logM_16']
-    mass_84 = sel['logM_84']
-    sfr_16 = sel['logSFR100_16']
-    sfr_84 = sel['logSFR100_84']
-    sfr = sel['logSFR100_50']
+    mass=sel['logM_50'].values
+    mass_16 = sel['logM_16'].values
+    mass_84 = sel['logM_84'].values
+    sfr_16 = sel['logSFR100_16'].values
+    sfr_84 = sel['logSFR100_84'].values
+    sfr = sel['logSFR100_50'].values
     sfr_err_scaled = (sfr_84-sfr_16)/sel['logSFR100_50']
     #SFR=ceers_cat.logSFR100_50.values
     #SFR16 = ceers_cat.logSFR100_16.values
