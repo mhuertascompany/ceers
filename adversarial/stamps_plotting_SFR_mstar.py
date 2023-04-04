@@ -37,9 +37,9 @@ def plot_stamps(wl,morph,ceers_cat,nir_f200_list,w):
     j=1
     k=0
 
-    with PdfPages(data_path+'figures/'+'morph_'+str(morph)+'_CEERS_DR05_december_SF_lowmass'+str(wl)+'.pdf') as pdf_ceers:
+    with PdfPages(data_path+'figures/'+'morph_'+str(morph)+'_CEERS_DR05_december_SF_LT_lowmass'+str(wl)+'.pdf') as pdf_ceers:
         for zlow,zup in zip(zbins[:-1],zbins[1:]):
-            sel = ceers_cat.query('timescale>0.33 and (morph_flag_'+str(wl)+'=='+str(0)+' or morph_flag_'+str(wl)+'=='+str(3)+') and zfit_50>'+str(0)+' and zfit_50<'+str(1))
+            sel = ceers_cat.query('timescale>0.33 and (morph_flag_'+str(wl)+'=='+str(1)+' or morph_flag_'+str(wl)+'=='+str(2)+') and zfit_50>'+str(0)+' and zfit_50<'+str(1))
             #sel = ceers_cat.query('morph_flag_f200=='+str(morph)+' and delta>0.9')
             
             
