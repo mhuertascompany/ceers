@@ -10,17 +10,21 @@ import h5py
 import pandas as pd
 from astropy import units as u
 from astropy.cosmology import Planck13 as cosmo
+from matplotlib.backends.backend_pdf import PdfPages
+import aplpy
+
 
 data_path = "/scratch/mhuertas/CEERS/data_release/"
 ceers_cat = pd.read_csv(data_path+"cats/CEERS_DR05_adversarial_asinh_3filters_1122_4class_ensemble_v02_stellar_params_morphflag_delta_10points_DenseBasis.csv")
 candels_ceers = pd.read_csv(data_path+"cats/CANDELS_CEERS_match_DR05_december_ensemble_morphflag.csv")
 
 
+ceers_cat['timescale']=(10**ceers_cat.logSFRinst_50/10**ceers_cat.logM_50)/(cosmo.H(ceers_cat.zfit_50)*3.24078e-20*3.154e+7)
+
 # egs_all_wfc3_ir_f160w_030mas_v1.9_nircam1_mef.fits.gz
 
 
-from matplotlib.backends.backend_pdf import PdfPages
-import aplpy
+
 
 zbins = [0,1,3,6]
 mbins = [9,10,10.5,11.5]
@@ -33,15 +37,15 @@ def plot_stamps(wl,morph,ceers_cat,nir_f200_list,w):
     j=1
     k=0
 
-    with PdfPages(data_path+'figures/'+'morph_'+str(morph)+'_CEERS_DR05_december_quenched_lowmass'+str(wl)+'.pdf') as pdf_ceers:
+    with PdfPages(data_path+'figures/'+'morph_'+str(morph)+'_CEERS_DR05_december_SF_lowmass'+str(wl)+'.pdf') as pdf_ceers:
         for zlow,zup in zip(zbins[:-1],zbins[1:]):
-            sel = ceers_cat.query('logSFR100_50<-1 and morph_flag_'+str(wl)+'=='+str(morph)+' and zfit_50>'+str(0)+' and zfit_50<'+str(1))
+            sel = ceers_cat.query('timescale>0.33 and (morph_flag_'+str(wl)+'=='+str(0)+' or morph_flag_'+str(wl)+'=='+str(3)+') and zfit_50>'+str(0)+' and zfit_50<'+str(1))
             #sel = ceers_cat.query('morph_flag_f200=='+str(morph)+' and delta>0.9')
             
             
             for mlow,mup in zip(mbins[:-1],mbins[1:]): 
                 try:
-                    mcut = sel.query("logM_50>"+str(8.5)+"and logM_50<"+str(9.5)).sample(n=1)
+                    mcut = sel.query("logM_50>"+str(9)+"and logM_50<"+str(10)).sample(n=1)
                     #mcut = sel.sample(n=1)
                     print(mlow,mup)
                     print(zlow,zup)
@@ -149,7 +153,7 @@ def plot_stamps(wl,morph,ceers_cat,nir_f200_list,w):
 
 
 wl_vec = ['f200w','f356w','f444w']
-morph_vec=[0,1,2,3]
+morph_vec=[0,3]
 
 for wl in wl_vec:
     for morph in morph_vec:
