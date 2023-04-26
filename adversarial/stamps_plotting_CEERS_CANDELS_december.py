@@ -18,7 +18,7 @@ candels_ceers = pd.read_csv(data_path+"cats/CANDELS_CEERS_match_DR05_december_en
 
 wl = 'f150w'
 
-ceers_pointings = ["1","2","3","4","5","6","7","8","9"]
+ceers_pointings = np.arange(1,11)
 nir_f200_list=[]
 w=[]
 cats = []
