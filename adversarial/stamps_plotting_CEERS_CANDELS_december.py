@@ -16,7 +16,7 @@ data_path = "/scratch/mhuertas/CEERS/data_release/"
 ceers_cat = pd.read_csv(data_path+"cats/CEERS_DR05_adversarial_asinh_3filters_1122_4class_ensemble_v02_stellar_params_morphflag_delta.csv")
 candels_ceers = pd.read_csv(data_path+"cats/CANDELS_CEERS_match_DR05_december_ensemble_morphflag_galfit.csv")
 
-wl = 'f200w'
+wl = 'f150w'
 
 ceers_pointings = ["1","2","3","6"]
 nir_f200_list=[]
@@ -54,9 +54,9 @@ mbins = [9,10,10.5,11.5]
 j=1
 k=0
 
-with PdfPages(data_path+'figures/sph_CEERS_f200w.pdf') as pdf_ceers,PdfPages(data_path+'figures/sph_CANDELS_f160w.pdf') as pdf_candels:
+with PdfPages(data_path+'figures/dk_CEERS_sph_CANDELS_f150w.pdf') as pdf_ceers,PdfPages(data_path+'figures/dk_CEERS_sph_CANDELS_f160w.pdf') as pdf_candels:
     for zlow,zup in zip(zbins[:-1],zbins[1:]):
-        sel = candels_ceers.query('(FIELD_2==1 or FIELD_2==2 or FIELD_2==3 or FIELD_2==6) and (morph_flag_f200w==1 or morph_flag_f200w==2) and (morph_CANDELS==0 or morph_CANDELS==3) and zfit_50>'+str(0)+' and zfit_50<'+str(2))
+        sel = candels_ceers.query('(FIELD_2==1 or FIELD_2==2 or FIELD_2==3 or FIELD_2==6) and (morph_flag_f150w==1 or morph_flag_f150w==2) and (morph_CANDELS==0 or morph_CANDELS==3) and zfit_50>'+str(0)+' and zfit_50<'+str(2))
         
         
         for mlow,mup in zip(mbins[:-1],mbins[1:]): 
