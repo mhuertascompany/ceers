@@ -12,7 +12,7 @@ from astropy import units as u
 from astropy.cosmology import Planck13 as cosmo
 
 data_path = "/scratch/mhuertas/CEERS/data_release/"
-ceers_cat = pd.read_csv(data_path+"cats/CEERS_DR05_adversarial_asinh_3filters_1122_4class_ensemble_v02_stellar_params_morphflag_delta_10points_DenseBasis.csv")
+ceers_cat = pd.read_csv(data_path+"cats/CEERS_DR05_adversarial_asinh_4filters_1122_4class_ensemble_v02_stellar_params_morphflag_delta_10points_DenseBasis.csv")
 candels_ceers = pd.read_csv(data_path+"cats/CANDELS_CEERS_match_DR05_december_ensemble_morphflag.csv")
 
 
@@ -22,7 +22,7 @@ candels_ceers = pd.read_csv(data_path+"cats/CANDELS_CEERS_match_DR05_december_en
 from matplotlib.backends.backend_pdf import PdfPages
 import aplpy
 
-zbins = [0,1,3,6]
+zbins = [0,1.5,4,6]
 mbins = [9,10,10.5,11.5]
 
 
@@ -148,7 +148,7 @@ def plot_stamps(wl,morph,ceers_cat,nir_f200_list,w):
         print("final saving")
 
 
-wl_vec = ['f200w','f356w','f444w']
+wl_vec = ['f150w','f200w','f356w','f444w']
 morph_vec=[0,1,2,3]
 
 for wl in wl_vec:
