@@ -378,7 +378,7 @@ EPOCHS = 50
 alpha = 1
 nruns = 10
 
-filters=['f356w','f444w']
+filters=['f150w']
 data_path = "/scratch/mhuertas/CEERS/data_release/"
 loss_object = tf.keras.losses.CategoricalCrossentropy()
 d_optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
