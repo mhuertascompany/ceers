@@ -44,8 +44,11 @@ for c in ceers_pointings:
     else:
         wfc3_f160 = fits.open(data_path+"images/egs_all_wfc3_ir_f160w_030mas_v1.9_nircam"+str(c)+"_drz.fits.gz")
     wfc3_f160_list.append(wfc3_f160)
-    wf160.append(WCS(wfc3_f160[1].header))
-    wf160[-1].sip = None
+    if c==1 or c==2 or c==3 or c==6:
+        wf160.append(WCS(wfc3_f160[1].header))
+        wf160[-1].sip = None
+    else:
+        wf160.append(WCS(wfc3_f160[0].header))
 
 
 from matplotlib.backends.backend_pdf import PdfPages
@@ -86,7 +89,7 @@ with PdfPages(data_path+'figures/dk_CEERS_sph_CANDELS_f150w.pdf') as pdf_ceers,P
                     nir_f200=nir_f200_list[k]
                     w200=w[k]
                     k+=1
-                    if True:
+                    try:
                         position = SkyCoord(ra,dec,unit="deg")
 
                         stamp = Cutout2D(nir_f200[1].data,position,64,wcs=w200)
@@ -101,7 +104,7 @@ with PdfPages(data_path+'figures/dk_CEERS_sph_CANDELS_f150w.pdf') as pdf_ceers,P
                         print(j)
                         read=1
 
-                    else:
+                    except:
                         #print("error reading")
                         continue
                      
