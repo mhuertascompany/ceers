@@ -21,6 +21,7 @@ candels_ceers = pd.read_csv(data_path+"cats/CANDELS_CEERS_match_DR05_december_en
 
 from matplotlib.backends.backend_pdf import PdfPages
 import aplpy
+from datetime import date
 
 zbins = [0,1.5,4,6]
 mbins = [9,10,10.5,11.5]
@@ -32,8 +33,9 @@ def plot_stamps(wl,morph,ceers_cat,nir_f200_list,w):
 
     j=1
     k=0
-
-    with PdfPages(data_path+'figures/'+'morph_'+str(morph)+'_CEERS_DR05_december'+str(wl)+'.pdf') as pdf_ceers:
+    today = date.today()
+    d4 = today.strftime("%b-%d-%Y")
+    with PdfPages(data_path+'figures/'+'morph_'+str(morph)+'_CEERS_DR05_december_'+str(wl)+'_'+d4+'.pdf') as pdf_ceers:
         for zlow,zup in zip(zbins[:-1],zbins[1:]):
             sel = ceers_cat.query('morph_flag_'+str(wl)+'=='+str(morph)+' and zfit_50>'+str(zlow)+' and zfit_50<'+str(zup))
             #sel = ceers_cat.query('morph_flag_f200=='+str(morph)+' and delta>0.9')
