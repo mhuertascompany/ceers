@@ -18,13 +18,17 @@ candels_ceers = pd.read_csv(data_path+"cats/CANDELS_CEERS_match_DR05_december_en
 
 wl = 'f150w'
 
-ceers_pointings = ["1","2","3","6"]
+ceers_pointings = ["1","2","3","4","5","6","7","8","9"]
 nir_f200_list=[]
 w=[]
 cats = []
 for c in ceers_pointings:
-  nir_f200 = fits.open(data_path+"images/hlsp_ceers_jwst_nircam_nircam"+c+"_"+wl+"_dr0.5_i2d.fits.gz")
-  nir_f200_list.append(nir_f200)
+  if c==1 or c==2 or c==3 or c==6:
+        nir_f200 = fits.open(data_path+"images/hlsp_ceers_jwst_nircam_nircam"+str(c)+"_"+wl+"_dr0.5_i2d.fits.gz")
+  else:
+        nir_f200 = fits.open(data_path+"images/ceers_nircam"+str(c)+"_"+wl+"_v0.51_i2d.fits.gz") 
+  #nir_f200 = fits.open(data_path+"images/hlsp_ceers_jwst_nircam_nircam"+c+"_"+wl+"_dr0.5_i2d.fits.gz")
+  #nir_f200_list.append(nir_f200)
   w.append(WCS(nir_f200[1].header))
   cats.append(candels_ceers)
 
@@ -35,7 +39,10 @@ wf160=[]
 #candels_images = ["hlsp_candels_hst_wfc3_egs-tot-60mas_f160w_v1.0_drz.fits","hlsp_candels_hst_wfc3_gs-tot_f160w_v1.0_drz.fits","hlsp_candels_hst_wfc3_cos-tot_f160w_v1.0_drz.fits","hlsp_candels_hst_wfc3_uds-tot_f160w_v1.0_drz.fits"]
 candels_images = ["hlsp_candels_hst_wfc3_egs-tot-60mas_f160w_v1.0_drz.fits"]
 for c in ceers_pointings:
-    wfc3_f160 = fits.open(data_path+"images/egs_all_wfc3_ir_f160w_030mas_v1.9_nircam"+c+"_mef.fits.gz")
+    if c==1 or c==2 or c==3 or c==6:
+        wfc3_f160 = fits.open(data_path+"images/egs_all_wfc3_ir_f160w_030mas_v1.9_nircam"+c+"_mef.fits.gz")
+    else:
+        wfc3_f160 = fits.open(data_path+"images/egs_all_wfc3_ir_f160w_030mas_v1.9_nircam"+c+"_drz.fits.gz")
     wfc3_f160_list.append(wfc3_f160)
     wf160.append(WCS(wfc3_f160[1].header))
     wf160[-1].sip = None
