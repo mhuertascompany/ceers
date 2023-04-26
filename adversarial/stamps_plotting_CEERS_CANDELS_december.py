@@ -122,7 +122,10 @@ with PdfPages(data_path+'figures/dk_CEERS_sph_CANDELS_f150w.pdf') as pdf_ceers,P
 
                     if read ==1:
                         nir_f160=wfc3_f160_list[k-1]
-                        stamp_candels =Cutout2D(nir_f160[1].data,position,64,wcs = wf160[k-1])
+                        try:
+                            stamp_candels =Cutout2D(nir_f160[1].data,position,64,wcs = wf160[k-1])
+                        except:
+                            stamp_candels =Cutout2D(nir_f160[0].data,position,64,wcs = wf160[k-1])
                         hdu = fits.PrimaryHDU(stamp_candels.data)
                         hdu.header.update(stamp.wcs.to_header())
                         hdu.writeto('tmp_candels.fits', overwrite=True) 
