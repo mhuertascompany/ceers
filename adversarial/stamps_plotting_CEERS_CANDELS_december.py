@@ -86,7 +86,7 @@ with PdfPages(data_path+'figures/dk_CEERS_sph_CANDELS_f150w.pdf') as pdf_ceers,P
                     nir_f200=nir_f200_list[k]
                     w200=w[k]
                     k+=1
-                    try:
+                    if True:
                         position = SkyCoord(ra,dec,unit="deg")
 
                         stamp = Cutout2D(nir_f200[1].data,position,64,wcs=w200)
@@ -101,7 +101,7 @@ with PdfPages(data_path+'figures/dk_CEERS_sph_CANDELS_f150w.pdf') as pdf_ceers,P
                         print(j)
                         read=1
 
-                    except:
+                    else:
                         #print("error reading")
                         continue
                      
