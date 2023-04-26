@@ -28,7 +28,7 @@ for c in ceers_pointings:
   else:
         nir_f200 = fits.open(data_path+"images/ceers_nircam"+str(c)+"_"+wl+"_v0.51_i2d.fits.gz") 
   #nir_f200 = fits.open(data_path+"images/hlsp_ceers_jwst_nircam_nircam"+c+"_"+wl+"_dr0.5_i2d.fits.gz")
-  #nir_f200_list.append(nir_f200)
+  nir_f200_list.append(nir_f200)
   w.append(WCS(nir_f200[1].header))
   cats.append(candels_ceers)
 
