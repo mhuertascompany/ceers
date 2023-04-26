@@ -80,7 +80,7 @@ with PdfPages(data_path+'figures/dk_CEERS_sph_CANDELS_f150w.pdf') as pdf_ceers,P
                 read=0
                 k=0
                 while read==0:
-                    if k>=4:
+                    if k>=10:
                         read=-1
                         continue
                     nir_f200=nir_f200_list[k]
