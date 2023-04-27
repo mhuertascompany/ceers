@@ -47,7 +47,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,nir_f200_list,w,nquants_z=10,nquant
             sel_z['quant_mass']=quant_m
             for qm in quants_stamps_mass:
                 try:
-                    mcut = sel_z.query('quant_mass=='+str(qm)).sample(n=1)
+                    mcut = sel_z.query('quant_mass=='+str(qm)).sample()
                 except:
                    # j+=1
                     print("nothing")
