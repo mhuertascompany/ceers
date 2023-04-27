@@ -38,7 +38,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,nir_f200_list,w):
         
         sel = ceers_cat.query('morph_flag_'+str(wl)+'=='+str(morph)+' and zfit_50>'+str(0)+' and zfit_50<'+str(6))
         quant = pd.qcut(sel.zfit_50, 4)
-        pdb.set_trace()
+        print(quant)
 
 
 
