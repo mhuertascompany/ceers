@@ -36,7 +36,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,nir_f200_list,w,nquants_z=8,nquants
     d4 = today.strftime("%b-%d-%Y")
     with PdfPages(data_path+'figures/'+'morph_'+str(morph)+'_CEERS_DR05_december_'+str(wl)+'_'+d4+'.pdf') as pdf_ceers:
         
-        sel = ceers_cat.query('morph_flag_'+str(wl)+'=='+str(morph)+' and zfit_50>'+str(0)+' and zfit_50<'+str(6))
+        sel = ceers_cat.query('morph_flag_'+str(wl)+'=='+str(morph)+' and zfit_50>'+str(0)+' and zfit_50<'+str(6)+' and logM_50>9')
         quant = pd.qcut(sel['zfit_50'].values, nquants_z,labels=False)
         print(len(quant))
         print(len(sel))
@@ -97,7 +97,9 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,nir_f200_list,w,nquants_z=8,nquants
                             
                             
                             plt.figure(1)
-                            bounds = [0.02+0.32*np.mod((j-1),3),0.64+0.02-0.32*((j-1)//3),0.32,0.32]
+                            x_val = 1/len(quants_stamps_z)
+                            y_val = 1/len(quants_stamps_mass)
+                            bounds = [0.02+x_val*np.mod((j-1),len(quants_stamps_z)),0.64+0.02-0.32*((j-1)//3),0.32,0.32]
                             gc = aplpy.FITSFigure('tmp_ceers.fits',figure=fig_ceers, subplot=bounds)
                             kpc_per_arcsec=cosmo.kpc_proper_per_arcmin(z)/60.
                             
