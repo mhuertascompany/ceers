@@ -37,7 +37,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,nir_f200_list,w,nquants_z=8,nquants
     with PdfPages(data_path+'figures/'+'morph_'+str(morph)+'_CEERS_DR05_december_'+str(wl)+'_'+d4+'.pdf') as pdf_ceers:
         
         sel = ceers_cat.query('morph_flag_'+str(wl)+'=='+str(morph)+' and zfit_50>'+str(0)+' and zfit_50<'+str(6))
-        quant = pd.qcut(sel.zfit_50, nquants_z,labels=False)
+        quant = pd.qcut(sel['zfit_50'].values, nquants_z,labels=False)
         print(quant)
         sel['quant_z']=quant.values
         for qz in quants_stamps_z:
