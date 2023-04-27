@@ -62,7 +62,8 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,nir_f200_list,w,nquants_z=10,nquant
                         while read==0:
                             if k>=10:
                                 not_found=-1
-                                continue
+                                print('not found')
+                                break
                             nir_f200=nir_f200_list[k]
                             w200=w[k]
                             k+=1
