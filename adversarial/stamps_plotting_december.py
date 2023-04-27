@@ -97,10 +97,10 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,nir_f200_list,w,nquants_z=8,nquants
                             
                             
                             plt.figure(1)
-                            x_val = 1/len(quants_stamps_mass)-0.01
-                            y_val = 1/len(quants_stamps_z)-0.01
+                            x_val = 1/len(quants_stamps_mass)-0.02
+                            y_val = 1/len(quants_stamps_z)-0.02
                             print(x_val,y_val)
-                            bounds = [0.01+x_val*np.mod((j-1),len(quants_stamps_mass)),(1-y_val)+0.01-y_val*((j-1)//len(quants_stamps_z)),x_val,y_val]
+                            bounds = [0.02+x_val*np.mod((j-1),len(quants_stamps_mass)),(1-y_val-0.02)-y_val*((j-1)//len(quants_stamps_z)),x_val,y_val]
                             print(bounds)
                             gc = aplpy.FITSFigure('tmp_ceers.fits',figure=fig_ceers, subplot=bounds)
                             kpc_per_arcsec=cosmo.kpc_proper_per_arcmin(z)/60.
