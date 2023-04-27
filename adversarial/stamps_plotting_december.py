@@ -47,7 +47,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,nir_f200_list,w,nquants_z=10,nquant
             sel_z['quant_mass']=quant_m
             for qm in quants_stamps_mass:
                 try:
-                    mcut = sel_z.query('quant_mass=='+str(qm)).sample()
+                    mcut = sel_z.query('quant_mass=='+str(qm)).sample(frac=1)
                 except:
                    # j+=1
                     print("nothing")
@@ -87,7 +87,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,nir_f200_list,w,nquants_z=10,nquant
                                 
 
                             except:
-                                #print("error reading")
+                                print("error reading")
                                 continue
                             
                             
@@ -150,12 +150,6 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,nir_f200_list,w,nquants_z=10,nquant
                                 
                                 j+=1
                                 print(j)
-                                if j==26:
-                                    plt.tight_layout()
-                                    pdf_ceers.savefig(fig_ceers)
-                                    
-                                    print("saving")
-                                    j=1
                             #k+=1
         plt.tight_layout()
         pdf_ceers.savefig(fig_ceers)
