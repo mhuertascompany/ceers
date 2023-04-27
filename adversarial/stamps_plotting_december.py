@@ -55,7 +55,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,nir_f200_list,w,nquants_z=10,nquant
                 read = 0
                 for idn,full,ra,dec,z,logm in zip(mcut.ID_1,mcut.fullname,mcut.RA_1,mcut.DEC_1,mcut.zfit_50,mcut.logM_50):
                     if read>0:
-                        continue
+                        break
                     k=0
                     while read==0:
                         if k>=10:
