@@ -54,6 +54,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,nir_f200_list,w,nquants_z=10,nquant
                     continue
                 not_found=-1
                 for idn,full,ra,dec,z,logm in zip(mcut.ID_1,mcut.fullname,mcut.RA_1,mcut.DEC_1,mcut.zfit_50,mcut.logM_50):
+                    print(not_found)
                     if not_found<0:
                         print("IN!")
                         read = 0
@@ -80,8 +81,9 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,nir_f200_list,w,nquants_z=10,nquant
                                 print("read!")
                                 print(j)
                                 read=1
-                                not_found=0
-                                break
+                                not_found=1
+                                
+                                
 
                             except:
                                 #print("error reading")
