@@ -38,7 +38,8 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,nir_f200_list,w,nquants_z=8,nquants
         
         sel = ceers_cat.query('morph_flag_'+str(wl)+'=='+str(morph)+' and zfit_50>'+str(0)+' and zfit_50<'+str(6))
         quant = pd.qcut(sel['zfit_50'].values, nquants_z,labels=False)
-        print(quant)
+        print(len(quant))
+        print(len(sel))
         sel['quant_z']=quant
         for qz in quants_stamps_z:
             sel_z = sel.query('quant_z=='+str(qz))
