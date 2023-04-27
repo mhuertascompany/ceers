@@ -28,7 +28,7 @@ mbins = [9,10,10.5,11.5]
 
 
 
-def plot_stamps_quantiles(wl,morph,ceers_cat,nir_f200_list,w,nquants_z=8,nquants_mass=4,quants_stamps_z=[0,2,4,6],quants_stamps_mass=[0,1,2,3]):
+def plot_stamps_quantiles(wl,morph,ceers_cat,nir_f200_list,w,nquants_z=8,nquants_mass=4,quants_stamps_z=[0,2,4,7],quants_stamps_mass=[0,1,2,3]):
 
     j=1
     k=0
@@ -97,8 +97,8 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,nir_f200_list,w,nquants_z=8,nquants
                             
                             
                             plt.figure(1)
-                            x_val = 1/len(quants_stamps_mass)
-                            y_val = 1/len(quants_stamps_z)
+                            x_val = 1/len(quants_stamps_mass)-0.02
+                            y_val = 1/len(quants_stamps_z)-0.02
                             print(x_val,y_val)
                             bounds = [0.02+x_val*np.mod((j-1),len(quants_stamps_mass)),(1-y_val)+0.02-y_val*((j-1)//len(quants_stamps_z)),x_val,y_val]
                             print(bounds)
