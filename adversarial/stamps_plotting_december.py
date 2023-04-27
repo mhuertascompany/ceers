@@ -28,6 +28,20 @@ mbins = [9,10,10.5,11.5]
 
 
 
+def plot_stamps_quantiles(wl,morph,ceers_cat,nir_f200_list,w):
+
+    j=1
+    k=0
+    today = date.today()
+    d4 = today.strftime("%b-%d-%Y")
+    with PdfPages(data_path+'figures/'+'morph_'+str(morph)+'_CEERS_DR05_december_'+str(wl)+'_'+d4+'.pdf') as pdf_ceers:
+        
+        sel = ceers_cat.query('morph_flag_'+str(wl)+'=='+str(morph)+' and zfit_50>'+str(0)+' and zfit_50<'+str(6))
+        quant = pd.qcut(sel.zfit_50, 4)
+        pdb.set_trace()
+
+
+
 
 def plot_stamps(wl,morph,ceers_cat,nir_f200_list,w):
 
@@ -168,7 +182,7 @@ for wl in wl_vec:
             w.append(WCS(nir_f200[1].header))
 
         print(wl,morph)    
-        plot_stamps(wl,morph,ceers_cat,nir_f200_list,w)
+        plot_stamps_quantiles(wl,morph,ceers_cat,nir_f200_list,w)
 
 
 
