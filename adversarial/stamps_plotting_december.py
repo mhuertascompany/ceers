@@ -43,7 +43,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,nir_f200_list,w,nquants_z=8,nquants
         sel['quant_z']=quant
         for qz in quants_stamps_z:
             sel_z = sel.query('quant_z=='+str(qz))
-            quant_m = pd.qcut(sel['logM_50'].values, nquants_mass,labels=False)
+            quant_m = pd.qcut(sel_z['logM_50'].values, nquants_mass,labels=False)
             sel_z['quant_mass']=quant_m
             for qm in quants_stamps_mass:
                 try:
