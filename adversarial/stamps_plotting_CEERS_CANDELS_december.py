@@ -66,7 +66,7 @@ k=0
 
 with PdfPages(data_path+'figures/dk_CEERS_sph_CANDELS_f150w.pdf') as pdf_ceers,PdfPages(data_path+'figures/dk_CEERS_sph_CANDELS_f160w.pdf') as pdf_candels:
     for zlow,zup in zip(zbins[:-1],zbins[1:]):
-        sel = candels_ceers.query('(morph_flag_f150w==1 or morph_flag_f150w==2) and (morph_CANDELS==0) and zfit_50>'+str(0)+' and zfit_50<'+str(2))
+        sel = candels_ceers.query('(morph_flag_f150w==1) and (morph_CANDELS==0) and zfit_50>'+str(0)+' and zfit_50<'+str(2))
         
         
         for mlow,mup in zip(mbins[:-1],mbins[1:]): 
