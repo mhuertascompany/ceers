@@ -329,7 +329,7 @@ def train_step(images, labels, images2, domains,alpha):
     features = feature_generator(images2)
     d_predictions = domain_predictor(features)
     #print(d_predictions)
-    domain_loss = loss_object(domains, d_predictions)
+    domain_loss = loss_object(domains)
   #####
    
   d_gradients = tape.gradient(domain_loss, domain_predictor.trainable_variables)  
