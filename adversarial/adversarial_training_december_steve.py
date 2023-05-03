@@ -339,10 +339,11 @@ def train_step(images, labels, images2, domains,alpha):
     
     
   train_loss(label_loss)
-  print(label_loss)  
+  #print(label_loss)  
   train_accuracy(labels, l_predictions)
   conf_train_loss(domain_loss)
   conf_train_accuracy(domains, d_predictions)
+  print("TEST:", domains,d_predictions)
 
 
 @tf.function
