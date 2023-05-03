@@ -329,14 +329,13 @@ def train_step(images, labels, images2, domains,alpha):
     features = feature_generator(images2)
     d_predictions = domain_predictor(features)
     #print(d_predictions)
-    domain_loss = loss_object(domains)
+    domain_loss = loss_object(domains,d_predictions)
   #####
    
   d_gradients = tape.gradient(domain_loss, domain_predictor.trainable_variables)  
   d_gradients = [alpha*i for i in d_gradients]
   d_optimizer.apply_gradients(zip(d_gradients, domain_predictor.trainable_variables))
   
-    
     
   train_loss(label_loss)
   #print(label_loss)  
@@ -416,8 +415,6 @@ for f in filters:
 
         CANDELS_X,label_candels,CANDELS_X_t,label_candels_t,JWST_X,label_JWST = create_datasets(X,label,X_JWST)
         label_predictor.load_weights(data_path+"initial_pred.weights")
-        feature_generator.load_weights(data_path+"initial_feature.weights")
-        domain_predictor.load_weights(data_path+"initial_domain.weights")
         
 
         all_train_domain_images = np.vstack((CANDELS_X, JWST_X))
