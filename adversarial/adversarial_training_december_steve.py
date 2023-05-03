@@ -343,7 +343,7 @@ def train_step(images, labels, images2, domains,alpha):
   train_accuracy(labels, l_predictions)
   conf_train_loss(domain_loss)
   conf_train_accuracy(domains, d_predictions)
-  print("TEST:", domains,d_predictions)
+  print("TEST:", tf.print(domains),tf.print(d_predictions))
 
 
 @tf.function
