@@ -342,7 +342,7 @@ def train_step(images, labels, images2, domains,alpha):
   train_accuracy(labels, l_predictions)
   conf_train_loss(domain_loss)
   conf_train_accuracy(domains, d_predictions)
-  print("TEST:", tf.print(domains),tf.print(d_predictions))
+  #print("TEST:", tf.print(domains))
   pdb.set_trace()
 
 
@@ -435,6 +435,7 @@ for f in filters:
         mnist_m_train_domain_labels = np.zeros([len(label_JWST)])
         all_train_domain_labels = np.hstack((x_train_domain_labels, mnist_m_train_domain_labels))
         all_train_domain_labels = tf.one_hot(np.zeros(len(all_train_domain_labels)), 2).numpy()
+        tf.print(all_train_domain_labels)
         domain_train_ds = tf.data.Dataset.from_tensor_slices((all_train_domain_images, tf.cast(all_train_domain_labels, tf.int8))).shuffle(60000).batch(32)
         
 
