@@ -379,7 +379,7 @@ EPOCHS = 50
 alpha = 1
 nruns = 10
 
-filters=['f150w']
+filters=['f150w','f200w','f356w','f444w']
 data_path = "/scratch/mhuertas/CEERS/data_release/"
 loss_object = tf.keras.losses.CategoricalCrossentropy()
 d_optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
@@ -415,7 +415,8 @@ for f in filters:
 
         CANDELS_X,label_candels,CANDELS_X_t,label_candels_t,JWST_X,label_JWST = create_datasets(X,label,X_JWST)
         label_predictor.load_weights(data_path+"initial_pred.weights")
-        
+        domain_predictor.load_weights(data_path+"initial_domain.weights")
+        feature_generator.load_weights(data_path+"initial_feature.weights")
 
         all_train_domain_images = np.vstack((CANDELS_X, JWST_X))
         channel_mean = all_train_domain_images.mean((0,1,2))
