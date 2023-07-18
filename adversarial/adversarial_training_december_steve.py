@@ -25,6 +25,11 @@ interval = MinMaxInterval()
 from astropy.visualization import AsinhStretch,LogStretch
 from datetime import date
 
+from tempfile import TemporaryFile
+
+
+WRITE=True
+TRAIN=False
 
 
 
@@ -377,7 +382,7 @@ def reset_metrics():
 
 EPOCHS = 50
 alpha = 1
-nruns = 10
+nruns = 0  #set to 0 for skip training
 
 filters=['f150w','f200w','f356w','f444w']
 data_path = "/scratch/mhuertas/CEERS/data_release/"
@@ -407,6 +412,11 @@ X,label = read_CANDELS_data(data_path)
 for f in filters:
     
     X_JWST,fullvec,idvec,fieldvec,ravec,decvec = read_JWST_data(f,data_path)
+
+    if WRITE:
+        print("writing image files for filter "+ str(f))
+        np.savez('image_arrays_'+f+'.npz', stamps = X_JWST, fullvec = fullvec, idvec=idvec,fieldvec=fieldvec,ravec=ravec,decvec=decvec)
+
              
 
     
@@ -497,6 +507,8 @@ for f in filters:
             df['irr_'+str(num)+'_'+f]=np.concatenate(irr).ravel()  
             df['bd_'+str(num)+'_'+f]=np.concatenate(bd).ravel()  
     today = date.today()
-    d4 = today.strftime("%b-%d-%Y")        
-    df.to_csv(data_path+"cats/CEERS_DR05_adversarial_asinh_"+f+"_"+d4+"_4class_shuffle_"+str(nruns)+"_"+str(EPOCHS)+".csv")
+
+    if TRAIN:
+        d4 = today.strftime("%b-%d-%Y")        
+        df.to_csv(data_path+"cats/CEERS_DR05_adversarial_asinh_"+f+"_"+d4+"_4class_shuffle_"+str(nruns)+"_"+str(EPOCHS)+".csv")
 
