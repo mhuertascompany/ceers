@@ -415,7 +415,7 @@ for f in filters:
 
     if WRITE:
         print("writing image files for filter "+ str(f))
-        np.savez('image_arrays_'+f+'.npz', stamps = X_JWST, fullvec = fullvec, idvec=idvec,fieldvec=fieldvec,ravec=ravec,decvec=decvec)
+        np.savez(data_path+'image_arrays/image_arrays_'+f+'.npz', stamps = X_JWST, fullvec = fullvec, idvec=idvec,fieldvec=fieldvec,ravec=ravec,decvec=decvec)
 
              
 
