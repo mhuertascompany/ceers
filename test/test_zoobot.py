@@ -1,2 +1,0 @@
-import zoobot
-print("Hello")
