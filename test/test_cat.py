@@ -17,6 +17,6 @@ cols = cat.columns
 # for col in cols:
 #     print(col)
 
-for i in range(10050,10100):
+for i in range(8000,8100):
     print(i)
-    print(cat[['zfit_50','F200W_RE','F200W_FLAG','star_flag']].values[i])
+    print(cat[['zfit_50','F200W_RE','F200W_Q','F200W_FLAG']].values[i])

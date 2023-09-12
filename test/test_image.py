@@ -54,6 +54,7 @@ coords = cat[col_names].values
 fit_flag = cat['F200W_FLAG'].values
 star_flag = cat['star_flag'].values
 Re_F200W = cat['F200W_RE'].values
+axis_ratio = cat['F200W_Q'].values
 
 with fits.open(os.path.join(img_dir,img_name)) as hdul:
     # hdul.info()
@@ -66,25 +67,26 @@ ymax, xmax = data.shape
 pixels = w.wcs_world2pix(coords,0)
 pix_size = 0.031
 
-for i in range(9000):
-    size = 212*np.maximum(0.04*Re_F200W[i]/pix_size,0.1)
-    pix = pixels[i]
-    up = int(pix[0]+size)
-    down = up-size*2
-    right = int(pix[1]+size)
-    left = right-size*2
-    if (fit_flag[i]==0) & (star_flag[i]==0) & all([up<xmax,down>-1,right<ymax,left>-1]):
-    # if all([up<xmax,down>-1,right<ymax,left>-1]):   
-        # cut = data[left:right,down:up]
-        cut = Cutout2D(data,pix,wcs=w,size=size*2).data
+for i in range(8052,9000):
+    if (fit_flag[i]==0) & (star_flag[i]==0):
+        size = 159*np.maximum(0.04*Re_F200W[i]*np.sqrt(axis_ratio[i])/pix_size,0.1)
+        pix = pixels[i]
+        up = int(pix[0]+size)
+        down = up-size*2
+        right = int(pix[1]+size)
+        left = right-size*2
+        if all([up<xmax,down>-1,right<ymax,left>-1]):
+        # if all([up<xmax,down>-1,right<ymax,left>-1]):   
+            # cut = data[left:right,down:up]
+            cut = Cutout2D(data,pix,wcs=w,size=size*2).data
 
-        if zero_pix_fraction(cut)<0.2:
-            print(i,Re_F200W[i],fit_flag[i])
-            resized_cut = resize(cut,output_shape=(424,424))
+            if zero_pix_fraction(cut)<0.2:
+                print(i,Re_F200W[i],fit_flag[i])
+                resized_cut = resize(cut,output_shape=(424,424))
 
-            image = array2img(resized_cut,clipped_percent=1.)
+                image = array2img(resized_cut,clipped_percent=1.)
 
-            # image = array2img((cut==0.).astype(int))
+                # image = array2img((cut==0.).astype(int))
 
-            image.save('images/demo_4/F200W_%i.jpg'%i)
+                image.save('images/demo_4/alt_F200W_%i.jpg'%i)
 
