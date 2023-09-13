@@ -7,7 +7,6 @@ import pandas as pd
 import os
 import numpy as np
 from skimage.transform import resize
-# from scipy.stats import median_abs_deviation
 
 # convert a greyscale numpy array to [0,255] jpg image
 def array2img(arr,clipped_percent=0):
@@ -26,19 +25,6 @@ def zero_pix_fraction(img):
     zeros = np.sum(np.max(img,axis=0)==0.)+np.sum(np.max(img,axis=1)==0.)
     size = img.shape[0]
     return zeros/size
-
-def check_trail(img,axis=0):
-    sigma = np.std(img)
-    # sigma = median_abs_deviation(img,axis=None)
-    sorted = np.sort(img,axis=axis)
-    if axis == 0:
-        n1 = np.sum(sorted[-5,:]>0)
-        n2 = np.sum(sorted[-5,:]>5*sigma)
-    if axis == 1:
-        n1 = np.sum(sorted[:,-5]>0)
-        n2 = np.sum(sorted[:,-5]>5*sigma)
-
-    print("%i/%i=%.3f"%(n2,n1,n2/n1))
 
 
 img_dir = "/scratch/ydong/images"
@@ -67,9 +53,9 @@ ymax, xmax = data.shape
 pixels = w.wcs_world2pix(coords,0)
 pix_size = 0.031
 
-for i in range(8052,9000):
+for i in range(9000):
     if (fit_flag[i]==0) & (star_flag[i]==0):
-        size = 159*np.maximum(0.04*Re_F200W[i]*np.sqrt(axis_ratio[i])/pix_size,0.1)
+        size = 106*np.maximum(0.04*Re_F200W[i]*np.sqrt(axis_ratio[i])/pix_size,0.1)
         pix = pixels[i]
         up = int(pix[0]+size)
         down = up-size*2
