@@ -7,13 +7,11 @@ import pdb
 output_dir="/u/mhuertas/data/CEERS/"
 basePath = '/virgotng/universe/IllustrisTNG/TNG100-1/output/'
 
-
-
-cat = pd.read_csv(output_dir+"subhalos_data.csv")
+GroupFirstSub = il.groupcat.loadHalos(basePath,99,fields=['GroupFirstSub'])
 fields = ['SubhaloMass','SubfindID','SnapNum','SubhaloMassType']
 
 
-for idn in cat.SHID:
+for idn in GroupFirstSub:
     tree = il.sublink.loadTree(basePath,99,idn,fields=fields,onlyMPB=True)
     #pdb.set_trace()
     try:
