@@ -15,9 +15,9 @@ fields = ['SubhaloMass','SubfindID','SnapNum','SubhaloMassType']
 
 for idn in cat.SHID:
     tree = il.sublink.loadTree(basePath,99,idn,fields=fields,onlyMPB=True)
-    pdb.set_trace()
+    #pdb.set_trace()
     if True:
-        df = pd.DataFrame(list(zip(tree['SnapNum'], tree['SubfindID'], tree['SubhaloMass'],tree['SubhaloMassType'])), 
+        df = pd.DataFrame(list(zip(tree['SnapNum'], tree['SubfindID'], tree['SubhaloMass'],tree['SubhaloMassType'][:,4])), 
                columns =['SnapNUm', 'SubfindID','SubhaloMass','SubhaloMstar']) 
         df.to_csv(output_dir+"TNG100projenitors/TNG100_tree_"+str(idn)+".csv")
     else:
