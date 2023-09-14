@@ -12,7 +12,7 @@ cat = pd.read_csv(output_dir+"subhalos_data.csv")
 fields = ['SubhaloMass','SubfindID','SnapNum']
 
 
-for idn in cat.GalID:
+for idn in cat.count:
     tree = il.sublink.loadTree(basePath,99,idn,fields=fields,onlyMPB=True)
     try:
         df = pd.DataFrame(list(zip(tree['SnapNum'], tree['SubfindID'])), 
