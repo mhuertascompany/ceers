@@ -4,7 +4,7 @@ from astropy.io import fits
 import numpy as np
 
 output_dir="/u/mhuertas/data/CEERS/"
-basePath = '/virgo/simulations/IllustrisTNG/TNG50-1/output/'
+basePath = '/virgotng/universe/IllustrisTNG/TNG100-1/output/'
 
 
 
