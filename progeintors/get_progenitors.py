@@ -14,9 +14,9 @@ fields = ['SubhaloMass','SubfindID','SnapNum']
 
 for idn in cat.SHID:
     tree = il.sublink.loadTree(basePath,99,idn,fields=fields,onlyMPB=True)
-    try:
+    if True:
         df = pd.DataFrame(list(zip(tree['SnapNum'], tree['SubfindID'])), 
                columns =['SnapNUm', 'SubfindID','SubhaloMass']) 
         df.to_csv(output_dir+"TNG100projenitors/TNG100_tree_"+str(idn)+".csv")
-    except:
+    else:
         print("Error")  
