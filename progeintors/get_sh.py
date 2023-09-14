@@ -13,7 +13,7 @@ subhalos['SHID'] = range(len(subhalos['SubhaloMass']))
 subhalos_df = pd.DataFrame(subhalos)
 mass_msun = subhalos['SubhaloMass'] * 1e10 / 0.704
 
-subhalos_massive = subhalos_df.query('SubhaloMass>1e9*0.704/1e10')
+subhalos_massive = subhalos_df.query('SubhaloMass>0.704')
 
 # Save the DataFrame to a CSV file
 subhalos_massive.to_csv(output_dir + 'subhalos_data_1e9.csv', index=False)
