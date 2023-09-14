@@ -4,7 +4,7 @@ import illustris_python as il
 output_dir="/u/mhuertas/data/CEERS/"
 
 basePath = '/virgotng/universe/IllustrisTNG/TNG100-1/output/'
-fields = ['SubhaloMass', 'SubhaloSFRinRad']
+fields = ['SubfindID','SubhaloMass', 'SubhaloSFRinRad']
 subhalos = il.groupcat.loadSubhalos(basePath, 99, fields=fields)
 
 # Convert the subhalos dictionary to a DataFrame
