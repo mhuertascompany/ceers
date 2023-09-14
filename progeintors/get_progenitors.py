@@ -9,14 +9,14 @@ basePath = '/virgotng/universe/IllustrisTNG/TNG100-1/output/'
 
 
 cat = pd.read_csv(output_dir+"subhalos_data.csv")
-fields = ['SubhaloMass','SubfindID','SnapNum']
+fields = ['SubhaloMass','SubfindID','SnapNum','SubhaloMassType']
 
 
 for idn in cat.SHID:
     tree = il.sublink.loadTree(basePath,99,idn,fields=fields,onlyMPB=True)
     if True:
-        df = pd.DataFrame(list(zip(tree['SnapNum'], tree['SubfindID'])), 
-               columns =['SnapNUm', 'SubfindID','SubhaloMass']) 
+        df = pd.DataFrame(list(zip(tree['SnapNum'], tree['SubfindID'], tree['SubhaloMass'],tree['SubhaloMassType'][4])), 
+               columns =['SnapNUm', 'SubfindID','SubhaloMass','SubhaloMstar']) 
         df.to_csv(output_dir+"TNG100projenitors/TNG100_tree_"+str(idn)+".csv")
     else:
         print("Error")  
