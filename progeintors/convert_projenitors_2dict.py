@@ -43,7 +43,7 @@ for filename in os.listdir(directory):
 
 
 # Save the data_dict to an HDF5 file
-hdf5_file_path = directory+'projTNGmstar.h5'  # Specify the path to your HDF5 file
+hdf5_file_path = directory+'projTNGmstargt9.h5'  # Specify the path to your HDF5 file
 with h5py.File(hdf5_file_path, 'w') as hdf5_file:
     for key, value in data_dict.items():
         group = hdf5_file.create_group(str(key))
