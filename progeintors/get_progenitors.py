@@ -16,7 +16,7 @@ for idn,mass in zip(Halos99['GroupFirstSub'],Halos99['GroupMassType'][:,4]):
         tree = il.sublink.loadTree(basePath,99,idn,fields=fields,onlyMPB=True)
         #pdb.set_trace()
         try:
-            df = pd.DataFrame(list(zip(tree['SnapNum'], tree['SubfindID'], tree['SubhaloMass'],tree['SubhaloMassType'][:,4])), 
+            df = pd.DataFrame(list(zip(tree['SnapNum'], tree['SubfindID'], np.log10(tree['SubhaloMass']*1e10/0.704),np.log10(tree['SubhaloMassType'][:,4]*1e10/0.704))), 
                 columns =['SnapNUm', 'SubfindID','SubhaloMass','SubhaloMstar']) 
             df.to_csv(output_dir+"TNG100projenitors/TNG100_tree_"+str(idn)+".csv")
         except:
