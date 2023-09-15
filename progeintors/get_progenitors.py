@@ -12,7 +12,7 @@ fields = ['SubhaloMass','SubfindID','SnapNum','SubhaloMassType']
 
 
 for idn,mass in zip(Halos99['GroupFirstSub'],Halos99['GroupMassType'][:,4]):
-    if np.log10(mass*1e10/0.704)>9
+    if np.log10(mass*1e10/0.704)>9:
         tree = il.sublink.loadTree(basePath,99,idn,fields=fields,onlyMPB=True)
         #pdb.set_trace()
         try:
