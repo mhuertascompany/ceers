@@ -14,11 +14,12 @@ sn=np.zeros(99, dtype='int32' )
 
 for i in range(1,99):
     h = il.groupcat.loadHeader(basePath,i)
-    redshifts[i] = h['Redshift']
-    sn[i]=i
+    redshifts[i-1] = h['Redshift']
+    sn[i-1]=i
 
 # Create a DataFrame to store 'redshifts' and 'sn'
 print(sn)
+print(redshifts)
 df_snap = pd.DataFrame({'Redshift': redshifts, 'SnapshotNumber': sn})
 
 
@@ -70,7 +71,7 @@ for filename in os.listdir(directory):
                         snapshot_number = int(row[1])  # Assuming the snapshot number is in the second column
                         
                         # Find the corresponding redshift from the df_snap DataFrame
-                        print(snapshot_number)
+                        #print(snapshot_number)
                         redshift = df_snap[df_snap['SnapshotNumber'] == snapshot_number]['Redshift'].values[0]
                         redshifts.append(redshift)
             
