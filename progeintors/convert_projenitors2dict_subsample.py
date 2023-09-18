@@ -3,24 +3,21 @@ import os
 import h5py
 import random
 import pandas as pd
+import numpy as np
+import illustris_python as il
 
-# Read the data from the file
-with open("/u/mhuertas/data/CEERS/planes_list_z.dat.csv", "r") as file:
-    lines = file.readlines()
+basePath = '/virgotng/universe/IllustrisTNG/TNG100-1/output/'
+redshifts = np.zeros(99, dtype='float32' )
+redshifts.fill(np.nan)
+sn=np.zeros(99, dtype='int32' )
 
-# Remove the backslash from the last line
-lines[-1] = lines[-1].rstrip('\\\n')
+for i in range(99):
+    h = il.load_snapshot_header(basePath,i)
+    redshifts[i] = h['Redshift']
+    sn[i]=i
 
-# Create a new modified data string
-modified_data = '\n'.join(lines)
-
-# Read the modified data into a pandas DataFrame
-df_snap = pd.read_csv(modified_data, sep='\s+', usecols=[-2, -1], header=None, names=["TNG_sn", "TNG_z"])
-
-# Convert the "TNG_z" column to float
-df_snap["TNG_z"] = df_snap["TNG_z"].astype(float)
-
-
+# Create a DataFrame to store 'redshifts' and 'sn'
+df_snap = pd.DataFrame({'Redshift': redshifts, 'SnapshotNumber': sn})
 
 
 # Define a dictionary to store the data
@@ -71,13 +68,14 @@ for filename in os.listdir(directory):
                         snapshot_number = int(row[1])  # Assuming the snapshot number is in the second column
                         
                         # Find the corresponding redshift from the df_snap DataFrame
-                        redshift = df_snap[df_snap['TNG_sn'] == snapshot_number]['TNG_z'].values[0]
+                        redshift = df_snap[df_snap['SnapshotNumber'] == snapshot_number]['Redshift'].values[0]
                         redshifts.append(redshift)
             
                 # Create a unique index for this subsample entry
                 subsample_key = index
                 
                 # Create a dictionary entry for this subsample
+                file_id = filename.split('_')[-1].split('.')[0]  # Extract the identification number
                 data_dict[subsample_key] = {'FileID': file_id, 'x': fifth_column, 't': second_column, 'Redshifts': redshifts}
             
                 # Increment the index
