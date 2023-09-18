@@ -45,7 +45,7 @@ for filename in os.listdir(directory):
             # Perform subsampling 15 times
             for subsample_index in range(15):
                 # Generate a random starting row index between 0 and 66
-                start_row = random.randint(0, min(66, total_rows - 1))
+                start_row = random.randint(1, min(66, total_rows - 1))
                 
                 # Generate a random subsample size between 2 and 6 or up to a maximum of 20 rows
                 subsample_size = random.randint(2, min(6, total_rows - start_row, 20))
@@ -60,7 +60,7 @@ for filename in os.listdir(directory):
                 
                 # Extract the values from the second and fifth columns and check for 'inf' values
                 for row in selected_rows:
-                    if len(row) >= 5 and row[1] != 'inf' and row[4] != 'inf':
+                    if len(row) >= 5 and row[1] != '-inf' and row[4] != '-inf':
                         second_column.append(row[1])  # Index 1 is the second column
                         fifth_column.append(row[4])   # Index 4 is the fifth column
                         
