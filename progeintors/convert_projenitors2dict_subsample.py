@@ -5,6 +5,7 @@ import random
 import pandas as pd
 import numpy as np
 import illustris_python as il
+import pdb
 
 basePath = '/virgotng/universe/IllustrisTNG/TNG100-1/output/'
 redshifts = np.zeros(99, dtype='float32' )
@@ -17,6 +18,7 @@ for i in range(99):
     sn[i]=i
 
 # Create a DataFrame to store 'redshifts' and 'sn'
+print(redshifts)
 df_snap = pd.DataFrame({'Redshift': redshifts, 'SnapshotNumber': sn})
 
 
@@ -68,6 +70,7 @@ for filename in os.listdir(directory):
                         snapshot_number = int(row[1])  # Assuming the snapshot number is in the second column
                         
                         # Find the corresponding redshift from the df_snap DataFrame
+                        pdb.set_trace()
                         redshift = df_snap[df_snap['SnapshotNumber'] == snapshot_number]['Redshift'].values[0]
                         redshifts.append(redshift)
             
