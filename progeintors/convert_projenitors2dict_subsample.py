@@ -48,7 +48,7 @@ for filename in os.listdir(directory):
             # Perform subsampling 15 times
             for subsample_index in range(15):
                 # Generate a random starting row index between 0 and 66
-                start_row = random.randint(0, min(66, total_rows - 1))
+                start_row = random.randint(1, min(66, total_rows - 1))
                 
                 # Generate a random step size (x) between 2 and 6
                 step_size = random.randint(2, 6)
