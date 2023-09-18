@@ -47,11 +47,11 @@ for filename in os.listdir(directory):
             
             # Perform subsampling 15 times
             for subsample_index in range(15):
-                # Generate a random starting row index between 0 and 66
-                start_row = random.randint(1, min(66, total_rows - 1))
+                # Generate a random starting row index between 1 and 66
+                start_row = random.randint(1, min(33, total_rows - 1))
                 
                 # Generate a random step size (x) between 2 and 6
-                step_size = random.randint(2, 6)
+                step_size = random.randint(1, 3)
                 
                 
                 
@@ -62,7 +62,7 @@ for filename in os.listdir(directory):
                 scale_factor=[]
                 
                 # Extract the values from the second and fifth columns and check for 'inf' values
-                for i in range(start_row, min(start_row + 20, total_rows), step_size):
+                for i in range(start_row, min(start_row + 20*step_size, total_rows), step_size):
                     row = rows[i]
                     if len(row) >= 5 and row[1] != '-inf' and row[4] != '-inf':
                         second_column.append(row[1])  # Index 1 is the second column
@@ -82,11 +82,12 @@ for filename in os.listdir(directory):
                 
                 # Create a dictionary entry for this subsample
                 file_id = filename.split('_')[-1].split('.')[0]  # Extract the identification number
-                
-                data_dict[subsample_key] = {'FileID': file_id, 'x': fifth_column, 'snapshot': second_column, 'z': redshifts, 't': scale_factor}
-                print('Done '+file_id)
+                if len(redshift)>5:
+                    data_dict[subsample_key] = {'FileID': file_id, 'x': fifth_column, 'snapshot': second_column, 'z': redshifts, 't': scale_factor}
+            
                 # Increment the index
                 index += 1
+            print('Done '+file_id)
 
 # Now, data_dict contains the data from all the CSV files with separate entries for each subsample, including unique redshifts
 
