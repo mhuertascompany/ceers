@@ -70,7 +70,7 @@ for filename in os.listdir(directory):
                         snapshot_number = int(row[1])  # Assuming the snapshot number is in the second column
                         
                         # Find the corresponding redshift from the df_snap DataFrame
-                        pdb.set_trace()
+                        print(snapshot_number)
                         redshift = df_snap[df_snap['SnapshotNumber'] == snapshot_number]['Redshift'].values[0]
                         redshifts.append(redshift)
             
