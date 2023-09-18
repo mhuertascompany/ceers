@@ -60,6 +60,7 @@ for filename in os.listdir(directory):
                 second_column = []
                 fifth_column = []
                 redshifts = []  # List to store the corresponding redshifts
+                scale_factor=[]
                 
                 # Extract the values from the second and fifth columns and check for 'inf' values
                 for row in selected_rows:
@@ -74,14 +75,16 @@ for filename in os.listdir(directory):
                         #print(snapshot_number)
                         redshift = df_snap[df_snap['SnapshotNumber'] == snapshot_number]['Redshift'].values[0]
                         redshifts.append(redshift)
+                        scale_factor.append(1/(1+redshift))
             
                 # Create a unique index for this subsample entry
                 subsample_key = index
                 
                 # Create a dictionary entry for this subsample
                 file_id = filename.split('_')[-1].split('.')[0]  # Extract the identification number
-                data_dict[subsample_key] = {'FileID': file_id, 'x': fifth_column, 't': second_column, 'Redshifts': redshifts}
-            
+                
+                data_dict[subsample_key] = {'FileID': file_id, 'x': fifth_column, 'snapshot': second_column, 'z': redshifts, 't': scale_factor}
+                print('Done '+file_id)
                 # Increment the index
                 index += 1
 
@@ -94,8 +97,10 @@ with h5py.File(hdf5_file_path, 'w') as hdf5_file:
         group = hdf5_file.create_group(str(key))
         group.create_dataset('FileID', data=value['FileID'])
         group.create_dataset('x', data=value['x'])
+        group.create_dataset('snapshot', data=value['snapshot'])
+        group.create_dataset('z', data=value['z'])
         group.create_dataset('t', data=value['t'])
-        group.create_dataset('Redshifts', data=value['Redshifts'])
+
 
 print(f'Data saved to {hdf5_file_path}')
 
