@@ -12,7 +12,7 @@ redshifts.fill(np.nan)
 sn=np.zeros(99, dtype='int32' )
 
 for i in range(99):
-    h = il.load_snapshot_header(basePath,i)
+    h = il.loadHeader(basePath,i)
     redshifts[i] = h['Redshift']
     sn[i]=i
 
