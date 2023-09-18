@@ -10,15 +10,15 @@ import pdb
 basePath = '/virgotng/universe/IllustrisTNG/TNG100-1/output/'
 redshifts = np.zeros(99, dtype='float32' )
 redshifts.fill(np.nan)
-sn=np.zeros(100, dtype='int32' )
+sn=np.zeros(99, dtype='int32' )
 
-for i in range(100):
+for i in range(1,99):
     h = il.groupcat.loadHeader(basePath,i)
     redshifts[i] = h['Redshift']
     sn[i]=i
 
 # Create a DataFrame to store 'redshifts' and 'sn'
-print(redshifts)
+print(sn)
 df_snap = pd.DataFrame({'Redshift': redshifts, 'SnapshotNumber': sn})
 
 
