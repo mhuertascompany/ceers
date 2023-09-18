@@ -82,7 +82,7 @@ for filename in os.listdir(directory):
                 
                 # Create a dictionary entry for this subsample
                 file_id = filename.split('_')[-1].split('.')[0]  # Extract the identification number
-                if len(redshift)>5:
+                if len(redshifts)>5:
                     data_dict[subsample_key] = {'FileID': file_id, 'x': fifth_column, 'snapshot': second_column, 'z': redshifts, 't': scale_factor}
             
                 # Increment the index
