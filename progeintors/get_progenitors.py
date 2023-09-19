@@ -8,7 +8,7 @@ output_dir="/u/mhuertas/data/CEERS/"
 basePath = '/virgotng/universe/IllustrisTNG/TNG100-1/output/'
 
 Halos99 = il.groupcat.loadHalos(basePath,99,fields=['GroupFirstSub','GroupMass','GroupMassType',])
-fields = ['SubhaloMass','SubfindID','SnapNum','SubhaloMassType']
+fields = ['SubhaloMass','SubfindID','SnapNum','SubhaloMassType','SubhaloHalfmassRad']
 
 
 for idn,mass in zip(Halos99['GroupFirstSub'],Halos99['GroupMassType'][:,4]):
