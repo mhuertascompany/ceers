@@ -27,7 +27,7 @@ df_snap = pd.DataFrame({'Redshift': redshifts, 'SnapshotNumber': sn})
 data_dict = {}
 
 # Directory containing the CSV files
-directory = '/u/mhuertas/data/CEERS/TNG100projenitors'
+directory = '/u/mhuertas/data/CEERS/TNG100projenitors_sizemass'
 
 # Initialize an index for arbitrary numbering
 index = 0
