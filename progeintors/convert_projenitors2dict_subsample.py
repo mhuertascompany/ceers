@@ -85,7 +85,7 @@ for filename in os.listdir(directory):
                 # Create a dictionary entry for this subsample
                 file_id = filename.split('_')[-1].split('.')[0]  # Extract the identification number
                 if len(redshifts)>5:
-                    x=np.array((len(fifth_column),2))
+                    x=np.zeros((len(fifth_column),2))
                     print(x.shape)
                     x[:,0]=fifth_column
                     x[:,1]=sixth_column
