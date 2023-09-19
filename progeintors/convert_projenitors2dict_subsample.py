@@ -58,6 +58,7 @@ for filename in os.listdir(directory):
                 # Initialize lists for the second and fifth columns
                 second_column = []
                 fifth_column = []
+                sixth_column = []
                 redshifts = []  # List to store the corresponding redshifts
                 scale_factor=[]
                 
@@ -66,7 +67,8 @@ for filename in os.listdir(directory):
                     row = rows[i]
                     if len(row) >= 5 and row[1] != '-inf' and row[4] != '-inf':
                         second_column.append(row[1])  # Index 1 is the second column
-                        fifth_column.append(row[4])   # Index 4 is the fifth column
+                        fifth_column.append(row[4])   # Index 4 is the fifth column (mass)
+                        sixth_column.append(row[5])   # Index 5 is the fifth column (size)
                         
                         # Find the corresponding snapshot number from the row
                         snapshot_number = int(row[1])  # Assuming the snapshot number is in the second column
@@ -83,7 +85,11 @@ for filename in os.listdir(directory):
                 # Create a dictionary entry for this subsample
                 file_id = filename.split('_')[-1].split('.')[0]  # Extract the identification number
                 if len(redshifts)>5:
-                    data_dict[subsample_key] = {'FileID': file_id, 'x': fifth_column, 'snapshot': second_column, 'z': redshifts, 't': scale_factor}
+                    x=np.array((len(fifth_column),2))
+                    x[:,0]=fifth_column
+                    x[:,1]=sixth_column
+
+                    data_dict[subsample_key] = {'FileID': file_id, 'x': x, 'snapshot': second_column, 'z': redshifts, 't': scale_factor}
             
                 # Increment the index
                 index += 1
@@ -92,7 +98,7 @@ for filename in os.listdir(directory):
 # Now, data_dict contains the data from all the CSV files with separate entries for each subsample, including unique redshifts
 
 # Save the data_dict to an HDF5 file
-hdf5_file_path = directory+'projTNGmstargt9_random.h5'  # Specify the path to your HDF5 file
+hdf5_file_path = directory+'projTNGmstargt9_random_sizemass.h5'  # Specify the path to your HDF5 file
 with h5py.File(hdf5_file_path, 'w') as hdf5_file:
     for key, value in data_dict.items():
         group = hdf5_file.create_group(str(key))
