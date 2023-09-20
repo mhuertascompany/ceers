@@ -17,7 +17,5 @@ cols = cat.columns
 for col in cols:
     print(col)
 
-for i in range(8000,8100):
-    if cat['F200W_FLAG'].values[i] == 0.:
-        print(i)
-        print(cat[['ID','zfit_50','F200W_RE','F200W_MAG']].values[i])
+for i in range(100):
+    print(cat[['ID','RA_1','DEC_1','RA_2','DEC_2']].values[i])

@@ -13,19 +13,13 @@ import sys
 
 sys.path.append('/scratch/ydong')
 
-
+from bars.bot.To3d import To3d
 from zoobot.pytorch.training import representations
 from zoobot.pytorch.estimators import define_model
 from zoobot.pytorch.predictions import predict_on_catalog
 from zoobot.shared import load_predictions
 
-class To3d:
-    def __init__(self):
-        pass
 
-    def __call__(self, image, **kwargs):
-        x, y = image.shape
-        return image.reshape(x,y,1)
 
 logging.basicConfig(level=logging.INFO)
 

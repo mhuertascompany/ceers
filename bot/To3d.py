@@ -1,6 +1,5 @@
 import numpy as np
 import albumentations as A
-from PIL import Image
 
 
 class To3d:
@@ -11,14 +10,6 @@ class To3d:
         x, y = image.shape
         return image.reshape(x,y,1)
 
-img = Image.open('/home/ydong-ext/demo_rings/images/102960/102960_1416.jpg')
-img = np.array(img)
-print(type(img))
-print(img.shape)
-
-crop_scale_bounds = (0.7, 0.8)
-crop_ratio_bounds = (0.9, 1.1)
-resize_after_crop = 224
 
 custom_albumentation_transform = A.Compose([
     A.Lambda(image=To3d(),always_apply=True),
@@ -34,8 +25,3 @@ custom_albumentation_transform = A.Compose([
     ),  # new aspect ratio
     A.VerticalFlip(p=0.5),
 ])
-
-arr = custom_albumentation_transform(image=img)['image']
-print(arr.shape)
-
-arr = np.transpose(arr,axes=[2,0,1])
