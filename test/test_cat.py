@@ -14,9 +14,10 @@ cat = pd.read_csv(os.path.join(cat_dir,cat_name),nrows=10100)
 col_names = ['RA_1','DEC_1']
 cols = cat.columns
 
-# for col in cols:
-#     print(col)
+for col in cols:
+    print(col)
 
 for i in range(8000,8100):
-    print(i)
-    print(cat[['zfit_50','F200W_RE','F200W_Q','F200W_FLAG']].values[i])
+    if cat['F200W_FLAG'].values[i] == 0.:
+        print(i)
+        print(cat[['ID','zfit_50','F200W_RE','F200W_MAG']].values[i])

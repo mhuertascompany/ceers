@@ -7,8 +7,7 @@ import re
 
 zoobot_dir = '/home/ydong-ext/zoobot'
 
-import zoobot
-# print(zoobot.__file__)
+
 from zoobot.pytorch.training import finetune
 from zoobot.pytorch.predictions import predict_on_catalog
 from galaxy_datasets.pytorch.galaxy_datamodule import GalaxyDataModule
@@ -49,9 +48,9 @@ class To3d:
         x, y = image.shape
         return image.reshape(x,y,1)
 
-crop_scale_bounds=(0.7, 0.8)
-crop_ratio_bounds=(0.9, 1.1)
-resize_after_crop=224
+crop_scale_bounds = (0.7, 0.8)
+crop_ratio_bounds = (0.9, 1.1)
+resize_after_crop = 224
 
 datamodule = GalaxyDataModule(
     label_cols=label_cols,
