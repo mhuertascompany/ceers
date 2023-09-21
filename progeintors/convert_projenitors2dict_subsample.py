@@ -26,75 +26,79 @@ df_snap = pd.DataFrame({'Redshift': redshifts, 'SnapshotNumber': sn})
 # Define a dictionary to store the data
 data_dict = {}
 
+
+
 # Directory containing the CSV files
-directory = '/u/mhuertas/data/CEERS/TNG100projenitors_sizemass'
+directory_list = ['/u/mhuertas/data/CEERS/TNG100projenitors_sizemass','/u/mhuertas/data/CEERS/TNG50projenitors_sizemass']
 
 # Initialize an index for arbitrary numbering
 index = 0
 
+for directory in directory_list:
+    print('Doing folder '+ directory)
 # Loop through all CSV files in the directory
-for filename in os.listdir(directory):
-    if filename.endswith(".csv") and filename.startswith("TNG100_tree_"):
-        file_path = os.path.join(directory, filename)
-        
-        # Open and read the CSV file
-        with open(file_path, 'r') as csv_file:
-            csv_reader = csv.reader(csv_file)
+    for filename in os.listdir(directory):
+        if filename.endswith(".csv") and filename.startswith("TNG"):
+            file_path = os.path.join(directory, filename)
             
-            # Get the total number of rows in the file
-            rows = list(csv_reader)
-            total_rows = len(rows)
-            
-            # Perform subsampling 15 times
-            for subsample_index in range(15):
-                # Generate a random starting row index between 1 and 66
-                start_row = random.randint(1, min(33, total_rows - 1))
+            # Open and read the CSV file
+            with open(file_path, 'r') as csv_file:
+                csv_reader = csv.reader(csv_file)
                 
-                # Generate a random step size (x) between 1 and 3
-                step_size = random.randint(1, 3)
+                # Get the total number of rows in the file
+                rows = list(csv_reader)
+                total_rows = len(rows)
                 
+                # Perform subsampling 15 times
+                for subsample_index in range(15):
+                    # Generate a random starting row index between 1 and 66
+                    start_row = random.randint(1, min(33, total_rows - 1))
+                    
+                    # Generate a random step size (x) between 1 and 3
+                    step_size = random.randint(1, 3)
+                    
+                    
+                    
+                    # Initialize lists for the second and fifth columns
+                    second_column = []
+                    fifth_column = []
+                    sixth_column = []
+                    redshifts = []  # List to store the corresponding redshifts
+                    scale_factor=[]
+                    
+                    # Extract the values from the second and fifth columns and check for 'inf' values
+                    for i in range(start_row, min(start_row + 20*step_size, total_rows), step_size):
+                        row = rows[i]
+                        if len(row) >= 5 and row[1] != '-inf' and row[4] != '-inf':
+                            second_column.append(row[1])  # Index 1 is the second column
+                            fifth_column.append(row[4])   # Index 4 is the fifth column (mass)
+                            sixth_column.append(row[5])   # Index 5 is the fifth column (size)
+                            
+                            # Find the corresponding snapshot number from the row
+                            snapshot_number = int(row[1])  # Assuming the snapshot number is in the second column
+                            
+                            # Find the corresponding redshift from the df_snap DataFrame
+                            #print(snapshot_number)
+                            redshift = df_snap[df_snap['SnapshotNumber'] == snapshot_number]['Redshift'].values[0]
+                            redshifts.append(redshift)
+                            scale_factor.append(1/(1+redshift))
                 
-                
-                # Initialize lists for the second and fifth columns
-                second_column = []
-                fifth_column = []
-                sixth_column = []
-                redshifts = []  # List to store the corresponding redshifts
-                scale_factor=[]
-                
-                # Extract the values from the second and fifth columns and check for 'inf' values
-                for i in range(start_row, min(start_row + 20*step_size, total_rows), step_size):
-                    row = rows[i]
-                    if len(row) >= 5 and row[1] != '-inf' and row[4] != '-inf':
-                        second_column.append(row[1])  # Index 1 is the second column
-                        fifth_column.append(row[4])   # Index 4 is the fifth column (mass)
-                        sixth_column.append(row[5])   # Index 5 is the fifth column (size)
-                        
-                        # Find the corresponding snapshot number from the row
-                        snapshot_number = int(row[1])  # Assuming the snapshot number is in the second column
-                        
-                        # Find the corresponding redshift from the df_snap DataFrame
-                        #print(snapshot_number)
-                        redshift = df_snap[df_snap['SnapshotNumber'] == snapshot_number]['Redshift'].values[0]
-                        redshifts.append(redshift)
-                        scale_factor.append(1/(1+redshift))
-            
-                # Create a unique index for this subsample entry
-                subsample_key = index
-                
-                # Create a dictionary entry for this subsample
-                file_id = filename.split('_')[-1].split('.')[0]  # Extract the identification number
-                if len(redshifts)>5:
-                    x=np.zeros((len(fifth_column),2))
-                    #print(x.shape)
-                    x[:,0]=fifth_column
-                    x[:,1]=sixth_column
+                    # Create a unique index for this subsample entry
+                    subsample_key = index
+                    
+                    # Create a dictionary entry for this subsample
+                    file_id = filename.split('_')[-1].split('.')[0]  # Extract the identification number
+                    if len(redshifts)>5:
+                        x=np.zeros((len(fifth_column),2))
+                        #print(x.shape)
+                        x[:,0]=fifth_column
+                        x[:,1]=sixth_column
 
-                    data_dict[subsample_key] = {'FileID': file_id, 'x': x, 'snapshot': second_column, 'z': redshifts, 't': scale_factor}
-            
-                # Increment the index
-                index += 1
-            print('Done '+file_id)
+                        data_dict[subsample_key] = {'FileID': file_id, 'x': x, 'snapshot': second_column, 'z': redshifts, 't': scale_factor}
+                
+                    # Increment the index
+                    index += 1
+                print('Done '+file_id)
 
 # Now, data_dict contains the data from all the CSV files with separate entries for each subsample, including unique redshifts
 
