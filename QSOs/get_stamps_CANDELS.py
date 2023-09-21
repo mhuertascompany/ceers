@@ -45,7 +45,7 @@ os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
 def read_CANDELS_data(data_path):
     
-    candels_cat = pd.read_csv(data_path+"cats/COSMOS_QSO_presample.csv")
+    candels_cat = pd.read_csv(data_path+"QSOs/COSMOS_QSO_presample.csv")
     
 
 
