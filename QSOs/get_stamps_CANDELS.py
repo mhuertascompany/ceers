@@ -54,6 +54,14 @@ def read_CANDELS_data_and_save(data_path, output_path):
         "hlsp_candels_hst_wfc3_uds-tot_f160w_v1.0_drz.fits"
     ]
     
+
+    for c in candels_images:
+        wfc3_f160 = fits.open(data_path+"images/"+c)
+        wfc3_f160_list.append(wfc3_f160)
+        wf160.append(WCS(wfc3_f160[0].header))
+        wf160[-1].sip = None
+
+        
     # Create the output directory if it doesn't exist
     if not os.path.exists(output_path):
         os.makedirs(output_path)
