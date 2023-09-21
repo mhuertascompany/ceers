@@ -20,7 +20,7 @@ torch.set_default_dtype(torch.float32)
 loaded_data_dict = {}
 data_path = "/scratch/mhuertas/CEERS/proj/"
 
-hdf5_file_path = data_path+"TNG100projenitors_sizemassprojTNGmstargt9_random_sizemass.h5"
+hdf5_file_path = data_path+"TNG50projenitors_sizemassprojTNGmstargt9_random_sizemass.h5"
 # Initialize 'x' and 't' as lists to store the cleaned data
 x = []
 t = []
