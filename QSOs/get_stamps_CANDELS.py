@@ -83,5 +83,5 @@ def read_CANDELS_data_and_save(data_path, output_path):
 
 # Example usage:
 data_path = "/scratch/mhuertas/CEERS/data_release/"
-output_path =  "/scratch/mhuertas/CEERS/data_release/QSOs"
+output_path =  "/scratch/mhuertas/CEERS/data_release/QSOs/"
 read_CANDELS_data_and_save(data_path, output_path)
