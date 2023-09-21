@@ -61,7 +61,7 @@ def read_CANDELS_data_and_save(data_path, output_path):
         wf160.append(WCS(wfc3_f160[0].header))
         wf160[-1].sip = None
 
-        
+
     # Create the output directory if it doesn't exist
     if not os.path.exists(output_path):
         os.makedirs(output_path)
@@ -72,7 +72,7 @@ def read_CANDELS_data_and_save(data_path, output_path):
         for ra, dec in zip(candels_cat.RA, candels_cat.DEC):
             try:
                 position = SkyCoord(ra, dec, unit="deg")
-                stamp = Cutout2D(wfc3_f160[0].data, position, 32, wcs=w_c)
+                stamp = Cutout2D(wfc3_f160[0].data, position, 128, wcs=w_c)
                 
                 if np.max(stamp.data) <= 0 or np.count_nonzero(stamp.data == 0) > 10:
                     continue
