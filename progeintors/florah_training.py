@@ -18,7 +18,7 @@ torch.set_default_dtype(torch.float32)
 
 # Initialize an empty dictionary to store the loaded data
 loaded_data_dict = {}
-data_path = "/Users/marchuertascompany/Documents/data/CEERS/TNG100/"
+data_path = "/scratch/mhuertas/CEERS/proj/"
 
 hdf5_file_path = data_path+"TNG100projenitors_sizemassprojTNGmstargt9_random_sizemass.h5"
 # Initialize 'x' and 't' as lists to store the cleaned data
@@ -125,9 +125,9 @@ data_loader = torch.utils.data.DataLoader(
 # checkpointing.
 trainer  = pl.Trainer(
     default_root_dir="TNG100_mass_size_gt9",
-    accelerator="cpu",
+    accelerator="auto",
     devices=1,
-    max_epochs=100,
+    max_epochs=500,
     logger=pl.loggers.CSVLogger("example_run", name="example_run"),
     callbacks=[
         pl.callbacks.ModelCheckpoint(
