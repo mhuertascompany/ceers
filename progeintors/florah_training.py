@@ -34,16 +34,18 @@ with h5py.File(hdf5_file_path, 'r') as hdf5_file:
         # Read the 'x' and 't' data from the group
         x_data = group['x'][:]
         t_data = 1/(1+group['z'][:])
+        z_data = group['z'][:]
         
         # Convert the 'x_data' to a list of floats while ignoring non-numeric and 'inf' values and skipping the first row
-        cleaned_x_mass = [float(value) for value in x_data[1:,0] if value != b'-' and value != b'-inf']
-        cleaned_x_size = [float(value) for value in x_data[1:,1] if value != b'-' and value != b'-inf']
+        cleaned_x_mass = [float(value) for value,size in zip(x_data[1:,0],x_data[1:,1]) if value != b'-' and value != b'-inf' and size>0]
+        cleaned_x_size = [float(value/(1+z)) for value,z in zip(x_data[1:,1],z_data) if value != b'-' and value != b'-inf' and value >0]
+        
         #print(np.array(cleaned_x_mass).shape)
         x_copy = np.column_stack([cleaned_x_mass, np.log10(cleaned_x_size)])
         #print(np.array(x_copy).shape)
         #cleaned_x = [float(value) for value in x_data[1:] if value != b'-' and value != b'-inf']
         # Convert the 't_data' to a list of floats while ignoring non-numeric and 'inf' values and skipping the first row
-        cleaned_t = [float(value) for value in t_data[1:] if value != b'-' and value != b'-inf']
+        cleaned_t = [float(value) for value,size in zip(t_data[1:],x_data[1:,1]) if value != b'-' and value != b'-inf' and size>0]
         cleaned_t = np.expand_dims(cleaned_t,1)
         
        # Append the cleaned 'x' and 't' data to their respective lists
