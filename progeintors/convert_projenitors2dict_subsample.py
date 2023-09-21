@@ -50,7 +50,7 @@ for filename in os.listdir(directory):
                 # Generate a random starting row index between 1 and 66
                 start_row = random.randint(1, min(33, total_rows - 1))
                 
-                # Generate a random step size (x) between 2 and 6
+                # Generate a random step size (x) between 1 and 3
                 step_size = random.randint(1, 3)
                 
                 
