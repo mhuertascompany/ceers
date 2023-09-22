@@ -20,7 +20,7 @@ torch.set_default_dtype(torch.float32)
 loaded_data_dict = {}
 data_path = "/scratch/mhuertas/CEERS/proj/"
 
-hdf5_file_path = data_path+"TNG50projenitors_sizemassprojTNGmstargt9_random_sizemass.h5"
+hdf5_file_path = data_path+"projTNGEAGLEmstargt9_random_sizemass.h5"
 # Initialize 'x' and 't' as lists to store the cleaned data
 x = []
 t = []
@@ -126,7 +126,7 @@ data_loader = torch.utils.data.DataLoader(
 # Create a Pytorch lightning trainer. This will handle the training loop and
 # checkpointing.
 trainer  = pl.Trainer(
-    default_root_dir="TNG100_mass_size_gt9",
+    default_root_dir="TNGEagle_mass_size_gt9",
     accelerator="auto",
     devices=1,
     max_epochs=500,
