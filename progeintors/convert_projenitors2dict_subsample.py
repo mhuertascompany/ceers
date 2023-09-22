@@ -44,6 +44,7 @@ df_snap_eagle = pd.DataFrame({'Redshift': redshifts, 'SnapshotNumber': sn})
 
 df_list=[df_snap_eagle,df_snap,df_snap]
 sim_list = ["EAGLE","TNG","TNG"]
+max_snap = [6,33,33]
 
 # Define a dictionary to store the data
 data_dict = {}
@@ -56,7 +57,7 @@ directory_list = ['/u/mhuertas/data/CEERS/EAGLEprojenitors_sizemass','/u/mhuerta
 # Initialize an index for arbitrary numbering
 index = 0
 
-for directory,df,simul in zip(directory_list,df_list,sim_list):
+for directory,df,simul,m in zip(directory_list,df_list,sim_list,max_snap):
     print('Doing folder '+ directory)
 # Loop through all CSV files in the directory
     for filename in os.listdir(directory):
@@ -73,12 +74,13 @@ for directory,df,simul in zip(directory_list,df_list,sim_list):
                 
                 # Perform subsampling 15 times
                 for subsample_index in range(15):
-                    # Generate a random starting row index between 1 and 66
-                    start_row = random.randint(1, min(33, total_rows - 1))
+                    # Generate a random starting row index between 1 and 33
+                    start_row = random.randint(0, min(m, total_rows - 1))
                     
                     # Generate a random step size (x) between 1 and 3
                     step_size = random.randint(1, 3)
-                    
+                    if m<30:
+                        step_size=1
                     
                     
                     # Initialize lists for the second and fifth columns
