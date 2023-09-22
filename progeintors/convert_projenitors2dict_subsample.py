@@ -30,7 +30,7 @@ redshifts = np.zeros(28, dtype='float32' )
 redshifts.fill(np.nan)
 sn=np.zeros(28, dtype='int32' )
 
-for i in range(1,100):
+for i in range(1,29):
     h = il.groupcat.loadHeader(basePath,i)
     redshifts[i-1] = h['Redshift']
     sn[i-1]=i
