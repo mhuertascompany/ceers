@@ -25,7 +25,7 @@ df_snap = pd.DataFrame({'Redshift': redshifts, 'SnapshotNumber': sn})
 
 
 # redshift - snapshot for EAGLE
-basePath = '/virgotng/universe/IllustrisTNG/TNG100-1/output/'
+basePath = '/virgotng/universe/Eagle/Eagle100-1/output'
 redshifts = np.zeros(28, dtype='float32' )
 redshifts.fill(np.nan)
 sn=np.zeros(28, dtype='int32' )
