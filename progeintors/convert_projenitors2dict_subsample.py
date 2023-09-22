@@ -75,7 +75,7 @@ for directory,df,simul,m in zip(directory_list,df_list,sim_list,max_snap):
                 # Perform subsampling 15 times
                 for subsample_index in range(15):
                     # Generate a random starting row index between 1 and 33
-                    start_row = random.randint(0, min(m, total_rows - 1))
+                    start_row = random.randint(1, min(m, total_rows - 1))
                     
                     # Generate a random step size (x) between 1 and 3
                     step_size = random.randint(1, 3)
