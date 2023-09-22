@@ -7,6 +7,7 @@ import numpy as np
 import illustris_python as il
 import pdb
 
+# redshift - snapshot for TNG
 basePath = '/virgotng/universe/IllustrisTNG/TNG100-1/output/'
 redshifts = np.zeros(99, dtype='float32' )
 redshifts.fill(np.nan)
@@ -23,22 +24,43 @@ print(redshifts)
 df_snap = pd.DataFrame({'Redshift': redshifts, 'SnapshotNumber': sn})
 
 
+# redshift - snapshot for EAGLE
+basePath = '/virgotng/universe/IllustrisTNG/TNG100-1/output/'
+redshifts = np.zeros(28, dtype='float32' )
+redshifts.fill(np.nan)
+sn=np.zeros(28, dtype='int32' )
+
+for i in range(1,100):
+    h = il.groupcat.loadHeader(basePath,i)
+    redshifts[i-1] = h['Redshift']
+    sn[i-1]=i
+
+# Create a DataFrame to store 'redshifts' and 'sn'
+print(sn)
+print(redshifts)
+df_snap_eagle = pd.DataFrame({'Redshift': redshifts, 'SnapshotNumber': sn})
+
+
+
+df_list=[df_snap_eagle,df_snap,df_snap]
+sim_list = ["EAGLE","TNG","TNG"]
+
 # Define a dictionary to store the data
 data_dict = {}
 
-
+output_path = '/u/mhuertas/data/CEERS/'
 
 # Directory containing the CSV files
-directory_list = ['/u/mhuertas/data/CEERS/TNG100projenitors_sizemass','/u/mhuertas/data/CEERS/TNG50projenitors_sizemass']
+directory_list = ['/u/mhuertas/data/CEERS/EAGLEprojenitors_sizemass','/u/mhuertas/data/CEERS/TNG100projenitors_sizemass','/u/mhuertas/data/CEERS/TNG50projenitors_sizemass']
 
 # Initialize an index for arbitrary numbering
 index = 0
 
-for directory in directory_list:
+for directory,df,simul in zip(directory_list,df_list,sim_list):
     print('Doing folder '+ directory)
 # Loop through all CSV files in the directory
     for filename in os.listdir(directory):
-        if filename.endswith(".csv") and filename.startswith("TNG"):
+        if filename.endswith(".csv") and filename.startswith(simul):
             file_path = os.path.join(directory, filename)
             
             # Open and read the CSV file
@@ -79,7 +101,7 @@ for directory in directory_list:
                             
                             # Find the corresponding redshift from the df_snap DataFrame
                             #print(snapshot_number)
-                            redshift = df_snap[df_snap['SnapshotNumber'] == snapshot_number]['Redshift'].values[0]
+                            redshift = df[df['SnapshotNumber'] == snapshot_number]['Redshift'].values[0]
                             redshifts.append(redshift)
                             scale_factor.append(1/(1+redshift))
                 
@@ -103,7 +125,7 @@ for directory in directory_list:
 # Now, data_dict contains the data from all the CSV files with separate entries for each subsample, including unique redshifts
 
 # Save the data_dict to an HDF5 file
-hdf5_file_path = directory+'projTNGmstargt9_random_sizemass.h5'  # Specify the path to your HDF5 file
+hdf5_file_path = output_path+'projTNGEAGLEmstargt9_random_sizemass.h5'  # Specify the path to your HDF5 file
 with h5py.File(hdf5_file_path, 'w') as hdf5_file:
     for key, value in data_dict.items():
         group = hdf5_file.create_group(str(key))
