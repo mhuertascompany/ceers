@@ -15,6 +15,7 @@ torch.set_default_dtype(torch.float32)
 ## READ THE TRAINING DATA
 
 
+print('Loading training data..')
 # Initialize an empty dictionary to store the loaded data
 loaded_data_dict = {}
 data_path = "/scratch/mhuertas/CEERS/proj/"
@@ -65,6 +66,7 @@ node_features = {'x': [np.array(arr, dtype=np.float32) for arr in x], 't': [np.a
 x = node_features['x']   # stellar mass and half mass radius
 t = node_features['t']   # scale factor
 
+print('Training...')
 
 #### TRAININIG
 
