@@ -135,7 +135,7 @@ trainer  = pl.Trainer(
     callbacks=[
         pl.callbacks.ModelCheckpoint(
             filename="{epoch}-{val_loss:.4f}", save_weights_only=False,
-            mode="min", monitor="val_loss"),
+            mode="min", monitor="val_loss",save_top_k=5),
         pl.callbacks.LearningRateMonitor("epoch"),
     ],
     enable_progress_bar=True,
@@ -146,6 +146,6 @@ trainer  = pl.Trainer(
 # Start training
 trainer.fit(
     model=model, train_dataloaders=data_loader,
-    val_dataloaders=None)
+    val_dataloaders=data_loader)
 
 
