@@ -129,13 +129,14 @@ data_loader = torch.utils.data.DataLoader(
 trainer  = pl.Trainer(
     default_root_dir="/scratch/mhuertas/CEERS/proj/TNGEagle_mass_size_gt9",
     accelerator="auto",
+    dirpath = "/scratch/mhuertas/CEERS/proj/TNGEagle_mass_size_gt9",
     devices=1,
     max_epochs=500,
     logger=pl.loggers.CSVLogger("example_run", name="example_run"),
     callbacks=[
         pl.callbacks.ModelCheckpoint(
             filename="{epoch}-{val_loss:.4f}", save_weights_only=False,
-            mode="min", monitor="val_loss",save_top_k=5),
+            mode="min", monitor="val_loss",save_top_k=5,save_last=True,every_n_epochs = 1),
         pl.callbacks.LearningRateMonitor("epoch"),
     ],
     enable_progress_bar=True,
