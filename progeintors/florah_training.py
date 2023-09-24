@@ -127,7 +127,7 @@ data_loader = torch.utils.data.DataLoader(
 # Create a Pytorch lightning trainer. This will handle the training loop and
 # checkpointing.
 trainer  = pl.Trainer(
-    default_root_dir="TNGEagle_mass_size_gt9",
+    default_root_dir="/scratch/mhuertas/CEERS/proj/TNGEagle_mass_size_gt9",
     accelerator="auto",
     devices=1,
     max_epochs=500,
