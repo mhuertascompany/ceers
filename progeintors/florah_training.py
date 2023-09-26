@@ -98,7 +98,7 @@ optimizer_hparams = dict(
 transform_hparams = dict(
     nx=2, 
     ny=2,
-    sub_dim=[0,1]
+    sub_dim=[1,2]
 )
 
 # Now we can create the model. The model is a Pytorch Lightning module, which 
