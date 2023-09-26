@@ -98,7 +98,7 @@ optimizer_hparams = dict(
 transform_hparams = dict(
     nx=2, 
     ny=2,
-    sub_dim=1
+    sub_dim=[0,1]
 )
 
 # Now we can create the model. The model is a Pytorch Lightning module, which 
@@ -130,11 +130,11 @@ trainer  = pl.Trainer(
     default_root_dir="/scratch/mhuertas/CEERS/proj/TNGEagle_mass_size_gt9",
     accelerator="auto",
     devices=1,
-    max_epochs=2000,
+    max_epochs=500,
     logger=pl.loggers.CSVLogger("example_run", name="example_run"),
     callbacks=[
         pl.callbacks.ModelCheckpoint(
-            dirpath='/scratch/mhuertas/CEERS/proj/TNGEagle_mass_size_gt9/2000/',filename="{epoch}-{val_loss:.4f}", save_weights_only=False,
+            dirpath='/scratch/mhuertas/CEERS/proj/TNGEagle_mass_size_gt9/delta/',filename="{epoch}-{val_loss:.4f}", save_weights_only=False,
             mode="min", monitor="val_loss",save_top_k=5,save_last=True,every_n_epochs = 1),
         pl.callbacks.LearningRateMonitor("epoch"),
     ],
