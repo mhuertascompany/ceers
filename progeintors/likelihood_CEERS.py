@@ -260,7 +260,7 @@ def log_likelihood_obs(
         Sampled trees
     """
 
-    device ='cpu'
+    device ='cuda'
     model = model.to(device)
 
     #seq_len = len(roots)+1
@@ -288,7 +288,7 @@ def log_likelihood_obs(
 
 print('loading model')
 checkpoint_path = "/scratch/mhuertas/CEERS/proj/TNGEagle_mass_size_gt9/last.ckpt"  # Specify the path to your checkpoint file
-loaded_model = DataModule.load_from_checkpoint(checkpoint_path)
+loaded_model = DataModule.load_from_checkpoint(checkpoint_path,map_location='cuda')
 
 # Set the model to evaluation mode (important if you have dropout or batch normalization layers)
 loaded_model.eval()
@@ -299,12 +299,16 @@ print('computing likelihoods')
 #redshifts = np.array([1.5,2,2.5,3,4,6])
 redshifts = np.array([1.5,2,2.5,3.5])
 
+print('features')
 node_features,chunk_size = build_roots(ceers_cat)
+print('preprocess')
 preprocessed_node_features = loaded_model.transform(node_features, fit=False)
+print('likelihood')
 l  = log_likelihood_obs(loaded_model,preprocessed_node_features)
 l_numpy = l.detach().numpy()
 node_features = get_maxlike_descendant(l.detach().numpy(),node_features,chunk_size)
 
+print('desendants')
 step=2
 for zmin,zmax in zip(redshifts[:-1],redshifts[1:]):
     print(zmin,zmax)
