@@ -305,6 +305,7 @@ node_features,chunk_size = build_roots(ceers_cat)
 print('preprocess')
 preprocessed_node_features = loaded_model.transform(node_features, fit=False)
 print('likelihood')
+loaded_model.to('cuda')
 l  = log_likelihood_obs(loaded_model,preprocessed_node_features)
 l_numpy = l.detach().numpy()
 node_features = get_maxlike_descendant(l.detach().numpy(),node_features,chunk_size)
@@ -314,7 +315,9 @@ step=2
 for zmin,zmax in zip(redshifts[:-1],redshifts[1:]):
     print(zmin,zmax)
     node_features,chunk_size = build_features(ceers_cat,[zmin,zmax],node_features)
+    loaded_model.to('cpu')
     preprocessed_node_features = loaded_model.transform(node_features, fit=False)
+    loaded_model.to('cuda')
     l  = log_likelihood_obs(loaded_model,preprocessed_node_features)
     node_features = get_maxlike_descendant(l.detach().numpy(),node_features, chunk_size,step=step)
     step+=1
