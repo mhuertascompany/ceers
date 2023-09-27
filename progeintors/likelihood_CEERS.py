@@ -12,13 +12,13 @@ import pandas as pd
 #import sklearn
 
 
-import seaborn as sns
-print(sns.__version__)
+#import seaborn as sns
+#print(sns.__version__)
 #import plotly.express as px
-from scipy.special import betaincinv
-import seaborn as sns
-from matplotlib.patches import Patch
-from matplotlib.lines import Line2D
+#from scipy.special import betaincinv
+#import seaborn as sns
+#from matplotlib.patches import Patch
+#from matplotlib.lines import Line2D
 
 
 import astropy.units as u
