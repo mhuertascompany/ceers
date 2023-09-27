@@ -293,7 +293,7 @@ loaded_model = DataModule.load_from_checkpoint(checkpoint_path,map_location='cud
 # Set the model to evaluation mode (important if you have dropout or batch normalization layers)
 loaded_model.eval()
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu") 
-loaded_model.to(device)
+loaded_model.to('cpu')
 
 
 print('computing likelihoods')
