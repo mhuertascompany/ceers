@@ -7,25 +7,14 @@ from astropy.coordinates import SkyCoord
 import pdb
 import matplotlib.pyplot as plt
 import h5py    
-import pandas as pd
-
-#import sklearn
-
-
-#import seaborn as sns
-#print(sns.__version__)
-#import plotly.express as px
-#from scipy.special import betaincinv
-#import seaborn as sns
-#from matplotlib.patches import Patch
-#from matplotlib.lines import Line2D
-
-
 import astropy.units as u
 from astropy.cosmology import Planck15  
 
 from florah.models.rnn_model.rnn_generator import DataModule 
 
+
+
+print('reading catalogs')
 data_path = "/scratch/mhuertas/CEERS/data_release/cats/"
 ceers_cat = pd.read_csv(data_path+"CEERS_DR05_adversarial_asinh_4filters_1122_4class_ensemble_v02_stellar_params_morphflag_delta_10points_DenseBasis_galfit_CLASS_STAR_v051_bug.csv")
 
@@ -293,8 +282,11 @@ def log_likelihood_obs(
    
     return lp    
 
+
+
 # Load the trained model from a checkpoint file
 
+print('loading model')
 checkpoint_path = "/scratch/mhuertas/CEERS/proj/TNGEagle_mass_size_gt9/last.ckpt"  # Specify the path to your checkpoint file
 loaded_model = DataModule.load_from_checkpoint(checkpoint_path)
 
@@ -303,6 +295,7 @@ loaded_model.eval()
 
 
 
+print('computing likelihoods')
 #redshifts = np.array([1.5,2,2.5,3,4,6])
 redshifts = np.array([1.5,2,2.5,3.5])
 
