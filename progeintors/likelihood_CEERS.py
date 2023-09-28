@@ -288,7 +288,7 @@ def log_likelihood_obs(
 
 print('loading model')
 checkpoint_path = "/scratch/mhuertas/CEERS/proj/TNGEagle_mass_size_gt9/last.ckpt"  # Specify the path to your checkpoint file
-loaded_model = DataModule.load_from_checkpoint(checkpoint_path,map_location='cuda')
+loaded_model = DataModule.load_from_checkpoint(checkpoint_path)
 
 # Set the model to evaluation mode (important if you have dropout or batch normalization layers)
 loaded_model.eval()
