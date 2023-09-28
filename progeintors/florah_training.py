@@ -9,7 +9,8 @@ from florah.models.rnn_model import rnn_generator
 
 import h5py
 
-torch.set_default_dtype(torch.float32)
+torch.set_default_dtype(torch.float32)  
+from sklearn.model_selection import train_test_split
 
 
 ## READ THE TRAINING DATA
@@ -62,9 +63,17 @@ node_features = {'x': [np.array(arr, dtype=np.float32) for arr in x], 't': [np.a
 # Now, 'x' and 't' contain cleaned and converted data as NumPy arrays of objects
 
 
-
 x = node_features['x']   # stellar mass and half mass radius
 t = node_features['t']   # scale factor
+
+# Split the data into training (85%) and validation (15%) sets
+x_train, x_val, t_train, t_val = train_test_split(x, t, test_size=0.15, random_state=42)
+
+
+# Store 'x_copy' and 't' data as lists of NumPy arrays in the 'node_features' dictionary
+node_features_train = {'x': [np.array(arr, dtype=np.float32) for arr in x_train], 't': [np.array(arr, dtype=np.float32) for arr in t_train]}
+node_features_val = {'x': [np.array(arr, dtype=np.float32) for arr in x_val], 't': [np.array(arr, dtype=np.float32) for arr in t_val]}
+
 
 print('Training...')
 
@@ -115,14 +124,20 @@ model = rnn_generator.DataModule(
 # t: normalized time
 # seq_len: length of each time series
 # mask: mask for padding
-preprocessed_node_features = model.transform(node_features, fit=True)
+preprocessed_node_features = model.transform(node_features_train, fit=True)
+preprocessed_node_features_val = model.transform(node_features_val, fit=True)
 
 dataset = torch.utils.data.TensorDataset(*preprocessed_node_features)
+dataset_val = torch.utils.data.TensorDataset(*preprocessed_node_features_val)
 data_loader = torch.utils.data.DataLoader(
     dataset, batch_size=1024, shuffle=True, num_workers=4,
     pin_memory=True if torch.cuda.is_available() else False
 )
 
+data_loader_val = torch.utils.data.DataLoader(
+    dataset_val, batch_size=1024, shuffle=False, num_workers=4,
+    pin_memory=True if torch.cuda.is_available() else False
+)
 
 # Create a Pytorch lightning trainer. This will handle the training loop and
 # checkpointing.
@@ -131,10 +146,10 @@ trainer  = pl.Trainer(
     accelerator="auto",
     devices=1,
     max_epochs=500,
-    logger=pl.loggers.CSVLogger("example_run", name="example_run"),
+    logger=pl.loggers.CSVLogger("delta_run", name="delta_run"),
     callbacks=[
         pl.callbacks.ModelCheckpoint(
-            dirpath='/scratch/mhuertas/CEERS/proj/TNGEagle_mass_size_gt9/delta/',filename="{epoch}-{val_loss:.4f}", save_weights_only=False,
+            dirpath='/scratch/mhuertas/CEERS/proj/TNGEagle_mass_size_gt9/delta_val/',filename="{epoch}-{val_loss:.4f}", save_weights_only=False,
             mode="min", monitor="val_loss",save_top_k=5,save_last=True,every_n_epochs = 1),
         pl.callbacks.LearningRateMonitor("epoch"),
     ],
