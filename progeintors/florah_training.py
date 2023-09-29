@@ -129,6 +129,7 @@ preprocessed_node_features_val = model.transform(node_features_val, fit=True)
 
 dataset = torch.utils.data.TensorDataset(*preprocessed_node_features)
 dataset_val = torch.utils.data.TensorDataset(*preprocessed_node_features_val)
+
 data_loader = torch.utils.data.DataLoader(
     dataset, batch_size=1024, shuffle=True, num_workers=4,
     pin_memory=True if torch.cuda.is_available() else False
@@ -161,6 +162,6 @@ trainer  = pl.Trainer(
 # Start training
 trainer.fit(
     model=model, train_dataloaders=data_loader,
-    val_dataloaders=data_loader)
+    val_dataloaders=data_loader_val)
 
 
