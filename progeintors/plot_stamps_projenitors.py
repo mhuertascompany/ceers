@@ -100,7 +100,7 @@ for wl in wl_vec:
 
 
 
-plot_color_stamps(nir_f200_dict,path_projenitors,otuput_dir)
+plot_color_stamps(nir_f200_dict,path_projenitors,output_dir)
 
          
         #plot_stamps_quantiles(wl,morph,ceers_cat,nir_f200_list,w)
