@@ -8,7 +8,7 @@ output_dir="/u/mhuertas/data/CEERS/"
 basePath = '/virgotng/universe/IllustrisTNG/TNG50-1/output/'
 
 Halos99 = il.groupcat.loadHalos(basePath,99,fields=['GroupFirstSub','GroupMass','GroupMassType',])
-fields = ['SubhaloMass','SubfindID','SnapNum','SubhaloMassType','SubhaloHalfmassRadType']
+fields = ['SubhaloMass','SubfindID','SnapNum','SubhaloMassType','SubhaloHalfmassRadType','SubhaloSFRinRad','SubhaloMassInRadType']
 
 
 for idn,mass in zip(Halos99['GroupFirstSub'],Halos99['GroupMassType'][:,4]):
@@ -16,8 +16,9 @@ for idn,mass in zip(Halos99['GroupFirstSub'],Halos99['GroupMassType'][:,4]):
         tree = il.sublink.loadTree(basePath,99,idn,fields=fields,onlyMPB=True)
         #pdb.set_trace()
         try:
-            df = pd.DataFrame(list(zip(tree['SnapNum'], tree['SubfindID'], np.log10(tree['SubhaloMass']*1e10/0.704),np.log10(tree['SubhaloMassType'][:,4]*1e10/0.704),tree['SubhaloHalfmassRadType'][:,4]/0.704)), 
-                columns =['SnapNUm', 'SubfindID','SubhaloMass','SubhaloMstar','SubhaloHalfmassRad']) 
-            df.to_csv(output_dir+"TNG50projenitors_sizemass/TNG50_tree_"+str(idn)+".csv")
+            ssfr = 
+            df = pd.DataFrame(list(zip(tree['SnapNum'], tree['SubfindID'], np.log10(tree['SubhaloMass']*1e10/0.704),np.log10(tree['SubhaloMassType'][:,4]*1e10/0.704),tree['SubhaloHalfmassRadType'][:,4]/0.704),np.log10(tree['SubhaloMassInRadType']*1e10/0.704), tree['SubhaloSFRinRad']), 
+                columns =['SnapNUm', 'SubfindID','SubhaloMass','SubhaloMstar','SubhaloHalfmassRad','SubhaloMstar2','SubhaloSFR2']) 
+            df.to_csv(output_dir+"TNG50projenitors_sizemass_sSFR/TNG50_tree_"+str(idn)+".csv")
         except:
             print("Error")  
