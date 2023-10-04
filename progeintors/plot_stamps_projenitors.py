@@ -7,7 +7,7 @@ from astropy.nddata.utils import Cutout2D
 from astropy.coordinates import SkyCoord
 import pdb
 from astropy.io import fits
-
+import matplotlib.pyplot as plt
 
 
 def create_cutout(ra,dec,nir_f200_dict,rgb=['f356w','f200w','f150w']):
