@@ -38,8 +38,8 @@ with h5py.File(hdf5_file_path, 'r') as hdf5_file:
         z_data = group['z'][:]
         
         # Convert the 'x_data' to a list of floats while ignoring non-numeric and 'inf' values and skipping the first row
-        cleaned_x_mass = [float(value) for value,size,sfr in zip(x_data[1:,0],x_data[1:,1],x_data[1:,1]) if value != b'-' and value != b'-inf' and size>0 and sfr>0]
-        cleaned_x_size = [float(value/(1+z)) for value,z,sfr in zip(x_data[1:,1],z_data,x_data[1:,1]) if value != b'-' and value != b'-inf' and value >0 and sfr>0]
+        cleaned_x_mass = [float(value) for value,size,sfr in zip(x_data[1:,0],x_data[1:,1],x_data[1:,2]) if value != b'-' and value != b'-inf' and size>0 and sfr>0]
+        cleaned_x_size = [float(value/(1+z)) for value,z,sfr in zip(x_data[1:,1],z_data,x_data[1:,2]) if value != b'-' and value != b'-inf' and value >0 and sfr>0]
         cleaned_x_SFR = [float(value) for value,size in zip(x_data[1:,2],x_data[1:,1]) if value != b'-' and value != b'-inf' and size >0 and value>0]
         
         #print(np.array(cleaned_x_mass).shape)
