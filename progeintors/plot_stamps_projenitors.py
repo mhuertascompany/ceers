@@ -45,7 +45,7 @@ def create_cutout(ra,dec,nir_f200_dict,rgb=['f356w','f200w','f150w']):
     else:
         transform =  interval
                   
-        return make_lupton_rgb(stamp_r.data, stamp_g.data, stamp_b.data,Q=10, stretch=0.5)
+        return make_lupton_rgb(stamp_r.data/np.max(stamp_r.data), stamp_g.data/np.max(stamp_r.data), stamp_b.data/np.max(stamp_r.data),Q=10, stretch=0.5)
 
 
 
