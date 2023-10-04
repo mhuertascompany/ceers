@@ -43,7 +43,7 @@ def create_cutout(ra,dec,nir_f200_dict,rgb=['f356w','f200w','f150w']):
 
 
 
-def plot_color_stamps(nir_f200_dict,path_projenitors):
+def plot_color_stamps(nir_f200_dict,path_projenitors,output_dir):
     for filename in os.listdir(path_projenitors):
         if filename.endswith(".csv") and filename.startswith('CEERS'):
             proj = pd.read_csv(os.path.join(path_projenitors, filename))
@@ -68,6 +68,7 @@ def plot_color_stamps(nir_f200_dict,path_projenitors):
 
 data_path = "/scratch/mhuertas/CEERS/data_release/"
 path_projenitors = '/scratch/mhuertas/CEERS/proj/projenitors'
+output_dir = '/scratch/mhuertas/CEERS/proj/projenitors/rgb/'
 
 # Initialize an empty dictionary to store the images and headers
 nir_f200_dict = {}
@@ -99,7 +100,7 @@ for wl in wl_vec:
 
 
 
-plot_color_stamps(nir_f200_dict,path_projenitors)
+plot_color_stamps(nir_f200_dict,path_projenitors,otuput_dir)
 
          
         #plot_stamps_quantiles(wl,morph,ceers_cat,nir_f200_list,w)
