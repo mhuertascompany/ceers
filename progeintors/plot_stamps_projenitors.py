@@ -10,7 +10,7 @@ from astropy.io import fits
 
 
 
-def create_cutout(ra,dec,nir_f200_dict,rgb=['f356w','f200w','f115w']):
+def create_cutout(ra,dec,nir_f200_dict,rgb=['f356w','f200w','f150w']):
     read=0
     k=0
     while read==0:
@@ -74,7 +74,7 @@ nir_f200_dict = {}
 w = []
 
 # List of wavelengths
-wl_vec = ['f115w', 'f200w', 'f356w']
+wl_vec = ['f150w', 'f200w', 'f356w']
 
 # Iterate through the wavelengths
 for wl in wl_vec:
