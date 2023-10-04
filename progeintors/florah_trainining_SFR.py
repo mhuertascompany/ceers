@@ -40,7 +40,7 @@ with h5py.File(hdf5_file_path, 'r') as hdf5_file:
         # Convert the 'x_data' to a list of floats while ignoring non-numeric and 'inf' values and skipping the first row
         cleaned_x_mass = [float(value) for value,size in zip(x_data[1:,0],x_data[1:,1]) if value != b'-' and value != b'-inf' and size>0]
         cleaned_x_size = [float(value/(1+z)) for value,z in zip(x_data[1:,1],z_data) if value != b'-' and value != b'-inf' and value >0]
-        cleaned_x_SFR = [float(value) for value,z in zip(x_data[1:,2],z_data) if value != b'-' and value != b'-inf' and value >0]
+        cleaned_x_SFR = [float(value) for value,size in zip(x_data[1:,2],x_data[1:,1]) if value != b'-' and value != b'-inf' and value >0]
         
         #print(np.array(cleaned_x_mass).shape)
         x_copy = np.column_stack([cleaned_x_mass, np.log10(cleaned_x_size),np.log10(cleaned_x_SFR)])
