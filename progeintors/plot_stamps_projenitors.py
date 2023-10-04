@@ -39,7 +39,7 @@ def create_cutout(ra,dec,nir_f200_dict,rgb=['f356w','f200w','f150w']):
     if read == -1:
         return make_lupton(np.zeros((64,64)),np.zeros((64,64)),np.zeros((64,64))) 
     else:
-        return make_lupton_rgb(stamp_r, stamp_g, stamp_b)
+        return make_lupton_rgb(stamp_r.data, stamp_g.data, stamp_b.data)
 
 
 
