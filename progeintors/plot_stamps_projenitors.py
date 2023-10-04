@@ -17,12 +17,12 @@ def create_cutout(ra,dec,nir_f200_dict,rgb=['f356w','f200w','f150w']):
         if k>=10:
             read=-1
             continue
-        r=nir_f200_dict['images'][rgb[0]][k]
-        g=nir_f200_dict['images'][rgb[1]][k]
-        b=nir_f200_dict['images'][rgb[2]][k]
-        wr=nir_f200_dict['wcs'][rgb[0]][k]
-        wg=nir_f200_dict['wcs'][rgb[1]][k]
-        wb=nir_f200_dict['wcs'][rgb[2]][k]
+        r = nir_f200_dict[rgb[0]]['images'][k]
+        g = nir_f200_dict[rgb[1]]['images'][k]  # Corrected line
+        b = nir_f200_dict[rgb[2]]['images'][k]  # Corrected line
+        wr = nir_f200_dict[rgb[0]]['wcs'][k]     # Corrected line
+        wg = nir_f200_dict[rgb[1]]['wcs'][k]     # Corrected line
+        wb = nir_f200_dict[rgb[2]]['wcs'][k]     # Corrected line
         k+=1
         try:
             position = SkyCoord(ra,dec,unit="deg")
