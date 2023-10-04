@@ -48,6 +48,7 @@ with h5py.File(hdf5_file_path, 'r') as hdf5_file:
         #cleaned_x = [float(value) for value in x_data[1:] if value != b'-' and value != b'-inf']
         # Convert the 't_data' to a list of floats while ignoring non-numeric and 'inf' values and skipping the first row
         cleaned_t = [float(value) for value,size,sfr in zip(t_data[1:],x_data[1:,1],x_data[1:,2]) if value != b'-' and value != b'-inf' and size>0 and sfr>0]
+        print(cleaned_t.shape)
         cleaned_t = np.expand_dims(cleaned_t,1)
         
        # Append the cleaned 'x' and 't' data to their respective lists
