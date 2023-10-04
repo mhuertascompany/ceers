@@ -15,10 +15,10 @@ for idn,mass in zip(Halos99['GroupFirstSub'],Halos99['GroupMassType'][:,4]):
     if np.log10(mass*1e10/0.704)>9:
         tree = il.sublink.loadTree(basePath,99,idn,fields=fields,onlyMPB=True)
         #pdb.set_trace()
-        try:
+        if True:
             
             df = pd.DataFrame(list(zip(tree['SnapNum'], tree['SubfindID'], np.log10(tree['SubhaloMass']*1e10/0.704),np.log10(tree['SubhaloMassType'][:,4]*1e10/0.704),tree['SubhaloHalfmassRadType'][:,4]/0.704),np.log10(tree['SubhaloMassInRadType'][:,4]*1e10/0.704), tree['SubhaloSFRinRad']), 
                 columns =['SnapNUm', 'SubfindID','SubhaloMass','SubhaloMstar','SubhaloHalfmassRad','SubhaloMstar2','SubhaloSFR2']) 
             df.to_csv(output_dir+"TNG50projenitors_sizemass_sSFR/TNG50_tree_"+str(idn)+".csv")
-        except:
+        else:
             print("Error")  
