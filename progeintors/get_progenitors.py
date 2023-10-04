@@ -17,7 +17,7 @@ for idn,mass in zip(Halos99['GroupFirstSub'],Halos99['GroupMassType'][:,4]):
         #pdb.set_trace()
         try:
             
-            df = pd.DataFrame(list(zip(tree['SnapNum'], tree['SubfindID'], np.log10(tree['SubhaloMass']*1e10/0.704),np.log10(tree['SubhaloMassType'][:,4]*1e10/0.704),tree['SubhaloHalfmassRadType'][:,4]/0.704),np.log10(tree['SubhaloMassInRadType']*1e10/0.704), tree['SubhaloSFRinRad']), 
+            df = pd.DataFrame(list(zip(tree['SnapNum'], tree['SubfindID'], np.log10(tree['SubhaloMass']*1e10/0.704),np.log10(tree['SubhaloMassType'][:,4]*1e10/0.704),tree['SubhaloHalfmassRadType'][:,4]/0.704),np.log10(tree['SubhaloMassInRadType'][:,4]*1e10/0.704), tree['SubhaloSFRinRad']), 
                 columns =['SnapNUm', 'SubfindID','SubhaloMass','SubhaloMstar','SubhaloHalfmassRad','SubhaloMstar2','SubhaloSFR2']) 
             df.to_csv(output_dir+"TNG50projenitors_sizemass_sSFR/TNG50_tree_"+str(idn)+".csv")
         except:
