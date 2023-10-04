@@ -8,6 +8,9 @@ from astropy.coordinates import SkyCoord
 import pdb
 from astropy.io import fits
 import matplotlib.pyplot as plt
+from astropy.visualization import MinMaxInterval
+interval = MinMaxInterval()
+from astropy.visualization import AsinhStretch,LogStretch
 
 
 def create_cutout(ra,dec,nir_f200_dict,rgb=['f356w','f200w','f150w']):
@@ -40,7 +43,9 @@ def create_cutout(ra,dec,nir_f200_dict,rgb=['f356w','f200w','f150w']):
         print('returning zeros...')
         return make_lupton(np.zeros((64,64)),np.zeros((64,64)),np.zeros((64,64))) 
     else:
-        return make_lupton_rgb(stamp_r.data, stamp_g.data, stamp_b.data)
+        transform =  interval
+                  
+        return make_lupton_rgb(transform(stamp_r.data), transform(stamp_g.data), transform(stamp_b.data))
 
 
 
