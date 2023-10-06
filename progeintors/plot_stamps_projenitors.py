@@ -73,8 +73,8 @@ def plot_color_stamps(nir_f200_dict,path_projenitors,output_dir):
 
 
 data_path = "/scratch/mhuertas/CEERS/data_release/"
-path_projenitors = '/scratch/mhuertas/CEERS/proj/projenitors'
-output_dir = '/scratch/mhuertas/CEERS/proj/projenitors/rgb/'
+path_projenitors = '/scratch/mhuertas/CEERS/proj/projenitors/SFR'
+output_dir = '/scratch/mhuertas/CEERS/proj/projenitors/SFR/rgb/'
 
 # Initialize an empty dictionary to store the images and headers
 nir_f200_dict = {}
