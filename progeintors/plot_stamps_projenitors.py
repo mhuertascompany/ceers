@@ -41,7 +41,7 @@ def create_cutout(ra,dec,nir_f200_dict,rgb=['f356w','f200w','f150w']):
             continue    
     if read == -1:
         print('returning zeros...')
-        return make_lupton(np.zeros((64,64)),np.zeros((64,64)),np.zeros((64,64))) 
+        return make_lupton_rgb(np.zeros((64,64)),np.zeros((64,64)),np.zeros((64,64))) 
     else:
         transform =  interval
                   
