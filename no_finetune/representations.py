@@ -27,7 +27,7 @@ logging.basicConfig(level=logging.INFO)
 checkpoint_loc = 'checkpoints/effnetb0_greyscale_224px.ckpt'
 
 # use my own CEERS demo dataset
-data_dir = 'images/demo_F200W'
+data_dir = '/scratch/ydong/stamps/demo_F200W'
 images = [os.path.join(data_dir,path) for path in os.listdir(data_dir)]
 labels = np.random.randint(2,size=len(images))
 ids = [int(re.findall(r'\d+',path)[1]) for path in os.listdir(data_dir)]
