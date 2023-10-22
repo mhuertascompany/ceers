@@ -28,6 +28,7 @@ cat_name = "CEERS_DR05_adversarial_asinh_4filters_1122_4class_ensemble_v02_stell
 
 cat = pd.read_csv(os.path.join(cat_dir,cat_name))
 mag = cat['F200W_MAG'].values
+sersic = cat['F200W_N'].values
 
 col_list = ['RA_1','logSFRinst_50','F200W_Q','F200W_PA','F200W_RE','F200W_N']
 morph_cols = ['sph_f150w_mean','disk_f150w_mean','irr_f150w_mean','bd_f150w_mean']
@@ -53,12 +54,12 @@ plt.figure(figsize=(15,10))
 # scatter.set_xlabel('UMAP 1')
 # scatter.set_ylabel('UMAP 2')
 # scatter.legend(scatterpoints=1, markerscale=1)
-plt.scatter(dim1,dim2,c=mag[id_str],cmap='RdBu')
+plt.scatter(dim1,dim2,c=np.log(sersic[id_str]),cmap='RdBu')
 plt.xlabel('UMAP 1')
 plt.ylabel('UMAP 2')
 plt.colorbar()
-plt.title(f"UMAP F200W color coded by mag")
-plt.savefig(f'finetune_repr/repr_results/F200W_umap_mag_coded.png')
+plt.title(f"UMAP F200W color coded by log F200W_N")
+plt.savefig(f'finetune_repr/repr_results/F200W_logF200W_N_coded.png')
 
 size = 1.   # size of one single thumbnail
 min1 = dim1.min()

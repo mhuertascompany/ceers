@@ -16,6 +16,17 @@ from zoobot.pytorch.predictions import predict_on_catalog
 from bars.bot.gz_ceers_schema import gz_ceers_schema
 from bars.bot.To3d import To3d
 
+os.environ['CUDA_VISIBLE_DEVICES']="1"
+
+# import signal
+
+# def sigterm_handler(signum, frame):
+#     # Custom handling of SIGTERM
+#     print("Received SIGTERM, ignoring...")
+
+# Register the signal handler
+# signal.signal(signal.SIGTERM, sigterm_handler)
+
 logging.basicConfig(level=logging.INFO)
 
 checkpoint_loc = 'checkpoints/effnetb0_greyscale_224px.ckpt'

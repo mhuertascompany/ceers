@@ -5,6 +5,7 @@ test opening the CEERS catalog
 
 import pandas as pd
 import os
+import numpy as np
 
 cat_dir = "/scratch/ydong/cat"
 cat_name = "CEERS_DR05_adversarial_asinh_4filters_1122_4class_ensemble_v02_stellar_params_morphflag_delta_10points_DenseBasis_galfit_CLASS_STAR_v052_bug.csv"
@@ -20,10 +21,11 @@ cla = pd.read_csv(os.path.join(class_dir,class_name))
 col_names = ['RA_1','DEC_1']
 cols = cla.columns
 
-for col in cols:
-    print(col)
+# for col in cols:
+#     print(col)
 
-print(cla['mag_select'])
+# print(cla[['pixrad','radius_select','flux_rad_0p50','which_nircam','nircam_id']].values)
+print(np.unique(cla['which_nircam'].values))
 
 for i in range(100):
     print(cat[['ID','RA_1','DEC_1','RA_2','DEC_2']].values[i])

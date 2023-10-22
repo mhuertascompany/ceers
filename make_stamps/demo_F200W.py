@@ -1,6 +1,5 @@
 from PIL import Image
 from astropy.io import fits
-from astropy.visualization import simple_norm
 from astropy import wcs
 from astropy.nddata import Cutout2D
 import pandas as pd
@@ -86,7 +85,7 @@ for n in range(1,11):
 
                         # image = array2img((cut==0.).astype(int))
 
-                        image.save('images/demo_F200W/F200W_%i.jpg'%i)
+                        image.save('/scratch/ydong/stamps/demo_F200W/F200W_%i.jpg'%i)
 
                         found[i] = 1
 

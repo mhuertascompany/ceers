@@ -1,6 +1,8 @@
 '''
+
 Y. Dong, Sept 20
-test opening the GZ CEERS classifications
+test matching the GZ CEERS classifications with the catalog
+make stamps out of the rest of the classifications (added Oct 22)
 '''
 
 import pandas as pd
@@ -10,6 +12,13 @@ import re
 # import matplotlib.pyplot as plt
 import astropy.units as u
 from astropy.coordinates import SkyCoord
+
+from PIL import Image
+from astropy.io import fits
+from astropy import wcs
+from astropy.nddata import Cutout2D
+import os
+from skimage.transform import resize
 
 class_dir = "/scratch/ydong/classifications"
 class_name = "jwst-ceers-v0-5-aggregated-class-singlechoicequestionsonly.csv"
@@ -32,7 +41,6 @@ for col in cols:
 # col_names = ['RA_1','DEC_1']
 
 N = len(cla)
-match_num = np.zeros(N).astype(int)
 
 cat_ra = np.round(cat['RA_1'].values,6)
 cat_dec = np.round(cat['DEC_1'].values,6)
@@ -47,8 +55,9 @@ idx, d2d, d3d = c.match_to_catalog_sky(catalog)
 
 cat2class = -1*np.ones(len(ids)).astype(int)
 
-mask = d2d<0.5*u.arcsec
+mask = d2d<0.2*u.arcsec # to be smaller
 
+# check if any catalog object is matched multiple times
 for i in range(N):
     if mask[i]:
         if cat2class[idx[i]] >= 0:
@@ -112,14 +121,79 @@ match_catalog.columns = [col[:-7] for col in match_catalog.columns]
 match_catalog['id_str'] = ids[idx[mask]]
 match_catalog['file_loc'] = [file_loc[k] for k in idx[mask]]
 
-match_catalog.to_csv("bot/match_catalog_F200W.csv")
+# match_catalog.to_csv("bot/match_catalog_F200W.csv")
 
 # for col in cols:
 #     print(col)
 
-# print("0 match: %i"%np.sum(match_num==0))
-# print("1 match: %i"%np.sum(match_num==1))
-# print("more matches: %i"%np.sum(match_num>=2))
+radius = cla['flux_rad_0p50'].values
+pointing = cla['which_nircam'].values.astype(int)
 
-# plt.hist(match_num)
-# plt.savefig('test/hist.png')
+# convert a greyscale numpy array to [0,255] jpg image
+def array2img(arr,clipped_percent=0):
+    arr = np.arcsinh(arr)
+    # max_val = np.percentile(arr,100-clipped_percent/2)
+    # min_val = np.percentile(arr,clipped_percent/2)
+    # arr = np.clip(arr,min_val,max_val)
+    # arr = (arr-min_val)/(max_val-min_val)*255
+    max = np.max(arr)
+    min = np.min(arr)
+    arr = (arr-min)/(max-min)*300.5-0.5
+    arr = np.clip(arr,0.,255.)
+    return Image.fromarray(arr.astype(np.uint8))
+
+def zero_pix_fraction(img):
+    zeros = np.sum(np.max(img,axis=0)==0.)+np.sum(np.max(img,axis=1)==0.)
+    size = img.shape[0]
+    return zeros/size
+
+raw_img_dir = "/scratch/ydong/images"
+
+N_POINTINGS = 10
+POINTING1 = [1,2,3,6]
+POINTING2 = [4,5,7,8,9,10]
+
+added = 0
+for i in range(N):
+    if mask[i] == False:
+        n = pointing[i]
+        pointing_name = "hlsp_ceers_jwst_nircam_nircam%i_f200w_dr0.5_i2d.fits"%n
+        with fits.open(os.path.join(raw_img_dir,pointing_name)) as hdul:
+            # hdul.info()
+            hdr = hdul[1].header
+            w = wcs.WCS(hdr)
+            data = hdul[1].data
+
+            ymax, xmax = data.shape
+            pixels = w.wcs_world2pix([[cla_ra[i],cla_dec[i]]],0)
+            pix_size = 0.031
+            pix = pixels[0]
+            print(pix)
+
+            size = 212*np.maximum(0.04*radius[i],0.1)
+            up = int(pix[0]+size)
+            down = up-size*2
+            right = int(pix[1]+size)
+            left = right-size*2
+            if all([up<xmax,down>-1,right<ymax,left>-1]):   
+                # cut = data[left:right,down:up]
+                cut = Cutout2D(data,pix,wcs=w,size=size*2).data
+
+                if zero_pix_fraction(cut)<0.1:
+                    resized_cut = resize(cut,output_shape=(424,424))
+
+                    image = array2img(resized_cut,clipped_percent=1.)
+
+                    image.save('/scratch/ydong/stamps/demo_F200W_added/F200W_%i_a.jpg'%i)
+
+                    new_record = cla.loc[[i], gz_counts]
+                    new_record.columns = [col[:-7] for col in new_record.columns]
+                    new_record['id_str'] = 20000+i
+                    new_record['file_loc'] = '/scratch/ydong/stamps/demo_F200W_added/F200W_%i_a.jpg'%i
+
+                    match_catalog = pd.concat([match_catalog,new_record],ignore_index=True)
+                    added += 1
+
+
+match_catalog.to_csv("bot/match_catalog_F200W.csv")
+print(np.sum(mask),added)
