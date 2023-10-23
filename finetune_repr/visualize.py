@@ -59,7 +59,7 @@ plt.xlabel('UMAP 1')
 plt.ylabel('UMAP 2')
 plt.colorbar()
 plt.title(f"UMAP F200W color coded by log F200W_N")
-plt.savefig(f'finetune_repr/repr_results/F200W_logF200W_N_coded.png')
+plt.savefig(f'finetune_repr/repr_results/F200W_logF200W_N_coded_new.png')
 
 size = 1.   # size of one single thumbnail
 min1 = dim1.min()
@@ -93,7 +93,7 @@ plt.title('UMAP thumbnails')
 plt.xlabel('UMAP 1')
 plt.ylabel('UMAP 2')
 plt.legend()
-plt.savefig('finetune_repr/repr_results/F200W_thumbnails.png')
+plt.savefig('finetune_repr/repr_results/F200W_thumbnails_new.png')
 
 
 time_end = time.time() 

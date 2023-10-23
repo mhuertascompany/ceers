@@ -24,7 +24,7 @@ from zoobot.shared import load_predictions
 logging.basicConfig(level=logging.INFO)
 
 # checkpoint downloaded from Dropbox
-checkpoint_loc = 'results/finetune_tree_result/checkpoints/97.ckpt'
+checkpoint_loc = 'results/finetune_tree_result/checkpoints/97-v1.ckpt'
 
 # use my own CEERS demo dataset
 data_dir = '/scratch/ydong/stamps/demo_F200W'
