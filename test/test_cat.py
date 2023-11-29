@@ -19,10 +19,10 @@ class_name = "jwst-ceers-v0-5-aggregated-class-singlechoicequestionsonly.csv"
 cla = pd.read_csv(os.path.join(class_dir,class_name))
 
 col_names = ['RA_1','DEC_1']
-cols = cla.columns
+cols = cat.columns
 
-# for col in cols:
-#     print(col)
+for col in cols:
+    print(col)
 
 # print(cla[['pixrad','radius_select','flux_rad_0p50','which_nircam','nircam_id']].values)
 print(np.unique(cla['which_nircam'].values))
