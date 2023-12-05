@@ -2,7 +2,7 @@ import logging
 import os
 import sys
 
-sys.path.append('/scratch/ydong')
+# sys.path.append('/scratch/ydong')
 
 import pandas as pd
 import numpy as np
@@ -13,8 +13,8 @@ from galaxy_datasets.pytorch.galaxy_datamodule import GalaxyDataModule
 
 from zoobot.pytorch.training import finetune
 from zoobot.pytorch.predictions import predict_on_catalog
-from bars.bot.gz_ceers_schema import gz_ceers_schema
-from bars.bot.To3d import To3d
+from bot.gz_ceers_schema import gz_ceers_schema
+from bot.To3d import To3d
 
 os.environ['CUDA_VISIBLE_DEVICES']="1"
 
