@@ -14,6 +14,7 @@ from zoobot.pytorch.training import finetune
 from zoobot.pytorch.predictions import predict_on_catalog
 from bot.To3d import To3d
 from bot.gz_ceers_schema import gz_ceers_schema
+from zoobot.pytorch.estimators import define_model
 
 import numpy as np
 import pandas as pd
@@ -49,17 +50,18 @@ crop_scale_bounds = (0.7, 0.8)
 crop_ratio_bounds = (0.9, 1.1)
 resize_after_crop = 224     # must match how checkpoint below was trained
 
-model = finetune.FinetuneableZoobotTree(
-    checkpoint_loc=checkpoint_loc,
-    schema=schema
-)
+# model = finetune.FinetuneableZoobotTree(
+#     checkpoint_loc=checkpoint_loc,
+#     schema=schema
+# )
+model = define_model.ZoobotTree.load_from_checkpoint(checkpoint_loc, output_dim=39, question_index_groups=[])
 
 # now save predictions on test set to evaluate performance
 trainer_kwargs = {'devices': 1, 'accelerator': 'gpu'}
 predict_on_catalog.predict(
     pred_cat,
     model,
-    n_samples=5,  # number of forward passes per galaxy
+    n_samples=1,  # number of forward passes per galaxy
     label_cols=schema.label_cols,
     save_loc=os.path.join(save_dir, 'full_cat_predictions_F200W.csv'),
     datamodule_kwargs={
