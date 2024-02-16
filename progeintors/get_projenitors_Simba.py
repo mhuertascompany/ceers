@@ -7,7 +7,7 @@ import pdb
 output_dir="/u/mhuertas/data/CEERS/"
 basePath = '/virgotng/universe/Simba/L100n1024FP/output'
 
-Halos99 = il.groupcat.loadHalos(basePath,28,fields=['GroupFirstSub','GroupMass','GroupMassType',])
+Halos99 = il.groupcat.loadHalos(basePath,151,fields=['GroupFirstSub','GroupMass','GroupMassType',])
 fields = ['SubhaloMass','SubfindID','SnapNum','SubhaloMassType','SubhaloHalfmassRadType','SubhaloSFRinRad','SubhaloMassInRadType']
 
 
