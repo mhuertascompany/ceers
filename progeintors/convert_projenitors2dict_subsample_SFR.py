@@ -52,7 +52,7 @@ data_dict = {}
 output_path = '/u/mhuertas/data/CEERS/'
 
 # Directory containing the CSV files
-directory_list = ['/u/mhuertas/data/CEERS/EAGLEprojenitors_sizemass_sSFR','/u/mhuertas/data/CEERS/TNG100projenitors_sizemass_sSFR','/u/mhuertas/data/CEERS/TNG50projenitors_sizemass_sSFR']
+directory_list = ['/u/mhuertas/data/CEERS/EAGLEprojenitors_sizemass_sSFR','/u/mhuertas/data/CEERS/EAGLEprojenitors_sizemass_sSFR','/u/mhuertas/data/CEERS/TNG100projenitors_sizemass_sSFR','/u/mhuertas/data/CEERS/TNG50projenitors_sizemass_sSFR']
 
 # Initialize an index for arbitrary numbering
 index = 0
@@ -130,7 +130,7 @@ for directory,df,simul,m in zip(directory_list,df_list,sim_list,max_snap):
 # Now, data_dict contains the data from all the CSV files with separate entries for each subsample, including unique redshifts
 
 # Save the data_dict to an HDF5 file
-hdf5_file_path = output_path+'projTNGEAGLEmstargt9_random_sizemassSFR.h5'  # Specify the path to your HDF5 file
+hdf5_file_path = output_path+'projTNGEAGLESimbamstargt9_random_sizemassSFR.h5'  # Specify the path to your HDF5 file
 with h5py.File(hdf5_file_path, 'w') as hdf5_file:
     for key, value in data_dict.items():
         group = hdf5_file.create_group(str(key))
