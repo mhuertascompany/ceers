@@ -40,11 +40,27 @@ print(sn)
 print(redshifts)
 df_snap_eagle = pd.DataFrame({'Redshift': redshifts, 'SnapshotNumber': sn})
 
+# redshift - snapshot for SIMBA
+basePath = '/virgotng/universe/Simba/L100n1024FP/output'
+redshifts = np.zeros(151, dtype='float32' )
+redshifts.fill(np.nan)
+sn=np.zeros(151, dtype='int32' )
+
+for i in range(1,152):
+    h = il.groupcat.loadHeader(basePath,i)
+    redshifts[i-1] = h['Redshift']
+    sn[i-1]=i
+
+# Create a DataFrame to store 'redshifts' and 'sn'
+print(sn)
+print(redshifts)
+df_snap_simba = pd.DataFrame({'Redshift': redshifts, 'SnapshotNumber': sn})
 
 
-df_list=[df_snap_eagle,df_snap,df_snap]
-sim_list = ["EAGLE","TNG","TNG"]
-max_snap = [6,33,33]
+
+df_list=[df_snap_simba,df_snap_eagle,df_snap,df_snap]
+sim_list = ["SIMBA","EAGLE","TNG","TNG"]
+max_snap = [78,6,33,33]
 
 # Define a dictionary to store the data
 data_dict = {}
@@ -52,7 +68,7 @@ data_dict = {}
 output_path = '/u/mhuertas/data/CEERS/'
 
 # Directory containing the CSV files
-directory_list = ['/u/mhuertas/data/CEERS/EAGLEprojenitors_sizemass_sSFR','/u/mhuertas/data/CEERS/EAGLEprojenitors_sizemass_sSFR','/u/mhuertas/data/CEERS/TNG100projenitors_sizemass_sSFR','/u/mhuertas/data/CEERS/TNG50projenitors_sizemass_sSFR']
+directory_list = ['/u/mhuertas/data/CEERS/Simbaprojenitors_sizemass_sSFR','/u/mhuertas/data/CEERS/EAGLEprojenitors_sizemass_sSFR','/u/mhuertas/data/CEERS/TNG100projenitors_sizemass_sSFR','/u/mhuertas/data/CEERS/TNG50projenitors_sizemass_sSFR']
 
 # Initialize an index for arbitrary numbering
 index = 0
