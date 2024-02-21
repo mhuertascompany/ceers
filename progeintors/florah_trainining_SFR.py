@@ -21,7 +21,7 @@ print('Loading training data..')
 loaded_data_dict = {}
 data_path = "/scratch/mhuertas/CEERS/proj/"
 
-hdf5_file_path = data_path+"projTNGEAGLEmstargt9_random_sizemassSFR.h5"
+hdf5_file_path = data_path+"projTNGEAGLESimbamstargt9_random_sizemassSFR.h5"
 # Initialize 'x' and 't' as lists to store the cleaned data
 x = []
 t = []
@@ -144,14 +144,14 @@ data_loader_val = torch.utils.data.DataLoader(
 # Create a Pytorch lightning trainer. This will handle the training loop and
 # checkpointing.
 trainer  = pl.Trainer(
-    default_root_dir="/scratch/mhuertas/CEERS/proj/TNGEagle_mass_size_gt9",
+    default_root_dir="/scratch/mhuertas/CEERS/proj/TNGEagleSimba_mass_size_gt9",
     accelerator="auto",
     devices=1,
     max_epochs=500,
     logger=pl.loggers.CSVLogger("delta_run", name="delta_run"),
     callbacks=[
         pl.callbacks.ModelCheckpoint(
-            dirpath='/scratch/mhuertas/CEERS/proj/TNGEagle_mass_size_gt9/SFR_val/',filename="{epoch}-{val_loss:.4f}", save_weights_only=False,
+            dirpath='/scratch/mhuertas/CEERS/proj/TNGEagleSimba_mass_size_gt9/SFR_val/',filename="{epoch}-{val_loss:.4f}", save_weights_only=False,
             mode="min", monitor="val_loss",save_top_k=5,save_last=True,every_n_epochs = 1),
         pl.callbacks.LearningRateMonitor("epoch"),
     ],
