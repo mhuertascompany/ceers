@@ -59,7 +59,7 @@ df_snap_simba = pd.DataFrame({'Redshift': redshifts, 'SnapshotNumber': sn})
 
 
 df_list=[df_snap_simba,df_snap_eagle,df_snap,df_snap]
-sim_list = ["SIMBA","EAGLE","TNG","TNG"]
+sim_list = ["Simba","EAGLE","TNG","TNG"]
 max_snap = [78,6,33,33]
 
 # Define a dictionary to store the data
