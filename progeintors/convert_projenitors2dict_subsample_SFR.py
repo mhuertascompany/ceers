@@ -141,7 +141,7 @@ for directory,df,simul,m in zip(directory_list,df_list,sim_list,max_snap):
                 
                     # Increment the index
                     index += 1
-                print('Done '+file_id)
+                print('Done '+file_id+'from '+ directory)
 
 # Now, data_dict contains the data from all the CSV files with separate entries for each subsample, including unique redshifts
 
