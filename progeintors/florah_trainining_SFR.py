@@ -52,8 +52,9 @@ with h5py.File(hdf5_file_path, 'r') as hdf5_file:
         cleaned_t = np.expand_dims(cleaned_t,1)
         
        # Append the cleaned 'x' and 't' data to their respective lists
-        x.append(x_copy)
-        t.append(cleaned_t)
+        if len(cleaned_t)>0:
+            x.append(x_copy)
+            t.append(cleaned_t)
 
 
 
