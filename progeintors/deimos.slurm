@@ -7,8 +7,7 @@
 #SBATCH --job-name=florah
 #SBATCH --output=%j.out
 #SBATCH --error=%j.err
-#SBATCH --mail-type=BEGIN,END
-#SBATCH --mail-user=mhuertas@iac.es
+
 
 module load ml_py310
 
