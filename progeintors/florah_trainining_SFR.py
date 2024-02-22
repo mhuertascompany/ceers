@@ -149,7 +149,7 @@ trainer  = pl.Trainer(
     accelerator="auto",
     devices=1,
     max_epochs=500,
-    logger=pl.loggers.CSVLogger("delta_run", name="delta_run"),
+    logger=pl.loggers.CSVLogger("delta_run", name="simba_run"),
     callbacks=[
         pl.callbacks.ModelCheckpoint(
             dirpath='/scratch/mhuertas/CEERS/proj/TNGEagleSimba_mass_size_gt9/SFR_val/',filename="{epoch}-{val_loss:.4f}", save_weights_only=False,
