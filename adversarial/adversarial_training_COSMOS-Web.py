@@ -31,7 +31,8 @@ from tempfile import TemporaryFile
 
 
 WRITE=True
-TRAIN=False
+TRAIN=True
+WRITE_CANDELS=True
 
 
 
@@ -571,7 +572,7 @@ def create_datasets(X_C,label_C,X_JWST,sh=True):
     #CANDELS_X = tf.tile(CANDELS_X, [1,1,1,3])
     print(tf.shape(CANDELS_X_t))
     label_candels_t = tf.one_hot(label[train_s:train_s+test_s], 4).numpy()
-
+    print(np.array(X_JWST).shape)
     JWST_X = tf.convert_to_tensor(X_JWST, dtype=tf.float32)
     JWST_X = tf.expand_dims(JWST_X, -1)
     label_JWST = np.zeros(len(JWST_X))
@@ -784,7 +785,17 @@ label_predictor.save_weights(data_path+"initial_pred.weights")
 feature_generator.save_weights(data_path+"initial_feature.weights")  
 domain_predictor.save_weights(data_path+"initial_domain.weights") 
 
+if os.path.exists(data_path+'image_arrays/CANDELS.npz'):
+    print("Loading CANDELS data from saved array")
+    data = np.load(data_path+'image_arrays/CANDELS.npz',allow_pickle=True)
+    # Access the saved variables
+    X = data['stamps']
+    label = data['label']    
+
 X,label = read_CANDELS_data(data_path)
+if WRITE_CANDELS:
+    print("Saving CANDELS data")
+    np.savez(data_path+'image_arrays/CANDELS.npz', stamps = X, label = label)
 for f in filters:
     
     if os.path.exists(data_path+'image_arrays/image_arrays_'+f+'.npz'):
@@ -797,6 +808,7 @@ for f in filters:
         fieldvec = data['fieldvec']
         ravec = data['ravec']
         decvec = data['decvec']
+        
     else:
 
         X_JWST,fullvec,idvec,fieldvec,ravec,decvec = read_COSMOS_data([f],data_COSMOS)
