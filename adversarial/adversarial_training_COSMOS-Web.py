@@ -560,7 +560,7 @@ def create_datasets(X_C,label_C,X_JWST,sh=True):
   
 
 
-
+    print(np.array(X).shape)
     CANDELS_X = tf.convert_to_tensor(X[0:train_s], dtype=tf.float32)
     CANDELS_X = tf.expand_dims(CANDELS_X, -1)
     #CANDELS_X = tf.tile(CANDELS_X, [1,1,1,3])
