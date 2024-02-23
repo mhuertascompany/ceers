@@ -280,10 +280,10 @@ def load_imgs(tile,bands_to_plot):
     if tile == 'JAN':
         name_img_det        = f'/n17data/shuntov/COSMOS-Web/Images_NIRCam_jwst-pipe/v0.004/mosaic-chi2-SWLW_COSMOS-Web_30mas_resc100.fits'
         sci_imas={
-            'F115W':      f'/n17data/shuntov/COSMOS-Web/Images_NIRCam_jwst-pipe/v0.004/mosaic-NIRCAM_v0.004_F115W_60mas_sci.fits',
-            'F150W':      f'/n17data/shuntov/COSMOS-Web/Images_NIRCam_jwst-pipe/v0.004/mosaic-NIRCAM_v0.004_F150W_60mas_sci.fits',
-            'F277W':      f'/n17data/shuntov/COSMOS-Web/Images_NIRCam_jwst-pipe/v0.004/mosaic-NIRCAM_v0.004_F277W_60mas_sci.fits',
-            'F444W':      f'/n17data/shuntov/COSMOS-Web/Images_NIRCam_jwst-pipe/v0.004/mosaic-NIRCAM_v0.004_F444W_60mas_sci.fits',
+            'F115W':      f'/n17data/shuntov/COSMOS-Web/Images_NIRCam_jwst-pipe/v0.004/mosaic-NIRCAM_v0.004_F115W_30mas_sci.fits',
+            'F150W':      f'/n17data/shuntov/COSMOS-Web/Images_NIRCam_jwst-pipe/v0.004/mosaic-NIRCAM_v0.004_F150W_30mas_sci.fits',
+            'F277W':      f'/n17data/shuntov/COSMOS-Web/Images_NIRCam_jwst-pipe/v0.004/mosaic-NIRCAM_v0.004_F277W_30mas_sci.fits',
+            'F444W':      f'/n17data/shuntov/COSMOS-Web/Images_NIRCam_jwst-pipe/v0.004/mosaic-NIRCAM_v0.004_F444W_30mas_sci.fits',
             'F770W':      f'/n17data/shuntov/COSMOS-Web/Images_MIRI/v0.11/mosaic-MIRI_v0.2_F770W_60mas_sci_zp-28.09.fits',
             'HST-F814W':  f'/n17data/shuntov/COSMOS-Web/Images_HST-ACS/mosaic_cosmos_web_2023jan_30mas_hst_acs_wfc_f814w_drz.fits',
             'CFHT-u':      f'/n07data/shuntov/COSMOS2020_Images/cutouts/CUTOUT-Full-JAN23_COSMOS.U2.clipped_zp-28.09.fits',
@@ -522,7 +522,7 @@ def read_COSMOS_data(f,COSMOS_path):
     decvec=[]
 
     for idn,t,ra_cent,dec_cent in zip(source_ids,tiles,ra,dec):
-        name_img_det, name_img_part, sci_imas, model_imas, resid_imas, path_checkimg, imgname_chi2_c20, filters_translate = load_imgs(t,f)
+        name_img_det, name_img_part, sci_imas, model_imas, resid_imas, path_checkimg, imgname_chi2_c20, filters_translate = load_imgs(t.decode('utf-8'),f)
         try:
             stamp, w = image_make_cutout(name_img_det, ra_cent, dec_cent, arcsec_cut, nameout=None, get_wcs=True)
         except:
