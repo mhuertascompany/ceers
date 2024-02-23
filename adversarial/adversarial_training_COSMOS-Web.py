@@ -509,7 +509,7 @@ def read_COSMOS_data(f,COSMOS_path):
     #cat_cosmos = hdu[1].data
     cat_cosmos_pd=cat_cosmos.to_pandas()
 
-    sel = cat_cosmos_pd.query("MAG_MODEL_F150W<21 and MAG_MODEL_F150W>0 and TILE !='JAN'")
+    sel = cat_cosmos_pd.query("MAG_MODEL_F150W<19 and MAG_MODEL_F150W>0 and TILE !='JAN'")
     
     source_ids = sel['Id']
     tiles = sel['TILE']
@@ -536,7 +536,7 @@ def read_COSMOS_data(f,COSMOS_path):
         transform = AsinhStretch() + interval
         norm = transform(stamp)  
         print(stamp.shape)
-        pdb.set_trace()
+        #pdb.set_trace()
         
         #stamp_name = data_path+"NirCam/CANDELS_stamps/v005/f200fullres/CANDELS-CEERS"+str(idn)+"_f200w_v005.fits"
         X_JWST.append(norm)
