@@ -405,6 +405,7 @@ def load_imgs(tile,bands_to_plot):
             else:
                 f = get_filename(path_checkimg, filters_translate[filt], 'model')
         else:
+            print(filt)
             f = get_filename(path_checkimg, filters_translate[filt], 'model')
 #         if filt == 'F770W':
 #             os.system(f'rm {path_checkimg}*miri*v0_01*')
