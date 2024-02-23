@@ -787,7 +787,7 @@ domain_predictor.save_weights(data_path+"initial_domain.weights")
 X,label = read_CANDELS_data(data_path)
 for f in filters:
     
-    X_JWST,fullvec,idvec,fieldvec,ravec,decvec = read_COSMOS_data(f,data_COSMOS)
+    X_JWST,fullvec,idvec,fieldvec,ravec,decvec = read_COSMOS_data([f],data_COSMOS)
 
     if WRITE:
         print("writing image files for filter "+ str(f))
