@@ -789,7 +789,7 @@ for f in filters:
     
     if os.path.exists(data_path+'image_arrays/image_arrays_'+f+'.npz'):
         print("Loading saved array with data from filter "+f)
-        data = np.load(data_path+'image_arrays/image_arrays_'+f+'.npz')
+        data = np.load(data_path+'image_arrays/image_arrays_'+f+'.npz',allow_pickle=True)
         # Access the saved variables
         X_JWST = data['stamps']
         fullvec = data['fullvec']
