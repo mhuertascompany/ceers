@@ -543,7 +543,7 @@ def read_COSMOS_data(f,COSMOS_path):
         ravec.append(ra_cent)
         decvec.append(dec_cent)  
 
-
+    return X_JWST,fullvec,idvec,fieldvec,ravec,decvec 
 
 def create_datasets(X_C,label_C,X_JWST,sh=True):
 
