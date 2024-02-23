@@ -527,15 +527,17 @@ def read_COSMOS_data(f,COSMOS_path):
         name_img_det, name_img_part, sci_imas, model_imas, resid_imas, path_checkimg, imgname_chi2_c20, filters_translate = load_imgs(t.decode('utf-8'),f)
         try:
             stamp, w = image_make_cutout(name_img_det, ra_cent, dec_cent, arcsec_cut, nameout=None, get_wcs=True)
+            print(stamp.shape)
         except:
             print('Error creating stamp')
         full = 'nircam_'+str(t)+'_'+str(idn)
-        if np.max(stamp)<=0 or np.count_nonzero(stamp==0)>10:
+        if stamp.shape[0] !=32 or stamp.shape[1] !=32 or np.max(stamp)<=0 or np.count_nonzero(stamp==0)>10:
+            print("skipping")
             continue
                     
         transform = AsinhStretch() + interval
         norm = transform(stamp)  
-        print(stamp.shape)
+        
         #pdb.set_trace()
         
         #stamp_name = data_path+"NirCam/CANDELS_stamps/v005/f200fullres/CANDELS-CEERS"+str(idn)+"_f200w_v005.fits"
