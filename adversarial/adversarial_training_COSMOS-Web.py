@@ -788,7 +788,7 @@ X,label = read_CANDELS_data(data_path)
 for f in filters:
     
     if os.path.exists('image_arrays_'+f+'.npz'):
-        data = np.load(file_path)
+        data = np.load('image_arrays_'+f+'.npz')
         # Access the saved variables
         X_JWST = data['stamps']
         fullvec = data['fullvec']
