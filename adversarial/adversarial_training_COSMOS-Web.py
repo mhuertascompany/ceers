@@ -508,7 +508,7 @@ def read_COSMOS_data(f,COSMOS_path):
     #cat_cosmos = hdu[1].data
     cat_cosmos_pd=cat_cosmos.to_pandas()
 
-    sel = cat_cosmos_pd.query('MAG_MODEL_F150W<21 and MAG_MODEL_F150W>0')
+    sel = cat_cosmos_pd.query("MAG_MODEL_F150W<21 and MAG_MODEL_F150W>0 and TILE !='JAN'")
     
     source_ids = sel['Id']
     tiles = sel['TILE']
