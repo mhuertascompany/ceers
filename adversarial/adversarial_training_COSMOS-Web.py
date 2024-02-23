@@ -503,8 +503,9 @@ def read_COSMOS_data(f,COSMOS_path):
     name_SEpp_cat = COSMOS_path+"COSMOSWeb_master_v1.6.0-sersic+BD-em_cgs_LePhare_nodupl.fits"
     with fits.open(name_SEpp_cat) as hdu:
         cat_cosmos = hdu[1].data
+    cat_cosmos_pd=cat_cosmos.to_pandas()
 
-    sel = cat_cosmos.query('MAG_MODEL_F150W<26.5 and MAG_MODEL_F150W>0')
+    sel = cat_cosmos_pd.query('MAG_MODEL_F150W<26.5 and MAG_MODEL_F150W>0')
     
     source_ids = sel['id']
     tiles = sel['TILE']
