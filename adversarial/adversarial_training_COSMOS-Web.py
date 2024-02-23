@@ -787,8 +787,9 @@ domain_predictor.save_weights(data_path+"initial_domain.weights")
 X,label = read_CANDELS_data(data_path)
 for f in filters:
     
-    if os.path.exists('image_arrays_'+f+'.npz'):
-        data = np.load('image_arrays_'+f+'.npz')
+    if os.path.exists(data_path+'image_arrays/image_arrays_'+f+'.npz'):
+        print("Loading saved array with data from filter "+f)
+        data = np.load(data_path+'image_arrays/image_arrays_'+f+'.npz')
         # Access the saved variables
         X_JWST = data['stamps']
         fullvec = data['fullvec']
