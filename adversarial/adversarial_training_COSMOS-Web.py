@@ -787,11 +787,22 @@ domain_predictor.save_weights(data_path+"initial_domain.weights")
 X,label = read_CANDELS_data(data_path)
 for f in filters:
     
-    X_JWST,fullvec,idvec,fieldvec,ravec,decvec = read_COSMOS_data([f],data_COSMOS)
+    if os.path.exists('image_arrays_'+f+'.npz'):
+        data = np.load(file_path)
+        # Access the saved variables
+        X_JWST = data['stamps']
+        fullvec = data['fullvec']
+        idvec = data['idvec']
+        fieldvec = data['fieldvec']
+        ravec = data['ravec']
+        decvec = data['decvec']
+    else:
 
-    if WRITE:
-        print("writing image files for filter "+ str(f))
-        np.savez(data_path+'image_arrays/image_arrays_'+f+'.npz', stamps = X_JWST, fullvec = fullvec, idvec=idvec,fieldvec=fieldvec,ravec=ravec,decvec=decvec)
+        X_JWST,fullvec,idvec,fieldvec,ravec,decvec = read_COSMOS_data([f],data_COSMOS)
+
+        if WRITE:
+            print("writing image files for filter "+ str(f))
+            np.savez(data_path+'image_arrays/image_arrays_'+f+'.npz', stamps = X_JWST, fullvec = fullvec, idvec=idvec,fieldvec=fieldvec,ravec=ravec,decvec=decvec)
 
              
 
