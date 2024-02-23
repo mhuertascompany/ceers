@@ -158,7 +158,7 @@ def read_CANDELS_data(data_path):
 
 
 
-    fields = ["egs","GDS","COSMOS","UDS","GDN"]
+    fields = ["egs","GDS","COSMOS","UDS","gdn"]
     X=[]
     label=[]
 
@@ -509,7 +509,7 @@ def read_COSMOS_data(f,COSMOS_path):
 
     sel = cat_cosmos_pd.query('MAG_MODEL_F150W<26.5 and MAG_MODEL_F150W>0')
     
-    source_ids = sel['id']
+    source_ids = sel['Id']
     tiles = sel['TILE']
     ra  = sel['RA_MODEL']
     dec = sel['DEC_MODEL']
