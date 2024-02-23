@@ -535,7 +535,9 @@ def read_COSMOS_data(f,COSMOS_path):
                     
         transform = AsinhStretch() + interval
         norm = transform(stamp)  
-        #pdb.set_trace()
+        print(stamp.shape)
+        pdb.set_trace()
+        
         #stamp_name = data_path+"NirCam/CANDELS_stamps/v005/f200fullres/CANDELS-CEERS"+str(idn)+"_f200w_v005.fits"
         X_JWST.append(norm)
         idvec.append(idn)
@@ -792,10 +794,11 @@ if os.path.exists(data_path+'image_arrays/CANDELS.npz'):
     X = data['stamps']
     label = data['label']    
 
-X,label = read_CANDELS_data(data_path)
-if WRITE_CANDELS:
-    print("Saving CANDELS data")
-    np.savez(data_path+'image_arrays/CANDELS.npz', stamps = X, label = label)
+else:
+    X,label = read_CANDELS_data(data_path)
+    if WRITE_CANDELS:
+        print("Saving CANDELS data")
+        np.savez(data_path+'image_arrays/CANDELS.npz', stamps = X, label = label)
 for f in filters:
     
     if os.path.exists(data_path+'image_arrays/image_arrays_'+f+'.npz'):
