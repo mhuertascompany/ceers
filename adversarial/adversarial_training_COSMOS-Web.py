@@ -17,7 +17,7 @@ from astropy.coordinates import SkyCoord
 from tensorflow import keras
 from tensorflow.keras import layers
 from tensorflow.keras import regularizers
-from official.vision.image_classification.augment import RandAugment
+#from official.vision.image_classification.augment import RandAugment
 
 from sklearn.utils import shuffle
 import pdb
