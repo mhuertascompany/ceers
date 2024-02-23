@@ -149,7 +149,7 @@ def read_CANDELS_data(data_path):
 
     wfc3_f160_list=[]
     wf160=[]
-    candels_images = ["hlsp_candels_hst_wfc3_egs-tot-60mas_f160w_v1.0_drz.fits","hlsp_candels_hst_wfc3_gs-tot_f160w_v1.0_drz.fits","hlsp_candels_hst_wfc3_cos-tot_f160w_v1.0_drz.fits","hlsp_candels_hst_wfc3_uds-tot_f160w_v1.0_drz.fits"]
+    candels_images = ["hlsp_candels_hst_wfc3_egs-tot-60mas_f160w_v1.0_drz.fits","hlsp_candels_hst_wfc3_gs-tot_f160w_v1.0_drz.fits","hlsp_candels_hst_wfc3_cos-tot_f160w_v1.0_drz.fits","hlsp_candels_hst_wfc3_uds-tot_f160w_v1.0_drz.fits","hlsp_candels_hst_wfc3_gn-tot-60mas_f160w_v1.0_drz.fits"]
     for c in candels_images:
         wfc3_f160 = fits.open(data_path+"images/"+c)
         wfc3_f160_list.append(wfc3_f160)
@@ -158,7 +158,7 @@ def read_CANDELS_data(data_path):
 
 
 
-    fields = ["egs","GDS","COSMOS","UDS"]
+    fields = ["egs","GDS","COSMOS","UDS","GDN"]
     X=[]
     label=[]
 
@@ -501,7 +501,7 @@ def image_make_cutout(filename, ra1, dec1, arcsec_cut, nameout=None, get_wcs=Non
 
 
 def read_COSMOS_data(f,COSMOS_path):
-    name_SEpp_cat = COSMOS_path+"COSMOSWeb_master_v1.6.0-sersic+BD-em_cgs_LePhare_nodupl.fits"
+    name_SEpp_cat = COSMOS_path+"cats/COSMOSWeb_master_v1.6.0-sersic+BD-em_cgs_LePhare_nodupl_nomulti.fits"
     #ith fits.open(name_SEpp_cat) as hdu:
     cat_cosmos = Table.read(name_SEpp_cat, format='fits')
     #cat_cosmos = hdu[1].data
@@ -760,7 +760,7 @@ nruns = 0  #set to 0 for skip training
 #filters=['f150w','f200w','f356w','f444w']
 filters = ['F150W', 'F277W', 'F444W']
 data_path = "/n03data/huertas/CANDELS/"
-data_COSMOS = "/n23data2/cosmosweb/catalogs/SEpp/Apr23/v1.6.0/"
+data_COSMOS = "/n03data/huertas/COSMOS-Web/"
 loss_object = tf.keras.losses.CategoricalCrossentropy()
 d_optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
 f_optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
