@@ -583,13 +583,17 @@ def create_datasets(X_C,label_C,X_JWST,sh=True,n_JWST=25000):
     indices = np.random.choice(np.array(X_JWST).shape[0], n_JWST, replace=False)
     X_JWST_sampled = X_JWST[indices]
     print(np.array(X_JWST_sampled).shape)
-    JWST_X = tf.convert_to_tensor(X_JWST_sampled, dtype=tf.float32)
-    JWST_X = tf.expand_dims(JWST_X, -1)
-    label_JWST = np.zeros(len(JWST_X))
-    #JWST_X = tf.tile(JWST_X, [1,1,1,3])
-    label_JWST = tf.one_hot(np.zeros(len(JWST_X)), 4).numpy()
 
-    return CANDELS_X,label_candels,CANDELS_X_t,label_candels_t,JWST_X,label_JWST
+    JWST_X_sampled = tf.convert_to_tensor(X_JWST_sampled, dtype=tf.float32)
+    JWST_X_sampled = tf.expand_dims(JWST_X_sampled, -1)
+    JWST_X = tf.convert_to_tensor(X_JWST, dtype=tf.float32)
+    JWST_X = tf.expand_dims(JWST_X, -1)
+
+    label_JWST = np.zeros(len(JWST_X_sampled))
+    #JWST_X = tf.tile(JWST_X, [1,1,1,3])
+    label_JWST = tf.one_hot(np.zeros(len(JWST_X_sampled)), 4).numpy()
+
+    return CANDELS_X,label_candels,CANDELS_X_t,label_candels_t,JWST_X_sampled,label_JWST,JWST_X
 
 
 
@@ -765,9 +769,9 @@ def reset_metrics():
 
 
 
-EPOCHS = 50
+EPOCHS = 1
 alpha = 1
-nruns = 10  #set to 0 for skip training
+nruns = 1  #set to 0 for skip training
 
 #filters=['f150w','f200w','f356w','f444w']
 filters = ['F150W', 'F277W', 'F444W']
@@ -834,7 +838,7 @@ for f in filters:
 
     for num in range(nruns):
 
-        CANDELS_X,label_candels,CANDELS_X_t,label_candels_t,JWST_X,label_JWST = create_datasets(X,label,X_JWST)
+        CANDELS_X,label_candels,CANDELS_X_t,label_candels_t,JWST_X,label_JWST,JWST_X_all = create_datasets(X,label,X_JWST)
         label_predictor.load_weights(data_path+"initial_pred.weights")
         domain_predictor.load_weights(data_path+"initial_domain.weights")
         feature_generator.load_weights(data_path+"initial_feature.weights")
@@ -898,11 +902,11 @@ for f in filters:
         bd=[]
         
         n=0    
-        while(n<len(JWST_X)):
-            if n+chunk>len(JWST_X):
-                p = label_predictor(feature_generator(JWST_X[n:]))
+        while(n<len(JWST_X_all)):
+            if n+chunk>len(JWST_X_all):
+                p = label_predictor(feature_generator(JWST_X_all[n:]))
             else:    
-                p = label_predictor(feature_generator(JWST_X[n:n+chunk]))
+                p = label_predictor(feature_generator(JWST_X_all[n:n+chunk]))
             n=n+chunk
             print(len(p))
             sph.append(p[:,0])
@@ -921,5 +925,5 @@ for f in filters:
 
     if TRAIN:
         d4 = today.strftime("%b-%d-%Y")        
-        df.to_csv(data_path+"cats/CEERS_DR05_adversarial_asinh_"+f+"_"+d4+"_4class_shuffle_"+str(nruns)+"_"+str(EPOCHS)+".csv")
+        df.to_csv(data_path+"cats/COSMOS-Web_adversarial_asinh_"+f+"_"+d4+"_4class_shuffle_"+str(nruns)+"_"+str(EPOCHS)+".csv")
 
