@@ -579,7 +579,9 @@ def create_datasets(X_C,label_C,X_JWST,sh=True,n_JWST=25000):
     print(tf.shape(CANDELS_X_t))
     label_candels_t = tf.one_hot(label[train_s:train_s+test_s], 4).numpy()
     print(np.array(X_JWST).shape)
-    X_JWST_sampled = random.sample(X_JWST, n_JWST)
+    #X_JWST_sampled = random.sample(X_JWST, n_JWST)
+    indices = np.random.choice(np.array(X_JWST).shape[0], n_JWST, replace=False)
+    X_JWST_sampled = X_JWST[indices]
     print(np.array(X_JWST_sampled).shape)
     JWST_X = tf.convert_to_tensor(X_JWST_sampled, dtype=tf.float32)
     JWST_X = tf.expand_dims(JWST_X, -1)
