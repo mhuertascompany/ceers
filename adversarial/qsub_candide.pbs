@@ -1,9 +1,9 @@
 #!/bin/sh
 #PBS -S /bin/sh
 #PBS -N morpho_COSMOS
-#PBS -o  /n03data/huertas/COSMOS-Web/jobs/qsub_adversarial.out # final job output file
+#PBS -o /n03data/huertas/COSMOS-Web/jobs/qsub_adversarial.out 
 #PBS -j oe 
-#PBS -l nodes=16,walltime=13:00:00
+#PBS -l nodes=16,walltime=30:00:00
 
 module load tensorflow/2.9
 cd /home/huertas/python/ceers/adversarial
