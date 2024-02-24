@@ -532,7 +532,7 @@ def read_COSMOS_data(f,COSMOS_path):
             print(stamp.shape)
         except:
             print('Error creating stamp')
-        full = 'nircam_'+str(t)+'_'+str(idn)
+        full = 'nircam_'+str(t.decode())+'_'+str(idn)
         if stamp.shape[0] !=32 or stamp.shape[1] !=32 or np.max(stamp)<=0 or np.count_nonzero(stamp==0)>10:
             print("skipping")
             continue
@@ -546,7 +546,7 @@ def read_COSMOS_data(f,COSMOS_path):
         X_JWST.append(norm)
         idvec.append(idn)
         fullvec.append(full)
-        fieldvec.append(t) 
+        fieldvec.append(t.decode()) 
         ravec.append(ra_cent)
         decvec.append(dec_cent)  
 
