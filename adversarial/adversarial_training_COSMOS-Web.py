@@ -29,6 +29,8 @@ from datetime import date
 
 from tempfile import TemporaryFile
 
+import random
+
 
 WRITE=True
 TRAIN=True
@@ -550,7 +552,7 @@ def read_COSMOS_data(f,COSMOS_path):
 
     return X_JWST,fullvec,idvec,fieldvec,ravec,decvec 
 
-def create_datasets(X_C,label_C,X_JWST,sh=True):
+def create_datasets(X_C,label_C,X_JWST,sh=True,n_JWST=25000):
 
     train_s=len(X_C)*4//5
     test_s=len(X_C)*1//5
@@ -577,7 +579,9 @@ def create_datasets(X_C,label_C,X_JWST,sh=True):
     print(tf.shape(CANDELS_X_t))
     label_candels_t = tf.one_hot(label[train_s:train_s+test_s], 4).numpy()
     print(np.array(X_JWST).shape)
-    JWST_X = tf.convert_to_tensor(X_JWST, dtype=tf.float32)
+    X_JWST_sampled = random.sample(X_JWST, n_JWST)
+    print(np.array(X_JWST_sampled).shape)
+    JWST_X = tf.convert_to_tensor(X_JWST_sampled, dtype=tf.float32)
     JWST_X = tf.expand_dims(JWST_X, -1)
     label_JWST = np.zeros(len(JWST_X))
     #JWST_X = tf.tile(JWST_X, [1,1,1,3])
