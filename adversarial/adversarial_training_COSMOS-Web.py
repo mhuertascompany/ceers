@@ -841,6 +841,7 @@ for f in filters:
     for num in range(nruns):
 
         tf.keras.backend.clear_session()
+        gc.collect()
         label_predictor.load_weights(data_path+"initial_pred.weights")
         domain_predictor.load_weights(data_path+"initial_domain.weights")
         feature_generator.load_weights(data_path+"initial_feature.weights")
