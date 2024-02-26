@@ -838,10 +838,11 @@ for f in filters:
 
     for num in range(nruns):
 
-        CANDELS_X,label_candels,CANDELS_X_t,label_candels_t,JWST_X,label_JWST,JWST_X_all = create_datasets(X,label,X_JWST)
+        tf.keras.backend.clear_session()
         label_predictor.load_weights(data_path+"initial_pred.weights")
         domain_predictor.load_weights(data_path+"initial_domain.weights")
         feature_generator.load_weights(data_path+"initial_feature.weights")
+        CANDELS_X,label_candels,CANDELS_X_t,label_candels_t,JWST_X,label_JWST,JWST_X_all = create_datasets(X,label,X_JWST)
 
         all_train_domain_images = np.vstack((CANDELS_X, JWST_X))
         channel_mean = all_train_domain_images.mean((0,1,2))
