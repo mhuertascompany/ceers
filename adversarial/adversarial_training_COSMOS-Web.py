@@ -920,7 +920,8 @@ for f in filters:
             df['sph_'+str(num)+'_'+f]=np.concatenate(sph).ravel()   
             df['disk_'+str(num)+'_'+f]=np.concatenate(dk).ravel()    
             df['irr_'+str(num)+'_'+f]=np.concatenate(irr).ravel()  
-            df['bd_'+str(num)+'_'+f]=np.concatenate(bd).ravel()  
+            df['bd_'+str(num)+'_'+f]=np.concatenate(bd).ravel() 
+        tf.keras.backend.clear_session() 
     today = date.today()
 
     if TRAIN:
