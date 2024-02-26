@@ -769,7 +769,7 @@ def reset_metrics():
 
 
 
-EPOCHS = 50
+EPOCHS = 1
 alpha = 1
 nruns = 10  #set to 0 for skip training
 
