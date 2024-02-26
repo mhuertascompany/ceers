@@ -569,31 +569,32 @@ def create_datasets(X_C,label_C,X_JWST,sh=True,n_JWST=25000):
 
 
     print(np.array(X).shape)
-    CANDELS_X = tf.convert_to_tensor(X[0:train_s], dtype=tf.float32)
-    CANDELS_X = tf.expand_dims(CANDELS_X, -1)
-    #CANDELS_X = tf.tile(CANDELS_X, [1,1,1,3])
-    print(tf.shape(CANDELS_X))
-    label_candels = tf.one_hot(label[0:train_s], 4).numpy()
+    with tf.device('CPU'):
+        CANDELS_X = tf.convert_to_tensor(X[0:train_s], dtype=tf.float32)
+        CANDELS_X = tf.expand_dims(CANDELS_X, -1)
+        #CANDELS_X = tf.tile(CANDELS_X, [1,1,1,3])
+        print(tf.shape(CANDELS_X))
+        label_candels = tf.one_hot(label[0:train_s], 4).numpy()
 
-    CANDELS_X_t = tf.convert_to_tensor(X[train_s:train_s+test_s], dtype=tf.float32)
-    CANDELS_X_t = tf.expand_dims(CANDELS_X_t, -1)
-    #CANDELS_X = tf.tile(CANDELS_X, [1,1,1,3])
-    print(tf.shape(CANDELS_X_t))
-    label_candels_t = tf.one_hot(label[train_s:train_s+test_s], 4).numpy()
-    print(np.array(X_JWST).shape)
-    #X_JWST_sampled = random.sample(X_JWST, n_JWST)
-    indices = np.random.choice(np.array(X_JWST).shape[0], n_JWST, replace=False)
-    X_JWST_sampled = X_JWST[indices]
-    print(np.array(X_JWST_sampled).shape)
+        CANDELS_X_t = tf.convert_to_tensor(X[train_s:train_s+test_s], dtype=tf.float32)
+        CANDELS_X_t = tf.expand_dims(CANDELS_X_t, -1)
+        #CANDELS_X = tf.tile(CANDELS_X, [1,1,1,3])
+        print(tf.shape(CANDELS_X_t))
+        label_candels_t = tf.one_hot(label[train_s:train_s+test_s], 4).numpy()
+        print(np.array(X_JWST).shape)
+        #X_JWST_sampled = random.sample(X_JWST, n_JWST)
+        indices = np.random.choice(np.array(X_JWST).shape[0], n_JWST, replace=False)
+        X_JWST_sampled = X_JWST[indices]
+        print(np.array(X_JWST_sampled).shape)
 
-    JWST_X_sampled = tf.convert_to_tensor(X_JWST_sampled, dtype=tf.float32)
-    JWST_X_sampled = tf.expand_dims(JWST_X_sampled, -1)
-    JWST_X = tf.convert_to_tensor(X_JWST, dtype=tf.float32)
-    JWST_X = tf.expand_dims(JWST_X, -1)
+        JWST_X_sampled = tf.convert_to_tensor(X_JWST_sampled, dtype=tf.float32)
+        JWST_X_sampled = tf.expand_dims(JWST_X_sampled, -1)
+        JWST_X = tf.convert_to_tensor(X_JWST, dtype=tf.float32)
+        JWST_X = tf.expand_dims(JWST_X, -1)
 
-    label_JWST = np.zeros(len(JWST_X_sampled))
-    #JWST_X = tf.tile(JWST_X, [1,1,1,3])
-    label_JWST = tf.one_hot(np.zeros(len(JWST_X_sampled)), 4).numpy()
+        label_JWST = np.zeros(len(JWST_X_sampled))
+        #JWST_X = tf.tile(JWST_X, [1,1,1,3])
+        label_JWST = tf.one_hot(np.zeros(len(JWST_X_sampled)), 4).numpy()
 
     return CANDELS_X,label_candels,CANDELS_X_t,label_candels_t,JWST_X_sampled,label_JWST,JWST_X
 
