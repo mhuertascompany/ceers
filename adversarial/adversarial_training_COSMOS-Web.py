@@ -584,7 +584,7 @@ def create_datasets(X_C,label_C,X_JWST,sh=True,n_JWST=25000):
         print(np.array(X_JWST).shape)
         #X_JWST_sampled = random.sample(X_JWST, n_JWST)
         indices = np.random.choice(np.array(X_JWST).shape[0], n_JWST, replace=False)
-        X_JWST_sampled = X_JWST[indices]
+        X_JWST_sampled = X_JWST[indices.astype(int)]
         print(np.array(X_JWST_sampled).shape)
 
         JWST_X_sampled = tf.convert_to_tensor(X_JWST_sampled, dtype=tf.float32)
