@@ -29,6 +29,8 @@ from datetime import date
 
 from tempfile import TemporaryFile
 
+import gc
+
 import random
 
 
@@ -923,6 +925,7 @@ for f in filters:
             df['irr_'+str(num)+'_'+f]=np.concatenate(irr).ravel()  
             df['bd_'+str(num)+'_'+f]=np.concatenate(bd).ravel() 
         tf.keras.backend.clear_session() 
+        gc.collect()
     today = date.today()
 
     if TRAIN:
