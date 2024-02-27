@@ -9,6 +9,10 @@ module () {
   eval $(/usr/bin/modulecmd bash $*)
 }
 module load tensorflow/2.9
+
+# Set CUDA_VISIBLE_DEVICES to use GPU device 1
+export CUDA_VISIBLE_DEVICES=1
+
 cd /home/huertas/python/ceers/adversarial
 python adversarial_training_COSMOS-Web.py
 
