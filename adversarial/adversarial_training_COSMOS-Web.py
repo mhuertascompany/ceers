@@ -778,6 +778,8 @@ nruns = 10  #set to 0 for skip training
 
 #filters=['f150w','f200w','f356w','f444w']
 filters = ['F150W', 'F277W', 'F444W']
+train = [0,0,1]
+
 data_path = "/n03data/huertas/CANDELS/"
 data_COSMOS = "/n03data/huertas/COSMOS-Web/"
 loss_object = tf.keras.losses.CategoricalCrossentropy()
@@ -814,7 +816,11 @@ else:
     if WRITE_CANDELS:
         print("Saving CANDELS data")
         np.savez(data_path+'image_arrays/CANDELS.npz', stamps = X, label = label)
-for f in filters:
+for f,tr in zip(filters,train):
+
+    if tr ==0:
+        print('skipping training for filter ' + f)
+        continue
     
     if os.path.exists(data_path+'image_arrays/image_arrays_'+f+'.npz'):
         print("Loading saved array with data from filter "+f)
