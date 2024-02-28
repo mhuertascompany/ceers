@@ -64,7 +64,7 @@ with open("/n03data/huertas/COSMOS-Web/cutouts/generate_cutouts.sh", "w") as fil
     # Process each query
     for query, n,f in queries:
         # Filter the DataFrame according to the query, select random ids, then sort them in descending order
-        filtered_ids = ceers_cat.query(query)['id_1'].sample(n=n, random_state=1).sort_values(ascending=False)  # Change random_state for different subsets
+        filtered_ids = ceers_cat.query(query)['Id_1'].sample(n=n, random_state=1).sort_values(ascending=False)  # Change random_state for different subsets
         
         # Create the command with selected ids
         source_ids_str = ' '.join(map(str, filtered_ids))
