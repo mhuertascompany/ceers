@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-data_path = "/Users/marchuertascompany/Documents/data/COSMOS-Web"
+data_path = "/n03data/huertas/COSMOS-Web/cats/"
 # Load your DataFrame
 ceers_cat = pd.read_csv(data_path+'COSMOSWeb_master_v1.6.0-sersic+BD-em_cgs_LePhare_nodupl_nomulti_adversarialF150W.csv')  # Replace this with your actual file path
 
