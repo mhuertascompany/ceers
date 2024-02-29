@@ -78,7 +78,7 @@ queries = [
     ("morph_flag_f277w==0 and MAG_MODEL_F277W<24.5", 20,'sph','f277w'),  # Replace with your actual query and number of ids
     ("morph_flag_f277w==1 and MAG_MODEL_F277W<24.5", 20,'disk','f277w'),  # Replace with your actual query and number of ids
     ("morph_flag_f277w==2 and MAG_MODEL_F277W<24.5", 20,'irr','f277w'),
-    ("morph_flag_f277w==3 and MAG_MODEL_F277W<24.5", 20,'bd'),'f277w',
+    ("morph_flag_f277w==3 and MAG_MODEL_F277W<24.5", 20,'bd','f277w'),
     ("morph_flag_f444w==0 and MAG_MODEL_F444W<24.5", 20,'sph','f444w'),  # Replace with your actual query and number of ids
     ("morph_flag_f444w==1 and MAG_MODEL_F444W<24.5", 20,'disk','f444w'),  # Replace with your actual query and number of ids
     ("morph_flag_f444w==2 and MAG_MODEL_F444W<24.5", 20,'irr','f444w'),
