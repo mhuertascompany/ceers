@@ -137,7 +137,7 @@ for directory,df,simul,m in zip(directory_list,df_list,sim_list,max_snap):
                         x[:,1]=sixth_column
                         x[:,2]=seventh_column
 
-                        data_dict[subsample_key] = {'FileID': file_id, 'x': x, 'snapshot': second_column, 'z': redshifts, 't': scale_factor}
+                        data_dict[subsample_key] = {'sim':simul,'FileID': file_id, 'x': x, 'snapshot': second_column, 'z': redshifts, 't': scale_factor}
                 
                     # Increment the index
                     index += 1
@@ -150,6 +150,7 @@ hdf5_file_path = output_path+'projTNGEAGLESimbamstargt9_random_sizemassSFR.h5'  
 with h5py.File(hdf5_file_path, 'w') as hdf5_file:
     for key, value in data_dict.items():
         group = hdf5_file.create_group(str(key))
+        group.create_dataset('sim', data=value['sim'])
         group.create_dataset('FileID', data=value['FileID'])
         group.create_dataset('x', data=value['x'])
         group.create_dataset('snapshot', data=value['snapshot'])
