@@ -64,7 +64,8 @@ basePath_list=['/virgotng/universe/IllustrisTNG/TNG100-1/output/','/virgotng/uni
 redshifts = [0.5,1,2,3,4,5]
 
 # Define the name of the single HDF5 file
-hdf5_file_path = "all_simulations_data.hdf5"
+output_dir = "/u/mhuertas/data/CEERS"
+hdf5_file_path = output_dir+"/all_simulations_data.hdf5"
 
 # Assuming basePath_list, sim_list, df_list, and redshifts are defined
 for z in redshifts:
