@@ -1,8 +1,5 @@
 import logging
 import os
-import sys
-
-# sys.path.append('/scratch/ydong')
 
 import pandas as pd
 import numpy as np
@@ -99,7 +96,7 @@ predict_on_catalog.predict(
                 width=resize_after_crop,
                 scale=crop_scale_bounds,  # crop factor
                 ratio=crop_ratio_bounds,  # crop aspect ratio
-                interpolation=1,  # This is "INTER_LINEAR" == BILINEAR interpolation. See: https://docs.opencv.org/3.4/da/d54/group__imgproc__transform.html
+                interpolation=1,  # This is "INTER_LINEAR" == BILINEAR interpolation. 
                 always_apply=True
             ),  # new aspect ratio
             A.VerticalFlip(p=0.5),

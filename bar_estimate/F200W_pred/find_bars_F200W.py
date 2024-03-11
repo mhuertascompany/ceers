@@ -1,5 +1,5 @@
 '''
-Yuanzhe Dong, 6 Dec at PKU
+Analyze the predicted vote counts (only for preliminary results) and pick out the disky and barred sample. 
 '''
 
 
@@ -10,18 +10,22 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 
+# load catalog
 cat_dir = "/scratch/ydong/cat"
 cat_name = "CEERS_DR05_adversarial_asinh_4filters_1122_4class_ensemble_v02_stellar_params_morphflag_delta_10points_DenseBasis_galfit_CLASS_STAR_v052_bug.csv"
 cat = pd.read_csv(os.path.join(cat_dir,cat_name))
 z = cat['zfit_50'].values
 
+# directory for images
 image_dir = "/scratch/ydong/stamps/demo_F200W"
 
+# load the finetuned Zoobot predictions 
 pred_path = "bar_estimate/F200W_pred/full_cat_predictions_F200W.csv"
 pred = pd.read_csv(pred_path)
 
 id = pred['id_str'].values
 
+# For the part below, the expected alpha value in the Dirichlet distribution is taken as probability for simplicity
 count_feature = pred['t0_smooth_or_featured__features_or_disk_pred'].values
 count_smooth = pred['t0_smooth_or_featured__smooth_pred'].values
 count_artifact = pred['t0_smooth_or_featured__star_artifact_or_bad_zoom_pred'].values
@@ -40,11 +44,15 @@ p_weak = count_weak/(count_strong+count_weak+count_none)
 
 p_bar = p_strong+p_weak
 
+
+# show the histogram of p_bar distribution
 for p in [0.5, 0.4, 0.3, 0.2, 0.1, 0]:
-    disky = (p_feature>0.3)&(p_edgeon<0.5)
+    disky = (p_feature>p)&(p_edgeon<0.5)
     print(p, np.sum(disky))
     print(np.sum(disky&(p_bar>0.5)),np.sum(disky&(p_bar>0.4)),np.sum(disky&(p_bar>0.3)),np.sum(disky&(p_bar>=0)))
 
+
+# The code below is for displaying the results (most probable barred galaxies etc.)
 
 # plt.scatter(p_feature, p_artifact, s=1)
 # plt.xlim(0,1)
@@ -59,7 +67,7 @@ draw_max = ImageDraw.Draw(max_bar_image_F200W)
 font = ImageFont.truetype(fm.findfont(fm.FontProperties(family='serif')),size=20)
 
 
-max_bar_ids = np.where(p_bar<0.2)[0]
+max_bar_ids = np.where(p_bar>0.5)[0]
 i = 0
 for bar_id in max_bar_ids:
     image_path = os.path.join(image_dir, "F200W_%i.jpg"%id[bar_id])

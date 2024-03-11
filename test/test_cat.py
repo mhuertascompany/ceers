@@ -21,11 +21,11 @@ cla = pd.read_csv(os.path.join(class_dir,class_name))
 col_names = ['RA_1','DEC_1']
 cols = cat.columns
 
-for col in cols:
-    print(col)
+# for col in cols:
+#     print(col)
 
 # print(cla[['pixrad','radius_select','flux_rad_0p50','which_nircam','nircam_id']].values)
 print(np.unique(cla['which_nircam'].values))
 
-for i in range(100):
-    print(cat[['ID','RA_1','DEC_1','RA_2','DEC_2']].values[i])
+for i in range(100,200):
+    print(cat[['ID','RA_1','DEC_1','zfit_50','zfit_16','zfit_84']].values[i])
