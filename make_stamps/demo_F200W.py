@@ -1,3 +1,7 @@
+'''
+Build from scratch the dataset by cutting out galaxy greyscale stamps. 
+'''
+
 from PIL import Image
 from astropy.io import fits
 from astropy import wcs
@@ -25,13 +29,14 @@ def zero_pix_fraction(img):
     size = img.shape[0]
     return zeros/size
 
-
+# directory for raw CEERS images
 img_dir = "/scratch/ydong/images"
 
 N_POINTINGS = 10
 POINTING1 = [1,2,3,6]
 POINTING2 = [4,5,7,8,9,10]
 
+# path for catalog
 cat_dir = "/scratch/ydong/cat"
 cat_name = "CEERS_DR05_adversarial_asinh_4filters_1122_4class_ensemble_v02_stellar_params_morphflag_delta_10points_DenseBasis_galfit_CLASS_STAR_v052_bug.csv"
 
@@ -77,14 +82,13 @@ for n in range(1,11):
                     # cut = data[left:right,down:up]
                     cut = Cutout2D(data,pix,wcs=w,size=size*2).data
 
-                    if zero_pix_fraction(cut)<0.1:
+                    if zero_pix_fraction(cut)<0.1:  # exclude images with too many null pixels
                         print(i,n)
                         resized_cut = resize(cut,output_shape=(424,424))
 
-                        image = array2img(resized_cut,clipped_percent=1.)
+                        image = array2img(resized_cut)
 
-                        # image = array2img((cut==0.).astype(int))
-
+                        # save the images
                         image.save('/scratch/ydong/stamps/demo_F200W/F200W_%i.jpg'%i)
 
                         found[i] = 1

@@ -1,8 +1,6 @@
 '''
-
-Y. Dong, Sept 20
 test matching the GZ CEERS classifications with the catalog
-make stamps out of the rest of the classifications (added Oct 22)
+make stamps out of the rest of the classifications
 '''
 
 import pandas as pd
@@ -20,12 +18,15 @@ from astropy.nddata import Cutout2D
 import os
 from skimage.transform import resize
 
+# path for classifications
 class_dir = "/scratch/ydong/classifications"
 class_name = "jwst-ceers-v0-5-aggregated-class-singlechoicequestionsonly.csv"
 
+# path for catalog
 cat_dir = "/scratch/ydong/cat"
 cat_name = "CEERS_DR05_adversarial_asinh_4filters_1122_4class_ensemble_v02_stellar_params_morphflag_delta_10points_DenseBasis_galfit_CLASS_STAR_v052_bug.csv"
 
+# directory for cutout images
 image_dir = '/scratch/ydong/stamps/demo_F200W'
 file_loc = [os.path.join(image_dir,path) for path in os.listdir(image_dir)]
 ids = np.array([int(re.findall(r'\d+',path)[1]) for path in os.listdir(image_dir)])
@@ -34,14 +35,15 @@ cla = pd.read_csv(os.path.join(class_dir,class_name))
 cat = pd.read_csv(os.path.join(cat_dir,cat_name)).iloc[ids]
 
 
-cols = cla.columns
+# cols = cla.columns
 
-for col in cols:
-    print(repr(col))
+# for col in cols:
+#     print(repr(col))
 # col_names = ['RA_1','DEC_1']
 
 N = len(cla)
 
+# retrieve coordinates for comparison
 cat_ra = np.round(cat['RA_1'].values,6)
 cat_dec = np.round(cat['DEC_1'].values,6)
 cla_ra = np.round(cla['RA'].values,6)
@@ -57,7 +59,7 @@ cat2class = -1*np.ones(len(ids)).astype(int)
 
 mask = d2d<0.2*u.arcsec # to be smaller
 
-# check if any catalog object is matched multiple times
+# check if any catalog object is matched multiple times (successful match labelled by mask)
 for i in range(N):
     if mask[i]:
         if cat2class[idx[i]] >= 0:
@@ -72,6 +74,9 @@ for i in range(N):
         
 print("Total matches: %i"%np.sum(mask))
 
+
+
+# convert columns in classifications into matched catalog
 
 gz_answers = [
     't0_smooth_or_featured__features_or_disk',
@@ -125,6 +130,7 @@ match_catalog['file_loc'] = [file_loc[k] for k in idx[mask]]
 
 # for col in cols:
 #     print(col)
+
 
 radius = cla['flux_rad_0p50'].values
 pointing = cla['which_nircam'].values.astype(int)
@@ -194,6 +200,6 @@ for i in range(N):
                     match_catalog = pd.concat([match_catalog,new_record],ignore_index=True)
                     added += 1
 
-
+# save the matched catalog
 match_catalog.to_csv("bot/match_catalog_F200W.csv")
-print(np.sum(mask),added)
+print(f"Successfully matched {np.sum(mask)}, additionally cut out {added}")
