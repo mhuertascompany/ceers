@@ -1,5 +1,4 @@
 '''
-Yuanzhe Dong, 4 Dec
 predict p_bar for all F200W images
 '''
 
@@ -7,8 +6,6 @@ predict p_bar for all F200W images
 import os
 import albumentations as A
 
-# print(sys.path)
-# sys.path.append('/home/ydong-ext/zoobot')
 
 from zoobot.pytorch.training import finetune
 from zoobot.pytorch.predictions import predict_on_catalog
@@ -32,6 +29,7 @@ cols = cat.columns
 
 # for col in cols:
 #     print(col)
+
 
 pred_cat = cat
 pred_cat['id_str'] = ids

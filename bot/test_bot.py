@@ -1,3 +1,7 @@
+'''
+Try running Zoobot. 
+'''
+
 import logging
 import os
 import numpy as np

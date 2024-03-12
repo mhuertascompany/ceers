@@ -1,5 +1,5 @@
 '''
-Yuanzhe Dong, 21 Sept at IAC
+Schema of GZ CEERS decision tree.
 '''
 
 

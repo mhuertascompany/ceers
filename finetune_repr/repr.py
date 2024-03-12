@@ -37,10 +37,8 @@ catalog = pd.DataFrame({'id_str':ids,'file_loc':images,'label':labels})
 # zoobot expects id_str and file_loc columns, so add these if needed
 
 # save the representations here
-# TODO change this to wherever you'd like
 save_dir = 'finetune_repr/repr_results'
 
-# assert all([os.path.isfile(x) for x in catalog['file_loc']])
 
 if not os.path.exists(save_dir):
     os.mkdir(save_dir)
