@@ -123,6 +123,8 @@ gz_answers = [
 gz_counts = [a+'__count' for a in gz_answers]
 match_catalog = cla.loc[mask, gz_counts]
 match_catalog.columns = [col[:-7] for col in match_catalog.columns]
+
+# The columns "id_str" and "file_loc" are required for finetuning. 
 match_catalog['id_str'] = ids[idx[mask]]
 match_catalog['file_loc'] = [file_loc[k] for k in idx[mask]]
 
