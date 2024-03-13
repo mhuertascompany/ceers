@@ -596,7 +596,7 @@ def read_JADES_data(filter,data_path):
     
 
     #print(cat)  
-    for idn,ra,dec in zip(sel.Source, sel.RA,sel.DEC):
+    for idn,ra,dec in zip(sel.source, sel.RA,sel.DEC):
         try:
             full = 'nircam_'+str(idn)
             position = SkyCoord(ra,dec,unit="deg")
