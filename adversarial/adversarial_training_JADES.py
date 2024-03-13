@@ -908,7 +908,7 @@ for f,tr in zip(filters,train):
         
     else:
 
-        X_JWST,fullvec,idvec,fieldvec,ravec,decvec = read_JADES_data([f],data_JADES)
+        X_JWST,fullvec,idvec,fieldvec,ravec,decvec = read_JADES_data(f,data_JADES)
 
         if WRITE:
             print("writing image files for filter "+ str(f))
