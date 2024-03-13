@@ -85,7 +85,7 @@ for z in redshifts:
         mass = np.log10(subhalos['SubhaloMassInRadType'][:, 4] * 1e10 / 0.704)
         exact_redshift = df_snap_simba[df_snap_simba['SnapshotNumber'] == closest_snapshot]['Redshift'].values[0]
         re = np.log10(subhalos['SubhaloHalfmassRadType'][:, 4] * 0.704 / (1 + exact_redshift))
-        sfr = np.log10(subhalos['SubhaloSFRinRad'])
+        sfr = np.log10(subhalos['SubhaloSFRinRad']+1e-5)
 
         # Create a DataFrame
         df_subhalos = pd.DataFrame({'Mass': mass, 'Re': re, 'SFR': sfr})
