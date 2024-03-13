@@ -569,7 +569,7 @@ def read_JADES_data(filter,data_path):
         # Now convert the Astropy Table into a Pandas DataFrame
         cat_jades = table.to_pandas()
     
-    cat_jades["F200_AB"] = 2.5*(np.log10(cat_jades.F200W_CIRC0*1e-9))+8.90
+    cat_jades["F200_AB"] = -2.5*(np.log10(cat_jades.F200W_CIRC0*1e-9))+8.90
 
     
     #nir_f200 = fits.open(data_path+"images/hlsp_ceers_jwst_nircam_nircam"+str(c)+"_"+filter+"_dr0.5_i2d.fits.gz")
