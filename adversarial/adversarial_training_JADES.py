@@ -598,8 +598,9 @@ def read_JADES_data(filter,data_path):
     #print(cat)  
     for idn,ra,dec in zip(sel.source, sel.RA,sel.DEC):
         try:
-            full = 'nircam_'+str(idn)
+            full = 'jades_'+str(idn)
             position = SkyCoord(ra,dec,unit="deg")
+            field='jades-dr2'
             #print(ra,dec)
             stamp = Cutout2D(nir_f200['SCI'].data,position,32,wcs=w)
                     
@@ -613,7 +614,7 @@ def read_JADES_data(filter,data_path):
             X_JWST.append(norm)
             idvec.append(idn)
             fullvec.append(full)
-            #fieldvec.append(field) 
+            fieldvec.append(field) 
             ravec.append(ra)
             decvec.append(dec)  
                    
@@ -622,7 +623,7 @@ def read_JADES_data(filter,data_path):
         except:
             continue
 
-    return X_JWST,fullvec,idvec,ravec,decvec       
+    return X_JWST,fullvec,idvec,fieldvec,ravec,decvec       
 
 
 
