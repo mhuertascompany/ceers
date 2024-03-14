@@ -980,8 +980,8 @@ for f,tr in zip(filters,train):
                                 m_test_accuracy.result()*100,))
 
 
-        label_predictor.save_weights(data_path+"models/adversarial_asinh_resnet_"+f+"vDR05_1122_shuffle_"+str(num)+".weights")
-        feature_generator.save_weights(data_path+"models/adversarial_asinh_resnet_"+f+"vDR05_1122_shuffle_"+str(num)+".weights")           
+        label_predictor.save_weights(data_JADES+"models/JADES_adversarial_asinh_resnet_"+f+"vDR05_1122_shuffle_"+str(num)+".weights")
+        feature_generator.save_weights(data_JADES+"models/JADES_adversarial_asinh_resnet_"+f+"vDR05_1122_shuffle_"+str(num)+".weights")           
         chunk=1000
 
         sph=[]
@@ -1015,5 +1015,5 @@ for f,tr in zip(filters,train):
 
     if TRAIN:
         d4 = today.strftime("%b-%d-%Y")        
-        df.to_csv(data_path+"cats/JADES_adversarial_asinh_"+f+"_"+d4+"_4class_shuffle_"+str(nruns)+"_"+str(EPOCHS)+".csv")
+        df.to_csv(data_JADES+"cats/JADES_adversarial_asinh_"+f+"_"+d4+"_4class_shuffle_"+str(nruns)+"_"+str(EPOCHS)+".csv")
 
