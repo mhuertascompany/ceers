@@ -1,0 +1,16 @@
+checkpoint_loc: /scratch/ydong/bars/checkpoints/effnetb0_greyscale_224px.ckpt
+class_weights: null
+dropout_prob: 0.5
+encoder: null
+encoder_dim: 1280
+freeze_batchnorm: true
+label_smoothing: 0.0
+learning_rate: 0.0001
+lr_decay: 0.75
+n_epochs: 100
+n_layers: 0
+num_classes: 2
+prog_bar: true
+seed: 42
+visualize_images: false
+weight_decay: 0.05
