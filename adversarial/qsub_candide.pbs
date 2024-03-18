@@ -16,4 +16,4 @@ export CUDA_VISIBLE_DEVICES=1
 cd /home/huertas/python/ceers/adversarial
 #python adversarial_training_COSMOS-Web.py
 python adversarial_training_JADES.py
-exit 0
+exit 0  
