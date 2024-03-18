@@ -148,7 +148,7 @@ def create_stamps_forzoobot_JADES(img_dir, cat_name, output_dir,filter="f200w"):
         pixels = w.wcs_world2pix(coords,0)
         pix_size = 0.031
 
-        for i in range(len):
+        for i in range(nobj):
             if (found[i]==0):
                 size = 212*np.maximum(0.04*Re_F200W[i]*np.sqrt(axis_ratio[i])/pix_size,0.1)
                 pix = pixels[i]
