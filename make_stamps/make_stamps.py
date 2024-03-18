@@ -124,7 +124,7 @@ def create_stamps_forzoobot_JADES(img_dir, cat_name, output_dir,filter="f200w"):
     
     
 
-    col_names = ['RA','DEC']
+    col_names = ['RA_1','DEC_1']
     coords = cat[col_names].values
 
     #fit_flag = cat['F200W_FLAG'].values
