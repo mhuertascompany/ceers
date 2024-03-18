@@ -153,8 +153,21 @@ def create_stamps_forzoobot_JADES(img_dir, cat_name, output_dir,filter="f200w"):
 
         for i in range(nobj):
             if (found[i]==0):
-                size = 212*np.maximum(0.04*Re_F200W[i]*np.sqrt(axis_ratio[i])/pix_size,0.1)
+                # Skip this object if its pixel values are NaN
                 pix = pixels[i]
+                if np.isnan(pix).any():
+                    continue  # Skip the rest of the loop and proceed with the next iteration
+
+                # Calculate size and check if it is NaN
+                size_value = 0.04 * Re_F200W[i] * np.sqrt(axis_ratio[i]) / pix_size
+                if np.isnan(size_value):
+                    continue  # Skip if size calculation results in NaN
+
+        #        Ensure size is at least a minimum value to avoid too small cuts
+                size = 212 * np.maximum(size_value, 0.1)
+                
+                #size = 212*np.maximum(0.04*Re_F200W[i]*np.sqrt(axis_ratio[i])/pix_size,0.1)
+                
                 up = int(pix[0]+size)
                 down = up-size*2
                 right = int(pix[1]+size)
