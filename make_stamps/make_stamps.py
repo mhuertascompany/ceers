@@ -132,9 +132,9 @@ def create_stamps_forzoobot_JADES(img_dir, cat_name, output_dir,filter="f200w"):
     Re_F200W = cat['F200W_RHALF'].values
     axis_ratio = cat['Q'].values
 
-    len = len(axis_ratio)
+    nobj = len(axis_ratio)
 
-    found = np.zeros(len)
+    found = np.zeros(nobj)
 
     
 
