@@ -117,7 +117,7 @@ def create_stamps_forzoobot_JADES(img_dir, cat_name, output_dir,filter="f200w"):
     
     cat["F200_AB"] = -2.5*(np.log10(cat.F200W_CIRC0*1e-9))+8.90
 
-    
+    sel = cat.query('F200_AB<27')
     #nir_f200 = fits.open(data_path+"images/hlsp_ceers_jwst_nircam_nircam"+str(c)+"_"+filter+"_dr0.5_i2d.fits.gz")
     
     
@@ -125,12 +125,12 @@ def create_stamps_forzoobot_JADES(img_dir, cat_name, output_dir,filter="f200w"):
     
 
     col_names = ['RA_1','DEC_1']
-    coords = cat[col_names].values
+    coords = sel[col_names].values
 
     #fit_flag = cat['F200W_FLAG'].values
     #star_flag = cat['star_flag'].values
-    Re_F200W = cat['F200W_RHALF'].values
-    axis_ratio = cat['Q'].values
+    Re_F200W = sel['F200W_RHALF'].values
+    axis_ratio = sel['Q'].values
 
     nobj = len(axis_ratio)
 
