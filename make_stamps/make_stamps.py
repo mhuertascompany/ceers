@@ -142,6 +142,9 @@ def create_stamps_forzoobot_JADES(img_dir, cat_name, output_dir,filter="f200w"):
         
         w = WCS(img[1].header)
         data = img[1].data
+        # Check if the data array is big-endian and convert it if necessary
+        if data.dtype.byteorder == '>':
+            data = data.byteswap().newbyteorder()
             
 
         ymax, xmax = data.shape
