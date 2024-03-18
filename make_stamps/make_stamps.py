@@ -161,7 +161,7 @@ def create_stamps_forzoobot_JADES(img_dir, cat_name, output_dir,filter="f200w"):
                     cut = Cutout2D(data,pix,wcs=w,size=size*2).data
 
                     if zero_pix_fraction(cut)<0.1:  # exclude images with too many null pixels
-                        print(i,n)
+                        #print(i,n)
                         resized_cut = resize(cut,output_shape=(424,424))
 
                         image = array2img(resized_cut)
