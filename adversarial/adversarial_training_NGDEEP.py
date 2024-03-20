@@ -640,7 +640,7 @@ def read_NGDEEP_data(filter,data_path):
         # Now convert the Astropy Table into a Pandas DataFrame
         cat_ngdeep = table.to_pandas()
     
-    cat_ngdeep["F200_AB"] =  2.5*(23-np.log10(cat_ngdeep.FLUX_200W*1e-9))-48.6
+    cat_ngdeep["F200_AB"] =  2.5*(23-np.log10(cat_ngdeep.FLUX_F200W*1e-9))-48.6
 
     
     #nir_f200 = fits.open(data_path+"images/hlsp_ceers_jwst_nircam_nircam"+str(c)+"_"+filter+"_dr0.5_i2d.fits.gz")
