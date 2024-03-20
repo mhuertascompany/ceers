@@ -645,10 +645,10 @@ def read_NGDEEP_data(filter,data_path):
     
     #nir_f200 = fits.open(data_path+"images/hlsp_ceers_jwst_nircam_nircam"+str(c)+"_"+filter+"_dr0.5_i2d.fits.gz")
     
-    if (filter=='f200w') or (filter=='f150w') or (filter=='f115w'):
-        nir_f200 = fits.open(data_path+"images/ngdeep_nrc_"+filter+"_v0.4.fits.gz")
-    if (filter=='f356w') or (filter=='f277w') or (filter=='f444w'):
-         nir_f200 = fits.open(data_path+"images/ngdeep_nrc_"+filter+"_v0.3.fits.gz")
+    #if (filter=='f200w') or (filter=='f150w') or (filter=='f115w'):
+    nir_f200 = fits.open(data_path+"images/ngdeep_combined_nrc_"+filter+"_v0.5.fits.gz")
+    #if (filter=='f356w') or (filter=='f277w') or (filter=='f444w'):
+    #nir_f200 = fits.open(data_path+"images/ngdeep_nrc_"+filter+"_v0.3.fits.gz")
     w = WCS(nir_f200[1].header)
     
     #else:
