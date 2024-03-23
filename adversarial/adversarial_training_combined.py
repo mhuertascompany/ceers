@@ -1157,14 +1157,15 @@ for f,tr in zip(filters,train):
         feature_generator.save_weights(data_c+"models/combined_adversarial_asinh_resnet_"+f+"vDR05_1122_shuffle_"+str(num)+".weights")           
         chunk=1000
 
-        sph=[]
-        dk=[]
-        irr=[]
-        bd=[]
+        
         
 
         for JWST_X_all,fullvec,idvec,fieldvec,ravec,decvec,survey,count in zip(JWST_X_combined,fullvec_list,idvec_list,fieldvec_list,ravec_list,decvec_list,fields,range(3)): 
-            n=0    
+            n=0
+            sph=[]
+            dk=[]
+            irr=[]
+            bd=[]    
             while(n<len(JWST_X_all)):
                 if n+chunk>len(JWST_X_all):
                     p = label_predictor(feature_generator(JWST_X_all[n:]))
