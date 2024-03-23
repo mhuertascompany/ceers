@@ -1187,6 +1187,7 @@ for f,tr in zip(filters,train):
         today = date.today()
 
         if TRAIN:
-            d4 = today.strftime("%b-%d-%Y")        
+            d4 = today.strftime("%b-%d-%Y")
+            print('writing catalog for '+survey)        
             df.to_csv(data_c+"cats/"+survey+"_combined_adversarial_asinh_"+f+"_"+d4+"_4class_shuffle_"+str(nruns)+"_"+str(EPOCHS)+".csv")
 
