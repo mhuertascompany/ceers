@@ -971,7 +971,7 @@ def reset_metrics():
 
 EPOCHS = 1
 alpha = 1
-nruns = 1  #set to 0 for skip training
+nruns = 2  #set to 0 for skip training
 
 #filters=['f150w','f200w','f356w','f444w']
 filters = ['f150w', 'f200w', 'f356w','f444w']
