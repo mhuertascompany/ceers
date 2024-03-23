@@ -969,13 +969,13 @@ def reset_metrics():
 
 
 
-EPOCHS = 50
+EPOCHS = 1
 alpha = 1
-nruns = 10  #set to 0 for skip training
+nruns = 1  #set to 0 for skip training
 
 #filters=['f150w','f200w','f356w','f444w']
 filters = ['f150w', 'f200w', 'f356w','f444w']
-train = [1,1,1,1]
+train = [0,1,1,1]
 
 data_path = "/n03data/huertas/CANDELS/"
 data_COSMOS = "/n03data/huertas/COSMOS-Web/"
