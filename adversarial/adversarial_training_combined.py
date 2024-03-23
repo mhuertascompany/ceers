@@ -1187,10 +1187,10 @@ for f,tr in zip(filters,train):
                 dfvec[count]['bd_'+str(num)+'_'+f]=np.concatenate(bd).ravel() 
             tf.keras.backend.clear_session() 
             gc.collect()
-            today = date.today()
+        today = date.today()
 
-            if TRAIN:
-                d4 = today.strftime("%b-%d-%Y")
-                print('writing catalog for '+survey)        
-                df.to_csv(data_c+"cats/"+survey+"_combined_adversarial_asinh_"+f+"_"+d4+"_4class_shuffle_"+str(nruns)+"_"+str(EPOCHS)+".csv")
+        if TRAIN:
+            d4 = today.strftime("%b-%d-%Y")
+            print('writing catalog for '+survey)        
+            dfvec[i].to_csv(data_c+"cats/"+survey+"_combined_adversarial_asinh_"+f+"_"+d4+"_4class_shuffle_"+str(nruns)+"_"+str(EPOCHS)+".csv")
 
