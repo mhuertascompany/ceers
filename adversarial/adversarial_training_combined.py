@@ -223,7 +223,7 @@ def read_CEERS_data(filter,data_path):
     cats = []
     for c in ceers_pointings:
         if c==1 or c==2 or c==3 or c==6:
-            nir_f200 = fits.open(data_path+"images/hlsp_ceers_jwst_nircam_nircam"+str(c)+"_"+filter+"_dr0.5_i2d.fits.gz")
+            nir_f200 = fits.open(data_path+"images/ceers_nircam"+str(c)+"_"+filter+"_v0.2_i2d.fits")
         else:
             nir_f200 = fits.open(data_path+"images/ceers_nircam"+str(c)+"_"+filter+"_v0.51_i2d.fits.gz")
             # ceers_nircam10_f356w_v0.51_i2d.fits.gz    
