@@ -1093,10 +1093,12 @@ for f,tr in zip(filters,train):
     ravec_list=[ravec_ngdeep,ravec_jades,ravec_ceers]
     decvec_list=[decvec_ngdeep,decvec_jades,decvec_ceers]
 
+    dfvec=[]
     for num in range(nruns):
 
         tf.keras.backend.clear_session()
         gc.collect()
+        
         label_predictor.load_weights(data_path+"initial_pred.weights")
         domain_predictor.load_weights(data_path+"initial_domain.weights")
         feature_generator.load_weights(data_path+"initial_feature.weights")
@@ -1161,7 +1163,7 @@ for f,tr in zip(filters,train):
         bd=[]
         
 
-        for JWST_X_all,fullvec,idvec,fieldvec,ravec,decvec,survey in zip(JWST_X_combined,fullvec_list,idvec_list,fieldvec_list,ravec_list,decvec_list,fields): 
+        for JWST_X_all,fullvec,idvec,fieldvec,ravec,decvec,survey,count in zip(JWST_X_combined,fullvec_list,idvec_list,fieldvec_list,ravec_list,decvec_list,fields,range(3)): 
             n=0    
             while(n<len(JWST_X_all)):
                 if n+chunk>len(JWST_X_all):
@@ -1177,11 +1179,12 @@ for f,tr in zip(filters,train):
 
             if num==0:
                 df = pd.DataFrame(list(zip(fullvec,idvec,fieldvec,ravec,decvec,np.concatenate(sph).ravel(),np.concatenate(dk).ravel(),np.concatenate(irr).ravel(),np.concatenate(bd).ravel())),columns =['fullname','id','FIELD', 'ra','dec','sph_0_'+f,'disk_0_'+f,'irr_0_'+f,'bd_0_'+f])  
+                dfvec.append(df)
             else:
-                df['sph_'+str(num)+'_'+f]=np.concatenate(sph).ravel()   
-                df['disk_'+str(num)+'_'+f]=np.concatenate(dk).ravel()    
-                df['irr_'+str(num)+'_'+f]=np.concatenate(irr).ravel()  
-                df['bd_'+str(num)+'_'+f]=np.concatenate(bd).ravel() 
+                dfvec[count]['sph_'+str(num)+'_'+f]=np.concatenate(sph).ravel()   
+                dfvec[count]['disk_'+str(num)+'_'+f]=np.concatenate(dk).ravel()    
+                dfvec[count]['irr_'+str(num)+'_'+f]=np.concatenate(irr).ravel()  
+                dfvec[count]['bd_'+str(num)+'_'+f]=np.concatenate(bd).ravel() 
             tf.keras.backend.clear_session() 
             gc.collect()
             today = date.today()
