@@ -1191,7 +1191,8 @@ for f,tr in zip(filters,train):
     today = date.today()
 
     if TRAIN:
-        d4 = today.strftime("%b-%d-%Y")
-        print('writing catalog for '+survey)        
-        dfvec[count].to_csv(data_c+"cats/"+survey+"_combined_adversarial_asinh_"+f+"_"+d4+"_4class_shuffle_"+str(nruns)+"_"+str(EPOCHS)+".csv")
+        for count,survey in zip(range(3),fields):
+            d4 = today.strftime("%b-%d-%Y")
+            print('writing catalog for '+survey)        
+            dfvec[count].to_csv(data_c+"cats/"+survey+"_combined_adversarial_asinh_"+f+"_"+d4+"_4class_shuffle_"+str(nruns)+"_"+str(EPOCHS)+".csv")
 
