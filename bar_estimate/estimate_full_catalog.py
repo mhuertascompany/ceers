@@ -17,8 +17,9 @@ import numpy as np
 import pandas as pd
 import re
 
+FILTER = 200
 
-image_dir = '/scratch/ydong/stamps/demo_F200W'
+image_dir = f'/scratch/ydong/stamps/demo_F{FILTER}W'
 file_loc = [os.path.join(image_dir,path) for path in os.listdir(image_dir)]
 ids = np.array([int(re.findall(r'\d+',path)[1]) for path in os.listdir(image_dir)])
 
@@ -35,10 +36,10 @@ pred_cat = cat
 pred_cat['id_str'] = ids
 pred_cat['file_loc'] = file_loc
 
-checkpoint_loc = 'results/finetune_tree_result/checkpoints/97-v1.ckpt'
+checkpoint_loc = f'results/finetune_tree_result/checkpoints/F{FILTER}W_ckpt/97-v1.ckpt'
 # checkpoint_loc = 'checkpoints/effnetb0_greyscale_224px.ckpt'
 
-save_dir = 'bar_estimate/F200W_pred'
+save_dir = f'bar_estimate/F{FILTER}W_pred'
 
 schema = gz_ceers_schema
 
@@ -54,14 +55,15 @@ resize_after_crop = 224     # must match how checkpoint below was trained
 # )
 model = define_model.ZoobotTree.load_from_checkpoint(checkpoint_loc, output_dim=39, question_index_groups=[])
 
+
 # now save predictions on test set to evaluate performance
 trainer_kwargs = {'devices': 1, 'accelerator': 'gpu'}
 predict_on_catalog.predict(
     pred_cat,
     model,
-    n_samples=1,  # number of forward passes per galaxy
+    n_samples=5,  # number of forward passes per galaxy
     label_cols=schema.label_cols,
-    save_loc=os.path.join(save_dir, 'full_cat_predictions_F200W.csv'),
+    save_loc=os.path.join(save_dir, f'full_cat_predictions_F{FILTER}W_0.csv'),
     datamodule_kwargs={
         'custom_albumentation_transform':A.Compose([
             A.Lambda(image=To3d(),always_apply=True),
