@@ -16,4 +16,4 @@ module load cuda/12.4
 export CUDA_VISIBLE_DEVICES=1
 
 cd /home/huertas/python/ceers/adversarial
-python adversarial_training_COSMOS-Web.py
+python3 adversarial_training_COSMOS-Web.py
