@@ -507,13 +507,14 @@ def image_make_cutout(filename, ra1, dec1, arcsec_cut, nameout=None, get_wcs=Non
 
 
 def read_COSMOS_data(f,COSMOS_path):
-    name_SEpp_cat = COSMOS_path+"cats/COSMOSWeb_master_v1.6.0-sersic+BD-em_cgs_LePhare_nodupl_nomulti.fits"
+    #name_SEpp_cat = COSMOS_path+"cats/COSMOSWeb_master_v1.6.0-sersic+BD-em_cgs_LePhare_nodupl_nomulti.fits"
+    name_SEpp_cat = COSMOS_path+"cats/COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2.fits"
     #ith fits.open(name_SEpp_cat) as hdu:
     cat_cosmos = Table.read(name_SEpp_cat, format='fits')
     #cat_cosmos = hdu[1].data
     cat_cosmos_pd=cat_cosmos.to_pandas()
 
-    sel = cat_cosmos_pd.query("MAG_MODEL_F150W<26.5 and MAG_MODEL_F150W>0 and TILE !='JAN'")
+    sel = cat_cosmos_pd.query("MAG_MODEL_F150W<27 and MAG_MODEL_F150W>0 and TILE !='JAN'")
     
     source_ids = sel['Id']
     tiles = sel['TILE']
@@ -938,5 +939,5 @@ for f,tr in zip(filters,train):
 
     if TRAIN:
         d4 = today.strftime("%b-%d-%Y")        
-        df.to_csv(data_path+"cats/COSMOS-Web_adversarial_asinh_"+f+"_"+d4+"_4class_shuffle_"+str(nruns)+"_"+str(EPOCHS)+".csv")
+        df.to_csv(data_path+"cats/COSMOS-Web_2.0_adversarial_asinh_"+f+"_"+d4+"_4class_shuffle_"+str(nruns)+"_"+str(EPOCHS)+".csv")
 
