@@ -3,6 +3,7 @@
 #SBATCH --output=/n03data/huertas/COSMOS-Web/jobs/qsub_adversarial.out
 #SBATCH --error=/n03data/huertas/COSMOS-Web/jobs/qsub_adversarial.err
 #SBATCH --partition=comp
+#SBATCH --nodelist=n16
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=4
