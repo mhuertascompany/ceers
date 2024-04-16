@@ -438,39 +438,22 @@ def load_imgs(tile,bands_to_plot):
     resid_imas = {}
 
     # print(path_checkimg)
-    print(path_checkimg)
     for filt in bands_to_plot:
-#         print('\n Filter', filt, '\n')
-        if filt in filters_FF:
-            if tile == 'JAN':
-                f = get_filename(path_checkimg, filters_translate[filt], 'v1.9.71_model')
-            else:
-                f = get_filename(path_checkimg, filters_translate[filt], 'model')
-        else:
-            print(filt)
-            f = get_filename(path_checkimg, filters_translate[filt], 'model')
-#         if filt == 'F770W':
-#             os.system(f'rm {path_checkimg}*miri*v0_01*')
-#             f = get_filename(path_checkimg, filters_translate[filt], 'model')
-#         print('Model File',f)
-        try: 
+        f = get_filename(path_checkimg, filters_translate[filt], 'model')
+        try:
             model_imas[filt] = path_checkimg + f
         except TypeError as err:
-            print('Error for', tile, ':', err)
-            
-        if filt in filters_FF:
-            if tile == 'JAN':
-                f = get_filename(path_checkimg, filters_translate[filt], 'v1.9.71_resid')
-            else:
-                f = get_filename(path_checkimg, filters_translate[filt], 'resid')
-        else:
-            f = get_filename(path_checkimg, filters_translate[filt], 'resid')
-#         print('Resid File',f)
+            print('Error for', tile, ':', err, path_checkimg, f)
+
+        f = get_filename(path_checkimg, filters_translate[filt], 'resid')
         try:
             resid_imas[filt] = path_checkimg + f
         except TypeError as err:
-            print('Error for', tile, ':', err, 'and filter', filt)
-            print('\n There seems to be an error for some galaxies in JAN tile. Remove them for the list \n')
+            print('Error for', tile, ':', err, 'and filter', filt, path_checkimg, f)
+            print('\n There seems to be an error for this galaxy\n')
+
+
+    return name_img_det, name_img_part, sci_imas, model_imas, resid_imas, path_checkimg, imgname_chi2_c20, filters_translate
         
             
     
