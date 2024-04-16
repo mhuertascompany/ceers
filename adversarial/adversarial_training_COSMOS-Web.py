@@ -512,7 +512,9 @@ def read_COSMOS_data(f,COSMOS_path):
     #ith fits.open(name_SEpp_cat) as hdu:
     cat_cosmos = Table.read(name_SEpp_cat, format='fits')
     #cat_cosmos = hdu[1].data
-    cat_cosmos_pd=cat_cosmos.to_pandas()
+    names = [name for name in cat_cosmos.colnames if len(cat_cosmos[name].shape) <= 1]
+    
+    cat_cosmos_pd=cat_cosmos[names].to_pandas()
 
     sel = cat_cosmos_pd.query("MAG_MODEL_F150W<27 and MAG_MODEL_F150W>0 and TILE !='JAN'")
     
