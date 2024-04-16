@@ -3,6 +3,7 @@ import os
 os.environ['TF_XLA_FLAGS'] = '--tf_xla_enable_xla_devices=false'
 
 import tensorflow as tf
+tf.config.optimizer.set_jit(False)
 from tensorflow.python.keras.layers import Dense, Flatten, Conv2D, MaxPool2D
 from tensorflow.python.keras import Model
 #import imageio
