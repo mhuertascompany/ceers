@@ -282,6 +282,44 @@ def get_filename(path, filt, key):
 
 def load_imgs(tile,bands_to_plot):
 
+    if tile in ['B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B9', 'B10']:
+        name_img_det        = f'/n17data/lpaquereau/COSMOSWeb/JAN24/mosaics/mosaic_nircam_chimean-SWLW_COSMOS-Web_30mas_{tile}.fits'
+        sci_imas={
+            'F115W':       f'/n17data/shuntov/COSMOS-Web/Images_JAN24/mosaic_nircam_f115w_COSMOS-Web_30mas_{tile}_sci.fits',
+            'F150W':       f'/n17data/shuntov/COSMOS-Web/Images_JAN24/mosaic_nircam_f150w_COSMOS-Web_30mas_{tile}_sci.fits',
+            'F277W':       f'/n17data/shuntov/COSMOS-Web/Images_JAN24/mosaic_nircam_f277w_COSMOS-Web_30mas_{tile}_sci.fits',
+            'F444W':       f'/n17data/shuntov/COSMOS-Web/Images_JAN24/mosaic_nircam_f444w_COSMOS-Web_30mas_{tile}_sci.fits',
+            'F770W':       f'/n17data/shuntov/COSMOS-Web/Images_MIRI/JAN24_v0.6/mosaic_miri_f770w_COSMOS-Web_30mas_{tile}_v0_6_sci.fits',
+            'HST-F814W':   f'/n17data/shuntov/COSMOS-Web/Images_HST-ACS/Jan24Tiles/mosaic_cosmos_web_2024jan_30mas_tile_{tile}_hst_acs_wfc_f814w_drz_zp-28.09.fits',
+            'CFHT-u':      f'/n17data/shuntov/CWEB-GroundData-Tiles/COSMOS.U2.clipped_zp-28.09_{tile}.fits',
+            'HSC-g':       f'/n17data/shuntov/HSC_Tiles-JAN24/{tile}--cutout-HSC-G-9813-pdr3_dud_rev_sci_zp-28.09.fits',
+            'HSC-r':       f'/n17data/shuntov/HSC_Tiles-JAN24/{tile}--cutout-HSC-R-9813-pdr3_dud_rev_sci_zp-28.09.fits',
+            'HSC-i':       f'/n17data/shuntov/HSC_Tiles-JAN24/{tile}--cutout-HSC-I-9813-pdr3_dud_rev_sci_zp-28.09.fits',
+            'HSC-z':       f'/n17data/shuntov/HSC_Tiles-JAN24/{tile}--cutout-HSC-Z-9813-pdr3_dud_rev_sci_zp-28.09.fits',
+            'HSC-y':       f'/n17data/shuntov/HSC_Tiles-JAN24/{tile}--cutout-HSC-Y-9813-pdr3_dud_rev_sci_zp-28.09.fits',
+            'HSC-NB0816':  f'/n17data/shuntov/HSC_Tiles-JAN24/{tile}--cutout-NB0816-9813-pdr3_dud_rev_sci_zp-28.09.fits',
+            'HSC-NB0921':  f'/n17data/shuntov/HSC_Tiles-JAN24/{tile}--cutout-NB0921-9813-pdr3_dud_rev_sci_zp-28.09.fits',
+            'HSC-NB1010':  f'/n17data/shuntov/HSC_Tiles-JAN24/{tile}--cutout-NB1010-9813-pdr3_dud_rev_sci_zp-28.09.fits',
+            'UVISTA-Y':    f'/n17data/shuntov/CWEB-GroundData-Tiles/UVISTA_Y_12_07_22_allpaw_skysub_015_dr5_rc_v1_zp-28.09_{tile}.fits',
+            'UVISTA-J':    f'/n17data/shuntov/CWEB-GroundData-Tiles/UVISTA_J_12_07_22_allpaw_skysub_015_dr5_rc_v1_zp-28.09_{tile}.fits',
+            'UVISTA-H':    f'/n17data/shuntov/CWEB-GroundData-Tiles/UVISTA_H_12_07_22_allpaw_skysub_015_dr5_rc_v1_zp-28.09_{tile}.fits',
+            'UVISTA-Ks':   f'/n17data/shuntov/CWEB-GroundData-Tiles/UVISTA_Ks_12_07_22_allpaw_skysub_015_dr5_rc_v1_zp-28.09_{tile}.fits',
+            'UVISTA-NB118':f'/n17data/shuntov/CWEB-GroundData-Tiles/UVISTA_NB118_12_07_22_allpaw_skysub_015_dr5_rc_v1_zp-28.09_{tile}.fits',
+            'SC-IA484':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L484_20-09-29a_cosmos_zp-28.09_{tile}.fits',
+            'SC-IA527':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L527_20-09-29a_cosmos_zp-28.09_{tile}.fits',
+            'SC-IA624':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L624_20-09-29a_cosmos_zp-28.09_{tile}.fits',
+            'SC-IA679':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L679_20-09-29a_cosmos_zp-28.09_{tile}.fits',
+            'SC-IA738':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L738_20-09-29a_cosmos_zp-28.09_{tile}.fits',
+            'SC-IA767':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L767_20-09-29a_cosmos_zp-28.09_{tile}.fits',
+            'SC-IB427':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L427_20-09-29a_cosmos_zp-28.09_{tile}.fits',
+            'SC-IB505':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L505_20-09-29a_cosmos_zp-28.09_{tile}.fits',
+            'SC-IB574':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L574_20-09-29a_cosmos_zp-28.09_{tile}.fits',
+            'SC-IB709':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L709_20-09-29a_cosmos_zp-28.09_{tile}.fits',
+            'SC-IB827':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L827_20-09-29a_cosmos_zp-28.09_{tile}.fits',
+            'SC-NB711':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L711_20-09-29a_cosmos_zp-28.09_{tile}.fits',
+            'SC-NB816':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L816_20-09-29a_cosmos_zp-28.09_{tile}.fits'
+        }
+
     if tile == 'JAN':
         name_img_det        = f'/n17data/shuntov/COSMOS-Web/Images_NIRCam_jwst-pipe/v0.004/mosaic-chi2-SWLW_COSMOS-Web_30mas_resc100.fits'
         sci_imas={
@@ -377,22 +415,21 @@ def load_imgs(tile,bands_to_plot):
             sci_imas['HSC-NB0921'] = f'/n17data/shuntov/CWEB-GroundData-Tiles/cutout-NB0921-9813-pdr3_dud_rev-230413-130520_sci_zp-28.09_{tile}.fits'
             sci_imas['HSC-NB1010'] = f'/n17data/shuntov/CWEB-GroundData-Tiles/cutout-NB1010-9813-pdr3_dud_rev-230413-130522_sci_zp-28.09_{tile}.fits'
 
-        filters_translate['F115W'] = 'f115w'
-        filters_translate['F150W'] = 'f150w'
-        filters_translate['F277W'] = 'f277w'
-        filters_translate['F444W'] = 'f444w'
-        filters_translate['F770W'] = 'f770w'
-
+    filters_translate['F115W'] = 'f115w'
+    filters_translate['F150W'] = 'f150w'
+    filters_translate['F277W'] = 'f277w'
+    filters_translate['F444W'] = 'f444w'
+    filters_translate['F770W'] = 'f770w'
 
 
 
     imgname_chi2_c20 = '/n08data/COSMOS2020/images/COSMOS2020_izYJHKs_chimean-v3.fits'
 
-    if tile == 'JAN':
-        ver = 'v1.9.7'
-        path_checkimg = f'/n17data/shuntov/COSMOS-Web/CheckImages/{ver}-FF/'
+    if tile in ['B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B9', 'B10']:
+        ver = 'v2.1.0'
+        path_checkimg = f'/n17data/shuntov/COSMOS-Web/CheckImages/JAN24-{tile}_{ver}-FF/'
 
-    if 'A' in tile and tile != 'JAN':
+    if tile in ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10']:
         ver = 'v1.5.0'
         path_checkimg = f'/n17data/shuntov/COSMOS-Web/CheckImages/APR-{tile}_{ver}-FF/'
 
@@ -508,7 +545,8 @@ def image_make_cutout(filename, ra1, dec1, arcsec_cut, nameout=None, get_wcs=Non
 
 def read_COSMOS_data(f,COSMOS_path):
     #name_SEpp_cat = COSMOS_path+"cats/COSMOSWeb_master_v1.6.0-sersic+BD-em_cgs_LePhare_nodupl_nomulti.fits"
-    name_SEpp_cat = COSMOS_path+"cats/COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2.fits"
+    name_SEpp_cat = COSMOS_path+"cats/COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM.fits"
+    #/n17data/shuntov/COSMOS-Web/Catalogs/COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM.fits
     #ith fits.open(name_SEpp_cat) as hdu:
     cat_cosmos = Table.read(name_SEpp_cat, format='fits')
     #cat_cosmos = hdu[1].data
