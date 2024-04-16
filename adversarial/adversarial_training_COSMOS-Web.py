@@ -2,12 +2,12 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import tensorflow as tf
 from tensorflow.python.keras.layers import Dense, Flatten, Conv2D, MaxPool2D
 from tensorflow.python.keras import Model
-import imageio
+#import imageio
 import pandas as pd
 import numpy as np
 import IPython.display as display
 import os
-import pickle
+#import pickle
 from astropy.io import fits
 from astropy.wcs import WCS
 from astropy.table import Table
