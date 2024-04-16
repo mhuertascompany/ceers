@@ -1,4 +1,7 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
+import os
+os.environ['TF_XLA_FLAGS'] = '--tf_xla_enable_xla_devices=false'
+
 import tensorflow as tf
 from tensorflow.python.keras.layers import Dense, Flatten, Conv2D, MaxPool2D
 from tensorflow.python.keras import Model
@@ -6,7 +9,7 @@ from tensorflow.python.keras import Model
 import pandas as pd
 import numpy as np
 import IPython.display as display
-import os
+
 #import pickle
 from astropy.io import fits
 from astropy.wcs import WCS
