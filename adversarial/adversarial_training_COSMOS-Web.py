@@ -801,9 +801,9 @@ conf_train_accuracy = tf.keras.metrics.CategoricalAccuracy(name='c_train_accurac
 feature_generator = get_network()
 label_predictor = LabelPredictor()
 domain_predictor = DomainPredictor()
-label_predictor.save_weights(data_path+"initial_pred.weights")
-feature_generator.save_weights(data_path+"initial_feature.weights")  
-domain_predictor.save_weights(data_path+"initial_domain.weights") 
+label_predictor.save_weights(data_COSMOS+"initial_pred.weights")
+feature_generator.save_weights(data_COSMOS+"initial_feature.weights")  
+domain_predictor.save_weights(data_COSMOS+"initial_domain.weights") 
 
 if os.path.exists(data_path+'image_arrays/CANDELS.npz'):
     print("Loading CANDELS data from saved array")
@@ -823,9 +823,9 @@ for f,tr in zip(filters,train):
         print('skipping training for filter ' + f)
         continue
     
-    if os.path.exists(data_path+'image_arrays/image_arrays_'+f+'.npz'):
+    if os.path.exists(data_COSMOS+'image_arrays/image_arrays_'+f+'.npz'):
         print("Loading saved array with data from filter "+f)
-        data = np.load(data_path+'image_arrays/image_arrays_'+f+'.npz',allow_pickle=True)
+        data = np.load(data_COSMOS+'image_arrays/image_arrays_'+f+'.npz',allow_pickle=True)
         # Access the saved variables
         X_JWST = data['stamps']
         fullvec = data['fullvec']
@@ -840,7 +840,7 @@ for f,tr in zip(filters,train):
 
         if WRITE:
             print("writing image files for filter "+ str(f))
-            np.savez(data_path+'image_arrays/image_arrays_'+f+'.npz', stamps = X_JWST, fullvec = fullvec, idvec=idvec,fieldvec=fieldvec,ravec=ravec,decvec=decvec)
+            np.savez(data_COSMOS+'image_arrays/image_arrays_'+f+'.npz', stamps = X_JWST, fullvec = fullvec, idvec=idvec,fieldvec=fieldvec,ravec=ravec,decvec=decvec)
 
              
 
@@ -850,9 +850,9 @@ for f,tr in zip(filters,train):
 
         tf.keras.backend.clear_session()
         gc.collect()
-        label_predictor.load_weights(data_path+"initial_pred.weights")
-        domain_predictor.load_weights(data_path+"initial_domain.weights")
-        feature_generator.load_weights(data_path+"initial_feature.weights")
+        label_predictor.load_weights(data_COSMOS+"initial_pred.weights")
+        domain_predictor.load_weights(data_COSMOS+"initial_domain.weights")
+        feature_generator.load_weights(data_COSMOS+"initial_feature.weights")
         CANDELS_X,label_candels,CANDELS_X_t,label_candels_t,JWST_X,label_JWST,JWST_X_all = create_datasets(X,label,X_JWST)
 
         all_train_domain_images = np.vstack((CANDELS_X, JWST_X))
@@ -904,8 +904,8 @@ for f,tr in zip(filters,train):
                                 m_test_accuracy.result()*100,))
 
 
-        label_predictor.save_weights(data_path+"models/adversarial_asinh_resnet_"+f+"vDR05_1122_shuffle_"+str(num)+".weights")
-        feature_generator.save_weights(data_path+"models/adversarial_asinh_resnet_"+f+"vDR05_1122_shuffle_"+str(num)+".weights")           
+        label_predictor.save_weights(data_COSMOS+"models/adversarial_asinh_resnet_"+f+"vDR05_1122_shuffle_"+str(num)+".weights")
+        feature_generator.save_weights(data_COSMOS+"models/adversarial_asinh_resnet_"+f+"vDR05_1122_shuffle_"+str(num)+".weights")           
         chunk=1000
 
         sph=[]
@@ -939,5 +939,5 @@ for f,tr in zip(filters,train):
 
     if TRAIN:
         d4 = today.strftime("%b-%d-%Y")        
-        df.to_csv(data_path+"cats/COSMOS-Web_2.0_adversarial_asinh_"+f+"_"+d4+"_4class_shuffle_"+str(nruns)+"_"+str(EPOCHS)+".csv")
+        df.to_csv(data_COSMOS+"cats/COSMOS-Web_2.0_adversarial_asinh_"+f+"_"+d4+"_4class_shuffle_"+str(nruns)+"_"+str(EPOCHS)+".csv")
 
