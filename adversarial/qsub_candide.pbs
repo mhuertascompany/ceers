@@ -3,13 +3,12 @@
 #PBS -N morpho_COSMOS
 #PBS -o /n03data/huertas/COSMOS-Web/jobs/qsub_adversarial.out 
 #PBS -j oe 
-#PBS -l partition=comp
 #PBS -l nodes=n03:ppn=4,walltime=50:00:00
 
 module () {
   eval $(/usr/bin/modulecmd bash $*)
 }
-module load tensorflow/2.13
+module load tensorflow/2.9
 #module load cuda/11.7
 
 # Set CUDA_VISIBLE_DEVICES to use GPU device 1
