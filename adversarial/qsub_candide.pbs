@@ -10,6 +10,7 @@ module () {
   eval $(/usr/bin/modulecmd bash $*)
 }
 module load tensorflow/2.14
+module load cuda/11.7
 
 # Set CUDA_VISIBLE_DEVICES to use GPU device 1
 export CUDA_VISIBLE_DEVICES=0
