@@ -555,11 +555,12 @@ def read_COSMOS_data(f,COSMOS_path):
         name_img_det, name_img_part, sci_imas, model_imas, resid_imas, path_checkimg, imgname_chi2_c20, filters_translate = load_imgs(t.decode('utf-8'),f)
         
         print(name_img_det)
-        #try:
-        stamp, w = image_make_cutout(name_img_det, ra_cent, dec_cent, arcsec_cut, nameout=None, get_wcs=True)
-        print(stamp.shape)
-        #except:
-        #    print('Error creating stamp')
+        try:
+            stamp, w = image_make_cutout(name_img_det, ra_cent, dec_cent, arcsec_cut, nameout=None, get_wcs=True)
+            print(stamp.shape)
+        except:
+            print('Error creating stamp')
+            continue
         full = 'nircam_'+str(t.decode())+'_'+str(idn)
         if stamp.shape[0] !=32 or stamp.shape[1] !=32 or np.max(stamp)<=0 or np.count_nonzero(stamp==0)>10:
             print("skipping")
