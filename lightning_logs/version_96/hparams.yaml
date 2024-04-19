@@ -1,0 +1,388 @@
+always_train_batchnorm: true
+checkpoint_loc: checkpoints/effnetb0_greyscale_224px.ckpt
+dropout_prob: 0.5
+encoder: null
+encoder_dim: 1280
+learning_rate: 0.0001
+lr_decay: 0.75
+n_blocks: 0
+n_epochs: 100
+n_layers: 0
+prog_bar: true
+schema: !!python/object:zoobot.shared.schemas.Schema
+  dependencies:
+    t0_smooth_or_featured: null
+    t11_is_the_galaxy_merging_or_disturbed: null
+    t12_are_there_any_obvious_bright_clumps: t0_smooth_or_featured__features_or_disk
+    t19_what_problem_do___e_with_the_image: t0_smooth_or_featured__star_artifact_or_bad_zoom
+    t1_how_rounded_is_it: t0_smooth_or_featured__smooth
+    t2_could_this_be_a_disk_viewed_edgeon: t0_smooth_or_featured__features_or_disk
+    t3_edge_on_bulge_what_shape: t2_could_this_be_a_disk_viewed_edgeon__yes_edge_on_disk
+    t4_is_there_a_bar: t2_could_this_be_a_disk_viewed_edgeon__no_something_else
+    t5_is_there_any_spiral_arm_pattern: t2_could_this_be_a_disk_viewed_edgeon__no_something_else
+    t6_spiral_how_tightly_wound: t5_is_there_any_spiral_arm_pattern__yes
+    t7_how_many_spiral_arms_are_there: t5_is_there_any_spiral_arm_pattern__yes
+    t8_not_edge_on_bulge: t2_could_this_be_a_disk_viewed_edgeon__no_something_else
+  label_cols:
+  - t0_smooth_or_featured__features_or_disk
+  - t0_smooth_or_featured__smooth
+  - t0_smooth_or_featured__star_artifact_or_bad_zoom
+  - t1_how_rounded_is_it__cigarshaped
+  - t1_how_rounded_is_it__in_between
+  - t1_how_rounded_is_it__completely_round
+  - t2_could_this_be_a_disk_viewed_edgeon__yes_edge_on_disk
+  - t2_could_this_be_a_disk_viewed_edgeon__no_something_else
+  - t3_edge_on_bulge_what_shape__boxy
+  - t3_edge_on_bulge_what_shape__no_bulge
+  - t3_edge_on_bulge_what_shape__rounded
+  - t4_is_there_a_bar__no_bar
+  - t4_is_there_a_bar__strong_bar
+  - t4_is_there_a_bar__weak_bar
+  - t5_is_there_any_spiral_arm_pattern__yes
+  - t5_is_there_any_spiral_arm_pattern__no
+  - t6_spiral_how_tightly_wound__loose
+  - t6_spiral_how_tightly_wound__medium
+  - t6_spiral_how_tightly_wound__tight
+  - t7_how_many_spiral_arms_are_there__1
+  - t7_how_many_spiral_arms_are_there__2
+  - t7_how_many_spiral_arms_are_there__3
+  - t7_how_many_spiral_arms_are_there__4
+  - t7_how_many_spiral_arms_are_there__more_than_4
+  - t7_how_many_spiral_arms_are_there__cant_tell
+  - t8_not_edge_on_bulge__dominant
+  - t8_not_edge_on_bulge__moderate
+  - t8_not_edge_on_bulge__no_bulge
+  - t8_not_edge_on_bulge__large
+  - t8_not_edge_on_bulge__small
+  - t11_is_the_galaxy_merging_or_disturbed__major_disturbance
+  - t11_is_the_galaxy_merging_or_disturbed__merging
+  - t11_is_the_galaxy_merging_or_disturbed__minor_disturbance
+  - t11_is_the_galaxy_merging_or_disturbed__none
+  - t12_are_there_any_obvious_bright_clumps__yes
+  - t12_are_there_any_obvious_bright_clumps__no
+  - t19_what_problem_do___e_with_the_image__nonstar_artifact
+  - t19_what_problem_do___e_with_the_image__bad_image_zoom
+  - t19_what_problem_do___e_with_the_image__star
+  question_answer_pairs:
+    t0_smooth_or_featured:
+    - __features_or_disk
+    - __smooth
+    - __star_artifact_or_bad_zoom
+    t11_is_the_galaxy_merging_or_disturbed:
+    - __major_disturbance
+    - __merging
+    - __minor_disturbance
+    - __none
+    t12_are_there_any_obvious_bright_clumps:
+    - __yes
+    - __no
+    t19_what_problem_do___e_with_the_image:
+    - __nonstar_artifact
+    - __bad_image_zoom
+    - __star
+    t1_how_rounded_is_it:
+    - __cigarshaped
+    - __in_between
+    - __completely_round
+    t2_could_this_be_a_disk_viewed_edgeon:
+    - __yes_edge_on_disk
+    - __no_something_else
+    t3_edge_on_bulge_what_shape:
+    - __boxy
+    - __no_bulge
+    - __rounded
+    t4_is_there_a_bar:
+    - __no_bar
+    - __strong_bar
+    - __weak_bar
+    t5_is_there_any_spiral_arm_pattern:
+    - __yes
+    - __no
+    t6_spiral_how_tightly_wound:
+    - __loose
+    - __medium
+    - __tight
+    t7_how_many_spiral_arms_are_there:
+    - __1
+    - __2
+    - __3
+    - __4
+    - __more_than_4
+    - __cant_tell
+    t8_not_edge_on_bulge:
+    - __dominant
+    - __moderate
+    - __no_bulge
+    - __large
+    - __small
+  questions:
+  - &id003 !!python/object:zoobot.shared.schemas.Question
+    _asked_after: null
+    answers:
+    - &id001 !!python/object:zoobot.shared.schemas.Answer
+      _next_question: &id002 !!python/object:zoobot.shared.schemas.Question
+        _asked_after: *id001
+        answers:
+        - !!python/object:zoobot.shared.schemas.Answer
+          _next_question: null
+          index: 34
+          question: *id002
+          text: t12_are_there_any_obvious_bright_clumps__yes
+        - !!python/object:zoobot.shared.schemas.Answer
+          _next_question: null
+          index: 35
+          question: *id002
+          text: t12_are_there_any_obvious_bright_clumps__no
+        end_index: 35
+        start_index: 34
+        text: t12_are_there_any_obvious_bright_clumps
+      index: 0
+      question: *id003
+      text: t0_smooth_or_featured__features_or_disk
+    - &id004 !!python/object:zoobot.shared.schemas.Answer
+      _next_question: &id005 !!python/object:zoobot.shared.schemas.Question
+        _asked_after: *id004
+        answers:
+        - !!python/object:zoobot.shared.schemas.Answer
+          _next_question: null
+          index: 3
+          question: *id005
+          text: t1_how_rounded_is_it__cigarshaped
+        - !!python/object:zoobot.shared.schemas.Answer
+          _next_question: null
+          index: 4
+          question: *id005
+          text: t1_how_rounded_is_it__in_between
+        - !!python/object:zoobot.shared.schemas.Answer
+          _next_question: null
+          index: 5
+          question: *id005
+          text: t1_how_rounded_is_it__completely_round
+        end_index: 5
+        start_index: 3
+        text: t1_how_rounded_is_it
+      index: 1
+      question: *id003
+      text: t0_smooth_or_featured__smooth
+    - &id006 !!python/object:zoobot.shared.schemas.Answer
+      _next_question: &id007 !!python/object:zoobot.shared.schemas.Question
+        _asked_after: *id006
+        answers:
+        - !!python/object:zoobot.shared.schemas.Answer
+          _next_question: null
+          index: 36
+          question: *id007
+          text: t19_what_problem_do___e_with_the_image__nonstar_artifact
+        - !!python/object:zoobot.shared.schemas.Answer
+          _next_question: null
+          index: 37
+          question: *id007
+          text: t19_what_problem_do___e_with_the_image__bad_image_zoom
+        - !!python/object:zoobot.shared.schemas.Answer
+          _next_question: null
+          index: 38
+          question: *id007
+          text: t19_what_problem_do___e_with_the_image__star
+        end_index: 38
+        start_index: 36
+        text: t19_what_problem_do___e_with_the_image
+      index: 2
+      question: *id003
+      text: t0_smooth_or_featured__star_artifact_or_bad_zoom
+    end_index: 2
+    start_index: 0
+    text: t0_smooth_or_featured
+  - *id005
+  - &id010 !!python/object:zoobot.shared.schemas.Question
+    _asked_after: *id001
+    answers:
+    - &id008 !!python/object:zoobot.shared.schemas.Answer
+      _next_question: &id009 !!python/object:zoobot.shared.schemas.Question
+        _asked_after: *id008
+        answers:
+        - !!python/object:zoobot.shared.schemas.Answer
+          _next_question: null
+          index: 8
+          question: *id009
+          text: t3_edge_on_bulge_what_shape__boxy
+        - !!python/object:zoobot.shared.schemas.Answer
+          _next_question: null
+          index: 9
+          question: *id009
+          text: t3_edge_on_bulge_what_shape__no_bulge
+        - !!python/object:zoobot.shared.schemas.Answer
+          _next_question: null
+          index: 10
+          question: *id009
+          text: t3_edge_on_bulge_what_shape__rounded
+        end_index: 10
+        start_index: 8
+        text: t3_edge_on_bulge_what_shape
+      index: 6
+      question: *id010
+      text: t2_could_this_be_a_disk_viewed_edgeon__yes_edge_on_disk
+    - &id011 !!python/object:zoobot.shared.schemas.Answer
+      _next_question: &id012 !!python/object:zoobot.shared.schemas.Question
+        _asked_after: *id011
+        answers:
+        - !!python/object:zoobot.shared.schemas.Answer
+          _next_question: null
+          index: 25
+          question: *id012
+          text: t8_not_edge_on_bulge__dominant
+        - !!python/object:zoobot.shared.schemas.Answer
+          _next_question: null
+          index: 26
+          question: *id012
+          text: t8_not_edge_on_bulge__moderate
+        - !!python/object:zoobot.shared.schemas.Answer
+          _next_question: null
+          index: 27
+          question: *id012
+          text: t8_not_edge_on_bulge__no_bulge
+        - !!python/object:zoobot.shared.schemas.Answer
+          _next_question: null
+          index: 28
+          question: *id012
+          text: t8_not_edge_on_bulge__large
+        - !!python/object:zoobot.shared.schemas.Answer
+          _next_question: null
+          index: 29
+          question: *id012
+          text: t8_not_edge_on_bulge__small
+        end_index: 29
+        start_index: 25
+        text: t8_not_edge_on_bulge
+      index: 7
+      question: *id010
+      text: t2_could_this_be_a_disk_viewed_edgeon__no_something_else
+    end_index: 7
+    start_index: 6
+    text: t2_could_this_be_a_disk_viewed_edgeon
+  - *id009
+  - &id013 !!python/object:zoobot.shared.schemas.Question
+    _asked_after: *id011
+    answers:
+    - !!python/object:zoobot.shared.schemas.Answer
+      _next_question: null
+      index: 11
+      question: *id013
+      text: t4_is_there_a_bar__no_bar
+    - !!python/object:zoobot.shared.schemas.Answer
+      _next_question: null
+      index: 12
+      question: *id013
+      text: t4_is_there_a_bar__strong_bar
+    - !!python/object:zoobot.shared.schemas.Answer
+      _next_question: null
+      index: 13
+      question: *id013
+      text: t4_is_there_a_bar__weak_bar
+    end_index: 13
+    start_index: 11
+    text: t4_is_there_a_bar
+  - &id016 !!python/object:zoobot.shared.schemas.Question
+    _asked_after: *id011
+    answers:
+    - &id014 !!python/object:zoobot.shared.schemas.Answer
+      _next_question: &id015 !!python/object:zoobot.shared.schemas.Question
+        _asked_after: *id014
+        answers:
+        - !!python/object:zoobot.shared.schemas.Answer
+          _next_question: null
+          index: 19
+          question: *id015
+          text: t7_how_many_spiral_arms_are_there__1
+        - !!python/object:zoobot.shared.schemas.Answer
+          _next_question: null
+          index: 20
+          question: *id015
+          text: t7_how_many_spiral_arms_are_there__2
+        - !!python/object:zoobot.shared.schemas.Answer
+          _next_question: null
+          index: 21
+          question: *id015
+          text: t7_how_many_spiral_arms_are_there__3
+        - !!python/object:zoobot.shared.schemas.Answer
+          _next_question: null
+          index: 22
+          question: *id015
+          text: t7_how_many_spiral_arms_are_there__4
+        - !!python/object:zoobot.shared.schemas.Answer
+          _next_question: null
+          index: 23
+          question: *id015
+          text: t7_how_many_spiral_arms_are_there__more_than_4
+        - !!python/object:zoobot.shared.schemas.Answer
+          _next_question: null
+          index: 24
+          question: *id015
+          text: t7_how_many_spiral_arms_are_there__cant_tell
+        end_index: 24
+        start_index: 19
+        text: t7_how_many_spiral_arms_are_there
+      index: 14
+      question: *id016
+      text: t5_is_there_any_spiral_arm_pattern__yes
+    - !!python/object:zoobot.shared.schemas.Answer
+      _next_question: null
+      index: 15
+      question: *id016
+      text: t5_is_there_any_spiral_arm_pattern__no
+    end_index: 15
+    start_index: 14
+    text: t5_is_there_any_spiral_arm_pattern
+  - &id017 !!python/object:zoobot.shared.schemas.Question
+    _asked_after: *id014
+    answers:
+    - !!python/object:zoobot.shared.schemas.Answer
+      _next_question: null
+      index: 16
+      question: *id017
+      text: t6_spiral_how_tightly_wound__loose
+    - !!python/object:zoobot.shared.schemas.Answer
+      _next_question: null
+      index: 17
+      question: *id017
+      text: t6_spiral_how_tightly_wound__medium
+    - !!python/object:zoobot.shared.schemas.Answer
+      _next_question: null
+      index: 18
+      question: *id017
+      text: t6_spiral_how_tightly_wound__tight
+    end_index: 18
+    start_index: 16
+    text: t6_spiral_how_tightly_wound
+  - *id015
+  - *id012
+  - &id018 !!python/object:zoobot.shared.schemas.Question
+    _asked_after: null
+    answers:
+    - !!python/object:zoobot.shared.schemas.Answer
+      _next_question: null
+      index: 30
+      question: *id018
+      text: t11_is_the_galaxy_merging_or_disturbed__major_disturbance
+    - !!python/object:zoobot.shared.schemas.Answer
+      _next_question: null
+      index: 31
+      question: *id018
+      text: t11_is_the_galaxy_merging_or_disturbed__merging
+    - !!python/object:zoobot.shared.schemas.Answer
+      _next_question: null
+      index: 32
+      question: *id018
+      text: t11_is_the_galaxy_merging_or_disturbed__minor_disturbance
+    - !!python/object:zoobot.shared.schemas.Answer
+      _next_question: null
+      index: 33
+      question: *id018
+      text: t11_is_the_galaxy_merging_or_disturbed__none
+    end_index: 33
+    start_index: 30
+    text: t11_is_the_galaxy_merging_or_disturbed
+  - *id002
+  - *id007
+seed: 42
+visualize_images: false
+weight_decay: 0.05

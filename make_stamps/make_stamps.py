@@ -32,7 +32,7 @@ def zero_pix_fraction(img):
 # directory for raw CEERS images
 img_dir = "/scratch/ydong/images"
 
-FILTER = 444
+FILTER = 200
 
 N_POINTINGS = 10
 POINTING1 = [1,2,3,6]
@@ -91,7 +91,7 @@ for n in range(1,11):
                         image = array2img(resized_cut)
 
                         # save the images
-                        image.save('/scratch/ydong/stamps/demo_F200W/F200W_%i.jpg'%i)
+                        image.save('/scratch/ydong/stamps/demo_F%iW/F%iW_%i.jpg'%(FILTER,FILTER,i))
 
                         found[i] = 1
 

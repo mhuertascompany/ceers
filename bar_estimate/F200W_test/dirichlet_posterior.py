@@ -25,25 +25,37 @@ cat = pd.read_csv(os.path.join(cat_dir,cat_name))
 z = cat['zfit_50'].values
 
 
-# load the finetuned Zoobot predictions 
-pred_path = "results/finetune_tree_result/F200W/demo_tree_predictions_F200W_1.csv"
-pred = pd.read_csv(pred_path)
+alpha_feature_pred = []
+alpha_smooth_pred = []
+alpha_artifact_pred = []
 
-pred = pred[pred['id_str']<20000]
-id = pred['id_str'].values
+alpha_strong_pred = []
+alpha_weak_pred = []
+alpha_none_pred = []
 
-alpha_feature_pred = pred['t0_smooth_or_featured__features_or_disk_pred'].values
-alpha_smooth_pred = pred['t0_smooth_or_featured__smooth_pred'].values
-alpha_artifact_pred = pred['t0_smooth_or_featured__star_artifact_or_bad_zoom_pred'].values
-# p_feature_pred = alpha_feature_pred/(alpha_feature_pred+alpha_smooth_pred+alpha_artifact_pred)
+for i in range(3):
+    # load the finetuned Zoobot predictions 
+    pred_path = f"bar_estimate/F200W_pred/full_cat_predictions_F200W_{i}.csv"
+    pred = pd.read_csv(pred_path)
 
-alpha_strong_pred = pred['t4_is_there_a_bar__strong_bar_pred'].values
-alpha_weak_pred = pred['t4_is_there_a_bar__weak_bar_pred'].values
-alpha_none_pred = pred['t4_is_there_a_bar__no_bar_pred'].values
-# p_strong_pred = alpha_strong_pred/(alpha_strong_pred+alpha_weak_pred+alpha_none_pred)
-# p_weak_pred = alpha_weak_pred/(alpha_strong_pred+alpha_weak_pred+alpha_none_pred)
+    # pred = pred[pred['id_str']<20000]
+    id = pred['id_str'].values
+    print(len(id))
+    # np.sort(id)
+    print(id[:300])
 
-# p_bar_pred = p_strong_pred+p_weak_pred
+    alpha_feature_pred.append(pred['t0_smooth_or_featured__features_or_disk_pred'].values)
+    alpha_smooth_pred.append(pred['t0_smooth_or_featured__smooth_pred'].values)
+    alpha_artifact_pred.append(pred['t0_smooth_or_featured__star_artifact_or_bad_zoom_pred'].values)
+    # p_feature_pred = alpha_feature_pred/(alpha_feature_pred+alpha_smooth_pred+alpha_artifact_pred)
+
+    alpha_strong_pred.append(pred['t4_is_there_a_bar__strong_bar_pred'].values)
+    alpha_weak_pred.append(pred['t4_is_there_a_bar__weak_bar_pred'].values)
+    alpha_none_pred.append(pred['t4_is_there_a_bar__no_bar_pred'].values)
+    # p_strong_pred = alpha_strong_pred/(alpha_strong_pred+alpha_weak_pred+alpha_none_pred)
+    # p_weak_pred = alpha_weak_pred/(alpha_strong_pred+alpha_weak_pred+alpha_none_pred)
+
+    # p_bar_pred = p_strong_pred+p_weak_pred
 
 
 match_path = "bot/match_catalog_F200W.csv"
@@ -70,7 +82,8 @@ p_bar_vol = p_strong_vol+p_weak_vol
 common_id, index1, index2 = np.intersect1d(id, match_id, return_indices=True)
 
 
-for i in np.random.randint(len(id), size=10):
+for i in np.random.randint(len(id), size=20):
+# for i in np.where((alpha_strong_pred + alpha_weak_pred) > 2*alpha_none_pred)[0]:
     
     plt.figure(figsize=(15,5))
     plt.subplot(1, 3, 1)

@@ -36,7 +36,7 @@ pred_cat = cat
 pred_cat['id_str'] = ids
 pred_cat['file_loc'] = file_loc
 
-checkpoint_loc = f'results/finetune_tree_result/checkpoints/F{FILTER}W_ckpt/97-v1.ckpt'
+checkpoint_loc = f'results/finetune_tree_result/F{FILTER}W/checkpoints/98.ckpt'
 # checkpoint_loc = 'checkpoints/effnetb0_greyscale_224px.ckpt'
 
 save_dir = f'bar_estimate/F{FILTER}W_pred'
@@ -63,7 +63,7 @@ predict_on_catalog.predict(
     model,
     n_samples=5,  # number of forward passes per galaxy
     label_cols=schema.label_cols,
-    save_loc=os.path.join(save_dir, f'full_cat_predictions_F{FILTER}W_0.csv'),
+    save_loc=os.path.join(save_dir, f'full_cat_predictions_F{FILTER}W_2.csv'),
     datamodule_kwargs={
         'custom_albumentation_transform':A.Compose([
             A.Lambda(image=To3d(),always_apply=True),

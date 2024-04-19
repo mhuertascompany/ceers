@@ -93,7 +93,7 @@ predict_on_catalog.predict(
     model,
     n_samples=5,
     label_cols=schema.label_cols,
-    save_loc=os.path.join(save_dir, f'demo_tree_predictions_F{FILTER}W_2.csv'),
+    save_loc=os.path.join(save_dir, f'demo_tree_predictions_F{FILTER}W_1.csv'),
     datamodule_kwargs={
         'custom_albumentation_transform':A.Compose([
             A.Lambda(image=To3d(),always_apply=True),
