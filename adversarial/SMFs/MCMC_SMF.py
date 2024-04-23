@@ -4,11 +4,10 @@ import pickle
 import os
 import h5py
 
-#morph_class=['sph','disk','irr','db','early','all','reg','late']
-#zbins =  [0.2,0.5,0.8,1.1,1.5,2,2.5,3,3.5,4.5,5.5]
 
-zbins=[0.2,0.5]
-morph_class=['sph']
+
+#zbins=[0.2,0.5]
+#morph_class=['sph']
 
 def double_schechter_function(logM, logM_star,alpha1,alpha2,logphi1,logphi2):
     M_over_M_star = logM - logM_star
@@ -119,6 +118,9 @@ def double_schechter_MCMC(smf_morph,path_out,filename,fit_range=(9,11.5)):
     print("Sampler data saved in HDF5 format with compression.")
 
 
+
+morph_class=['sph','disk','irr','db','early','all','reg','late']
+zbins =  [0.2,0.5,0.8,1.1,1.5,2,2.5,3,3.5,4.5,5.5]
 path_in='/n03data/huertas/COSMOS-Web/SMF'
 os.makedirs(path_in, exist_ok=True)
 smf_files=['smf_morph_Q','smf_morph_SF'] 
