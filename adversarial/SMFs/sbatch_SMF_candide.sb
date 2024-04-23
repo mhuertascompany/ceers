@@ -9,5 +9,5 @@
 
 module load tensorflow/2.14
 
-cd /home/huertas/python/ceers/adversarial/SMF
+cd /home/huertas/python/ceers/adversarial/SMFs
 python MCMC_SMF.py
