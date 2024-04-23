@@ -2,7 +2,6 @@
 #SBATCH --job-name=SMF_morph_COS-Web
 #SBATCH --output=/n03data/huertas/COSMOS-Web/jobs/smf.out
 #SBATCH --error=/n03data/huertas/COSMOS-Web/jobs/smf.err
-#SBATCH --partition=comp
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=4
