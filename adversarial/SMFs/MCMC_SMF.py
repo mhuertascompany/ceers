@@ -51,36 +51,38 @@ def double_schechter_MCMC(smf_morph,path_out,filename,fit_range=(9,11.5)):
     # Main loop over redshift and morphology bins
     for zbin in zbins[:-1]:
         for morph in morph_class:
-            #key = (zbin, morph)
-            if len(smf_morph[(zbin,morph,'LogMassbin')]) > 0:
-                logM = smf_morph[(zbin,morph,'LogMassbin')]
-                Phi = smf_morph[(zbin,morph,'Fi')]
-                dPhi = smf_morph[(zbin,morph,'dFi')]
+            try:
+                
+                if len(smf_morph[(zbin,morph,'LogMassbin')]) > 0:
+                    logM = smf_morph[(zbin,morph,'LogMassbin')]
+                    Phi = smf_morph[(zbin,morph,'Fi')]
+                    dPhi = smf_morph[(zbin,morph,'dFi')]
 
-                # Filter out zero or negative values in Phi or dPhi
-                valid = (Phi > 0) & (dPhi > 0) &(logM>fit_range[0] &(logM<fit_range[1]))
-                if not np.any(valid):
-                    print(f"Skipping {morph} at z={zbin} entirely, no valid data points after filtering.")
-                    continue
-                logM = logM[valid]
-                Phi = Phi[valid]
-                dPhi = dPhi[valid]
+                    # Filter out zero or negative values in Phi or dPhi
+                    valid = (Phi > 0) & (dPhi > 0) &(logM>fit_range[0] &(logM<fit_range[1]))
+                    if not np.any(valid):
+                        print(f"Skipping {morph} at z={zbin} entirely, no valid data points after filtering.")
+                        continue
+                    logM = logM[valid]
+                    Phi = Phi[valid]
+                    dPhi = dPhi[valid]
 
-                initial_guess = [10.5, -0.6, -1.7, -2, -2]
-                pos = pos_func(initial_guess)
-                sampler = emcee.EnsembleSampler(nwalkers, ndim, log_probability, args=(logM, Phi, dPhi))
-                sampler.run_mcmc(pos, 10000, progress=True)
+                    initial_guess = [10.5, -0.6, -1.7, -2, -2]
+                    pos = pos_func(initial_guess)
+                    sampler = emcee.EnsembleSampler(nwalkers, ndim, log_probability, args=(logM, Phi, dPhi))
+                    sampler.run_mcmc(pos, 10000, progress=True)
 
-                # Store the sampler chain and best-fit parameters
-                samples = sampler.get_chain(discard=2000, thin=15, flat=True)
-                logM_star_50, alpha1_50, alpha2_50, logphi1_50, logphi2_50 = np.percentile(samples, 50, axis=0)
-                logM_star_16, alpha1_16, alpha2_16, logphi1_16, logphi2_16 = np.percentile(samples, 16, axis=0)
-                logM_star_84, alpha1_84, alpha2_84, logphi1_84, logphi2_84 = np.percentile(samples, 84, axis=0)
-                fit_results[(zbin,morph)] = {'sampler': sampler, 'params_50': (logM_star_50, alpha1_50, alpha2_50, logphi1_50, logphi2_50),'params_16': (logM_star_16, alpha1_16, alpha2_16, logphi1_16, logphi2_16),'params_84': (logM_star_84, alpha1_84, alpha2_84, logphi1_84, logphi2_84)}
-                print('done fit ',zbin,morph)
-            else:
-                print(f"Skipping {morph} at z={zbin} due to empty data.")
-
+                    # Store the sampler chain and best-fit parameters
+                    samples = sampler.get_chain(discard=2000, thin=15, flat=True)
+                    logM_star_50, alpha1_50, alpha2_50, logphi1_50, logphi2_50 = np.percentile(samples, 50, axis=0)
+                    logM_star_16, alpha1_16, alpha2_16, logphi1_16, logphi2_16 = np.percentile(samples, 16, axis=0)
+                    logM_star_84, alpha1_84, alpha2_84, logphi1_84, logphi2_84 = np.percentile(samples, 84, axis=0)
+                    fit_results[(zbin,morph)] = {'sampler': sampler, 'params_50': (logM_star_50, alpha1_50, alpha2_50, logphi1_50, logphi2_50),'params_16': (logM_star_16, alpha1_16, alpha2_16, logphi1_16, logphi2_16),'params_84': (logM_star_84, alpha1_84, alpha2_84, logphi1_84, logphi2_84)}
+                    print('done fit ',zbin,morph)
+                else:
+                    print(f"Skipping {morph} at z={zbin} due to empty data.")
+            except:
+                continue 
 
     # Assume fit_results is loaded or available from prior code
     params_only_results = {}
@@ -94,7 +96,7 @@ def double_schechter_MCMC(smf_morph,path_out,filename,fit_range=(9,11.5)):
         }
 
     # Save the results to a pickle file
-    file_path = os.path.join(path_out,filename+'.pkl')
+    file_path = os.path.join(path_out,filename+'_fit_results.pkl')
     #'/Users/marchuertascompany/Documents/data/COSMOS-Web/SMF/smf_fit_results.pkl'
     os.makedirs(os.path.dirname(file_path), exist_ok=True)  # Ensure the directory exists
 
