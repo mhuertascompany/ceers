@@ -586,7 +586,7 @@ def create_stamps_forzoobot_COSMOS(img_dir, cat_name, output_dir,filter="F150W")
                     resized_cut.save(os.path.join(output_dir,f'{filter}_{idn}.jpg'))
                 except:
                     os.mkdir(output_dir)
-                    resized_cut.save(os.path.join(output_dir,f'{filter}_{idn}.jpg'))
+                    array2img(resized_cut).save(os.path.join(output_dir,f'{filter}_{idn}.jpg'))
 
 
                         
