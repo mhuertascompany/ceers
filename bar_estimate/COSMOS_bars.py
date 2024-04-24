@@ -40,7 +40,7 @@ pred_cat = cat
 pred_cat['id_str'] = ids
 pred_cat['file_loc'] = file_loc
 
-checkpoint_loc = '../results/finetune_tree_result/checkpoints/97-v1.ckpt'
+checkpoint_loc = 'results/finetune_tree_result/checkpoints/97-v1.ckpt'
 # checkpoint_loc = 'checkpoints/effnetb0_greyscale_224px.ckpt'
 
 save_dir = '/n03data/huertas/COSMOS-Web/cats/'
