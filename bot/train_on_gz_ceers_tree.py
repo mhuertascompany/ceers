@@ -14,10 +14,15 @@ from galaxy_datasets.pytorch.galaxy_datamodule import GalaxyDataModule
 
 from zoobot.pytorch.training import finetune
 from zoobot.pytorch.predictions import predict_on_catalog
+from zoobot.pytorch.estimators import define_model
 from bot.gz_ceers_schema import gz_ceers_schema
 from bot.To3d import To3d
 
-os.environ['CUDA_VISIBLE_DEVICES']="1"
+# from pytorch_lightning.accelerators.cuda import CUDAAccelerator
+
+# os.environ['CUDA_VISIBLE_DEVICES']="1"
+
+FILTER = 200
 
 
 logging.basicConfig(level=logging.INFO)
@@ -26,7 +31,7 @@ logging.basicConfig(level=logging.INFO)
 checkpoint_loc = 'checkpoints/effnetb0_greyscale_224px.ckpt'
 
 # directory for saving the finetuned model checkpoint
-save_dir = 'results/finetune_tree_result'
+save_dir = f'results/finetune_tree_result/F{FILTER}W'
 
 # self-defined GZ CEERS question tree schema
 schema = gz_ceers_schema
@@ -38,7 +43,7 @@ prog_bar = False
 max_galaxies = None
 
 # path for the matched catalog
-catalog = pd.read_csv("bot/match_catalog_F200W.csv")
+catalog = pd.read_csv(f"bot/match_catalog_F{FILTER}W.csv")
 
 # apply a train-test-valuation ratio of 7:2:1
 train_val_catalog, test_catalog = train_test_split(catalog, test_size=0.2)
@@ -77,6 +82,7 @@ model = finetune.FinetuneableZoobotTree(
     schema=schema
 )
 
+# print(CUDAAccelerator.is_available())
 trainer = finetune.get_trainer(save_dir=save_dir, logger=None, accelerator=accelerator)
 trainer.fit(model, datamodule)
 
@@ -85,9 +91,9 @@ trainer_kwargs = {'devices': 1, 'accelerator': accelerator}
 predict_on_catalog.predict(
     test_catalog,
     model,
-    n_samples=1,
+    n_samples=5,
     label_cols=schema.label_cols,
-    save_loc=os.path.join(save_dir, 'demo_tree_predictions.csv'),
+    save_loc=os.path.join(save_dir, f'demo_tree_predictions_F{FILTER}W_1.csv'),
     datamodule_kwargs={
         'custom_albumentation_transform':A.Compose([
             A.Lambda(image=To3d(),always_apply=True),

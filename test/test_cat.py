@@ -28,4 +28,4 @@ cols = cat.columns
 print(np.unique(cla['which_nircam'].values))
 
 for i in range(100,200):
-    print(cat[['ID','RA_1','DEC_1','zfit_50','zfit_16','zfit_84']].values[i])
+    print(cat[['ID','zfit_50','zfit_16','zfit_84','logM_50','logM_16','logM_84','logMt_50','logMt_16','logMt_84']].values[i])
