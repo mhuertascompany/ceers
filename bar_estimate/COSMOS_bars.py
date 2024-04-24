@@ -41,8 +41,10 @@ cols = cat.columns
 pred_cat = cat
 pred_cat['id_str'] = ids
 pred_cat['file_loc'] = file_loc
+FILTER=200
 
-checkpoint_loc = '/home/huertas/python/ceers/results/finetune_tree_result/checkpoints/97-v1.ckpt'
+#checkpoint_loc = '/home/huertas/python/ceers/results/finetune_tree_result/checkpoints/97-v1.ckpt'
+checkpoint_loc = f'/home/huertas/python/ceers/results/finetune_tree_result/F{FILTER}W/checkpoints/98.ckpt'
 #'results/finetune_tree_result/checkpoints/97-v1.ckpt'
 # checkpoint_loc = 'checkpoints/effnetb0_greyscale_224px.ckpt'
 
