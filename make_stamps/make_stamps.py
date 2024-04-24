@@ -567,7 +567,7 @@ def create_stamps_forzoobot_COSMOS(img_dir, cat_name, output_dir,filter="F150W")
                 #print(arcsec_cut)
                 if np.isnan(arcsec_cut):
                     continue  # Skip if size calculation results in NaN
-                stamp, w = image_make_cutout(name_img_det, ra_cent, dec_cent, size, nameout=None, get_wcs=True)
+                stamp, w = image_make_cutout(name_img_det, ra_cent, dec_cent, size*2, nameout=None, get_wcs=True)
                 #print(stamp.shape)
             except:
                 print('Error creating stamp')
@@ -583,7 +583,7 @@ def create_stamps_forzoobot_COSMOS(img_dir, cat_name, output_dir,filter="F150W")
             if zero_pix_fraction(stamp)<0.1:  # exclude images with too many null pixels
                 transform = AsinhStretch() + interval
                 norm = transform(stamp)  
-                resized_cut = resize(norm,output_shape=(424,424))
+                resized_cut = resize(stamp,output_shape=(424,424))
                 try:
                     array2img(resized_cut).save(os.path.join(output_dir,f'{filter}_{idn}.jpg'))
                 except:
