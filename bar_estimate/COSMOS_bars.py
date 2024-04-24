@@ -42,7 +42,7 @@ pred_cat = cat
 pred_cat['id_str'] = ids
 pred_cat['file_loc'] = file_loc
 
-checkpoint_loc = '/home/huertas/python/ceers/results/finetune_tree_result/checkpoints/97-v1.ckp'
+checkpoint_loc = '/home/huertas/python/ceers/results/finetune_tree_result/checkpoints/97-v1.ckpt'
 #'results/finetune_tree_result/checkpoints/97-v1.ckpt'
 # checkpoint_loc = 'checkpoints/effnetb0_greyscale_224px.ckpt'
 
