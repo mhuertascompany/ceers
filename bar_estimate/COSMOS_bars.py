@@ -63,7 +63,7 @@ resize_after_crop = 224     # must match how checkpoint below was trained
 model = define_model.ZoobotTree.load_from_checkpoint(checkpoint_loc, output_dim=39, question_index_groups=[])
 
 # now save predictions on test set to evaluate performance
-trainer_kwargs = {'devices': 1, 'accelerator': 'gpu'}
+trainer_kwargs = {'devices': 1, 'accelerator': 'cpu'}
 predict_on_catalog.predict(
     pred_cat,
     model,
