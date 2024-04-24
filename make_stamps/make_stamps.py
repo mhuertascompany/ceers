@@ -561,7 +561,8 @@ def create_stamps_forzoobot_COSMOS(img_dir, cat_name, output_dir,filter="F150W")
             print(name_img_det)
             try:
                 arcsec_cut = 3600*re * np.sqrt(q)
-                size = 212 * np.maximum(arcsec_cut, 0.1)*0.03
+                size = 212 * np.maximum(arcsec_cut/0.03, 0.1)*0.03
+                #size = 212*np.maximum(0.04*Re[i]*np.sqrt(axis_ratio[i])/pix_size,0.1)
                 print(size)
                 print(arcsec_cut)
                 if np.isnan(arcsec_cut):
