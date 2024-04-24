@@ -6,7 +6,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=4
 #SBATCH --time=48:00:00
-#SBATCH --partition=comp,pscom
+#SBATCH --partition=comp,pscomp
 
 module load tensorflow/2.14
 module load gcc/13.2.0
