@@ -557,7 +557,7 @@ def create_stamps_forzoobot_COSMOS(img_dir, cat_name, output_dir,filter="F150W")
     axis_ratio = sel['AXRATIO'].values
 
     for idn,t,ra_cent,dec_cent,re,q in zip(source_ids,tiles,ra,dec,Re,axis_ratio):
-            name_img_det, name_img_part, sci_imas, model_imas, resid_imas, path_checkimg, imgname_chi2_c20, filters_translate = load_imgs(t.decode('utf-8'),filter)
+            name_img_det, name_img_part, sci_imas, model_imas, resid_imas, path_checkimg, imgname_chi2_c20, filters_translate = load_imgs(t.decode('utf-8'),[filter])
             print(name_img_det)
             try:
                 arcsec_cut = 0.04 * re * np.sqrt(q)
