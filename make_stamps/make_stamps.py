@@ -553,19 +553,8 @@ def create_stamps_forzoobot_COSMOS(img_dir, cat_name, output_dir,filter="F150W")
     tiles = sel['TILE']
     ra  = sel['RA_MODEL']
     dec = sel['DEC_MODEL']
-    
-    
-
-
-    col_names = ['RA_MODELS','DECL_MODEL']
-    coords = sel[col_names].values
-
     Re = sel['RADIUS'].values
     axis_ratio = sel['AXRATIO'].values
-
-    nobj = len(axis_ratio)
-
-    found = np.zeros(nobj)
 
     for idn,t,ra_cent,dec_cent,re,q in zip(source_ids,tiles,ra,dec,Re,axis_ratio):
             name_img_det, name_img_part, sci_imas, model_imas, resid_imas, path_checkimg, imgname_chi2_c20, filters_translate = load_imgs(t.decode('utf-8'),filter)
@@ -590,14 +579,9 @@ def create_stamps_forzoobot_COSMOS(img_dir, cat_name, output_dir,filter="F150W")
             
 
             if zero_pix_fraction(stamp)<0.1:  # exclude images with too many null pixels
-                #print(i,n)
                 transform = AsinhStretch() + interval
                 norm = transform(stamp)  
                 resized_cut = resize(norm,output_shape=(424,424))
-
-                #image = array2img(resized_cut)
-
-                # save the images
                 try:
                     resized_cut.save(os.path.join(output_dir,f'{filter}_{idn}.jpg'))
                 except:
