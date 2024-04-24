@@ -563,12 +563,12 @@ def create_stamps_forzoobot_COSMOS(img_dir, cat_name, output_dir,filter="F150W")
                 arcsec_cut =3600*0.04*re * np.sqrt(q)
                 size = 212 * np.maximum(arcsec_cut/0.03, 0.1)*0.03
                 #size = 212*np.maximum(0.04*Re[i]*np.sqrt(axis_ratio[i])/pix_size,0.1)
-                print(size)
-                print(arcsec_cut)
+                #print(size)
+                #print(arcsec_cut)
                 if np.isnan(arcsec_cut):
                     continue  # Skip if size calculation results in NaN
                 stamp, w = image_make_cutout(name_img_det, ra_cent, dec_cent, size, nameout=None, get_wcs=True)
-                print(stamp.shape)
+                #print(stamp.shape)
             except:
                 print('Error creating stamp')
                 continue
