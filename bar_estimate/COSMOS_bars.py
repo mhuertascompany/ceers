@@ -52,6 +52,7 @@ save_dir = '/n03data/huertas/COSMOS-Web/cats/'
 
 schema = gz_ceers_schema
 
+
 batch_size = 64
 
 crop_scale_bounds = (0.7, 0.8)
@@ -59,7 +60,9 @@ crop_ratio_bounds = (0.9, 1.1)
 resize_after_crop = 224     # must match how checkpoint below was trained
 
 #model = finetune.FinetuneableZoobotTree(checkpoint_loc=checkpoint_loc,schema=schema )
-model = define_model.ZoobotTree.load_from_checkpoint(checkpoint_loc, output_dim=39, question_index_groups=[])
+#model = define_model.ZoobotTree.load_from_checkpoint(checkpoint_loc, output_dim=39, question_index_groups=[])
+
+model = define_model.ZoobotTree.load_from_checkpoint(checkpoint_loc, output_dim=39, question_index_groups=[],question_answer_pairs=schema.question_answer_pairs,dependencies=schema.dependencies)
 
 # now save predictions on test set to evaluate performance
 trainer_kwargs = {'devices': 1, 'accelerator': 'cpu'}
