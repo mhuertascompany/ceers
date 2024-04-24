@@ -5,7 +5,9 @@ predict p_bar for all F200W images
 
 import os
 import albumentations as A
+import sys
 
+sys.path.append('/home/huertas/python/ceers')
 
 from zoobot.pytorch.training import finetune
 from zoobot.pytorch.predictions import predict_on_catalog
