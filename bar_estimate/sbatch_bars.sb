@@ -11,6 +11,9 @@
 module load gcc/13.2.0
 module load intelpython/3-2024.0.0
 
+cd /home/huertas/python/ceers/make_stamps
+python make_stamps.py
 
 cd /home/huertas/python/ceers/bar_estimate
+python COSMOS_bars.py
 python COSMOS_select_bars.py

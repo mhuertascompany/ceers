@@ -547,7 +547,7 @@ def create_stamps_forzoobot_COSMOS(img_dir, cat_name, output_dir,filter="F150W")
     
     cat_cosmos_pd=cat_cosmos[names].to_pandas()
 
-    sel = cat_cosmos_pd.query("MAG_MODEL_F150W<24 and MAG_MODEL_F150W>0 and TILE !='JAN'")
+    sel = cat_cosmos_pd.query("MAG_MODEL_F150W<27 and MAG_MODEL_F150W>0 and TILE !='JAN'")
     
     source_ids = sel['Id']
     tiles = sel['TILE']
@@ -557,6 +557,10 @@ def create_stamps_forzoobot_COSMOS(img_dir, cat_name, output_dir,filter="F150W")
     axis_ratio = sel['AXRATIO'].values
 
     for idn,t,ra_cent,dec_cent,re,q in zip(source_ids,tiles,ra,dec,Re,axis_ratio):
+            
+            file_path = os.path.join(output_dir, f'{filter}_{idn}.jpg')
+            if os.path.exists(file_path):
+                continue
             name_img_det, name_img_part, sci_imas, model_imas, resid_imas, path_checkimg, imgname_chi2_c20, filters_translate = load_imgs(t.decode('utf-8'),[filter])
             print(name_img_det)
             try:
@@ -585,10 +589,10 @@ def create_stamps_forzoobot_COSMOS(img_dir, cat_name, output_dir,filter="F150W")
                 norm = transform(stamp)  
                 resized_cut = resize(stamp,output_shape=(424,424))
                 try:
-                    array2img(resized_cut).save(os.path.join(output_dir,f'{filter}_{idn}.jpg'))
+                    array2img(resized_cut).save(file_path)
                 except:
                     os.mkdir(output_dir)
-                    array2img(resized_cut).save(os.path.join(output_dir,f'{filter}_{idn}.jpg'))
+                    array2img(resized_cut).save(file_path)
 
 
                         
