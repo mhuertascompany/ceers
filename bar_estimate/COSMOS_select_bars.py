@@ -71,7 +71,7 @@ draw_max = ImageDraw.Draw(max_bar_image_F200W)
 font = ImageFont.truetype(fm.findfont(fm.FontProperties(family='serif')),size=20)
 
 
-max_bar_ids = np.where(p_bar>0.5)[0]
+max_bar_ids = np.where(p_bar>0.5 and p_feature>0.5 and p_edgeon<0.5)[0]
 i = 0
 for bar_id in max_bar_ids:
     image_path = os.path.join(image_dir, "F150W_%i.jpg"%id[bar_id])
