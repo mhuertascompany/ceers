@@ -24,7 +24,7 @@ z = cat['LP_zfinal'].values
 image_dir = "/n03data/huertas/COSMOS-Web/zoobot"
 
 # load the finetuned Zoobot predictions 
-pred_path = "/n03data/huertas/COSMOS-Web/cats/bars_COSMOS_F150W.csv"
+pred_path = "/n03data/huertas/COSMOS-Web/cats/bars_COSMOS_F150W_m27.csv"
 pred = pd.read_csv(pred_path)
 
 
