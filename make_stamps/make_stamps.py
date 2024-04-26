@@ -602,4 +602,5 @@ def create_stamps_forzoobot_COSMOS(img_dir, cat_name, output_dir,filter="F150W")
 
 
 #create_stamps_forzoobot_JADES("/n03data/huertas/JADES/images/","/n03data/huertas/JADES/cats/JADES_DR2_PHOT_ZPHOT_PZETA_MASS_Re.fits","/n03data/huertas/JADES/zoobot/")
-create_stamps_forzoobot_COSMOS(None,"/n03data/huertas/COSMOS-Web/cats/COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM.fits","/n03data/huertas/COSMOS-Web/zoobot/")
+create_stamps_forzoobot_COSMOS(None,"/n03data/huertas/COSMOS-Web/cats/COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM.fits","/n03data/huertas/COSMOS-Web/zoobot/F277W",filter='F277W')
+create_stamps_forzoobot_COSMOS(None,"/n03data/huertas/COSMOS-Web/cats/COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM.fits","/n03data/huertas/COSMOS-Web/zoobot/F444W",filter='F444W')
