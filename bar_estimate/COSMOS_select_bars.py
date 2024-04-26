@@ -28,7 +28,7 @@ pred_path = "/n03data/huertas/COSMOS-Web/cats/bars_COSMOS_F150W.csv"
 pred = pd.read_csv(pred_path)
 
 
-merge=cat.merge(pred,how='inner',right_on='id_str',left_on='id',suffixes=(None,'_x'))
+merge=cat.merge(pred,how='inner',right_on='id_str',left_on='Id',suffixes=(None,'_x'))
 
 print(len(merge))
 print(len(pred))
