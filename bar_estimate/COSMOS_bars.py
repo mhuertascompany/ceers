@@ -39,6 +39,7 @@ cols = cat.columns
 
 
 pred_cat = cat
+print('number of objects',len(pred_cat))
 pred_cat['id_str'] = ids
 pred_cat['file_loc'] = file_loc
 FILTER=200
@@ -71,7 +72,7 @@ predict_on_catalog.predict(
     model,
     n_samples=1,  # number of forward passes per galaxy
     label_cols=schema.label_cols,
-    save_loc=os.path.join(save_dir, 'bars_COSMOS_F150W.csv'),
+    save_loc=os.path.join(save_dir, 'bars_COSMOS_F150W_m27.csv'),
     datamodule_kwargs={
         'custom_albumentation_transform':A.Compose([
             A.Lambda(image=To3d(),always_apply=True),
