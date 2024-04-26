@@ -23,7 +23,19 @@ import re
 
 image_dir = '/n03data/huertas/COSMOS-Web/zoobot'
 file_loc = [os.path.join(image_dir,path) for path in os.listdir(image_dir)]
-ids = np.array([int(re.findall(r'\d+',path)[1]) for path in os.listdir(image_dir)])
+file_loc = [os.path.join(image_dir, path) for path in os.listdir(image_dir) if path.endswith('.jpg')]
+
+# Improved version with error handling and .jpg filtering
+ids = []
+for path in os.listdir(image_dir):
+    if path.endswith('.jpg'):  # Process only files that end with .jpg
+        numbers = re.findall(r'\d+', path)
+        if len(numbers) > 1:  # Ensure there are at least two groups of digits
+            ids.append(int(numbers[1]))
+        else:
+            print(f"Skipping file with insufficient digit groups: {path}")
+
+
 
 cat_dir = "/n03data/huertas/COSMOS-Web/cats"
 cat_name = "COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM.fits"
