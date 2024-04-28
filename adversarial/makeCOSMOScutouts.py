@@ -28,7 +28,7 @@ import matplotlib.backends.backend_pdf
 plt.rcParams['axes.prop_cycle'] = plt.cycler(color=["#F05A28", "#034693", "#016FB9", "#FF9505","#353531"])
 # %matplotlib notebook
 from matplotlib.colors import LogNorm
-import matplotlib_setup
+#import matplotlib_setup
 from matplotlib import ticker
 from mpl_toolkits.axes_grid1.inset_locator import (inset_axes, InsetPosition,
                                                   mark_inset)

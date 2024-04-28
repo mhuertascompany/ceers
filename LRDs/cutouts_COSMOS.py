@@ -115,7 +115,7 @@ with open("/n03data/huertas/COSMOS-Web/cutouts/generate_cutouts.sh", "w") as fil
         
         # Create the command with selected ids
     source_ids_str = ' '.join(map(str, filtered_ids))
-    command = f"{base_command} --source_ids {source_ids_str} --output_path {output_path+f+m} --cutout_size {cutout_size}\n"
+    command = f"{base_command} --source_ids {source_ids_str} --output_path {output_path+"LRDs_bulges_z2-3"} --cutout_size {cutout_size}\n"
         
     # Write the command to the file
     file.write(command)
