@@ -228,9 +228,9 @@ def create_stamps_forzoobot_CEERS(img_dir, cat_name, output_dir,filter="f200w"):
 
     with fits.open(os.path.join(img_dir,img_name)) as hdul:
         # hdul.info()
-        hdr = hdul[1].header
+        hdr = hdul[0].header
         w = wcs.WCS(hdr)
-        data = hdul[1].data
+        data = hdul[0].data
 
         ymax, xmax = data.shape
         pixels = w.wcs_world2pix(coords,0)
