@@ -222,7 +222,7 @@ def create_stamps_forzoobot_CEERS(img_dir, cat_name, output_dir,filter="f200w"):
 
     len_cat = len(fit_flag)
 
-    found = np.zeros(len)
+    found = np.zeros(len_cat)
 
     img_name = f"fullceers_ddta_{filter}_v0.51_30mas_sci.fits.gz"
 
