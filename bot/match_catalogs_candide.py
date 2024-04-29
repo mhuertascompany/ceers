@@ -163,46 +163,48 @@ N_POINTINGS = 10
 POINTING1 = [1,2,3,6]
 POINTING2 = [4,5,7,8,9,10]
 
+pointing_name = f"fullceers_ddta_{filter}_v0.51_30mas_sci.fits.gz"
+hdul=fits.open(os.path.join(raw_img_dir,pointing_name))
 added = 0
 for i in range(N):
     if mask[i] == False:
         
-        pointing_name = f"fullceers_ddta_{filter}_v0.51_30mas_sci.fits.gz" # "hlsp_ceers_jwst_nircam_nircam%i_f200w_dr0.5_i2d.fits"%n
-        with fits.open(os.path.join(raw_img_dir,pointing_name)) as hdul:
-            # hdul.info()
-            hdr = hdul[0].header
-            w = wcs.WCS(hdr)
-            data = hdul[0].data
+        # "hlsp_ceers_jwst_nircam_nircam%i_f200w_dr0.5_i2d.fits"%n
+       
+        # hdul.info()
+        hdr = hdul[0].header
+        w = wcs.WCS(hdr)
+        data = hdul[0].data
 
-            ymax, xmax = data.shape
-            pixels = w.wcs_world2pix([[cla_ra[i],cla_dec[i]]],0)
-            pix_size = 0.031
-            pix = pixels[0]
+        ymax, xmax = data.shape
+        pixels = w.wcs_world2pix([[cla_ra[i],cla_dec[i]]],0)
+        pix_size = 0.031
+        pix = pixels[0]
             
 
-            size = 212*np.maximum(0.04*radius[i],0.1)
-            up = int(pix[0]+size)
-            down = up-size*2
-            right = int(pix[1]+size)
-            left = right-size*2
-            if all([up<xmax,down>-1,right<ymax,left>-1]):   
+        size = 212*np.maximum(0.04*radius[i],0.1)
+        up = int(pix[0]+size)
+        down = up-size*2
+        right = int(pix[1]+size)
+        left = right-size*2
+        if all([up<xmax,down>-1,right<ymax,left>-1]):   
                 # cut = data[left:right,down:up]
-                cut = Cutout2D(data,pix,wcs=w,size=size*2).data
+            cut = Cutout2D(data,pix,wcs=w,size=size*2).data
 
-                if zero_pix_fraction(cut)<0.1:
-                    resized_cut = resize(cut,output_shape=(424,424))
+            if zero_pix_fraction(cut)<0.1:
+                resized_cut = resize(cut,output_shape=(424,424))
 
-                    image = array2img(resized_cut,clipped_percent=1.)
+                image = array2img(resized_cut,clipped_percent=1.)
 
-                    image.save(f'/n03data/huertas/CEERS/zoobot/stamps/{filter}_training/{filter}_%i_a.jpg'%i)
+                image.save(f'/n03data/huertas/CEERS/zoobot/stamps/{filter}_training/{filter}_%i_a.jpg'%i)
 
-                    new_record = cla.loc[[i], gz_counts]
-                    new_record.columns = [col[:-7] for col in new_record.columns]
-                    new_record['id_str'] = 20000+i
-                    new_record['file_loc'] = f'/n03data/huertas/CEERS/zoobot/stamps/{filter}_training/{filter}_%i_a.jpg'%i
+                new_record = cla.loc[[i], gz_counts]
+                new_record.columns = [col[:-7] for col in new_record.columns]
+                new_record['id_str'] = 20000+i
+                new_record['file_loc'] = f'/n03data/huertas/CEERS/zoobot/stamps/{filter}_training/{filter}_%i_a.jpg'%i
 
-                    match_catalog = pd.concat([match_catalog,new_record],ignore_index=True)
-                    added += 1
+                match_catalog = pd.concat([match_catalog,new_record],ignore_index=True)
+                added += 1
 
 # save the matched catalog
 match_catalog.to_csv(f"bot/match_catalog_{filter}.csv")
