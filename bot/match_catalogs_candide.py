@@ -18,7 +18,7 @@ from astropy.nddata import Cutout2D
 import os
 from skimage.transform import resize
 
-filter='f277w'
+filter='f444w'
 
 # path for classifications
 class_dir = "/n03data/huertas/COSMOS-Web/zoobot"
@@ -29,7 +29,7 @@ cat_dir = "/n03data/huertas/CEERS/cats"
 cat_name = "CEERS_DR05_adversarial_asinh_4filters_1122_4class_ensemble_v02_stellar_params_morphflag_delta_10points_DenseBasis_galfit_CLASS_STAR_v052_bug.csv"
 
 # directory for cutout images
-image_dir = f'/n03data/huertas/COSMOS-Web/zoobot/stamps/{filter}'
+image_dir = f'/n03data/huertas/CEERS/zoobot/stamps/{filter}'
 file_loc = [os.path.join(image_dir,path) for path in os.listdir(image_dir)]
 ids = np.array([int(re.findall(r'\d+',path)[1]) for path in os.listdir(image_dir)])
 
@@ -170,9 +170,9 @@ for i in range(N):
         pointing_name = f"fullceers_ddta_{filter}_v0.51_30mas_sci.fits.gz" # "hlsp_ceers_jwst_nircam_nircam%i_f200w_dr0.5_i2d.fits"%n
         with fits.open(os.path.join(raw_img_dir,pointing_name)) as hdul:
             # hdul.info()
-            hdr = hdul[1].header
+            hdr = hdul[0].header
             w = wcs.WCS(hdr)
-            data = hdul[1].data
+            data = hdul[0].data
 
             ymax, xmax = data.shape
             pixels = w.wcs_world2pix([[cla_ra[i],cla_dec[i]]],0)
@@ -194,12 +194,12 @@ for i in range(N):
 
                     image = array2img(resized_cut,clipped_percent=1.)
 
-                    image.save(f'/n03data/huertas/COSMOS-Web/zoobot/stamps/{filter}_training/{filter}_%i_a.jpg'%i)
+                    image.save(f'/n03data/huertas/CEERS/zoobot/stamps/{filter}_training/{filter}_%i_a.jpg'%i)
 
                     new_record = cla.loc[[i], gz_counts]
                     new_record.columns = [col[:-7] for col in new_record.columns]
                     new_record['id_str'] = 20000+i
-                    new_record['file_loc'] = f'/n03data/huertas/COSMOS-Web/zoobot/stamps/{filter}_training/{filter}_%i_a.jpg'%i
+                    new_record['file_loc'] = f'/n03data/huertas/CEERS/zoobot/stamps/{filter}_training/{filter}_%i_a.jpg'%i
 
                     match_catalog = pd.concat([match_catalog,new_record],ignore_index=True)
                     added += 1
