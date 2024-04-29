@@ -133,7 +133,7 @@ band_lambda_micron = {
 
 
 
-def create_stamps_forzoobot_CEERS(img_dir, cat_name, output_dir,filter="f200w"):
+def create_stamps_forzoobot_CEERS_old(img_dir, cat_name, output_dir,filter="f200w"):
 
 
 
@@ -197,6 +197,68 @@ def create_stamps_forzoobot_CEERS(img_dir, cat_name, output_dir,filter="f200w"):
                             image.save(output_dir+filter+'_%i.jpg'%i)
 
                             found[i] = 1
+
+
+
+def create_stamps_forzoobot_CEERS(img_dir, cat_name, output_dir,filter="f200w"):
+
+
+
+   
+
+    # path for catalog
+    #cat_dir = "/scratch/ydong/cat"
+    #cat_name = "CEERS_DR05_adversarial_asinh_4filters_1122_4class_ensemble_v02_stellar_params_morphflag_delta_10points_DenseBasis_galfit_CLASS_STAR_v052_bug.csv"
+
+    cat = pd.read_csv(cat_name)
+
+    col_names = ['RA_1','DEC_1']
+    coords = cat[col_names].values
+
+    fit_flag = cat['F200W_FLAG'].values
+    star_flag = cat['star_flag'].values
+    Re_F200W = cat['F200W_RE'].values
+    axis_ratio = cat['F200W_Q'].values
+
+    len = len(fit_flag)
+
+    found = np.zeros(len)
+
+    img_name = f"fullceers_ddta_{filter}_v0.51_30mas_sci.fits.gz"
+
+    with fits.open(os.path.join(img_dir,img_name)) as hdul:
+        # hdul.info()
+        hdr = hdul[1].header
+        w = wcs.WCS(hdr)
+        data = hdul[1].data
+
+        ymax, xmax = data.shape
+        pixels = w.wcs_world2pix(coords,0)
+        pix_size = 0.031
+
+        for i in range(len):
+            if (found[i]==0) & (fit_flag[i]==0) & (star_flag[i]==0):
+                size = 212*np.maximum(0.04*Re_F200W[i]*np.sqrt(axis_ratio[i])/pix_size,0.1)
+                pix = pixels[i]
+                up = int(pix[0]+size)
+                down = up-size*2
+                right = int(pix[1]+size)
+                left = right-size*2
+                if all([up<xmax,down>-1,right<ymax,left>-1]):   
+                    # cut = data[left:right,down:up]
+                    cut = Cutout2D(data,pix,wcs=w,size=size*2).data
+
+                    if zero_pix_fraction(cut)<0.1:  # exclude images with too many null pixels
+                        print(i,n)
+                        resized_cut = resize(cut,output_shape=(424,424))
+
+                        image = array2img(resized_cut)
+
+                            # save the images
+                        image.save(os.path.join(output_dir,filter+'_%i.jpg'%i))
+
+                        found[i] = 1
+
 
 
 
@@ -602,5 +664,6 @@ def create_stamps_forzoobot_COSMOS(img_dir, cat_name, output_dir,filter="F150W")
 
 
 #create_stamps_forzoobot_JADES("/n03data/huertas/JADES/images/","/n03data/huertas/JADES/cats/JADES_DR2_PHOT_ZPHOT_PZETA_MASS_Re.fits","/n03data/huertas/JADES/zoobot/")
-create_stamps_forzoobot_COSMOS(None,"/n03data/huertas/COSMOS-Web/cats/COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM.fits","/n03data/huertas/COSMOS-Web/zoobot/F277W",filter='F277W')
-create_stamps_forzoobot_COSMOS(None,"/n03data/huertas/COSMOS-Web/cats/COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM.fits","/n03data/huertas/COSMOS-Web/zoobot/F444W",filter='F444W')
+#create_stamps_forzoobot_COSMOS(None,"/n03data/huertas/COSMOS-Web/cats/COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM.fits","/n03data/huertas/COSMOS-Web/zoobot/F277W",filter='F277W')
+#create_stamps_forzoobot_COSMOS(None,"/n03data/huertas/COSMOS-Web/cats/COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM.fits","/n03data/huertas/COSMOS-Web/zoobot/F444W",filter='F444W')
+create_stamps_forzoobot_CEERS("/n03data/huertas/CEERS/images","/n03data/huertas/CEERS/cats/CEERS_DR05_adversarial_asinh_4filters_1122_4class_ensemble_v02_stellar_params_morphflag_delta_10points_DenseBasis_galfit_CLASS_STAR_v052_bug.csv","/n03data/huertas/COSMOS-Web/zoobot/stamps/f444w_training",filter='f444w')
