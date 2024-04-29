@@ -220,7 +220,7 @@ def create_stamps_forzoobot_CEERS(img_dir, cat_name, output_dir,filter="f200w"):
     Re_F200W = cat['F200W_RE'].values
     axis_ratio = cat['F200W_Q'].values
 
-    len = len(fit_flag)
+    len_cat = len(fit_flag)
 
     found = np.zeros(len)
 
@@ -236,7 +236,7 @@ def create_stamps_forzoobot_CEERS(img_dir, cat_name, output_dir,filter="f200w"):
         pixels = w.wcs_world2pix(coords,0)
         pix_size = 0.031
 
-        for i in range(len):
+        for i in range(len_cat):
             if (found[i]==0) & (fit_flag[i]==0) & (star_flag[i]==0):
                 size = 212*np.maximum(0.04*Re_F200W[i]*np.sqrt(axis_ratio[i])/pix_size,0.1)
                 pix = pixels[i]
