@@ -112,9 +112,9 @@ with open("/n03data/huertas/COSMOS-Web/cutouts/generate_cutouts.sh", "w") as fil
     
     # Filter the DataFrame according to the query, select random ids, then sort them in descending order
     #filtered_ids = [142965,255808,224295,189506,25183,179548,73839,35215,217297,182535,67493,59170] # Change random_state for different subsets
-    filterd_ids = [458207,571082,539569,504780,340060,494822,388983,350232,532571,497809,382637,374187]
+    filtered_ids = [458207,571082,539569,504780,340060,494822,388983,350232,532571,497809,382637,374187]
 
-        # Create the command with selected ids
+    # Create the command with selected ids
     source_ids_str = ' '.join(map(str, filtered_ids))
     command = f"{base_command} --source_ids {source_ids_str} --output_path {output_path+"LRDs_bulges_z2-3"} --cutout_size {cutout_size}\n"
         
