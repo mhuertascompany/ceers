@@ -78,7 +78,7 @@ datamodule = GalaxyDataModule(
 )
 
 model = finetune.FinetuneableZoobotTree(
-    checkpoint_loc=checkpoint_loc,
+    zoobot_checkpoint_loc=checkpoint_loc,
     schema=schema
 )
 
