@@ -43,7 +43,7 @@ prog_bar = False
 max_galaxies = None
 
 # path for the matched catalog
-catalog = pd.read_csv(f"/n03data/huertas/CEERS/zoobot/match_catalog_{filter}.csv")
+catalog = pd.read_csv(f"/n03data/huertas/CEERS/zoobot/match_catalog_{FILTER}.csv")
 
 # apply a train-test-valuation ratio of 7:2:1
 train_val_catalog, test_catalog = train_test_split(catalog, test_size=0.2)
@@ -93,7 +93,7 @@ predict_on_catalog.predict(
     model,
     n_samples=5,
     label_cols=schema.label_cols,
-    save_loc=os.path.join(save_dir, f'test_predictions_{filter}.csv'),
+    save_loc=os.path.join(save_dir, f'test_predictions_{FILTER}.csv'),
     datamodule_kwargs={
         'custom_albumentation_transform':A.Compose([
             A.Lambda(image=To3d(),always_apply=True),
