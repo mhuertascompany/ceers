@@ -3,7 +3,6 @@
 #SBATCH --output=/n03data/huertas/COSMOS-Web/jobs/bars_zoobot.out
 #SBATCH --error=/n03data/huertas/COSMOS-Web/jobs/bars_zoobot.err
 #SBATCH --nodes=1
-#SBATCH --nodelist=n16
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=4
 #SBATCH --time=48:00:00
