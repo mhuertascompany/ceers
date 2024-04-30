@@ -1,0 +1,14 @@
+#!/bin/bash
+#SBATCH --job-name=zoobot_COSMOS-Web
+#SBATCH --output=/n03data/huertas/COSMOS-Web/jobs/smf.out
+#SBATCH --error=/n03data/huertas/COSMOS-Web/jobs/smf.err
+#SBATCH --nodes=1
+#SBATCH --nodelist=n16
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=4
+#SBATCH --time=48:00:00
+
+module load tensorflow/2.14
+
+cd /home/huertas/python/ceers/bot
+python train_on_gz_ceers_tree.py
