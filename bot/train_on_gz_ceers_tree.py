@@ -15,8 +15,8 @@ from galaxy_datasets.pytorch.galaxy_datamodule import GalaxyDataModule
 from zoobot.pytorch.training import finetune
 from zoobot.pytorch.predictions import predict_on_catalog
 from zoobot.pytorch.estimators import define_model
-from bot.gz_ceers_schema import gz_ceers_schema
-from bot.To3d import To3d
+from gz_ceers_schema import gz_ceers_schema
+from To3d import To3d
 
 # from pytorch_lightning.accelerators.cuda import CUDAAccelerator
 
