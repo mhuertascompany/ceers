@@ -22,16 +22,16 @@ from bot.To3d import To3d
 
 # os.environ['CUDA_VISIBLE_DEVICES']="1"
 
-FILTER = 200
+FILTER = 'f444w'
 
 
 logging.basicConfig(level=logging.INFO)
 
 # checkpoint with pretrained weights, downloaded from: https://zoobot.readthedocs.io/en/latest/data_notes.html
-checkpoint_loc = 'checkpoints/effnetb0_greyscale_224px.ckpt'
+checkpoint_loc = '../checkpoints/effnetb0_greyscale_224px.ckpt'
 
 # directory for saving the finetuned model checkpoint
-save_dir = f'results/finetune_tree_result/F{FILTER}W'
+save_dir = f'/n03data/huertas/CEERS/zoobot/models/finetune_tree_result/'
 
 # self-defined GZ CEERS question tree schema
 schema = gz_ceers_schema
@@ -43,7 +43,7 @@ prog_bar = False
 max_galaxies = None
 
 # path for the matched catalog
-catalog = pd.read_csv(f"bot/match_catalog_F{FILTER}W.csv")
+catalog = pd.read_csv(f"/n03data/huertas/CEERS/zoobot/match_catalog_{filter}.csv")
 
 # apply a train-test-valuation ratio of 7:2:1
 train_val_catalog, test_catalog = train_test_split(catalog, test_size=0.2)
@@ -93,7 +93,7 @@ predict_on_catalog.predict(
     model,
     n_samples=5,
     label_cols=schema.label_cols,
-    save_loc=os.path.join(save_dir, f'demo_tree_predictions_F{FILTER}W_1.csv'),
+    save_loc=os.path.join(save_dir, f'test_predictions_{filter}.csv'),
     datamodule_kwargs={
         'custom_albumentation_transform':A.Compose([
             A.Lambda(image=To3d(),always_apply=True),
