@@ -7,6 +7,7 @@
 #SBATCH --nodelist=n13
 #SBATCH --cpus-per-task=4
 #SBATCH --time=48:00:00
+#SBATCH --gres=gpu:1
 
 module load cuda/12.1
 module load intelpython/3-2024.1.0
