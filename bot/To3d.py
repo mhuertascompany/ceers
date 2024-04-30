@@ -6,11 +6,25 @@ import numpy as np
 import albumentations as A
 
 
+#class To3d:
+ #   def __init__(self):
+ #       pass
+
+#    def __call__(self, image, **kwargs):
+#        x, y = image.shape
+#        return image.reshape(x,y,1)
+
+
+
+
 class To3d:
     def __init__(self):
         pass
 
     def __call__(self, image, **kwargs):
-        x, y = image.shape
-        return image.reshape(x,y,1)
-
+        # Ensure the input image is 2D (grayscale)
+        if image.ndim != 2:
+            raise ValueError("Input image must be a 2D array")
+        
+        # Replicate the image across three channels
+        return np.stack((image, image, image), axis=-1)
