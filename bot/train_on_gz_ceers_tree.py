@@ -77,10 +77,18 @@ datamodule = GalaxyDataModule(
     ]),  
 )
 
+#model = finetune.FinetuneableZoobotTree(
+#    zoobot_checkpoint_loc=checkpoint_loc,
+#    schema=schema)
+
 model = finetune.FinetuneableZoobotTree(
-    zoobot_checkpoint_loc=checkpoint_loc,
-    schema=schema,dependencies=schema.dependencies
-)
+        name='hf_hub:mwalmsley/zoobot-encoder-convnext_nano',
+        schema=schema,
+        n_blocks=0
+        # n_blocks=5,
+        # lr_decay=0.3,
+        # learning_rate=5e-6
+    )
 
 # print(CUDAAccelerator.is_available())
 trainer = finetune.get_trainer(save_dir=save_dir, logger=None, accelerator=accelerator)
