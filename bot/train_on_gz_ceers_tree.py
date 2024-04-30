@@ -79,7 +79,7 @@ datamodule = GalaxyDataModule(
 
 model = finetune.FinetuneableZoobotTree(
     zoobot_checkpoint_loc=checkpoint_loc,
-    schema=schema
+    schema=schema,question_answer_pairs=schema.question_answer_pairs,dependencies=schema.dependencies
 )
 
 # print(CUDAAccelerator.is_available())
