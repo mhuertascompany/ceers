@@ -54,7 +54,7 @@ pred_cat = cat
 print('number of objects',len(pred_cat))
 pred_cat['id_str'] = ids
 pred_cat['file_loc'] = file_loc
-FILTER='f444w'
+filter='f444w'
 
 #checkpoint_loc = '/home/huertas/python/ceers/results/finetune_tree_result/checkpoints/97-v1.ckpt'
 checkpoint_loc = f'/n03data/huertas/CEERS/zoobot/models/finetune_tree_result/{filter}/checkpoints/59.ckpt'
