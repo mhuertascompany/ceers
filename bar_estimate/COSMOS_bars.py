@@ -21,7 +21,7 @@ import pandas as pd
 import re
 
 
-image_dir = '/n03data/huertas/COSMOS-Web/zoobot'
+image_dir = '/n03data/huertas/COSMOS-Web/zoobot/stamps/f444w'
 file_loc = [os.path.join(image_dir,path) for path in os.listdir(image_dir)]
 file_loc = [os.path.join(image_dir, path) for path in os.listdir(image_dir) if path.endswith('.jpg')]
 
