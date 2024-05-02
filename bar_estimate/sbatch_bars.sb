@@ -13,9 +13,9 @@ module load intelpython/3-2024.0.0
 
 #comment these lines
 
-cd /home/huertas/python/ceers/make_stamps
-python make_stamps.py
+#cd /home/huertas/python/ceers/make_stamps
+#python make_stamps.py
 
-#cd /home/huertas/python/ceers/bar_estimate
-#python COSMOS_bars.py
+cd /home/huertas/python/ceers/bar_estimate
+python COSMOS_bars.py
 #python COSMOS_select_bars.py

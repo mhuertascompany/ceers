@@ -7,7 +7,7 @@ import os
 import albumentations as A
 import sys
 
-sys.path.append('/home/huertas/python/ceers')
+sys.path.append('/n03data/huertas/python/ceers')
 
 from zoobot.pytorch.training import finetune
 from zoobot.pytorch.predictions import predict_on_catalog
@@ -54,10 +54,10 @@ pred_cat = cat
 print('number of objects',len(pred_cat))
 pred_cat['id_str'] = ids
 pred_cat['file_loc'] = file_loc
-FILTER=200
+FILTER='f444w'
 
 #checkpoint_loc = '/home/huertas/python/ceers/results/finetune_tree_result/checkpoints/97-v1.ckpt'
-checkpoint_loc = f'/home/huertas/python/ceers/results/finetune_tree_result/F{FILTER}W/checkpoints/98.ckpt'
+checkpoint_loc = f'/n03data/huertas/CEERS/zoobot/models/finetune_tree_result/{filter}/checkpoints/59.ckpt'
 #'results/finetune_tree_result/checkpoints/97-v1.ckpt'
 # checkpoint_loc = 'checkpoints/effnetb0_greyscale_224px.ckpt'
 
@@ -72,19 +72,19 @@ crop_scale_bounds = (0.7, 0.8)
 crop_ratio_bounds = (0.9, 1.1)
 resize_after_crop = 224     # must match how checkpoint below was trained
 
-#model = finetune.FinetuneableZoobotTree(checkpoint_loc=checkpoint_loc,schema=schema )
+model = finetune.FinetuneableZoobotTree(checkpoint_loc=checkpoint_loc,schema=schema )
 #model = define_model.ZoobotTree.load_from_checkpoint(checkpoint_loc, output_dim=39, question_index_groups=[])
 
-model = define_model.ZoobotTree.load_from_checkpoint(checkpoint_loc, output_dim=39, question_index_groups=[],question_answer_pairs=schema.question_answer_pairs,dependencies=schema.dependencies)
+#model = define_model.ZoobotTree.load_from_checkpoint(checkpoint_loc, output_dim=39, question_index_groups=[],question_answer_pairs=schema.question_answer_pairs,dependencies=schema.dependencies)
 
 # now save predictions on test set to evaluate performance
-trainer_kwargs = {'devices': 1, 'accelerator': 'cpu'}
+trainer_kwargs = {'devices': 1, 'accelerator': 'gpu'}
 predict_on_catalog.predict(
     pred_cat,
     model,
     n_samples=1,  # number of forward passes per galaxy
     label_cols=schema.label_cols,
-    save_loc=os.path.join(save_dir, 'bars_COSMOS_F150W_m27.csv'),
+    save_loc=os.path.join(save_dir, f'bars_COSMOS_{filter}_m27.csv'),
     datamodule_kwargs={
         'custom_albumentation_transform':A.Compose([
             A.Lambda(image=To3d(),always_apply=True),
