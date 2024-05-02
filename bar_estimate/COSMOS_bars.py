@@ -72,7 +72,7 @@ crop_scale_bounds = (0.7, 0.8)
 crop_ratio_bounds = (0.9, 1.1)
 resize_after_crop = 224     # must match how checkpoint below was trained
 
-model = finetune.FinetuneableZoobotTree(checkpoint_loc=checkpoint_loc,schema=schema )
+model = finetune.FinetuneableZoobotTree(checkpoint_loc,schema=schema )
 #model = define_model.ZoobotTree.load_from_checkpoint(checkpoint_loc, output_dim=39, question_index_groups=[])
 
 #model = define_model.ZoobotTree.load_from_checkpoint(checkpoint_loc, output_dim=39, question_index_groups=[],question_answer_pairs=schema.question_answer_pairs,dependencies=schema.dependencies)
