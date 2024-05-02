@@ -36,7 +36,7 @@ for path in os.listdir(image_dir):
             print(f"Skipping file with insufficient digit groups: {path}")
 
 
-
+print(ids)
 cat_dir = "/n03data/huertas/COSMOS-Web/cats"
 cat_name = "COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM.fits"
 cat_cosmos = Table.read(os.path.join(cat_dir,cat_name), format='fits')
@@ -72,7 +72,7 @@ crop_scale_bounds = (0.7, 0.8)
 crop_ratio_bounds = (0.9, 1.1)
 resize_after_crop = 224     # must match how checkpoint below was trained
 
-model = finetune.FinetuneableZoobotTree.load_from_checkpoint(checkpoint_loc,schema=schema,output_dim=39)
+model = finetune.FinetuneableZoobotTree.load_from_checkpoint(checkpoint_loc,schema=schema)
 #model = finetune.FinetuneableZoobotTree(checkpoint_loc)
 #model = define_model.ZoobotTree.load_from_checkpoint(checkpoint_loc, output_dim=39, question_index_groups=[])
 
