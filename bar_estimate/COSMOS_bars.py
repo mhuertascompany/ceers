@@ -36,7 +36,7 @@ for path in os.listdir(image_dir):
             print(f"Skipping file with insufficient digit groups: {path}")
 
 
-print(ids)
+#print(ids)
 cat_dir = "/n03data/huertas/COSMOS-Web/cats"
 cat_name = "COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM.fits"
 cat_cosmos = Table.read(os.path.join(cat_dir,cat_name), format='fits')
@@ -51,7 +51,7 @@ cols = cat.columns
 
 
 pred_cat = cat
-print('number of objects',len(pred_cat))
+#print('number of objects',len(pred_cat))
 pred_cat['id_str'] = ids
 pred_cat['file_loc'] = file_loc
 filter='f444w'

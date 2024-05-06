@@ -9,9 +9,10 @@
 #SBATCH --time=48:00:00
 #SBATCH --gres=gpu:1
 
-module load cuda/12.1
 module load intelpython/3-2024.1.0
 module load gcc/13.2.0
 
-cd /n03data/huertas/python/ceers/bot
-python train_on_gz_ceers_tree.py
+cd /n03data/huertas/python/ceers/make_stamps
+python make_stamps.py
+#python match_catalogs_candide.py
+#python train_on_gz_ceers_tree.py
