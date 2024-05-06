@@ -24,7 +24,7 @@ z = cat['LP_zfinal'].values
 image_dir = "/n03data/huertas/COSMOS-Web/zoobot"
 
 # load the finetuned Zoobot predictions 
-pred_path = "/n03data/huertas/COSMOS-Web/cats/bars_COSMOS_F444W_m27.csv"
+pred_path = "/n03data/huertas/COSMOS-Web/cats/bars_COSMOS_f444w_m27.csv"
 pred = pd.read_csv(pred_path)
 
 
@@ -92,4 +92,4 @@ max_bar_image_F200W.save("/n03data/huertas/COSMOS-Web/zoobot/bar_candidates/bars
 
 plt.hist([p_strong, p_weak, p_bar], bins=np.linspace(0,1,11), histtype='step', label=[r'$p_\mathrm{strong}$',r'$p_\mathrm{weak}$',r'$p_\mathrm{bar}$'], linestyle='dashed')
 plt.legend()
-plt.savefig("/n03data/huertas/COSMOS-Web/zoobot/bar_candidates/bar_hist_F444W.jpg")
+plt.savefig("/n03data/huertas/COSMOS-Web/zoobot/bar_candidates/bar_hist_f444w.jpg")
