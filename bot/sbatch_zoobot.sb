@@ -12,7 +12,7 @@
 module load intelpython/3-2024.1.0
 module load gcc/13.2.0
 
-cd /n03data/huertas/python/ceers/bot
+cd /n03data/huertas/python/ceers/make_stamps
 python make_stamps.py
 #python match_catalogs_candide.py
 #python train_on_gz_ceers_tree.py
