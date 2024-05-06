@@ -31,7 +31,7 @@ logging.basicConfig(level=logging.INFO)
 checkpoint_loc = '../checkpoints/effnetb0_greyscale_224px.ckpt'
 
 # directory for saving the finetuned model checkpoint
-save_dir = f'/n03data/huertas/CEERS/zoobot/models/finetune_tree_result/'
+save_dir = f'/n03data/huertas/CEERS/zoobot/models/finetune_tree_result/{FILTER}'
 
 # self-defined GZ CEERS question tree schema
 schema = gz_ceers_schema

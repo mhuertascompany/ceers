@@ -207,5 +207,5 @@ for i in range(N):
                 added += 1
 
 # save the matched catalog
-match_catalog.to_csv(f"match_catalog_{filter}.csv")
+match_catalog.to_csv(f"/n03data/huertas/CEERS/zoobot/match_catalog_{filter}.csv")
 print(f"Successfully matched {np.sum(mask)}, additionally cut out {added}")
