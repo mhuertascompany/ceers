@@ -24,7 +24,7 @@ z = cat['LP_zfinal'].values
 image_dir = "/n03data/huertas/COSMOS-Web/zoobot/stamps/f277w"
 
 # load the finetuned Zoobot predictions 
-pred_path = "/n03data/huertas/COSMOS-Web/cats/bars_COSMOS_f277w_m27_effnet.csv"
+pred_path = "/n03data/huertas/COSMOS-Web/cats/bars_COSMOS_f444w_m27_effnet.csv"
 pred = pd.read_csv(pred_path)
 
 
@@ -74,7 +74,7 @@ draw_max = ImageDraw.Draw(max_bar_image_F200W)
 font = ImageFont.truetype(fm.findfont(fm.FontProperties(family='serif')),size=20)
 
 
-max_bar_ids = np.where((z>2) & (p_bar>0.5) & (p_feature>0.5) & (p_edgeon<0.5) & (q>0.5))[0]
+max_bar_ids = np.where( (p_bar>0.5) & (p_feature>0.5) & (p_edgeon<0.5) & (q>0.5))[0]
 print(max(m150))
 print('selected:', len(max_bar_ids))
 i = 0
@@ -88,7 +88,7 @@ for bar_id in max_bar_ids:
     if i == 36:
         break
     
-max_bar_image_F200W.save("/n03data/huertas/COSMOS-Web/zoobot/bar_candidates/bars_zgt2.jpg")
+max_bar_image_F200W.save("/n03data/huertas/COSMOS-Web/zoobot/bar_candidates/bars_f444w.jpg")
 
 plt.hist([p_strong, p_weak, p_bar], bins=np.linspace(0,1,11), histtype='step', label=[r'$p_\mathrm{strong}$',r'$p_\mathrm{weak}$',r'$p_\mathrm{bar}$'], linestyle='dashed')
 plt.legend()
