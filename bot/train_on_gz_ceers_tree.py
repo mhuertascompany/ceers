@@ -82,7 +82,7 @@ datamodule = GalaxyDataModule(
 #    schema=schema)
 
 model = finetune.FinetuneableZoobotTree(
-        name='hf_hub:mwalmsley/zoobot-encoder-convnext_nano',
+        name='hf_hub:mwalmsley/zoobot-encoder-efficientnet_b0',
         schema=schema,
         n_blocks=0
         # n_blocks=5,
@@ -101,7 +101,7 @@ predict_on_catalog.predict(
     model,
     n_samples=5,
     label_cols=schema.label_cols,
-    save_loc=os.path.join(save_dir, f'test_predictions_{FILTER}.csv'),
+    save_loc=os.path.join(save_dir, f'test_predictions_{FILTER}_effnet.csv'),
     datamodule_kwargs={
         'custom_albumentation_transform':A.Compose([
             A.Lambda(image=To3d(),always_apply=True),
