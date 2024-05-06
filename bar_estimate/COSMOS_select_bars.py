@@ -74,7 +74,7 @@ draw_max = ImageDraw.Draw(max_bar_image_F200W)
 font = ImageFont.truetype(fm.findfont(fm.FontProperties(family='serif')),size=20)
 
 
-max_bar_ids = np.where((p_bar>0.5) & (p_feature>0.5) & (p_edgeon<0.5) & (q>0.5))[0]
+max_bar_ids = np.where((z>2) & (p_bar>0.5) & (p_feature>0.5) & (p_edgeon<0.5) & (q>0.5))[0]
 print(max(m150))
 print('selected:', len(max_bar_ids))
 i = 0
