@@ -20,8 +20,10 @@ import numpy as np
 import pandas as pd
 import re
 
+filter='f444w'
 
-image_dir = '/n03data/huertas/COSMOS-Web/zoobot/stamps/f277w'
+
+image_dir = f'/n03data/huertas/COSMOS-Web/zoobot/stamps/{filter}'
 file_loc = [os.path.join(image_dir,path) for path in os.listdir(image_dir)]
 file_loc = [os.path.join(image_dir, path) for path in os.listdir(image_dir) if path.endswith('.jpg')]
 
@@ -54,10 +56,10 @@ pred_cat = cat
 #print('number of objects',len(pred_cat))
 pred_cat['id_str'] = ids
 pred_cat['file_loc'] = file_loc
-filter='f277w'
+
 
 #checkpoint_loc = '/home/huertas/python/ceers/results/finetune_tree_result/checkpoints/97-v1.ckpt'
-checkpoint_loc = f'/n03data/huertas/CEERS/zoobot/models/finetune_tree_result/{filter}/checkpoints/99.ckpt'
+checkpoint_loc = f'/n03data/huertas/CEERS/zoobot/models/finetune_tree_result/{filter}/checkpoints/99_effnet.ckpt'
 #'results/finetune_tree_result/checkpoints/97-v1.ckpt'
 # checkpoint_loc = 'checkpoints/effnetb0_greyscale_224px.ckpt'
 
