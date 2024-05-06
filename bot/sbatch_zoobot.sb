@@ -14,5 +14,5 @@ module load gcc/13.2.0
 
 cd /n03data/huertas/python/ceers/bot
 #python make_stamps.py
-python match_catalogs_candide.py
-#python train_on_gz_ceers_tree.py
+#python match_catalogs_candide.py
+python train_on_gz_ceers_tree.py
