@@ -24,7 +24,7 @@ z = cat['LP_zfinal'].values
 image_dir = "/n03data/huertas/COSMOS-Web/zoobot"
 
 # load the finetuned Zoobot predictions 
-pred_path = "/n03data/huertas/COSMOS-Web/cats/bars_COSMOS_f444w_m27.csv"
+pred_path = "/n03data/huertas/COSMOS-Web/cats/bars_COSMOS_f277w_m27.csv"
 pred = pd.read_csv(pred_path)
 
 
@@ -55,7 +55,7 @@ p_weak = count_weak/(count_strong+count_weak+count_none)
 p_bar = p_strong+p_weak
 
 q=merge.AXRATIO
-m150 = merge.MAG_MODEL_F444W.values
+m150 = merge.MAG_MODEL_F150W.values
 z = merge['LP_zfinal'].values
 
 
