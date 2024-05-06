@@ -57,7 +57,7 @@ pred_cat['file_loc'] = file_loc
 filter='f277w'
 
 #checkpoint_loc = '/home/huertas/python/ceers/results/finetune_tree_result/checkpoints/97-v1.ckpt'
-checkpoint_loc = f'/n03data/huertas/CEERS/zoobot/models/finetune_tree_result/{filter}/checkpoints/86.ckpt'
+checkpoint_loc = f'/n03data/huertas/CEERS/zoobot/models/finetune_tree_result/{filter}/checkpoints/99.ckpt'
 #'results/finetune_tree_result/checkpoints/97-v1.ckpt'
 # checkpoint_loc = 'checkpoints/effnetb0_greyscale_224px.ckpt'
 
@@ -85,7 +85,7 @@ predict_on_catalog.predict(
     model,
     n_samples=1,  # number of forward passes per galaxy
     label_cols=schema.label_cols,
-    save_loc=os.path.join(save_dir, f'bars_COSMOS_{filter}_m27.csv'),
+    save_loc=os.path.join(save_dir, f'bars_COSMOS_{filter}_m27_effnet.csv'),
     datamodule_kwargs={
         'custom_albumentation_transform':A.Compose([
             A.Lambda(image=To3d(),always_apply=True),
