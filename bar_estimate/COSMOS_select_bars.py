@@ -21,7 +21,7 @@ cat=cat_cosmos[names].to_pandas()
 z = cat['LP_zfinal'].values
 
 # directory for images
-image_dir = "/n03data/huertas/COSMOS-Web/zoobot"
+image_dir = "/n03data/huertas/COSMOS-Web/zoobot/stamps/f277w"
 
 # load the finetuned Zoobot predictions 
 pred_path = "/n03data/huertas/COSMOS-Web/cats/bars_COSMOS_f277w_m27_effnet.csv"
