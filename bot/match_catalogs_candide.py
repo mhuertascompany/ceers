@@ -18,7 +18,7 @@ from astropy.nddata import Cutout2D
 import os
 from skimage.transform import resize
 
-filter='f277w'
+filter='f150w'
 
 # path for classifications
 class_dir = "/n03data/huertas/COSMOS-Web/zoobot"
