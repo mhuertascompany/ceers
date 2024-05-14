@@ -21,10 +21,10 @@ cat=cat_cosmos[names].to_pandas()
 z = cat['LP_zfinal'].values
 
 # directory for images
-image_dir = "/n03data/huertas/COSMOS-Web/zoobot/stamps/f150w"
+image_dir = "/n03data/huertas/COSMOS-Web/zoobot/stamps/f444w"
 
 # load the finetuned Zoobot predictions 
-pred_path = "/n03data/huertas/COSMOS-Web/cats/bars_COSMOS_f150w_m27_effnet.csv"
+pred_path = "/n03data/huertas/COSMOS-Web/cats/bars_COSMOS_f444w_m27_effnet.csv"
 pred = pd.read_csv(pred_path)
 
 
@@ -79,7 +79,7 @@ print(max(m150))
 print('selected:', len(max_bar_ids))
 i = 0
 for bar_id in max_bar_ids:
-    image_path = os.path.join(image_dir, "F150W_%i.jpg"%id[bar_id])
+    image_path = os.path.join(image_dir, "F444W_%i.jpg"%id[bar_id])
     image = Image.open(image_path)
     max_bar_image_F200W.paste(image, (SIZE*(i%6), SIZE*(i//6)))
     draw_max.text((SIZE*(i%6)+10, SIZE*(i//6)+10), f'z={z[bar_id]:.3f}\np_feature={p_feature[bar_id]:.3f}\np_edgeon={p_edgeon[bar_id]:.3f}\np_bar={p_bar[bar_id]:.3f}', font=font, fill=255)
@@ -88,7 +88,7 @@ for bar_id in max_bar_ids:
     if i == 36:
         break
     
-max_bar_image_F200W.save("/n03data/huertas/COSMOS-Web/zoobot/bar_candidates/bars_f150w.jpg")
+max_bar_image_F200W.save("/n03data/huertas/COSMOS-Web/zoobot/bar_candidates/bars_f444w.jpg")
 
 plt.hist([p_strong, p_weak, p_bar], bins=np.linspace(0,1,11), histtype='step', label=[r'$p_\mathrm{strong}$',r'$p_\mathrm{weak}$',r'$p_\mathrm{bar}$'], linestyle='dashed')
 plt.legend()
