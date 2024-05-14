@@ -21,10 +21,10 @@ cat=cat_cosmos[names].to_pandas()
 z = cat['LP_zfinal'].values
 
 # directory for images
-image_dir = "/n03data/huertas/COSMOS-Web/zoobot/stamps/f277w"
+image_dir = "/n03data/huertas/COSMOS-Web/zoobot/stamps/f150w"
 
 # load the finetuned Zoobot predictions 
-pred_path = "/n03data/huertas/COSMOS-Web/cats/bars_COSMOS_f444w_m27_effnet.csv"
+pred_path = "/n03data/huertas/COSMOS-Web/cats/bars_COSMOS_f150w_m27_effnet.csv"
 pred = pd.read_csv(pred_path)
 
 
@@ -88,7 +88,7 @@ for bar_id in max_bar_ids:
     if i == 36:
         break
     
-max_bar_image_F200W.save("/n03data/huertas/COSMOS-Web/zoobot/bar_candidates/bars_f444w.jpg")
+max_bar_image_F200W.save("/n03data/huertas/COSMOS-Web/zoobot/bar_candidates/bars_f150w.jpg")
 
 plt.hist([p_strong, p_weak, p_bar], bins=np.linspace(0,1,11), histtype='step', label=[r'$p_\mathrm{strong}$',r'$p_\mathrm{weak}$',r'$p_\mathrm{bar}$'], linestyle='dashed')
 plt.legend()
