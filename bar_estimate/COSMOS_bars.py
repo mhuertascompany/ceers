@@ -20,7 +20,7 @@ import numpy as np
 import pandas as pd
 import re
 
-filter='f444w'
+filter='f150w'
 
 
 image_dir = f'/n03data/huertas/COSMOS-Web/zoobot/stamps/{filter}'
