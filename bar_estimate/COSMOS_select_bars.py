@@ -79,7 +79,7 @@ print(max(m150))
 print('selected:', len(max_bar_ids))
 i = 0
 for bar_id in max_bar_ids:
-    image_path = os.path.join(image_dir, "F277W_%i.jpg"%id[bar_id])
+    image_path = os.path.join(image_dir, "F150W_%i.jpg"%id[bar_id])
     image = Image.open(image_path)
     max_bar_image_F200W.paste(image, (SIZE*(i%6), SIZE*(i//6)))
     draw_max.text((SIZE*(i%6)+10, SIZE*(i//6)+10), f'z={z[bar_id]:.3f}\np_feature={p_feature[bar_id]:.3f}\np_edgeon={p_edgeon[bar_id]:.3f}\np_bar={p_bar[bar_id]:.3f}', font=font, fill=255)
