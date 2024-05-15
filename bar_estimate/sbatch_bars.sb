@@ -4,9 +4,9 @@
 #SBATCH --error=/n03data/huertas/COSMOS-Web/jobs/bars.err
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --cpus-per-task=4
+#SBATCH --cpus-per-task=1
 #SBATCH --time=48:00:00
-#SBATCH --nodelist=n16
+#SBATCH --nodelist=n03
 #SBATCH --gres=gpu:1
 
 module load gcc/13.2.0

@@ -53,7 +53,7 @@ count_none = merge['t5_is_there_any_spiral_arm_pattern__no_pred'].values
 #p_strong = count_strong/(count_strong+count_weak+count_none)
 #p_weak = count_weak/(count_strong+count_weak+count_none)
 
-p_arms = count_arms/count_none
+p_arms = count_arms/(count_none+count_arms)
 
 q=merge.AXRATIO
 m150 = merge.MAG_MODEL_F150W.values
@@ -83,7 +83,7 @@ for bar_id in max_bar_ids:
     image_path = os.path.join(image_dir, "F150W_%i.jpg"%id[bar_id])
     image = Image.open(image_path)
     max_bar_image_F200W.paste(image, (SIZE*(i%6), SIZE*(i//6)))
-    draw_max.text((SIZE*(i%6)+10, SIZE*(i//6)+10), f'z={z[bar_id]:.3f}\np_feature={p_feature[bar_id]:.3f}\np_edgeon={p_edgeon[bar_id]:.3f}\np_bar={p_arms[bar_id]:.3f}', font=font, fill=255)
+    draw_max.text((SIZE*(i%6)+10, SIZE*(i//6)+10), f'z={z[bar_id]:.3f}\np_feature={p_feature[bar_id]:.3f}\np_edgeon={p_edgeon[bar_id]:.3f}\np_arms={p_arms[bar_id]:.3f}', font=font, fill=255)
     i += 1
     
     if i == 36:
