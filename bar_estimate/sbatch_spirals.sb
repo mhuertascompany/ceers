@@ -1,0 +1,21 @@
+#!/bin/bash
+#SBATCH --job-name=bars_morph_COS-Web
+#SBATCH --output=/n03data/huertas/COSMOS-Web/jobs/spirals.out
+#SBATCH --error=/n03data/huertas/COSMOS-Web/jobs/spirals.err
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --time=00:05:00
+
+
+module load gcc/13.2.0
+module load intelpython/3-2024.0.0
+
+#comment these lines
+
+#cd /n03data/huertas/python/ceers/make_stamps
+#python make_stamps.py
+
+cd /n03data/huertas/python/ceers/bar_estimate
+#python COSMOS_bars.py
+python COSMOS_select_spiralarms.py
