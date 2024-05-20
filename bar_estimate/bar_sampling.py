@@ -110,7 +110,7 @@ for FILTER in FILTERS:
     sampling_result = pd.DataFrame(results)
 
     # Save results to CSV
-    output_path = os.path.join(cat_dir, f'bar_estimate/bars_COSMOS_{FILTER}_effnet_m27_sampling.csv')
+    output_path = os.path.join(cat_dir, f'bars_COSMOS_{FILTER}_effnet_m27_sampling.csv')
     sampling_result.to_csv(output_path, index=False)
 
     print(f'Sampling completed for filter: {FILTER}, results saved to {output_path}')
