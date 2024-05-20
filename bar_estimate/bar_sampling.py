@@ -10,7 +10,7 @@ def sample_posterior(N, pmf, n_samples=1):
 FILTERS = ['f150w', 'f277w', 'f444w']
 N_RUNS = 100
 N_VOLS = 100
-NUM_MODELS = 1  # Number of model predictions
+NUM_MODELS = 3  # Number of model predictions
 NUM_CLASSES = 5  # Number of classes per model
 
 # Load data
@@ -59,8 +59,11 @@ for FILTER in FILTERS:
         for j in range(NUM_MODELS):
             a_feature = alpha_feature_pred[j][i]
             b_feature = alpha_smooth_pred[j][i] + alpha_artifact_pred[j][i]
-            for l in range(NUM_CLASSES):
-                pmf_feature[j * NUM_CLASSES + l, :] = betabinom.pmf(range(N_VOLS + 1), N_VOLS, a_feature[l], b_feature[l])
+            if isinstance(a_feature, np.ndarray) and isinstance(b_feature, np.ndarray):
+                for l in range(NUM_CLASSES):
+                    pmf_feature[j * NUM_CLASSES + l, :] = betabinom.pmf(range(N_VOLS + 1), N_VOLS, a_feature[l], b_feature[l])
+            else:
+                pmf_feature[j, :] = betabinom.pmf(range(N_VOLS + 1), N_VOLS, a_feature, b_feature)
         mean_pmf_feature = np.mean(pmf_feature, axis=0)
         feature_count = sample_posterior(N_VOLS, mean_pmf_feature, n_samples=N_RUNS)
 
@@ -70,8 +73,11 @@ for FILTER in FILTERS:
             for j in range(NUM_MODELS):
                 a_disk = alpha_edgeon_pred[j][i]
                 b_disk = alpha_else_pred[j][i]
-                for l in range(NUM_CLASSES):
-                    pmf_edgeon[j * NUM_CLASSES + l, :] = betabinom.pmf(range(N_FEATURE + 1), N_FEATURE, a_disk[l], b_disk[l])
+                if isinstance(a_disk, np.ndarray) and isinstance(b_disk, np.ndarray):
+                    for l in range(NUM_CLASSES):
+                        pmf_edgeon[j * NUM_CLASSES + l, :] = betabinom.pmf(range(N_FEATURE + 1), N_FEATURE, a_disk[l], b_disk[l])
+                else:
+                    pmf_edgeon[j, :] = betabinom.pmf(range(N_FEATURE + 1), N_FEATURE, a_disk, b_disk)
             mean_pmf_edgeon = np.mean(pmf_edgeon, axis=0)
             edgeon_count[k] = sample_posterior(N_FEATURE, mean_pmf_edgeon)
 
@@ -80,8 +86,11 @@ for FILTER in FILTERS:
             for j in range(NUM_MODELS):
                 a_bar = alpha_strong_pred[j][i] + alpha_weak_pred[j][i]
                 b_bar = alpha_none_pred[j][i]
-                for l in range(NUM_CLASSES):
-                    pmf_bar[j * NUM_CLASSES + l, :] = betabinom.pmf(range(N_FACEON + 1), N_FACEON, a_bar[l], b_bar[l])
+                if isinstance(a_bar, np.ndarray) and isinstance(b_bar, np.ndarray):
+                    for l in range(NUM_CLASSES):
+                        pmf_bar[j * NUM_CLASSES + l, :] = betabinom.pmf(range(N_FACEON + 1), N_FACEON, a_bar[l], b_bar[l])
+                else:
+                    pmf_bar[j, :] = betabinom.pmf(range(N_FACEON + 1), N_FACEON, a_bar, b_bar)
             mean_pmf_bar = np.mean(pmf_bar, axis=0)
             bar_count[k] = sample_posterior(N_FACEON, mean_pmf_bar)
 
