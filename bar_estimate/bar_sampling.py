@@ -4,12 +4,6 @@ from scipy.stats import betabinom
 import os
 import time
 
-def str2array(s):
-    return np.fromstring(s.strip('[]'), sep=', ')
-
-def array2str(a):
-    return np.array2string(a, separator=', ')
-
 def sample_posterior(N, pmf, n_samples=1):
     return np.random.choice(np.arange(len(pmf)), size=n_samples, p=pmf/np.sum(pmf))
 
@@ -63,8 +57,8 @@ for FILTER in FILTERS:
 
         pmf_feature = np.zeros((NUM_MODELS * NUM_CLASSES, N_VOLS + 1))
         for j in range(NUM_MODELS):
-            a_feature = str2array(alpha_feature_pred[j][i])
-            b_feature = str2array(alpha_smooth_pred[j][i]) + str2array(alpha_artifact_pred[j][i])
+            a_feature = alpha_feature_pred[j][i]
+            b_feature = alpha_smooth_pred[j][i] + alpha_artifact_pred[j][i]
             for l in range(NUM_CLASSES):
                 pmf_feature[j * NUM_CLASSES + l, :] = betabinom.pmf(range(N_VOLS + 1), N_VOLS, a_feature[l], b_feature[l])
         mean_pmf_feature = np.mean(pmf_feature, axis=0)
@@ -74,8 +68,8 @@ for FILTER in FILTERS:
             N_FEATURE = feature_count[k]
             pmf_edgeon = np.zeros((NUM_MODELS * NUM_CLASSES, N_FEATURE + 1))
             for j in range(NUM_MODELS):
-                a_disk = str2array(alpha_edgeon_pred[j][i])
-                b_disk = str2array(alpha_else_pred[j][i])
+                a_disk = alpha_edgeon_pred[j][i]
+                b_disk = alpha_else_pred[j][i]
                 for l in range(NUM_CLASSES):
                     pmf_edgeon[j * NUM_CLASSES + l, :] = betabinom.pmf(range(N_FEATURE + 1), N_FEATURE, a_disk[l], b_disk[l])
             mean_pmf_edgeon = np.mean(pmf_edgeon, axis=0)
@@ -84,8 +78,8 @@ for FILTER in FILTERS:
             N_FACEON = feature_count[k] - edgeon_count[k]
             pmf_bar = np.zeros((NUM_MODELS * NUM_CLASSES, N_FACEON + 1))
             for j in range(NUM_MODELS):
-                a_bar = str2array(alpha_strong_pred[j][i]) + str2array(alpha_weak_pred[j][i])
-                b_bar = str2array(alpha_none_pred[j][i])
+                a_bar = alpha_strong_pred[j][i] + alpha_weak_pred[j][i]
+                b_bar = alpha_none_pred[j][i]
                 for l in range(NUM_CLASSES):
                     pmf_bar[j * NUM_CLASSES + l, :] = betabinom.pmf(range(N_FACEON + 1), N_FACEON, a_bar[l], b_bar[l])
             mean_pmf_bar = np.mean(pmf_bar, axis=0)
@@ -93,9 +87,9 @@ for FILTER in FILTERS:
 
         results.append({
             'id': pred.loc[i, 'id_str'],
-            'feature_count': array2str(feature_count),
-            'edgeon_count': array2str(edgeon_count),
-            'bar_count': array2str(bar_count)
+            'feature_count': np.array2string(feature_count, separator=', '),
+            'edgeon_count': np.array2string(edgeon_count, separator=', '),
+            'bar_count': np.array2string(bar_count, separator=', ')
         })
 
         if i % 100 == 0:
