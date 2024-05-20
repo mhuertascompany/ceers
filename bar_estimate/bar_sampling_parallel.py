@@ -67,7 +67,7 @@ def process_chunk(args):
     return results
 
 def parallel_process(pred, filter, alpha_feature_pred, alpha_smooth_pred, alpha_artifact_pred, alpha_edgeon_pred, alpha_else_pred, alpha_strong_pred, alpha_weak_pred, alpha_none_pred, num_runs, num_vols, num_models, num_classes):
-    num_cpus = cpu_count()
+    num_cpus = 20  # Set this to match the --cpus-per-task in your SLURM script
     chunk_size = len(pred) // num_cpus
     chunks = [pred.iloc[i:i + chunk_size] for i in range(0, len(pred), chunk_size)]
 
@@ -83,7 +83,7 @@ def parallel_process(pred, filter, alpha_feature_pred, alpha_smooth_pred, alpha_
 FILTERS = ['f150w', 'f277w', 'f444w']
 N_RUNS = 100
 N_VOLS = 100
-NUM_MODELS = 1  # Number of model predictions
+NUM_MODELS = 3  # Number of model predictions
 NUM_CLASSES = 5  # Number of classes per model
 
 # Load data
