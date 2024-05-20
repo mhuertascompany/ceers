@@ -50,8 +50,7 @@ for FILTER in FILTERS:
 
     start = time.time()
 
-    #for i in range(len(pred)):
-    for i in range(100):
+    for i in range(len(pred)):
         feature_count = np.zeros(N_RUNS, dtype=int)
         edgeon_count = np.zeros(N_RUNS, dtype=int)
         bar_count = np.zeros(N_RUNS, dtype=int)

@@ -4,7 +4,7 @@
 #SBATCH --error=/n03data/huertas/COSMOS-Web/jobs/bar_sampling.err
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --cpus-per-task=1
+#SBATCH --cpus-per-task=10
 #SBATCH --time=48:00:00
 
 
@@ -14,4 +14,4 @@ module load intelpython/3-2024.0.0
 
 
 cd /n03data/huertas/python/ceers/bar_estimate
-python bar_sampling.py
+python bar_sampling_parallel.py
