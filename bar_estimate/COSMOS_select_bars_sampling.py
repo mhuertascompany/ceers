@@ -128,7 +128,7 @@ def select_stamps_and_plot(merge,zbin,imdir,outdir):
 
 
 # Load the main catalog
-cat_dir = "/Users/marchuertascompany/Documents/data/COSMOS-Web/cats"
+cat_dir = "/n03data/huertas/COSMOS-Web/cats"
 cat_name = "COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM.fits"
 cat_cosmos = Table.read(os.path.join(cat_dir, cat_name), format='fits')
 names = [name for name in cat_cosmos.colnames if len(cat_cosmos[name].shape) <= 1]
@@ -138,9 +138,9 @@ cat = cat_cosmos[names].to_pandas()
 
 # Paths to the prediction catalogs - CHANGE PATHS WHEN DOWNLOADED
 pred_paths = {
-    'f150w': "/Users/marchuertascompany/Documents/data/COSMOS-Web/zoobot/bars_COSMOS_f277w_effnet_m27_sampling.csv",
-    'f277w': "/Users/marchuertascompany/Documents/data/COSMOS-Web/zoobot/bars_COSMOS_f277w_effnet_m27_sampling.csv",
-    'f444w': "/Users/marchuertascompany/Documents/data/COSMOS-Web/zoobot/bars_COSMOS_f444w_effnet_m27_sampling.csv"
+    'f150w': "/n03data/huertas/COSMOS-Web/cats/bars_COSMOS_f277w_effnet_m27_sampling.csv",
+    'f277w': "/n03data/huertas/COSMOS-Web/cats/bars_COSMOS_f277w_effnet_m27_sampling.csv",
+    'f444w': "/n03data/huertas/COSMOS-Web/cats/bars_COSMOS_f444w_effnet_m27_sampling.csv"
 }
 
 # Merge with each prediction catalog
