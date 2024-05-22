@@ -117,7 +117,7 @@ def select_stamps_and_plot(merge,zbin,imdir,outdir):
         image_path = os.path.join(image_dir, f"{fname}_%i.jpg"%bar_id)
         image = Image.open(image_path)
         max_bar_image.paste(image, (SIZE*(i%6), SIZE*(i//6)))
-        draw_max.text((SIZE*(i%6)+10, SIZE*(i//6)+10), f'z={z[bar_id]:.3f}\np_feature={p_feature[bar_id]:.3f}\np_bar={p_bar[bar_id]:.3f}', font=font, fill=255)
+        draw_max.text((SIZE*(i%6)+10, SIZE*(i//6)+10), f'z={z[bar_id]:.3f}\np_feature={p_feature:.3f}\np_bar={p_bar:.3f}', font=font, fill=255)
         i += 1
     
         if i == 36:
