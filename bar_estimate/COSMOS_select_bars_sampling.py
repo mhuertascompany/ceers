@@ -80,7 +80,7 @@ def select_stamps_and_plot(merge,zbin,imdir,outdir):
     if (zhigh<=1):
         filter='f150w'
         fname='F150W'
-    if (zlow>1)&(zhigh<=3):
+    if (zlow>=1)&(zhigh<=3):
         filter='f277w'
         fname='F277W'
     if (zlow>=3):
