@@ -103,7 +103,7 @@ def select_stamps_and_plot(merge,zbin,imdir,outdir):
                         (merge['LP_mass_med_PDF'] > 10) & 
                         (merge['LP_mass_med_PDF'] < 11) & 
                         (merge['AXRATIO'] > 0.5) & 
-                        (merge['p_bar_samples_mean'] > 0.5) & 
+                        (merge['p_bar_mean'] > 0.5) & 
                         (merge['p_feature_mean'] > 0.5)]
         
     
