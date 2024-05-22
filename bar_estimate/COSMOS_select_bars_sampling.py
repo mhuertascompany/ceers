@@ -77,10 +77,10 @@ def select_stamps_and_plot(merge,zbin,imdir,outdir):
     zlow=zbin[0]
     zhigh=zbin[1]
 
-    if (zlow<=1):
+    if (zhigh<=1):
         filter='f150w'
         fname='F150W'
-    if (zlow>1)&(zlow<=3):
+    if (zlow>1)&(zhigh<=3):
         filter='f277w'
         fname='F277W'
     if (zlow>=3):
@@ -113,7 +113,7 @@ def select_stamps_and_plot(merge,zbin,imdir,outdir):
     font = ImageFont.truetype(fm.findfont(fm.FontProperties(family='serif')),size=20)
     
     i=0
-    for bar_id,p_feature,p_bar,zr in zip(bars_hz.id_str.values,bars_hz.p_feature_mean.values,merge.p_bar_mean.values,merge.LP_zfinal):
+    for bar_id,p_feature,p_bar,zr in zip(bars_hz.id_str.values,bars_hz.p_feature_mean.values,bars_hz.p_bar_mean.values,bars_hz.LP_zfinal):
         image_path = os.path.join(image_dir, f"{fname}_%i.jpg"%bar_id)
         image = Image.open(image_path)
         max_bar_image.paste(image, (SIZE*(i%6), SIZE*(i//6)))
