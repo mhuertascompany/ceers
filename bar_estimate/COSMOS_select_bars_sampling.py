@@ -112,6 +112,7 @@ def select_stamps_and_plot(merge,zbin,imdir,outdir):
     draw_max = ImageDraw.Draw(max_bar_image)
     font = ImageFont.truetype(fm.findfont(fm.FontProperties(family='serif')),size=20)
     
+    i=0
     for bar_id,p_feature,p_bar in zip(bars_hz.id_str.values,bars_hz.p_feature_mean.values,merge.p_bar_mean.values):
         image_path = os.path.join(image_dir, f"{fname}_%i.jpg"%bar_id)
         image = Image.open(image_path)
