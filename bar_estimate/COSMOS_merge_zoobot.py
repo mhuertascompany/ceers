@@ -208,6 +208,21 @@ merge[['p_feature_samples', 'p_bar_samples', 'p_edgeon_samples','p_clump_samples
     lambda row: pd.Series(select_probabilities(row)), axis=1
 )
 
+
+# Ensure the p_bar_samples and p_feature_samples columns are lists/arrays
+merge['p_bar_samples'] = merge['p_bar_samples'].apply(lambda x: np.array(x))
+merge['p_feature_samples'] = merge['p_feature_samples'].apply(lambda x: np.array(x))
+merge['p_merger_samples'] = merge['p_merger_samples'].apply(lambda x: np.array(x))
+merge['p_spiral_samples'] = merge['p_spiral_samples'].apply(lambda x: np.array(x))
+merge['p_clump_samples'] = merge['p_clump_samples'].apply(lambda x: np.array(x))
+
+# Calculate the mean of the samples
+merge['p_bar_mean'] = merge['p_bar_samples'].apply(np.mean)
+merge['p_feature_mean'] = merge['p_feature_samples'].apply(np.mean)
+merge['p_spiral_mean'] = merge['p_spiral_samples'].apply(np.mean)
+merge['p_clump_mean'] = merge['p_clump_samples'].apply(np.mean)
+merge['p_merger_mean'] = merge['p_merger_samples'].apply(np.mean)
+
 #rf_mag_choices = [row['MAG_MODEL_F150W'], row['MAG_MODEL_F277W'] - 0.6, row['MAG_MODEL_F444W'] - 0.5]
 rf_mag = merge.MAG_MODEL_F150W.values
 z=merge.LP_zfinal.values
