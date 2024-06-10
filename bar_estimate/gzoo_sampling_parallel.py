@@ -109,11 +109,11 @@ def process_chunk(args):
                 b_merger = alpha_merger_none_pred[j][i]
                 if isinstance(a_merger, np.ndarray) and isinstance(b_merger, np.ndarray):
                     for l in range(num_classes):
-                        pmf_mergers[j * num_classes + l, :] = betabinom.pmf(range(N_NO_SPIRAL+N_EDGEON + 1), N_NO_SPIRAL+N_EDGEON, a_merger[l], b_merger[l])
+                        pmf_mergers[j * num_classes + l, :] = betabinom.pmf(range(N_SMOOTH +N_NO_SPIRAL+N_EDGEON + 1), N_SMOOTH +N_NO_SPIRAL+N_EDGEON, a_merger[l], b_merger[l])
                 else:
-                    pmf_mergers[j, :] = betabinom.pmf(range(N_NO_SPIRAL+N_EDGEON + 1), N_NO_SPIRAL+N_EDGEON, a_merger, b_merger)
+                    pmf_mergers[j, :] = betabinom.pmf(range(N_SMOOTH +N_NO_SPIRAL+N_EDGEON + 1), N_SMOOTH +N_NO_SPIRAL+N_EDGEON, a_merger, b_merger)
             mean_pmf_merger = np.mean(pmf_mergers, axis=0)
-            merger_count[k] = sample_posterior(N_NO_SPIRAL+N_EDGEON , mean_pmf_merger)
+            merger_count[k] = sample_posterior(N_SMOOTH +N_NO_SPIRAL+N_EDGEON , mean_pmf_merger)
 
 
         results.append({
