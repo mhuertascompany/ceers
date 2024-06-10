@@ -45,10 +45,11 @@ def process_chunk(args):
         mean_pmf_smooth = np.mean(pmf_smooth, axis=0)
         smooth_count = sample_posterior(num_vols, mean_pmf_smooth, n_samples=num_runs)
 
-        N_SMOOTH=smooth_count[k]
+        
 
         for k in range(num_runs):
             N_FEATURE = feature_count[k]
+            N_SMOOTH=smooth_count[k]
             pmf_edgeon = np.zeros((num_models * num_classes, N_FEATURE + 1))
             for j in range(num_models):
                 a_disk = alpha_edgeon_pred[j][i]
