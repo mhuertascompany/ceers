@@ -14,4 +14,4 @@ module load intelpython/3-2024.0.0
 
 
 cd /n03data/huertas/python/ceers/bar_estimate
-python bar_sampling_parallel.py
+python gzoo_sampling_parallel.py
