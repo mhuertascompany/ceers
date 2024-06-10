@@ -47,12 +47,18 @@ def select_probabilities(row):
     p_feature_choices = [row['p_feature_f150w'], row['p_feature_f277w'], row['p_feature_f444w']]
     p_bar_choices = [row['p_bar_f150w'], row['p_bar_f277w'], row['p_bar_f444w']]
     p_edgeon_choices = [row['p_edgeon_f150w'], row['p_edgeon_f277w'], row['p_edgeon_f444w']]
+    p_clump_choices = [row['p_clump_f150w'], row['p_clump_f277w'], row['p_clump_f444w']]
+    p_spiral_choices = [row['p_spiral_f150w'], row['p_spiral_f277w'], row['p_spiral_f444w']]
+    p_merger_choices = [row['p_meger_f150w'], row['p_meger_f277w'], row['p_merger_f444w']]
     #rf_mag_choices = [row['MAG_MODEL_F150W'], row['MAG_MODEL_F277W'] - 0.6, row['MAG_MODEL_F444W'] - 0.5]
 
     return (
         np.select(conditions, p_feature_choices, default=np.nan),
         np.select(conditions, p_bar_choices, default=np.nan),
         np.select(conditions, p_edgeon_choices, default=np.nan),
+        np.select(conditions, p_clump_choices, default=np.nan),
+        np.select(conditions, p_spiral_choices, default=np.nan),
+        np.select(conditions, p_merger_choices, default=np.nan),
         #np.select(conditions, rf_mag_choices, default=np.nan)  # Return single value for RF_mag_samples
     )
 
@@ -198,7 +204,7 @@ merge['p_merger_f444w'] = calculate_probabilities_merger(merge, 'merger_count_f4
 
 
 # Apply the function to each row and store the results
-merge[['p_feature_samples', 'p_bar_samples', 'p_edgeon_samples']] = merge.apply(
+merge[['p_feature_samples', 'p_bar_samples', 'p_edgeon_samples','p_clump_samples','p_spiral_samples','p_merger_samples']] = merge.apply(
     lambda row: pd.Series(select_probabilities(row)), axis=1
 )
 
