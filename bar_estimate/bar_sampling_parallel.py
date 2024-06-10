@@ -83,7 +83,7 @@ def parallel_process(pred, filter, alpha_feature_pred, alpha_smooth_pred, alpha_
 FILTERS = ['f150w', 'f277w', 'f444w']
 N_RUNS = 100
 N_VOLS = 100
-NUM_MODELS = 3  # Number of model predictions
+NUM_MODELS = 1  # Number of model predictions
 NUM_CLASSES = 5  # Number of classes per model
 
 # Load data
