@@ -90,7 +90,7 @@ def process_chunk(args):
             spiral_count[k] = sample_posterior(N_FACEON, mean_pmf_spiral)
 
             N_SPIRAL=spiral_count[k]
-            N_NO_SPIRAL = N_BAR-N_SPIRAL
+            N_NO_SPIRAL = N_FACEON-N_SPIRAL
             pmf_clumps = np.zeros((num_models * num_classes, N_NO_SPIRAL+N_EDGEON + 1))
             for j in range(num_models):
                 a_clump = alpha_clump_pred[j][i] 
