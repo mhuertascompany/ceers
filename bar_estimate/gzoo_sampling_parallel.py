@@ -45,7 +45,7 @@ def process_chunk(args):
         mean_pmf_smooth = np.mean(pmf_smooth, axis=0)
         smooth_count = sample_posterior(num_vols, mean_pmf_smooth, n_samples=num_runs)
 
-        N_SMOOTH=smooth_count
+        N_SMOOTH=smooth_count[k]
 
         for k in range(num_runs):
             N_FEATURE = feature_count[k]
