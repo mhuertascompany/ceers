@@ -49,7 +49,7 @@ def select_probabilities(row):
     p_edgeon_choices = [row['p_edgeon_f150w'], row['p_edgeon_f277w'], row['p_edgeon_f444w']]
     p_clump_choices = [row['p_clump_f150w'], row['p_clump_f277w'], row['p_clump_f444w']]
     p_spiral_choices = [row['p_spiral_f150w'], row['p_spiral_f277w'], row['p_spiral_f444w']]
-    p_merger_choices = [row['p_meger_f150w'], row['p_meger_f277w'], row['p_merger_f444w']]
+    p_merger_choices = [row['p_merger_f150w'], row['p_merger_f277w'], row['p_merger_f444w']]
     #rf_mag_choices = [row['MAG_MODEL_F150W'], row['MAG_MODEL_F277W'] - 0.6, row['MAG_MODEL_F444W'] - 0.5]
 
     return (
@@ -231,7 +231,8 @@ rf_mag[(z>3)]=merge.MAG_MODEL_F444W.values[(z>3)]-0.5
 
 merge['RF_mag']=rf_mag
 
-merge.write(os.path.join(cat_dir,'COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM_morphology_zoobot.fits'), format='fits', overwrite=True)
+merged_table = Table.from_pandas(merge)
+merged_table.write(os.path.join(cat_dir,'COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM_morphology_zoobot.fits'), format='fits', overwrite=True)
 
 #z_bins = [(1, 2), (2, 3), (3, 4), (4, 5), (5, 6)]
 
