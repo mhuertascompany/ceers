@@ -232,7 +232,21 @@ rf_mag[(z>3)]=merge.MAG_MODEL_F444W.values[(z>3)]-0.5
 merge['RF_mag']=rf_mag
 
 merged_table = Table.from_pandas(merge)
-merged_table.write(os.path.join(cat_dir,'COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM_morphology_zoobot.fits'), format='fits', overwrite=True)
+
+
+
+# Define the format for columns explicitly to use 'Q' format for large arrays
+for col in merged_table.colnames:
+    if merged_table[col].dtype.kind in ['i', 'u', 'f']:  # integer, unsigned integer, or float types
+        if np.any([isinstance(item, (list, np.ndarray)) for item in merged_table[col]]):
+            merged_table[col].format = 'Q'
+
+# Write to FITS using 'Q' format
+output_fits_path = os.path.join(cat_dir, 'COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM_morphology_zoobot.fits')
+merged_table.write(output_fits_path, format='fits', overwrite=True)
+
+print(f"File saved to: {output_fits_path}")
+
 
 #z_bins = [(1, 2), (2, 3), (3, 4), (4, 5), (5, 6)]
 
