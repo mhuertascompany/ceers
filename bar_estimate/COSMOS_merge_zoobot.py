@@ -242,9 +242,20 @@ for colname in merged_table.colnames:
     col_data = merged_table[colname]
     if isinstance(col_data[0], (list, np.ndarray)):
         data = np.array([np.array(x) for x in col_data], dtype='object')
-        fits_columns.append(fits.Column(name=colname, format='Q', array=data))
+        fits_columns.append(fits.Column(name=colname, format='PJ()', array=data))
     else:
-        fits_columns.append(fits.Column(name=colname, array=col_data))
+        # Determine the format based on the dtype of the column
+        if col_data.dtype == np.int64:
+            col_format = 'K'  # 64-bit integer
+        elif col_data.dtype == np.float64:
+            col_format = 'D'  # 64-bit float
+        elif col_data.dtype == np.int32:
+            col_format = 'J'  # 32-bit integer
+        elif col_data.dtype == np.float32:
+            col_format = 'E'  # 32-bit float
+        else:
+            col_format = 'A' + str(col_data.str.len().max())  # String columns
+        fits_columns.append(fits.Column(name=colname, format=col_format, array=col_data))
 
 # Create a FITS HDU (Header/Data Unit) from the FITS columns
 hdu = fits.BinTableHDU.from_columns(fits.ColDefs(fits_columns))
