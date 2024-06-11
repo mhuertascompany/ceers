@@ -253,8 +253,11 @@ for colname in merged_table.colnames:
             col_format = 'J'  # 32-bit integer
         elif col_data.dtype == np.float32:
             col_format = 'E'  # 32-bit float
+        elif col_data.dtype.kind in {'U', 'S'}:  # String columns
+            max_len = max(len(str(x)) for x in col_data)
+            col_format = f'A{max_len}'
         else:
-            col_format = 'A' + str(col_data.str.len().max())  # String columns
+            raise ValueError(f"Unsupported data type {col_data.dtype} for column {colname}")
         fits_columns.append(fits.Column(name=colname, format=col_format, array=col_data))
 
 # Create a FITS HDU (Header/Data Unit) from the FITS columns
