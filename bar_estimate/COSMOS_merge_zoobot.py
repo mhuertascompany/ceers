@@ -236,24 +236,23 @@ merged_table = Table.from_pandas(merge)
 
 
 
-# Identify columns that contain large arrays
-large_array_columns = [col for col in merged_table.colnames if isinstance(merged_table[col][0], (list, np.ndarray))]
-
 # Create FITS columns
 fits_columns = []
 for colname in merged_table.colnames:
-    if colname in large_array_columns:
-        data = np.array(merged_table[colname].tolist())
-        fits_columns.append(Column(name=colname, array=data, format='Q'))
+    col_data = merged_table[colname]
+    if isinstance(col_data[0], (list, np.ndarray)):
+        data = np.array([np.array(x) for x in col_data], dtype='object')
+        fits_columns.append(fits.Column(name=colname, format='Q', array=data))
     else:
-        fits_columns.append(merged_table[colname])
+        fits_columns.append(fits.Column(name=colname, array=col_data))
 
-# Create a new Astropy Table with specified column formats
-formatted_table = Table(fits_columns)
+# Create a FITS HDU (Header/Data Unit) from the FITS columns
+hdu = fits.BinTableHDU.from_columns(fits.ColDefs(fits_columns))
 
-# Write to FITS using 'Q' format for large array columns
+# Write to FITS file
 output_fits_path = os.path.join(cat_dir, 'COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM_morphology_zoobot.fits')
-formatted_table.write(output_fits_path, format='fits', overwrite=True)
+hdu.writeto(output_fits_path, overwrite=True)
+
 
 print(f"File saved to: {output_fits_path}")
 
