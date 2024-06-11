@@ -3,7 +3,8 @@ import os
 
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
-from astropy.table import Table
+from astropy.table import Table, Column
+from astropy.io import fits
 
 # ignore warnings for readability
 import warnings
@@ -235,15 +236,24 @@ merged_table = Table.from_pandas(merge)
 
 
 
-# Define the format for columns explicitly to use 'Q' format for large arrays
-for col in merged_table.colnames:
-    if merged_table[col].dtype.kind in ['i', 'u', 'f']:  # integer, unsigned integer, or float types
-        if np.any([isinstance(item, (list, np.ndarray)) for item in merged_table[col]]):
-            merged_table[col].format = 'Q'
+# Identify columns that contain large arrays
+large_array_columns = [col for col in merged_table.colnames if isinstance(merged_table[col][0], (list, np.ndarray))]
 
-# Write to FITS using 'Q' format
+# Create FITS columns
+fits_columns = []
+for colname in merged_table.colnames:
+    if colname in large_array_columns:
+        data = np.array(merged_table[colname].tolist())
+        fits_columns.append(Column(name=colname, array=data, format='Q'))
+    else:
+        fits_columns.append(merged_table[colname])
+
+# Create a new Astropy Table with specified column formats
+formatted_table = Table(fits_columns)
+
+# Write to FITS using 'Q' format for large array columns
 output_fits_path = os.path.join(cat_dir, 'COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM_morphology_zoobot.fits')
-merged_table.write(output_fits_path, format='fits', overwrite=True)
+formatted_table.write(output_fits_path, format='fits', overwrite=True)
 
 print(f"File saved to: {output_fits_path}")
 
