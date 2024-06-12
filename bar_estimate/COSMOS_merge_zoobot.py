@@ -246,25 +246,26 @@ rf_mag[(z>3)]=merge.MAG_MODEL_F444W.values[(z>3)]-0.5
 
 merge['RF_mag']=rf_mag
 
-# Function to fill NaNs in nested arrays
-def fill_nested_nans(arr, fill_value):
+# Function to fill NaNs and infinities in nested arrays
+def fill_invalid_values(arr, fill_value):
     if isinstance(arr, list):
-        return [fill_nested_nans(x, fill_value) for x in arr]
+        return [fill_invalid_values(x, fill_value) for x in arr]
     elif isinstance(arr, np.ndarray):
         arr = np.where(np.isnan(arr), fill_value, arr)
+        arr = np.where(np.isinf(arr), fill_value, arr)
         return arr
     return arr
 
 # Assuming merge is already defined as a DataFrame
 
-# Handle NaN values by filling them with appropriate placeholder values
+# Handle NaN and infinity values by filling them with appropriate placeholder values
 for col in merge.columns:
     if merge[col].dtype.kind in 'i':  # Integer columns
-        merge[col] = merge[col].fillna(-999)
+        merge[col] = merge[col].fillna(-999).replace([np.inf, -np.inf], -999)
     elif merge[col].dtype.kind in 'f':  # Float columns
-        merge[col] = merge[col].fillna(-999.0)
+        merge[col] = merge[col].fillna(-999.0).replace([np.inf, -np.inf], -999.0)
     elif isinstance(merge[col].iloc[0], (list, np.ndarray)):  # Nested arrays
-        merge[col] = merge[col].apply(lambda x: fill_nested_nans(x, -999.0))
+        merge[col] = merge[col].apply(lambda x: fill_invalid_values(x, -999.0))
 
 # Convert DataFrame to Astropy Table
 merged_table = Table.from_pandas(merge)
