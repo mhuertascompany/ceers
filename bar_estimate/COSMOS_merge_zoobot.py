@@ -270,39 +270,57 @@ for col in merge.columns:
 # Convert DataFrame to Astropy Table
 merged_table = Table.from_pandas(merge)
 
-# Create FITS columns
-fits_columns = []
-for colname in merged_table.colnames:
-    col_data = merged_table[colname]
-    if isinstance(col_data[0], (list, np.ndarray)):
-        data = np.array([np.array(x) for x in col_data], dtype='object')
-        fits_columns.append(fits.Column(name=colname, format='PJ()', array=data))
-    else:
-        # Determine the format based on the dtype of the column
-        if col_data.dtype == np.int64:
-            col_format = 'K'  # 64-bit integer
-        elif col_data.dtype == np.float64:
-            col_format = 'D'  # 64-bit float
-        elif col_data.dtype == np.int32:
-            col_format = 'J'  # 32-bit integer
-        elif col_data.dtype == np.float32:
-            col_format = 'E'  # 32-bit float
-        elif col_data.dtype == np.int16:
-            col_format = 'I'  # 16-bit integer
-        elif col_data.dtype.kind in {'U', 'S'}:  # String columns
-            max_len = max(len(str(x)) for x in col_data)
-            col_format = f'A{max_len}'
+# Define a function to process and write chunks to FITS
+def write_fits_in_chunks(df, output_path, chunk_size=10000):
+    total_rows = len(df)
+    n_chunks = (total_rows // chunk_size) + 1
+    
+    for i in range(n_chunks):
+        start = i * chunk_size
+        end = min((i + 1) * chunk_size, total_rows)
+        chunk = df.iloc[start:end]
+        
+        # Convert chunk to Astropy Table
+        chunk_table = Table.from_pandas(chunk)
+        
+        # Create FITS columns
+        fits_columns = []
+        for colname in chunk_table.colnames:
+            col_data = chunk_table[colname]
+            if isinstance(col_data[0], (list, np.ndarray)):
+                data = np.array([np.array(x) for x in col_data], dtype='object')
+                fits_columns.append(fits.Column(name=colname, format='PJ()', array=data))
+            else:
+                # Determine the format based on the dtype of the column
+                if col_data.dtype == np.int32:
+                    col_format = 'J'  # 32-bit integer
+                elif col_data.dtype == np.float32:
+                    col_format = 'E'  # 32-bit float
+                elif col_data.dtype == np.int16:
+                    col_format = 'I'  # 16-bit integer
+                elif col_data.dtype.kind in {'U', 'S'}:  # String columns
+                    max_len = max(len(str(x)) for x in col_data)
+                    col_format = f'A{max_len}'
+                else:
+                    raise ValueError(f"Unsupported data type {col_data.dtype} for column {colname}")
+                fits_columns.append(fits.Column(name=colname, format=col_format, array=col_data))
+
+        # Create a FITS HDU from the FITS columns
+        if i == 0:
+            hdu = fits.BinTableHDU.from_columns(fits.ColDefs(fits_columns))
+            hdu.writeto(output_path, overwrite=True)
         else:
-            raise ValueError(f"Unsupported data type {col_data.dtype} for column {colname}")
-        fits_columns.append(fits.Column(name=colname, format=col_format, array=col_data))
+            hdu = fits.BinTableHDU.from_columns(fits.ColDefs(fits_columns))
+            hdu.writeto(output_path, append=True)
 
 # Create a FITS HDU (Header/Data Unit) from the FITS columns
-hdu = fits.BinTableHDU.from_columns(fits.ColDefs(fits_columns))
+#hdu = fits.BinTableHDU.from_columns(fits.ColDefs(fits_columns))
 
 
 # Write to FITS file
 output_fits_path = os.path.join(cat_dir, 'COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM_morphology_zoobot.fits')
-hdu.writeto(output_fits_path, overwrite=True)
+write_fits_in_chunks(merge, output_fits_path, chunk_size=10000)
+#hdu.writeto(output_fits_path, overwrite=True)
 
 
 print(f"File saved to: {output_fits_path}")
