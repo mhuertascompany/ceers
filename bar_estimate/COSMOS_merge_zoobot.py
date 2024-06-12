@@ -232,6 +232,27 @@ rf_mag[(z>3)]=merge.MAG_MODEL_F444W.values[(z>3)]-0.5
 
 merge['RF_mag']=rf_mag
 
+# Function to fill NaNs in nested arrays
+def fill_nested_nans(arr, fill_value):
+    if isinstance(arr, list):
+        return [fill_nested_nans(x, fill_value) for x in arr]
+    elif isinstance(arr, np.ndarray):
+        arr = np.where(np.isnan(arr), fill_value, arr)
+        return arr
+    return arr
+
+# Assuming merge is already defined as a DataFrame
+
+# Handle NaN values by filling them with appropriate placeholder values
+for col in merge.columns:
+    if merge[col].dtype.kind in 'i':  # Integer columns
+        merge[col] = merge[col].fillna(-999)
+    elif merge[col].dtype.kind in 'f':  # Float columns
+        merge[col] = merge[col].fillna(-999.0)
+    elif isinstance(merge[col].iloc[0], (list, np.ndarray)):  # Nested arrays
+        merge[col] = merge[col].apply(lambda x: fill_nested_nans(x, -999.0))
+
+# Convert DataFrame to Astropy Table
 merged_table = Table.from_pandas(merge)
 
 # Create FITS columns
@@ -259,6 +280,9 @@ for colname in merged_table.colnames:
         else:
             raise ValueError(f"Unsupported data type {col_data.dtype} for column {colname}")
         fits_columns.append(fits.Column(name=colname, format=col_format, array=col_data))
+
+# Create a FITS HDU (Header/Data Unit) from the FITS columns
+hdu = fits.BinTableHDU.from_columns(fits.ColDefs(fits_columns))
 
 
 # Create a FITS HDU (Header/Data Unit) from the FITS columns
