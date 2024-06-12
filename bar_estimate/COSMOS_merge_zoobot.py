@@ -216,6 +216,7 @@ merge['p_feature_samples'] = merge['p_feature_samples'].apply(lambda x: np.array
 merge['p_merger_samples'] = merge['p_merger_samples'].apply(lambda x: np.array(x))
 merge['p_spiral_samples'] = merge['p_spiral_samples'].apply(lambda x: np.array(x))
 merge['p_clump_samples'] = merge['p_clump_samples'].apply(lambda x: np.array(x))
+merge['p_edgeon_samples'] = merge['p_edgeon_samples'].apply(lambda x: np.array(x))
 
 # Calculate the mean of the samples
 merge['p_bar_mean'] = merge['p_bar_samples'].apply(np.mean)
@@ -223,6 +224,19 @@ merge['p_feature_mean'] = merge['p_feature_samples'].apply(np.mean)
 merge['p_spiral_mean'] = merge['p_spiral_samples'].apply(np.mean)
 merge['p_clump_mean'] = merge['p_clump_samples'].apply(np.mean)
 merge['p_merger_mean'] = merge['p_merger_samples'].apply(np.mean)
+merge['p_edgeon_mean'] = merge['p_edgeon_samples'].apply(np.mean)
+
+# Remove the specified columns
+columns_to_remove = [
+    'p_bar_samples', 
+    'p_feature_samples', 
+    'p_merger_samples', 
+    'p_spiral_samples', 
+    'p_clump_samples',
+    'p_edgeon_samples'
+]
+
+merge = merge.drop(columns=columns_to_remove)
 
 #rf_mag_choices = [row['MAG_MODEL_F150W'], row['MAG_MODEL_F277W'] - 0.6, row['MAG_MODEL_F444W'] - 0.5]
 rf_mag = merge.MAG_MODEL_F150W.values
@@ -284,9 +298,6 @@ for colname in merged_table.colnames:
 # Create a FITS HDU (Header/Data Unit) from the FITS columns
 hdu = fits.BinTableHDU.from_columns(fits.ColDefs(fits_columns))
 
-
-# Create a FITS HDU (Header/Data Unit) from the FITS columns
-hdu = fits.BinTableHDU.from_columns(fits.ColDefs(fits_columns))
 
 # Write to FITS file
 output_fits_path = os.path.join(cat_dir, 'COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM_morphology_zoobot.fits')
