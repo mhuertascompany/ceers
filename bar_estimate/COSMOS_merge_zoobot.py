@@ -234,8 +234,6 @@ merge['RF_mag']=rf_mag
 
 merged_table = Table.from_pandas(merge)
 
-
-
 # Create FITS columns
 fits_columns = []
 for colname in merged_table.colnames:
