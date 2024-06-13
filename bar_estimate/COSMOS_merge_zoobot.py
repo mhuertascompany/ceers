@@ -285,7 +285,7 @@ merged_table = Table.from_pandas(merge)
 def write_fits_in_chunks(df, output_path, chunk_size=10000):
     total_rows = len(df)
     n_chunks = (total_rows // chunk_size) + 1
-    
+
     for i in range(n_chunks):
         start = i * chunk_size
         end = min((i + 1) * chunk_size, total_rows)
@@ -303,10 +303,10 @@ def write_fits_in_chunks(df, output_path, chunk_size=10000):
                 fits_columns.append(fits.Column(name=colname, format='PJ()', array=data))
             else:
                 # Determine the format based on the dtype of the column
-                if col_data.dtype == np.int32:
-                    col_format = 'J'  # 32-bit integer
-                elif col_data.dtype == np.float32:
-                    col_format = 'E'  # 32-bit float
+                if col_data.dtype == np.int64 or col_data.dtype == np.int32:
+                    col_format = 'K'  # 64-bit integer
+                elif col_data.dtype == np.float64 or col_data.dtype == np.float32:
+                    col_format = 'D'  # 64-bit float
                 elif col_data.dtype == np.int16:
                     col_format = 'I'  # 16-bit integer
                 elif col_data.dtype.kind in {'U', 'S'}:  # String columns
@@ -317,15 +317,19 @@ def write_fits_in_chunks(df, output_path, chunk_size=10000):
                 fits_columns.append(fits.Column(name=colname, format=col_format, array=col_data))
 
         # Create a FITS HDU from the FITS columns
+        hdu = fits.BinTableHDU.from_columns(fits.ColDefs(fits_columns))
+
+        # Write to FITS file
         if i == 0:
-            hdu = fits.BinTableHDU.from_columns(fits.ColDefs(fits_columns))
             hdu.writeto(output_path, overwrite=True)
         else:
-            hdu = fits.BinTableHDU.from_columns(fits.ColDefs(fits_columns))
-            hdu.writeto(output_path, append=True)
+            with fits.open(output_path, mode='append') as hdul:
+                hdul.append(hdu)
+                hdul.writeto(output_path, overwrite=True)
 
-# Create a FITS HDU (Header/Data Unit) from the FITS columns
-#hdu = fits.BinTableHDU.from_columns(fits.ColDefs(fits_columns))
+# Write the DataFrame to FITS file in chunks
+output_fits_path = 'merged_catalog.fits'
+write_fits_in_chunks(merge, output_fits_path, chunk_size=10000)
 
 
 # Write to FITS file
