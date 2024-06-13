@@ -236,7 +236,18 @@ columns_to_remove = [
     'p_edgeon_samples'
 ]
 
+def optimize_dtypes(df):
+    for col in df.columns:
+        if df[col].dtype == 'float64':
+            df[col] = df[col].astype('float32')
+        elif df[col].dtype == 'int64':
+            df[col] = df[col].astype('int32')
+    return df
+
 merge = merge.drop(columns=columns_to_remove)
+
+# Optimize data types
+merge = optimize_dtypes(merge)
 
 #rf_mag_choices = [row['MAG_MODEL_F150W'], row['MAG_MODEL_F277W'] - 0.6, row['MAG_MODEL_F444W'] - 0.5]
 rf_mag = merge.MAG_MODEL_F150W.values
