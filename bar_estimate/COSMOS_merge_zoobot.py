@@ -288,8 +288,8 @@ for col in merge.columns:
 csv_path = os.path.join(cat_dir, 'merged_catalog_tiny.csv')
 
 chunk_size = 10000
-#for start in range(0, merge.shape[0], chunk_size):
-for start in range(0, chunk_size, chunk_size):
+for start in range(0, merge.shape[0], chunk_size):
+#for start in range(0, chunk_size, chunk_size):
     end = min(start + chunk_size, merge.shape[0])
     chunk = merge.iloc[start:end]
     if start == 0:
