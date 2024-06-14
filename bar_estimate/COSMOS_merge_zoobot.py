@@ -278,19 +278,23 @@ for col in merge.columns:
     elif isinstance(merge[col].iloc[0], (list, np.ndarray)):  # Nested arrays
         merge[col] = merge[col].apply(lambda x: fill_invalid_values(x, -999.0))
 
-# Convert DataFrame to Astropy Table
-merged_table = Table.from_pandas(merge)
+# Save DataFrame to CSV file in chunks
+csv_path = os.path.join(cat_dir, 'merged_catalog.csv')
 
-# Define a function to process and write chunks to FITS
-def write_fits_in_chunks(df, output_path, chunk_size=10000):
-    total_rows = len(df)
-    n_chunks = (total_rows // chunk_size) + 1
+chunk_size = 10000
+for start in range(0, merge.shape[0], chunk_size):
+    end = min(start + chunk_size, merge.shape[0])
+    chunk = merge.iloc[start:end]
+    if start == 0:
+        chunk.to_csv(csv_path, index=False, mode='w')
+    else:
+        chunk.to_csv(csv_path, index=False, mode='a', header=False)
 
-    for i in range(n_chunks):
-        start = i * chunk_size
-        end = min((i + 1) * chunk_size, total_rows)
-        chunk = df.iloc[start:end]
-        
+print(f"DataFrame saved to CSV file: {csv_path}")
+
+# Now, convert each chunk from the CSV file to a FITS file
+def convert_csv_to_fits(csv_path, output_fits_path, chunk_size=10000):
+    for chunk in pd.read_csv(csv_path, chunksize=chunk_size):
         # Convert chunk to Astropy Table
         chunk_table = Table.from_pandas(chunk)
         
@@ -303,10 +307,10 @@ def write_fits_in_chunks(df, output_path, chunk_size=10000):
                 fits_columns.append(fits.Column(name=colname, format='PJ()', array=data))
             else:
                 # Determine the format based on the dtype of the column
-                if col_data.dtype == np.int64 or col_data.dtype == np.int32:
-                    col_format = 'K'  # 64-bit integer
-                elif col_data.dtype == np.float64 or col_data.dtype == np.float32:
-                    col_format = 'D'  # 64-bit float
+                if col_data.dtype == np.int32:
+                    col_format = 'J'  # 32-bit integer
+                elif col_data.dtype == np.float32:
+                    col_format = 'E'  # 32-bit float
                 elif col_data.dtype == np.int16:
                     col_format = 'I'  # 16-bit integer
                 elif col_data.dtype.kind in {'U', 'S'}:  # String columns
@@ -320,21 +324,17 @@ def write_fits_in_chunks(df, output_path, chunk_size=10000):
         hdu = fits.BinTableHDU.from_columns(fits.ColDefs(fits_columns))
 
         # Write to FITS file
-        if i == 0:
-            hdu.writeto(output_path, overwrite=True)
+        if not os.path.exists(output_fits_path):
+            hdu.writeto(output_fits_path, overwrite=True)
         else:
-            with fits.open(output_path, mode='append') as hdul:
+            with fits.open(output_fits_path, mode='append') as hdul:
                 hdul.append(hdu)
-                hdul.writeto(output_path, overwrite=True)
-
-# Write the DataFrame to FITS file in chunks
-output_fits_path = 'merged_catalog.fits'
-write_fits_in_chunks(merge, output_fits_path, chunk_size=10000)
+                hdul.writeto(output_fits_path, overwrite=True)
 
 
 # Write to FITS file
 output_fits_path = os.path.join(cat_dir, 'COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM_morphology_zoobot.fits')
-write_fits_in_chunks(merge, output_fits_path, chunk_size=10000)
+convert_csv_to_fits(csv_path, output_fits_path, chunk_size=10000)
 #hdu.writeto(output_fits_path, overwrite=True)
 
 
