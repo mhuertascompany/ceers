@@ -218,13 +218,19 @@ merge['p_spiral_samples'] = merge['p_spiral_samples'].apply(lambda x: np.array(x
 merge['p_clump_samples'] = merge['p_clump_samples'].apply(lambda x: np.array(x))
 merge['p_edgeon_samples'] = merge['p_edgeon_samples'].apply(lambda x: np.array(x))
 
-# Calculate the mean of the samples
-merge['p_bar_mean'] = merge['p_bar_samples'].apply(np.mean)
-merge['p_feature_mean'] = merge['p_feature_samples'].apply(np.mean)
-merge['p_spiral_mean'] = merge['p_spiral_samples'].apply(np.mean)
-merge['p_clump_mean'] = merge['p_clump_samples'].apply(np.mean)
-merge['p_merger_mean'] = merge['p_merger_samples'].apply(np.mean)
-merge['p_edgeon_mean'] = merge['p_edgeon_samples'].apply(np.mean)
+def robust_mean(arr):
+    finite_arr = arr[np.isfinite(arr)]  # Filter out inf and -inf values
+    if finite_arr.size == 0:
+        return np.nan  # If all values are non-finite, return NaN
+    return np.nanmean(finite_arr)  # Compute mean ignoring NaN values
+
+merge['p_bar_mean'] = merge['p_bar_samples'].apply(lambda x: robust_mean(np.array(x)))
+merge['p_feature_mean'] = merge['p_feature_samples'].apply(lambda x: robust_mean(np.array(x)))
+merge['p_spiral_mean'] = merge['p_spiral_samples'].apply(lambda x: robust_mean(np.array(x)))
+merge['p_clump_mean'] = merge['p_clump_samples'].apply(lambda x: robust_mean(np.array(x)))
+merge['p_merger_mean'] = merge['p_merger_samples'].apply(lambda x: robust_mean(np.array(x)))
+merge['p_edgeon_mean'] = merge['p_edgeon_samples'].apply(lambda x: robust_mean(np.array(x)))
+
 
 # Remove the specified columns
 columns_to_remove = [
