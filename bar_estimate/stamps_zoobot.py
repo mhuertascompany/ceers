@@ -68,7 +68,7 @@ def select_stamps_and_plot(merge,zbin,imdir,outdir):
 
     # Load the main catalog
 cat_dir = "/n03data/huertas/COSMOS-Web/cats"
-cat_name = "merged_catalog_tiny.csv"
+cat_name = "COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM_morphology_zoobot.csv"
 #cat_cosmos = Table.read(os.path.join(cat_dir, cat_name), format='csv')
 #names = [name for name in cat_cosmos.colnames if len(cat_cosmos[name].shape) <= 1]
 #cat = cat_cosmos[names].to_pandas()

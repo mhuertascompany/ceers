@@ -1,13 +1,15 @@
 #!/bin/bash
-#SBATCH --job-name=SMF_morph_COS-Web
-#SBATCH --output=/n03data/huertas/COSMOS-Web/jobs/smf.out
-#SBATCH --error=/n03data/huertas/COSMOS-Web/jobs/smf.err
+#SBATCH --job-name=bars_morph_COS-Web
+#SBATCH --output=/n03data/huertas/COSMOS-Web/jobs/SMFs.out
+#SBATCH --error=/n03data/huertas/COSMOS-Web/jobs/SMFs.err
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --cpus-per-task=4
-#SBATCH --time=48:00:00
+#SBATCH --cpus-per-task=1
+#SBATCH --time=10:00:00
 
-module load tensorflow/2.14
 
-cd /home/huertas/python/ceers/adversarial/SMFs
+module load gcc/13.2.0
+module load intelpython/3-2024.0.0
+
+cd /n03data/huertas/python/ceers/adversarial/SMFs
 python MCMC_SMF.py
