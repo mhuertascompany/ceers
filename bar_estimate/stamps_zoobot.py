@@ -40,9 +40,8 @@ def select_stamps_and_plot(merge,zbin,imdir,outdir):
 
     bars_hz = merge[(merge['LP_zfinal'] > zlow) & 
                         (merge['LP_zfinal'] < zhigh) & 
-                        (merge['LP_mass_med_PDF'] > 10) & 
+                        (merge['LP_mass_med_PDF'] > 9) & 
                         (merge['LP_mass_med_PDF'] < 11) & 
-                        (merge['AXRATIO'] > 0.5) & 
                         (merge['p_edgeon_mean'] > 0.5) & 
                         (merge['p_feature_mean'] > 0.5)]
         
