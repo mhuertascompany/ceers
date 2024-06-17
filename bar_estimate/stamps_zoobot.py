@@ -42,7 +42,8 @@ def select_stamps_and_plot(merge,zbin,imdir,outdir):
                         (merge['LP_zfinal'] < zhigh) & 
                         (merge['LP_mass_med_PDF'] > 9) & 
                         (merge['LP_mass_med_PDF'] < 11) & 
-                        (merge['p_edgeon_mean'] > 0.5) & 
+                        (merge['p_spiral_mean'] < 0.5) & 
+                        (merge['p_clump_mean'] > 0.5) &
                         (merge['p_feature_mean'] > 0.5)]
         
     
@@ -52,17 +53,17 @@ def select_stamps_and_plot(merge,zbin,imdir,outdir):
     font = ImageFont.truetype(fm.findfont(fm.FontProperties(family='serif')),size=20)
     
     i=0
-    for bar_id,p_feature,p_bar,zr in zip(bars_hz.id_str.values,bars_hz.p_feature_mean.values,bars_hz.p_bar_mean.values,bars_hz.LP_zfinal):
+    for bar_id,p_feature,p_bar,zr in zip(bars_hz.id_str.values,bars_hz.p_feature_mean.values,bars_hz.p_clump_mean.values,bars_hz.LP_zfinal):
         image_path = os.path.join(image_dir, f"{fname}_%i.jpg"%bar_id)
         image = Image.open(image_path)
         max_bar_image.paste(image, (SIZE*(i%6), SIZE*(i//6)))
-        draw_max.text((SIZE*(i%6)+10, SIZE*(i//6)+10), f'z={zr:.3f}\np_feature={p_feature:.3f}\np_bar={p_bar:.3f}', font=font, fill=255)
+        draw_max.text((SIZE*(i%6)+10, SIZE*(i//6)+10), f'z={zr:.3f}\np_feature={p_feature:.3f}\np_clump={p_bar:.3f}', font=font, fill=255)
         i += 1
     
         if i == 36:
             break
     
-    max_bar_image.save(os.path.join(outdir,f'edgeon_{filter}_{zlow}_{zhigh}.jpg'))
+    max_bar_image.save(os.path.join(outdir,f'clump_{filter}_{zlow}_{zhigh}.jpg'))
 
 
     # Load the main catalog
@@ -76,7 +77,7 @@ cat = pd.read_csv(os.path.join(cat_dir, cat_name))
 z_bins = [(1, 2), (2, 3), (3, 4), (4, 5), (5, 6)]
 
 for zb in z_bins:
-    select_stamps_and_plot(cat,zb,'/n03data/huertas/COSMOS-Web/zoobot/stamps/','/n03data/huertas/COSMOS-Web/zoobot/edgeon_candidates')
+    select_stamps_and_plot(cat,zb,'/n03data/huertas/COSMOS-Web/zoobot/stamps/','/n03data/huertas/COSMOS-Web/zoobot/clump_candidates')
 
 
 
