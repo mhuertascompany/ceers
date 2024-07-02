@@ -250,7 +250,7 @@ def optimize_dtypes(df):
             df[col] = df[col].astype('int32')
     return df
 
-merge = merge.drop(columns=columns_to_remove)
+#merge = merge.drop(columns=columns_to_remove)
 
 # Optimize data types
 merge = optimize_dtypes(merge)
@@ -285,7 +285,7 @@ for col in merge.columns:
         merge[col] = merge[col].apply(lambda x: fill_invalid_values(x, -999.0))
 
 # Save DataFrame to CSV file in chunks
-csv_path = os.path.join(cat_dir, 'merged_catalog_tiny.csv')
+csv_path = os.path.join(cat_dir, 'merged_catalog_samples.csv')
 
 chunk_size = 10000
 for start in range(0, merge.shape[0], chunk_size):
