@@ -2,6 +2,7 @@ import os
 import pandas as pd
 from astropy.table import Table
 import numpy as np
+from astropy.cosmology import Planck15
 
 cat_dir = "/n03data/huertas/COSMOS-Web/cats"
 filename = 'merged_catalog_samples.csv'
@@ -64,6 +65,11 @@ for sph,dk,irr,bd in zip(ceers_cat.sph_F444W_mean,ceers_cat.disk_F444W_mean,ceer
 #morph_flag[(ceers_cat.disk_f200>0.3)]=1    
 ceers_cat['morph_flag_f444w']=np.array(morph_flag)
 ceers_cat['delta_f444']=np.array(delta_value)
+
+
+size_arcmin = ceers_cat['RADIUS'].values*60
+size_kpc = size_arcmin*Planck15.kpc_proper_per_arcmin(ceers_cat['LP_zfinal'].values)
+ceers_cat['r_kpc']=size_kpc
 
 
 
