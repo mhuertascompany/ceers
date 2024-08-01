@@ -20,5 +20,4 @@ cd /n03data/huertas/python/ceers/adversarial
 #python COSMOS_bars.py
 #python generate_cutout_BW.py
 
-python /n03data/huertas/python/makeCOSMOScutouts/makeCutouts.py --source_ids 367522 285491 283240 217194 150056 100038 95829 38196 13932 2530 --output_path /n03data/huertas/COSMOS-Web/cut
-outs/f277wbw --cutout_size 2.0
+python /n03data/huertas/python/makeCOSMOScutouts/makeCutouts.py --source_ids 367522 285491 283240 217194 150056 100038 95829 38196 13932 2530 --output_path /n03data/huertas/COSMOS-Web/cutouts/f277wbw --cutout_size 2.0
