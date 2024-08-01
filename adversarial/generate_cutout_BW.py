@@ -7,7 +7,7 @@ from astropy.cosmology import Planck15
 cat_dir = "/n03data/huertas/COSMOS-Web/cats"
 filename = 'merged_catalog_samples.csv'
 ceers_cat=pd.read_csv(os.path.join(cat_dir,filename))
-ceers_cat=ceers_cat.query('LP_zfinal>1 and LP_zfinal<4 and LP_mass_med_PDF>10 and LP_mass_med_PDF<11')
+ceers_cat=ceers_cat.query('LP_zfinal>1 and LP_zfinal<4 and LP_mass_med_PDF>10 and LP_mass_med_PDF<14')
 
 
 
