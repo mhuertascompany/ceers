@@ -7,6 +7,7 @@ from astropy.cosmology import Planck15
 cat_dir = "/n03data/huertas/COSMOS-Web/cats"
 filename = 'merged_catalog_samples.csv'
 ceers_cat=pd.read_csv(os.path.join(cat_dir,filename))
+ceers_cat=ceers_cat.query('LP_zfinal>1 and LP_zfinal<4 and LP_mass_med_PDF>10 and LP_mass_med_PDF<11')
 
 
 
@@ -70,6 +71,8 @@ ceers_cat['delta_f444']=np.array(delta_value)
 size_arcmin = ceers_cat['RADIUS'].values*60
 size_kpc = size_arcmin*Planck15.kpc_proper_per_arcmin(ceers_cat['LP_zfinal'].values)
 ceers_cat['r_kpc']=size_kpc
+r_kpc = ceers_cat.r_kpc
+ceers_cat['r_kpc'] = r_kpc.values.value
 
 
 
