@@ -486,8 +486,8 @@ def get_sigma_SED(path, zmin, zmax, sample='all'):
 
     return f, np.amax(log10Ms_data)
 
-ver = 'v1.7-SED-Uncertainties'
-folderout_ver = f'/n08data/shuntov/COSMOS-Web/SMF_measurements/{ver}'
+#ver = 'v1.7-SED-Uncertainties'
+#folderout_ver = f'/n08data/shuntov/COSMOS-Web/SMF_measurements/{ver}'
 
 
 def get_smf_CW(lensID, logMass, dLogMass, mag, maglim, z, zmin, zmax, zbin, path_sigma_sed, sample, survey_area):
@@ -534,7 +534,9 @@ def get_smf_CW(lensID, logMass, dLogMass, mag, maglim, z, zmin, zmax, zbin, path
     dFi_pois = np.zeros_like(LogMassbin)
     dFi_sed = np.zeros_like(LogMassbin)
     
-    
+    ### CV errors  will be added from external file computed from the modified Moster code
+    # do interpolation
+    #cv_interp = interpolate.interp1d(cv_mass, cv_sig[zbin], kind='slinear')
     
     volume = (4*np.pi/3 * survey_area/area_fullsky * (cosmo_ap.comoving_distance(zmax)**3 - cosmo_ap.comoving_distance(zmin)**3)).value
     
@@ -545,11 +547,15 @@ def get_smf_CW(lensID, logMass, dLogMass, mag, maglim, z, zmin, zmax, zbin, path
         vmax = np.ones_like(zbin) 
         
         if len(zbin)>0:
-            vmax = v_max(maglim, magbin, zbin, zmin, zmax, survey_area)   
+            vmax = v_max(maglim, magbin, zbin, zmin, zmax, survey_area) 
             fi = np.sum(1/vmax)/dLogMass
             # THE ERRORS
             poiss_fit = poiss = np.sqrt(np.sum(1/vmax**2))/dLogMass
-            cv_rel = get_CosmicVariance_cvc(len(zbin), zmin, zmax, survey_area)
+            if True:
+                cv_rel = get_CosmicVariance_cvc(len(zbin), zmin, zmax, survey_area)
+            if False:
+                cv_rel = cv_interp(np.mean([bin_edges[k], bin_edges[k+1]])) 
+                
         elif len(zbin)<1:
             fi = 0
             fi_err = 1.841/volume/dLogMass #get_CosmicVariance_cvc(1, zmin, zmax, survey_area)

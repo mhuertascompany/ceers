@@ -193,7 +193,7 @@ zbins = [0.2, 0.5, 0.8, 1.1, 1.5, 2, 2.5, 3, 3.5, 4.5, 5.5]
 
 path_in = '/n03data/huertas/COSMOS-Web/SMF'
 os.makedirs(path_in, exist_ok=True)
-smf_files = ['smf_morph']
+smf_files = ['smf_morph_allerrors']
 
 for smf_type in smf_files:
     smf_file = os.path.join(path_in, smf_type + '.pkl')
