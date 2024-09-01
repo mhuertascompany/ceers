@@ -113,8 +113,8 @@ def fit_MCMC(smf_morph, path_out, filename, fit_range=(8.5, 11.5)):
                     initial_guess_double = [10.5, -0.6, -1.7, -2, -2]
                     pos_double = pos_func_double(initial_guess_double)
                     sampler_double = emcee.EnsembleSampler(nwalkers_double, ndim_double, log_probability_double, args=(logM, Phi, dPhi))
-                    sampler_double.run_mcmc(pos_double, 10000, progress=True)
-                    samples_double = sampler_double.get_chain(discard=2000, thin=15, flat=True)
+                    sampler_double.run_mcmc(pos_double, 35000, progress=True)
+                    samples_double = sampler_double.get_chain(discard=3000, thin=15, flat=True)
                     fit_results[(zbin, morph, 'double')] = {
                         'sampler': sampler_double,
                         'params_50': np.percentile(samples_double, 50, axis=0),
@@ -127,8 +127,8 @@ def fit_MCMC(smf_morph, path_out, filename, fit_range=(8.5, 11.5)):
                     initial_guess_single = [-2, 10.5, -1.2]
                     pos_single = pos_func_single(initial_guess_single)
                     sampler_single = emcee.EnsembleSampler(nwalkers_single, ndim_single, log_probability_single, args=(logM, Phi, dPhi))
-                    sampler_single.run_mcmc(pos_single, 10000, progress=True)
-                    samples_single = sampler_single.get_chain(discard=2000, thin=15, flat=True)
+                    sampler_single.run_mcmc(pos_single, 35000, progress=True)
+                    samples_single = sampler_single.get_chain(discard=3000, thin=15, flat=True)
                     fit_results[(zbin, morph, 'single')] = {
                         'sampler': sampler_single,
                         'params_50': np.percentile(samples_single, 50, axis=0),
