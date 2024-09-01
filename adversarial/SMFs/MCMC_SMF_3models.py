@@ -141,8 +141,8 @@ def fit_MCMC(smf_morph, path_out, filename, fit_range=(8.5, 11.5)):
                     initial_guess_DPL = [10.5, -1.5, -2.0, -2.5]
                     pos_DPL = pos_func_DPL(initial_guess_DPL)
                     sampler_DPL = emcee.EnsembleSampler(nwalkers_DPL, ndim_DPL, log_probability_DPL, args=(logM, Phi, dPhi))
-                    sampler_DPL.run_mcmc(pos_DPL, 10000, progress=True)
-                    samples_DPL = sampler_DPL.get_chain(discard=2000, thin=15, flat=True)
+                    sampler_DPL.run_mcmc(pos_DPL, 35000, progress=True)
+                    samples_DPL = sampler_DPL.get_chain(discard=3000, thin=15, flat=True)
                     fit_results[(zbin, morph,'DPL')] = {
                         'sampler': sampler_DPL,
                         'params_50': np.percentile(samples_DPL, 50, axis=0),
