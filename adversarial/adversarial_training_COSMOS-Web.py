@@ -532,7 +532,8 @@ def image_make_cutout(filename, ra1, dec1, arcsec_cut, nameout=None, get_wcs=Non
 
 def read_COSMOS_data(f,COSMOS_path):
     #name_SEpp_cat = COSMOS_path+"cats/COSMOSWeb_master_v1.6.0-sersic+BD-em_cgs_LePhare_nodupl_nomulti.fits"
-    name_SEpp_cat = COSMOS_path+"cats/  "
+    name_SEpp_cat = COSMOS_path+"cats/COSMOSWeb_master_v3.1.0-sersic-cgs_err-calib_LePhare.fits"
+    #COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM.fits"
     #/n17data/shuntov/COSMOS-Web/Catalogs/COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM.fits
     #ith fits.open(name_SEpp_cat) as hdu:
     cat_cosmos = Table.read(name_SEpp_cat, format='fits')
@@ -969,5 +970,5 @@ for f,tr in zip(filters,train):
 
     if TRAIN:
         d4 = today.strftime("%b-%d-%Y")        
-        df.to_csv(data_COSMOS+"cats/COSMOS-Web_2.0_adversarial_asinh_"+f+"_"+d4+"_4class_shuffle_"+str(nruns)+"_"+str(EPOCHS)+".csv")
+        df.to_csv(data_COSMOS+"cats/COSMOS-Web_3.0_adversarial_asinh_"+f+"_"+d4+"_4class_shuffle_"+str(nruns)+"_"+str(EPOCHS)+".csv")
 
