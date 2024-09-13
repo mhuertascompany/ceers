@@ -11,6 +11,7 @@
 
 module load intelpython/3-2024.1.0
 module load gcc/13.2.0
+module load  tensorflow/2.14
 
 
 # Set CUDA_VISIBLE_DEVICES to use GPU device 0
