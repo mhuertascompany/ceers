@@ -1,20 +1,20 @@
 #!/bin/bash
-#SBATCH --job-name=morpho_COSMOS
-#SBATCH --output=/n03data/huertas/COSMOS-Web/jobs/qsub_adversarial.out
-#SBATCH --error=/n03data/huertas/COSMOS-Web/jobs/qsub_adversarial.err
-#SBATCH --partition=comp
-#SBATCH --nodelist=n16
+#SBATCH --job-name=morpho_COSMOS-Web
+#SBATCH --output=/n03data/huertas/COSMOS-Web/jobs/adv_cweb3.out
+#SBATCH --error=/n03data/huertas/COSMOS-Web/jobs/adv_cweb3.err
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
+#SBATCH --nodelist=n16
 #SBATCH --cpus-per-task=4
+#SBATCH --time=48:00:00
 #SBATCH --gres=gpu:1
-#SBATCH --time=05:00:00
 
-module load tensorflow
+module load intelpython/3-2024.1.0
+module load gcc/13.2.0
 
 
 # Set CUDA_VISIBLE_DEVICES to use GPU device 0
 export CUDA_VISIBLE_DEVICES=0
 
-cd /home/huertas/python/ceers/adversarial
+cd /n03data/huertas/python/ceers/adversarial
 python3 adversarial_training_COSMOS-Web.py
