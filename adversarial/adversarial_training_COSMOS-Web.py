@@ -9,7 +9,7 @@ from tensorflow.python.keras import Model
 #import imageio
 import pandas as pd
 import numpy as np
-import IPython.display as display
+#import IPython.display as display
 
 #import pickle
 from astropy.io import fits
@@ -25,7 +25,7 @@ from tensorflow.keras import regularizers
 #from official.vision.image_classification.augment import RandAugment
 
 from sklearn.utils import shuffle
-import pdb
+#import pdb
 from astropy.visualization import MinMaxInterval
 interval = MinMaxInterval()
 from astropy.visualization import AsinhStretch,LogStretch
@@ -35,7 +35,7 @@ from tempfile import TemporaryFile
 
 import gc
 
-import random
+#import random
 
 
 WRITE=True
