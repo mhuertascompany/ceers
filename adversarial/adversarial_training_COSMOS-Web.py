@@ -715,7 +715,7 @@ class DomainPredictor(Model):
     return self.d5(feats)
 
     
-@tf.function
+#@tf.function
 def train_step(images, labels, images2, domains,alpha):
     
   """
@@ -775,7 +775,7 @@ def train_step(images, labels, images2, domains,alpha):
   #pdb.set_trace()
 
 
-@tf.function
+#@tf.function
 def test_step(mnist_images, labels, mnist_m_images, labels2):
   #pdb.set_trace()  
   features = feature_generator(mnist_images)
