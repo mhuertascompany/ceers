@@ -20,4 +20,4 @@ conda activate tf213
 export CUDA_VISIBLE_DEVICES=0
 
 cd /n03data/huertas/python/ceers/adversarial
-python3 adversarial_training_COSMOS-Web.py
+python adversarial_training_COSMOS-Web.py
