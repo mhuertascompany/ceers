@@ -23,4 +23,4 @@ export CUDA_VISIBLE_DEVICES=0
 #export LD_LIBRARY_PATH=$CONDA_PREFIX/lib:$LD_LIBRARY_PATH
 
 cd /n03data/huertas/python/ceers/adversarial
-python adversarial_training_COSMOS-Web.py
+python3 adversarial_training_COSMOS-Webtf214.py
