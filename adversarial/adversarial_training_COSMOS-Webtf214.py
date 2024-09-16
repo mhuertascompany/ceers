@@ -683,7 +683,7 @@ class DomainPredictor(tf.keras.Model):
         return self.d5(x)
 
     
-@tf.function
+#@tf.function
 def train_step(images, labels, images2, domains, alpha):
     with tf.GradientTape(persistent=True) as tape:
         # Forward pass
@@ -717,7 +717,7 @@ def train_step(images, labels, images2, domains, alpha):
 
 
 
-@tf.function
+#@tf.function
 def test_step(mnist_images, labels, mnist_m_images, labels2):
   #pdb.set_trace()  
   features = feature_generator(mnist_images)
