@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=bars_morph_COS-Web
-#SBATCH --output=/n03data/huertas/COSMOS-Web/jobs/bar_sampling.out
-#SBATCH --error=/n03data/huertas/COSMOS-Web/jobs/bar_sampling.err
+#SBATCH --output=/n03data/huertas/COSMOS-Web/jobs/makestamps.out
+#SBATCH --error=/n03data/huertas/COSMOS-Web/jobs/makestamps.err
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=1
@@ -14,4 +14,4 @@ module load intelpython/3-2024.0.0
 
 
 cd /n03data/huertas/python/ceers/make_stamps
-python make_stamps.py
+python3 make_stamps.py
