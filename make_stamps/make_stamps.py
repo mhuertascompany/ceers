@@ -612,7 +612,7 @@ def create_stamps_forzoobot_COSMOS(img_dir, cat_name, output_dir,filter="F150W")
     print(cat_cosmos_pd.columns)
     sel = cat_cosmos_pd.query("MAG_MODEL_F150W<27 and MAG_MODEL_F150W>0 and TILE !='JAN'")
     
-    source_ids = sel['Id']
+    source_ids = sel['ID']
     tiles = sel['TILE']
     ra  = sel['RA_MODEL']
     dec = sel['DEC_MODEL']
