@@ -664,8 +664,8 @@ def create_stamps_forzoobot_COSMOS(img_dir, cat_name, output_dir,filter="F150W")
 
 
 #create_stamps_forzoobot_JADES("/n03data/huertas/JADES/images/","/n03data/huertas/JADES/cats/JADES_DR2_PHOT_ZPHOT_PZETA_MASS_Re.fits","/n03data/huertas/JADES/zoobot/")
-#create_stamps_forzoobot_COSMOS(None,"/n03data/huertas/COSMOS-Web/cats/COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM.fits","/n03data/huertas/COSMOS-Web/zoobot/stamps/f444w",filter='F444W')
-#create_stamps_forzoobot_COSMOS(None,"/n03data/huertas/COSMOS-Web/cats/COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM.fits","/n03data/huertas/COSMOS-Web/zoobot/stamps/f277w",filter='F277W')
+create_stamps_forzoobot_COSMOS(None,"/n03data/huertas/COSMOS-Web/cats/COSMOSWeb_master_v3.1.0-sersic-cgs_err-calib_LePhare.fits","/n03data/huertas/COSMOS-Web/zoobot/stamps/f444w",filter='F444W')
+create_stamps_forzoobot_COSMOS(None,"/n03data/huertas/COSMOS-Web/cats/COSMOSWeb_master_v3.1.0-sersic-cgs_err-calib_LePhare.fits","/n03data/huertas/COSMOS-Web/zoobot/stamps/f277w",filter='F277W')
 
-create_stamps_forzoobot_CEERS("/n03data/huertas/CEERS/images","/n03data/huertas/CEERS/cats/CEERS_DR05_adversarial_asinh_4filters_1122_4class_ensemble_v02_stellar_params_morphflag_delta_10points_DenseBasis_galfit_CLASS_STAR_v052_bug.csv","/n03data/huertas/CEERS/zoobot/stamps/f150w",filter='f150w')
-create_stamps_forzoobot_COSMOS(None,"/n03data/huertas/COSMOS-Web/cats/COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM.fits","/n03data/huertas/COSMOS-Web/zoobot/stamps/f150w",filter='F150W')
+#reate_stamps_forzoobot_CEERS("/n03data/huertas/CEERS/images","/n03data/huertas/CEERS/cats/CEERS_DR05_adversarial_asinh_4filters_1122_4class_ensemble_v02_stellar_params_morphflag_delta_10points_DenseBasis_galfit_CLASS_STAR_v052_bug.csv","/n03data/huertas/CEERS/zoobot/stamps/f150w",filter='f150w')
+create_stamps_forzoobot_COSMOS(None,"/n03data/huertas/COSMOS-Web/cats/COSMOSWeb_master_v3.1.0-sersic-cgs_err-calib_LePhare.fits","/n03data/huertas/COSMOS-Web/zoobot/stamps/f150w",filter='F150W')
