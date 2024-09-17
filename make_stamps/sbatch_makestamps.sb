@@ -13,5 +13,5 @@ module load intelpython/3-2024.0.0
 
 
 
-cd /n03data/huertas/python/ceers/bot/make_stamps
+cd /n03data/huertas/python/ceers/make_stamps
 python make_stamps.py
