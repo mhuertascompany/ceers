@@ -604,11 +604,12 @@ def create_stamps_forzoobot_COSMOS(img_dir, cat_name, output_dir,filter="F150W")
     name_SEpp_cat = cat_name
     #COSMOS_path+"cats/COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM.fits"
     cat_cosmos = Table.read(name_SEpp_cat, format='fits')
+
     #cat_cosmos = hdu[1].data
     names = [name for name in cat_cosmos.colnames if len(cat_cosmos[name].shape) <= 1]
     
     cat_cosmos_pd=cat_cosmos[names].to_pandas()
-
+    print(cat_cosmos_pd.columns)
     sel = cat_cosmos_pd.query("MAG_MODEL_F150W<27 and MAG_MODEL_F150W>0 and TILE !='JAN'")
     
     source_ids = sel['Id']
