@@ -544,7 +544,7 @@ def read_COSMOS_data(f,COSMOS_path):
 
     sel = cat_cosmos_pd.query("MAG_MODEL_F150W<27 and MAG_MODEL_F150W>0 and TILE !='JAN'")
     
-    source_ids = sel['Id']
+    source_ids = sel['ID']
     tiles = sel['TILE']
     ra  = sel['RA_MODEL']
     dec = sel['DEC_MODEL']
