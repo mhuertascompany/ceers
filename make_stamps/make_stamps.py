@@ -652,7 +652,7 @@ def create_stamps_forzoobot_COSMOS(img_dir, cat_name, output_dir,filter="F150W")
                 continue  # Skip the rest of the loop and proceed with the next iteration
 
             
-            print(zero_pix_fraction(stamp))
+            print('zero pix',zero_pix_fraction(stamp))
             if zero_pix_fraction(stamp)<0.1:  # exclude images with too many null pixels
                 transform = AsinhStretch() + interval
                 norm = transform(stamp)  
