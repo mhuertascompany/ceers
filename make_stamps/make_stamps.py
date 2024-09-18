@@ -585,7 +585,7 @@ def create_stamps_forzoobot_COSMOS(img_dir, cat_name, output_dir,filter="F150W")
             name_img_det, name_img_part, sci_imas, model_imas, resid_imas, path_checkimg, imgname_chi2_c20, filters_translate = load_imgs(t.decode('utf-8'))
             print(name_img_det)
             print(sci_imas[filter])
-            pdb.set_trace()
+            #pdb.set_trace()
             try:
                 arcsec_cut =3600*0.04*re * np.sqrt(q)
                 size = 212 * np.maximum(arcsec_cut/0.03, 0.1)*0.03
