@@ -32,6 +32,7 @@ def array2img(arr,clipped_percent=0):
 
 def zero_pix_fraction(img):
     zeros = np.sum(np.max(img,axis=0)==0.)+np.sum(np.max(img,axis=1)==0.)
+    print('nzeros:',zeros)
     size = img.shape[0]
     return zeros/size
 
