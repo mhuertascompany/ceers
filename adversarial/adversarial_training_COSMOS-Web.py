@@ -512,9 +512,9 @@ def read_COSMOS_data(f,COSMOS_path):
     for idn,t,ra_cent,dec_cent in zip(source_ids,tiles,ra,dec):
         name_img_det, name_img_part, sci_imas, model_imas, resid_imas, path_checkimg, imgname_chi2_c20, filters_translate = load_imgs(t.decode('utf-8'))
         
-        print(sci_imas[f])
+        print(sci_imas[f[0]])
         try:
-            stamp, w = image_make_cutout(sci_imas[f], ra_cent, dec_cent, arcsec_cut, nameout=None, get_wcs=True)
+            stamp, w = image_make_cutout(sci_imas[f[0]], ra_cent, dec_cent, arcsec_cut, nameout=None, get_wcs=True)
             print(stamp.shape)
         except:
             print('Error creating stamp')
