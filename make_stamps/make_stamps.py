@@ -583,7 +583,7 @@ def create_stamps_forzoobot_COSMOS(img_dir, cat_name, output_dir,filter="F150W")
             if os.path.exists(file_path):
                 continue
             name_img_det, name_img_part, sci_imas, model_imas, resid_imas, path_checkimg, imgname_chi2_c20, filters_translate = load_imgs(t.decode('utf-8'))
-            print(name_img_det)
+            #print(name_img_det)
             print(sci_imas[filter])
             #pdb.set_trace()
             try:
