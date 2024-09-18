@@ -15,6 +15,7 @@ from astropy.wcs import WCS
 from astropy.visualization import MinMaxInterval
 interval = MinMaxInterval()
 from astropy.visualization import AsinhStretch,LogStretch
+import pdb
 
 # convert a greyscale numpy array to [0,255] jpg image
 def array2img(arr,clipped_percent=0):
@@ -611,7 +612,8 @@ def create_stamps_forzoobot_COSMOS(img_dir, cat_name, output_dir,filter="F150W")
     cat_cosmos_pd=cat_cosmos[names].to_pandas()
     print(cat_cosmos_pd.columns)
     sel = cat_cosmos_pd.query("MAG_MODEL_F150W<27 and MAG_MODEL_F150W>0 and TILE !='JAN'")
-    
+    print(len(sel))
+    pdb.set_trace()
     source_ids = sel['ID']
     tiles = sel['TILE']
     ra  = sel['RA_MODEL']
