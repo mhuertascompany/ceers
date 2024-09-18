@@ -567,10 +567,10 @@ def create_stamps_forzoobot_COSMOS(img_dir, cat_name, output_dir,filter="F150W")
     
     cat_cosmos_pd=cat_cosmos[names].to_pandas()
     print(cat_cosmos_pd.columns)
-    sel = cat_cosmos_pd.query("MAG_MODEL_F150W<27 and MAG_MODEL_F150W>0 and TILE !='JAN'")
+    sel = cat_cosmos_pd.query("MAG_MODEL_F150W<27 and MAG_MODEL_F150W>0") #and TILE !='JAN'")
     print(len(sel))
     #pdb.set_trace()
-    source_ids = sel['ID']
+    source_ids = sel['ID_SE++']
     tiles = sel['TILE']
     ra  = sel['RA_MODEL']
     dec = sel['DEC_MODEL']
@@ -584,27 +584,29 @@ def create_stamps_forzoobot_COSMOS(img_dir, cat_name, output_dir,filter="F150W")
                 continue
             name_img_det, name_img_part, sci_imas, model_imas, resid_imas, path_checkimg, imgname_chi2_c20, filters_translate = load_imgs(t.decode('utf-8'))
             print(name_img_det)
-            #try:
-            arcsec_cut =3600*0.04*re * np.sqrt(q)
-            size = 212 * np.maximum(arcsec_cut/0.03, 0.1)*0.03
+            print(sci_imas[f])
+            pdb.set_trace()
+            try:
+                arcsec_cut =3600*0.04*re * np.sqrt(q)
+                size = 212 * np.maximum(arcsec_cut/0.03, 0.1)*0.03
                 #size = 212*np.maximum(0.04*Re[i]*np.sqrt(axis_ratio[i])/pix_size,0.1)
-            print(size/0.03)
+                print(size/0.03)
                 #print(arcsec_cut)
-            if np.isnan(arcsec_cut):
-                print('Size')
+                if np.isnan(arcsec_cut):
+                    print('Size')
                 #pdb.set_trace()
-                continue  # Skip if size calculation results in NaN
-            stamp, w = image_make_cutout(sci_imas[filter], ra_cent, dec_cent, size*2, nameout=None, get_wcs=True)
+                    continue  # Skip if size calculation results in NaN
+                stamp, w = image_make_cutout(sci_imas[filter], ra_cent, dec_cent, size*2, nameout=None, get_wcs=True)
                 #print(stamp.shape)
-            #except:
-            #    print('Error creating stamp')
-            #    continue
+            except:
+                print('Error creating stamp')
+                continue
             full = 'nircam_'+str(t.decode())+'_'+str(idn)
             
             
             if np.isnan(stamp).any():
                 print('Nan')
-                pdb.set_trace()
+                #pdb.set_trace()
                 continue  # Skip the rest of the loop and proceed with the next iteration
 
             

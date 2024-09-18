@@ -284,16 +284,16 @@ def get_filename(path, filt, key):
                 if key in file:
                     return str(file)
 
-def load_imgs(tile,bands_to_plot):
+def load_imgs(tile):
 
     if tile in ['B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B9', 'B10']:
-        name_img_det        = f'/n17data/lpaquereau/COSMOSWeb/JAN24/mosaics/mosaic_nircam_chimean-SWLW_COSMOS-Web_30mas_{tile}.fits'
+        name_img_det        = f'/n23data2/hakins/COSMOS-Web/detection_images/detection_chi2pos_SWLW_{tile}.fits'
         sci_imas={
-            'F115W':       f'/n17data/shuntov/COSMOS-Web/Images_JAN24/mosaic_nircam_f115w_COSMOS-Web_30mas_{tile}_sci.fits',
-            'F150W':       f'/n17data/shuntov/COSMOS-Web/Images_JAN24/mosaic_nircam_f150w_COSMOS-Web_30mas_{tile}_sci.fits',
-            'F277W':       f'/n17data/shuntov/COSMOS-Web/Images_JAN24/mosaic_nircam_f277w_COSMOS-Web_30mas_{tile}_sci.fits',
-            'F444W':       f'/n17data/shuntov/COSMOS-Web/Images_JAN24/mosaic_nircam_f444w_COSMOS-Web_30mas_{tile}_sci.fits',
-            'F770W':       f'/n17data/shuntov/COSMOS-Web/Images_MIRI/JAN24_v0.6/mosaic_miri_f770w_COSMOS-Web_30mas_{tile}_v0_6_sci.fits',
+            'F115W':       f'/n17data/shuntov/COSMOS-Web/Images_NIRCam/v0.8/mosaic_nircam_f115w_COSMOS-Web_30mas_{tile}_v0_8_sci.fits',
+            'F150W':       f'/n17data/shuntov/COSMOS-Web/Images_NIRCam/v0.8/mosaic_nircam_f150w_COSMOS-Web_30mas_{tile}_v0_8_sci.fits',
+            'F277W':       f'/n17data/shuntov/COSMOS-Web/Images_NIRCam/v0.8/mosaic_nircam_f277w_COSMOS-Web_30mas_{tile}_v0_8_sci.fits',
+            'F444W':       f'/n17data/shuntov/COSMOS-Web/Images_NIRCam/v0.8/mosaic_nircam_f444w_COSMOS-Web_30mas_{tile}_v0_8_sci.fits',
+            'F770W':       f'/n17data/shuntov/COSMOS-Web/Images_MIRI/Full_v0.7/mosaic_miri_f770w_COSMOS-Web_60mas_{tile}_v0_7_sci.fits',
             'HST-F814W':   f'/n17data/shuntov/COSMOS-Web/Images_HST-ACS/Jan24Tiles/mosaic_cosmos_web_2024jan_30mas_tile_{tile}_hst_acs_wfc_f814w_drz_zp-28.09.fits',
             'CFHT-u':      f'/n17data/shuntov/CWEB-GroundData-Tiles/COSMOS.U2.clipped_zp-28.09_{tile}.fits',
             'HSC-g':       f'/n17data/shuntov/HSC_Tiles-JAN24/{tile}--cutout-HSC-G-9813-pdr3_dud_rev_sci_zp-28.09.fits',
@@ -304,11 +304,11 @@ def load_imgs(tile,bands_to_plot):
             'HSC-NB0816':  f'/n17data/shuntov/HSC_Tiles-JAN24/{tile}--cutout-NB0816-9813-pdr3_dud_rev_sci_zp-28.09.fits',
             'HSC-NB0921':  f'/n17data/shuntov/HSC_Tiles-JAN24/{tile}--cutout-NB0921-9813-pdr3_dud_rev_sci_zp-28.09.fits',
             'HSC-NB1010':  f'/n17data/shuntov/HSC_Tiles-JAN24/{tile}--cutout-NB1010-9813-pdr3_dud_rev_sci_zp-28.09.fits',
-            'UVISTA-Y':    f'/n17data/shuntov/CWEB-GroundData-Tiles/UVISTA_Y_12_07_22_allpaw_skysub_015_dr5_rc_v1_zp-28.09_{tile}.fits',
-            'UVISTA-J':    f'/n17data/shuntov/CWEB-GroundData-Tiles/UVISTA_J_12_07_22_allpaw_skysub_015_dr5_rc_v1_zp-28.09_{tile}.fits',
-            'UVISTA-H':    f'/n17data/shuntov/CWEB-GroundData-Tiles/UVISTA_H_12_07_22_allpaw_skysub_015_dr5_rc_v1_zp-28.09_{tile}.fits',
-            'UVISTA-Ks':   f'/n17data/shuntov/CWEB-GroundData-Tiles/UVISTA_Ks_12_07_22_allpaw_skysub_015_dr5_rc_v1_zp-28.09_{tile}.fits',
-            'UVISTA-NB118':f'/n17data/shuntov/CWEB-GroundData-Tiles/UVISTA_NB118_12_07_22_allpaw_skysub_015_dr5_rc_v1_zp-28.09_{tile}.fits',
+            'UVISTA-Y':    f'/n17data/shuntov/CWEB-GroundData-Tiles/UVISTA_Y_12_01_24_allpaw_skysub_015_dr6_rc_v1_zp-28.09_{tile}.fits',
+            'UVISTA-J':    f'/n17data/shuntov/CWEB-GroundData-Tiles/UVISTA_J_12_01_24_allpaw_skysub_015_dr6_rc_v1_zp-28.09_{tile}.fits',
+            'UVISTA-H':    f'/n17data/shuntov/CWEB-GroundData-Tiles/UVISTA_H_12_01_24_allpaw_skysub_015_dr6_rc_v1_zp-28.09_{tile}.fits',
+            'UVISTA-Ks':   f'/n17data/shuntov/CWEB-GroundData-Tiles/UVISTA_Ks_12_01_24_allpaw_skysub_015_dr6_rc_v1_zp-28.09_{tile}.fits',
+            'UVISTA-NB118':f'/n17data/shuntov/CWEB-GroundData-Tiles/UVISTA_NB118_12_01_24_allpaw_skysub_015_dr6_rc_v1_zp-28.09_{tile}.fits',
             'SC-IA484':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L484_20-09-29a_cosmos_zp-28.09_{tile}.fits',
             'SC-IA527':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L527_20-09-29a_cosmos_zp-28.09_{tile}.fits',
             'SC-IA624':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L624_20-09-29a_cosmos_zp-28.09_{tile}.fits',
@@ -321,55 +321,18 @@ def load_imgs(tile,bands_to_plot):
             'SC-IB709':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L709_20-09-29a_cosmos_zp-28.09_{tile}.fits',
             'SC-IB827':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L827_20-09-29a_cosmos_zp-28.09_{tile}.fits',
             'SC-NB711':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L711_20-09-29a_cosmos_zp-28.09_{tile}.fits',
-            'SC-NB816':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L816_20-09-29a_cosmos_zp-28.09_{tile}.fits'
-        }
-
-    if tile == 'JAN':
-        name_img_det        = f'/n17data/shuntov/COSMOS-Web/Images_NIRCam_jwst-pipe/v0.004/mosaic-chi2-SWLW_COSMOS-Web_30mas_resc100.fits'
-        sci_imas={
-            'F115W':      f'/n17data/shuntov/COSMOS-Web/Images_NIRCam_jwst-pipe/v0.004/mosaic-NIRCAM_v0.004_F115W_30mas_sci.fits',
-            'F150W':      f'/n17data/shuntov/COSMOS-Web/Images_NIRCam_jwst-pipe/v0.004/mosaic-NIRCAM_v0.004_F150W_30mas_sci.fits',
-            'F277W':      f'/n17data/shuntov/COSMOS-Web/Images_NIRCam_jwst-pipe/v0.004/mosaic-NIRCAM_v0.004_F277W_30mas_sci.fits',
-            'F444W':      f'/n17data/shuntov/COSMOS-Web/Images_NIRCam_jwst-pipe/v0.004/mosaic-NIRCAM_v0.004_F444W_30mas_sci.fits',
-            'F770W':      f'/n17data/shuntov/COSMOS-Web/Images_MIRI/v0.11/mosaic-MIRI_v0.2_F770W_60mas_sci_zp-28.09.fits',
-            'HST-F814W':  f'/n17data/shuntov/COSMOS-Web/Images_HST-ACS/mosaic_cosmos_web_2023jan_30mas_hst_acs_wfc_f814w_drz.fits',
-            'CFHT-u':      f'/n07data/shuntov/COSMOS2020_Images/cutouts/CUTOUT-Full-JAN23_COSMOS.U2.clipped_zp-28.09.fits',
-            'HSC-g':       f'/n17data/shuntov/COSMOS-Web/HSC-PDR3/cutout-HSC-G-9813-pdr3_dud_rev-230405-092448_sci_fscaled.fits',
-            'HSC-r':       f'/n17data/shuntov/COSMOS-Web/HSC-PDR3/cutout-HSC-R-9813-pdr3_dud_rev-230405-092451_sci_fscaled.fits',
-            'HSC-i':       f'/n17data/shuntov/COSMOS-Web/HSC-PDR3/cutout-HSC-I-9813-pdr3_dud_rev-230405-092454_sci_fscaled.fits',
-            'HSC-z':       f'/n17data/shuntov/COSMOS-Web/HSC-PDR3/cutout-HSC-Z-9813-pdr3_dud_rev-230405-092457_sci_fscaled.fits',
-            'HSC-y':       f'/n17data/shuntov/COSMOS-Web/HSC-PDR3/cutout-HSC-Y-9813-pdr3_dud_rev-230405-092500_sci_fscaled.fits',
-            'HSC-NB0816':  f'/n17data/shuntov/COSMOS-Web/HSC-PDR3/cutout-NB0816-9813-pdr3_dud_rev-230405-092516_sci_fscaled.fits',
-            'HSC-NB0921':  f'/n17data/shuntov/COSMOS-Web/HSC-PDR3/cutout-NB0921-9813-pdr3_dud_rev-230405-092553_sci_fscaled.fits',
-            'HSC-NB1010':  f'/n17data/shuntov/COSMOS-Web/HSC-PDR3/cutout-NB1010-9813-pdr3_dud_rev-230405-092607_sci_fscaled.fits',
-            'UVISTA-Y':    f'/n07data/shuntov/UVISTA_DR5/cutouts/CUTOUT-Full-JAN23_UVISTA_Y_12_07_22_allpaw_skysub_015_dr5_rc_v1_zp-28.09.fits',
-            'UVISTA-J':    f'/n07data/shuntov/UVISTA_DR5/cutouts/CUTOUT-Full-JAN23_UVISTA_J_12_07_22_allpaw_skysub_015_dr5_rc_v1_zp-28.09.fits',
-            'UVISTA-H':    f'/n07data/shuntov/UVISTA_DR5/cutouts/CUTOUT-Full-JAN23_UVISTA_H_12_07_22_allpaw_skysub_015_dr5_rc_v1_zp-28.09.fits',
-            'UVISTA-Ks':   f'/n07data/shuntov/UVISTA_DR5/cutouts/CUTOUT-Full-JAN23_UVISTA_Ks_12_07_22_allpaw_skysub_015_dr5_rc_v1_zp-28.09.fits',
-            'UVISTA-NB118':f'/n07data/shuntov/UVISTA_DR5/cutouts/CUTOUT-Full-JAN23_UVISTA_NB118_12_07_22_allpaw_skysub_015_dr5_rc_v1_zp-28.09.fits',
-            'SC-IA484':    f'/n07data/shuntov/COSMOS2020_Images/cutouts/CUTOUT-Full-JAN23_SPC_L484_20-09-29a_cosmos_zp-28.09.fits',
-            'SC-IA527':    f'/n07data/shuntov/COSMOS2020_Images/cutouts/CUTOUT-Full-JAN23_SPC_L527_20-09-29a_cosmos_zp-28.09.fits',
-            'SC-IA624':    f'/n07data/shuntov/COSMOS2020_Images/cutouts/CUTOUT-Full-JAN23_SPC_L624_20-09-29a_cosmos_zp-28.09.fits',
-            'SC-IA679':    f'/n07data/shuntov/COSMOS2020_Images/cutouts/CUTOUT-Full-JAN23_SPC_L679_20-09-29a_cosmos_zp-28.09.fits',
-            'SC-IA738':    f'/n07data/shuntov/COSMOS2020_Images/cutouts/CUTOUT-Full-JAN23_SPC_L738_20-09-29a_cosmos_zp-28.09.fits',
-            'SC-IA767':    f'/n07data/shuntov/COSMOS2020_Images/cutouts/CUTOUT-Full-JAN23_SPC_L767_20-09-29a_cosmos_zp-28.09.fits',
-            'SC-IB427':    f'/n07data/shuntov/COSMOS2020_Images/cutouts/CUTOUT-Full-JAN23_SPC_L427_20-09-29a_cosmos_zp-28.09.fits',
-            'SC-IB505':    f'/n07data/shuntov/COSMOS2020_Images/cutouts/CUTOUT-Full-JAN23_SPC_L505_20-09-29a_cosmos_zp-28.09.fits',
-            'SC-IB574':    f'/n07data/shuntov/COSMOS2020_Images/cutouts/CUTOUT-Full-JAN23_SPC_L574_20-09-29a_cosmos_zp-28.09.fits',
-            'SC-IB709':    f'/n07data/shuntov/COSMOS2020_Images/cutouts/CUTOUT-Full-JAN23_SPC_L709_20-09-29a_cosmos_zp-28.09.fits',
-            'SC-IB827':    f'/n07data/shuntov/COSMOS2020_Images/cutouts/CUTOUT-Full-JAN23_SPC_L827_20-09-29a_cosmos_zp-28.09.fits',
-            'SC-NB711':    f'/n07data/shuntov/COSMOS2020_Images/cutouts/CUTOUT-Full-JAN23_SPC_L711_20-09-29a_cosmos_zp-28.09.fits',
-            'SC-NB816':    f'/n07data/shuntov/COSMOS2020_Images/cutouts/CUTOUT-Full-JAN23_SPC_L816_20-09-29a_cosmos_zp-28.09.fits'
+            'SC-NB816':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L816_20-09-29a_cosmos_zp-28.09_{tile}.fits',
+            'ALMA-1mm':    f'/n17data/shuntov/ALMA-CHAMPS/coadd.fits'
             }
 
     if tile in ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10']:
-        name_img_det        = f'/n17data/shuntov/COSMOS-Web/Images_April/mosaic-chi2-SWLW_COSMOS-Web_30mas_{tile}.fits'
+        name_img_det        = f'/n23data2/hakins/COSMOS-Web/detection_images/detection_chi2pos_SWLW_{tile}.fits'
         sci_imas={
-            'F115W':       f'/n23data2/lpaquereau/COSMOSWeb/APR23/mosaics_v0.002/mosaic_nircam_f115w_COSMOS-Web_30mas_{tile}_v0_002_i2d_split.fits',
-            'F150W':       f'/n23data2/lpaquereau/COSMOSWeb/APR23/mosaics_v0.002/mosaic_nircam_f150w_COSMOS-Web_30mas_{tile}_v0_002_i2d_split.fits',
-            'F277W':       f'/n23data2/lpaquereau/COSMOSWeb/APR23/mosaics_v0.002/mosaic_nircam_f277w_COSMOS-Web_30mas_{tile}_v0_002_i2d_split.fits',
-            'F444W':       f'/n23data2/lpaquereau/COSMOSWeb/APR23/mosaics_v0.002/mosaic_nircam_f444w_COSMOS-Web_30mas_{tile}_v0_002_i2d_split.fits',
-            'F770W':       f'/n17data/shuntov/COSMOS-Web/Images_MIRI/APR23_v0.001/mosaic_miri_f770w_COSMOS-Web_30mas_{tile}_v0_01_sci.fits',
+            'F115W':       f'/n17data/shuntov/COSMOS-Web/Images_NIRCam/v0.8/mosaic_nircam_f115w_COSMOS-Web_30mas_{tile}_v0_8_sci.fits',
+            'F150W':       f'/n17data/shuntov/COSMOS-Web/Images_NIRCam/v0.8/mosaic_nircam_f150w_COSMOS-Web_30mas_{tile}_v0_8_sci.fits',
+            'F277W':       f'/n17data/shuntov/COSMOS-Web/Images_NIRCam/v0.8/mosaic_nircam_f277w_COSMOS-Web_30mas_{tile}_v0_8_sci.fits',
+            'F444W':       f'/n17data/shuntov/COSMOS-Web/Images_NIRCam/v0.8/mosaic_nircam_f444w_COSMOS-Web_30mas_{tile}_v0_8_sci.fits',
+            'F770W':       f'/n17data/shuntov/COSMOS-Web/Images_MIRI/Full_v0.7/mosaic_miri_f770w_COSMOS-Web_60mas_{tile}_v0_7_sci.fits',
             'HST-F814W':   f'/n17data/shuntov/COSMOS-Web/Images_HST-ACS/AprilTiles/mosaic_cosmos_web_2023apr_30mas_tile_{tile}_hst_acs_wfc_f814w_drz_zp-28.09.fits',
             'CFHT-u':      f'/n17data/shuntov/CWEB-GroundData-Tiles/COSMOS.U2.clipped_zp-28.09_{tile}.fits',
             'HSC-g':       f'/n17data/shuntov/CWEB-GroundData-Tiles/cutout-HSC-G-9813-pdr3_dud_rev-230412-135737_sci_zp-28.09_{tile}.fits',
@@ -379,12 +342,12 @@ def load_imgs(tile,bands_to_plot):
             'HSC-y':       f'/n17data/shuntov/CWEB-GroundData-Tiles/cutout-HSC-Y-9813-pdr3_dud_rev-230413-121631_sci_zp-28.09_{tile}.fits',
             'HSC-NB0816':  f'/n17data/shuntov/CWEB-GroundData-Tiles/cutout-NB0816-9813-pdr3_dud_rev-230413-121622_sci_zp-28.09_{tile}.fits',
             'HSC-NB0921':  f'/n17data/shuntov/CWEB-GroundData-Tiles/cutout-NB0921-9813-pdr3_dud_rev-230413-121626_sci_zp-28.09_{tile}.fits',
-            'HSC-NB1010':  f'/n17data/shuntov/CWEB-GroundData-Tiles/cutout-NB1010-9813-pdr3_dud_rev-230413-121845_sci_zp-28.09_{tile}.fits', 
-            'UVISTA-Y':    f'/n17data/shuntov/CWEB-GroundData-Tiles/UVISTA_Y_12_07_22_allpaw_skysub_015_dr5_rc_v1_zp-28.09_{tile}.fits',
-            'UVISTA-J':    f'/n17data/shuntov/CWEB-GroundData-Tiles/UVISTA_J_12_07_22_allpaw_skysub_015_dr5_rc_v1_zp-28.09_{tile}.fits',
-            'UVISTA-H':    f'/n17data/shuntov/CWEB-GroundData-Tiles/UVISTA_H_12_07_22_allpaw_skysub_015_dr5_rc_v1_zp-28.09_{tile}.fits',
-            'UVISTA-Ks':   f'/n17data/shuntov/CWEB-GroundData-Tiles/UVISTA_Ks_12_07_22_allpaw_skysub_015_dr5_rc_v1_zp-28.09_{tile}.fits',
-            'UVISTA-NB118':f'/n17data/shuntov/CWEB-GroundData-Tiles/UVISTA_NB118_12_07_22_allpaw_skysub_015_dr5_rc_v1_zp-28.09_{tile}.fits',
+            'HSC-NB1010':  f'/n17data/shuntov/CWEB-GroundData-Tiles/cutout-NB1010-9813-pdr3_dud_rev-230413-121845_sci_zp-28.09_{tile}.fits',
+            'UVISTA-Y':    f'/n17data/shuntov/CWEB-GroundData-Tiles/UVISTA_Y_12_01_24_allpaw_skysub_015_dr6_rc_v1_zp-28.09_{tile}.fits',
+            'UVISTA-J':    f'/n17data/shuntov/CWEB-GroundData-Tiles/UVISTA_J_12_01_24_allpaw_skysub_015_dr6_rc_v1_zp-28.09_{tile}.fits',
+            'UVISTA-H':    f'/n17data/shuntov/CWEB-GroundData-Tiles/UVISTA_H_12_01_24_allpaw_skysub_015_dr6_rc_v1_zp-28.09_{tile}.fits',
+            'UVISTA-Ks':   f'/n17data/shuntov/CWEB-GroundData-Tiles/UVISTA_Ks_12_01_24_allpaw_skysub_015_dr6_rc_v1_zp-28.09_{tile}.fits',
+            'UVISTA-NB118':f'/n17data/shuntov/CWEB-GroundData-Tiles/UVISTA_NB118_12_01_24_allpaw_skysub_015_dr6_rc_v1_zp-28.09_{tile}.fits',
             'SC-IA484':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L484_20-09-29a_cosmos_zp-28.09_{tile}.fits',
             'SC-IA527':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L527_20-09-29a_cosmos_zp-28.09_{tile}.fits',
             'SC-IA624':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L624_20-09-29a_cosmos_zp-28.09_{tile}.fits',
@@ -397,7 +360,8 @@ def load_imgs(tile,bands_to_plot):
             'SC-IB709':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L709_20-09-29a_cosmos_zp-28.09_{tile}.fits',
             'SC-IB827':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L827_20-09-29a_cosmos_zp-28.09_{tile}.fits',
             'SC-NB711':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L711_20-09-29a_cosmos_zp-28.09_{tile}.fits',
-            'SC-NB816':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L816_20-09-29a_cosmos_zp-28.09_{tile}.fits'
+            'SC-NB816':    f'/n17data/shuntov/CWEB-GroundData-Tiles/SPC_L816_20-09-29a_cosmos_zp-28.09_{tile}.fits',
+            'ALMA-1mm':    f'/n17data/shuntov/ALMA-CHAMPS/coadd.fits'
             }
         if tile in ['A1', 'A2', 'A3', 'A8', 'A7', 'A6']:
             sci_imas['HSC-g'] =      f'/n17data/shuntov/CWEB-GroundData-Tiles/cutout-HSC-G-9813-pdr3_dud_rev-230412-135737_sci_zp-28.09_{tile}.fits'
@@ -427,34 +391,23 @@ def load_imgs(tile,bands_to_plot):
 
 
 
+
     imgname_chi2_c20 = '/n08data/COSMOS2020/images/COSMOS2020_izYJHKs_chimean-v3.fits'
 
     if tile in ['B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B9', 'B10']:
-        ver = 'v2.1.0'
-        path_checkimg = f'/n17data/shuntov/COSMOS-Web/CheckImages/JAN24-{tile}_{ver}-FF/'
+        ver = 'v3.1.0'
+        path_checkimg = f'/n17data/shuntov/COSMOS-Web/CheckImages/JAN24-{tile}_{ver}-ASC/'
 
     if tile in ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10']:
-        ver = 'v1.5.0'
-        path_checkimg = f'/n17data/shuntov/COSMOS-Web/CheckImages/APR-{tile}_{ver}-FF/'
+        ver = 'v3.1.0'
+        path_checkimg = f'/n17data/shuntov/COSMOS-Web/CheckImages/JAN24-{tile}_{ver}-ASC/'
 
-    name_img_part  = path_checkimg+get_filename(path_checkimg, '', '_partition.fits')
+    # name_img_part  = path_checkimg+get_filename(path_checkimg, '', '_partition.fits')
+    name_img_part = f'/n17data/shuntov/COSMOS-Web/ASSOC-files/SE-hotcold_{tile}_grouped_assoc.fits'
     model_imas = {}
     resid_imas = {}
 
-    # print(path_checkimg)
-    for filt in bands_to_plot:
-        f = get_filename(path_checkimg, filters_translate[filt], 'model')
-        try:
-            model_imas[filt] = path_checkimg + f
-        except TypeError as err:
-            print('Error for', tile, ':', err, path_checkimg, f)
-
-        f = get_filename(path_checkimg, filters_translate[filt], 'resid')
-        try:
-            resid_imas[filt] = path_checkimg + f
-        except TypeError as err:
-            print('Error for', tile, ':', err, 'and filter', filt, path_checkimg, f)
-            print('\n There seems to be an error for this galaxy\n')
+  
 
 
     return name_img_det, name_img_part, sci_imas, model_imas, resid_imas, path_checkimg, imgname_chi2_c20, filters_translate
@@ -542,9 +495,9 @@ def read_COSMOS_data(f,COSMOS_path):
     
     cat_cosmos_pd=cat_cosmos[names].to_pandas()
 
-    sel = cat_cosmos_pd.query("MAG_MODEL_F150W<27 and MAG_MODEL_F150W>0 and TILE !='JAN'")
+    sel = cat_cosmos_pd.query("MAG_MODEL_F150W<27 and MAG_MODEL_F150W>0") #and TILE !='JAN'")
     
-    source_ids = sel['ID']
+    source_ids = sel['ID_SE++']
     tiles = sel['TILE']
     ra  = sel['RA_MODEL']
     dec = sel['DEC_MODEL']
@@ -557,11 +510,11 @@ def read_COSMOS_data(f,COSMOS_path):
     decvec=[]
 
     for idn,t,ra_cent,dec_cent in zip(source_ids,tiles,ra,dec):
-        name_img_det, name_img_part, sci_imas, model_imas, resid_imas, path_checkimg, imgname_chi2_c20, filters_translate = load_imgs(t.decode('utf-8'),f)
+        name_img_det, name_img_part, sci_imas, model_imas, resid_imas, path_checkimg, imgname_chi2_c20, filters_translate = load_imgs(t.decode('utf-8'))
         
-        print(name_img_det)
+        print(sci_imas[f])
         try:
-            stamp, w = image_make_cutout(name_img_det, ra_cent, dec_cent, arcsec_cut, nameout=None, get_wcs=True)
+            stamp, w = image_make_cutout(sci_imas[f], ra_cent, dec_cent, arcsec_cut, nameout=None, get_wcs=True)
             print(stamp.shape)
         except:
             print('Error creating stamp')
