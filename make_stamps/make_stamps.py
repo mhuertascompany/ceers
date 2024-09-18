@@ -34,6 +34,7 @@ def zero_pix_fraction(img):
     zeros = np.sum(np.max(img,axis=0)==0.)+np.sum(np.max(img,axis=1)==0.)
     print('nzeros:',zeros)
     size = img.shape[0]
+    print('size',size)
     return zeros/size
 
 
