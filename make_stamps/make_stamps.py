@@ -613,7 +613,7 @@ def create_stamps_forzoobot_COSMOS(img_dir, cat_name, output_dir,filter="F150W")
     print(cat_cosmos_pd.columns)
     sel = cat_cosmos_pd.query("MAG_MODEL_F150W<27 and MAG_MODEL_F150W>0 and TILE !='JAN'")
     print(len(sel))
-    pdb.set_trace()
+    #pdb.set_trace()
     source_ids = sel['ID']
     tiles = sel['TILE']
     ra  = sel['RA_MODEL']
@@ -635,6 +635,8 @@ def create_stamps_forzoobot_COSMOS(img_dir, cat_name, output_dir,filter="F150W")
             print(size/0.03)
                 #print(arcsec_cut)
             if np.isnan(arcsec_cut):
+                print('Size')
+                pdb.set_trace()
                 continue  # Skip if size calculation results in NaN
             stamp, w = image_make_cutout(name_img_det, ra_cent, dec_cent, size*2, nameout=None, get_wcs=True)
                 #print(stamp.shape)
@@ -645,10 +647,11 @@ def create_stamps_forzoobot_COSMOS(img_dir, cat_name, output_dir,filter="F150W")
             
             
             if np.isnan(stamp).any():
+                print('Nan')
                 continue  # Skip the rest of the loop and proceed with the next iteration
 
             
-
+            
             if zero_pix_fraction(stamp)<0.1:  # exclude images with too many null pixels
                 transform = AsinhStretch() + interval
                 norm = transform(stamp)  
