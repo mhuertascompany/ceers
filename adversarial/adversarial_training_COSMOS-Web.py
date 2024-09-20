@@ -35,6 +35,8 @@ from tempfile import TemporaryFile
 
 import gc
 
+import pdb
+
 #import random
 
 
@@ -810,6 +812,9 @@ for f,tr in zip(filters,train):
     if os.path.exists(data_COSMOS+'image_arrays/COSMOSWeb_master_v3.1.0_image_arrays_'+f+'.npz'):
         print("Loading saved array with data from filter "+f)
         data = np.load(data_COSMOS+'image_arrays/COSMOSWeb_master_v3.1.0_image_arrays_'+f+'.npz',allow_pickle=True)
+        print(np.mean(data))
+        print(np.var(data))
+        pdb.set_trace()
         # Access the saved variables
         X_JWST = data['stamps']
         fullvec = data['fullvec']
