@@ -765,7 +765,7 @@ nruns = 10  #set to 0 for skip training
 
 #filters=['f150w','f200w','f356w','f444w']
 #filters = ['F150W', 'F277W', 'F444W']
-filters = ['F444W']
+filters = ['F150W']
 train = [1,1,1]
 
 data_path = "/n03data/huertas/CANDELS/"
@@ -830,7 +830,7 @@ for f,tr in zip(filters,train):
         hdul = fits.HDUList([hdu])
 
         # Define the output filename
-        output_filename = os.path.join(data_COSMOS,'image_arrays/first_image'+f'+.fits')
+        output_filename = os.path.join(data_COSMOS,'image_arrays/first_image_'+f+'.fits')
 
         # Write to the FITS file, overwriting if it already exists
         hdul.writeto(output_filename, overwrite=True)
