@@ -815,7 +815,7 @@ for f,tr in zip(filters,train):
         data = np.load(data_COSMOS+'image_arrays/COSMOSWeb_master_v3.1.0_image_arrays_'+f+'.npz',allow_pickle=True)
         print(np.mean(data['stamps']))
         print(np.var(data['stamps']))
-        pdb.set_trace()
+        
         # Access the saved variables
         X_JWST = data['stamps']
         fullvec = data['fullvec']
@@ -823,6 +823,20 @@ for f,tr in zip(filters,train):
         fieldvec = data['fieldvec']
         ravec = data['ravec']
         decvec = data['decvec']
+        # Create a Primary HDU object
+        hdu = fits.PrimaryHDU(X_JWST[0])
+
+        # Create an HDU list to contain the HDU
+        hdul = fits.HDUList([hdu])
+
+        # Define the output filename
+        output_filename = os.path.join(data_COSMOS,'image_arrays/first_image'+f'+.fits')
+
+        # Write to the FITS file, overwriting if it already exists
+        hdul.writeto(output_filename, overwrite=True)
+        pdb.set_trace()
+
+
         
     else:
 
