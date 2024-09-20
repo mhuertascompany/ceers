@@ -824,7 +824,7 @@ for f,tr in zip(filters,train):
         ravec = data['ravec']
         decvec = data['decvec']
         # Create a Primary HDU object
-        hdu = fits.PrimaryHDU(X_JWST[0])
+        hdu = fits.PrimaryHDU(X_JWST[100])
 
         # Create an HDU list to contain the HDU
         hdul = fits.HDUList([hdu])
