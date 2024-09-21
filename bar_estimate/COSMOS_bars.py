@@ -40,7 +40,7 @@ for path in os.listdir(image_dir):
 
 #print(ids)
 cat_dir = "/n03data/huertas/COSMOS-Web/cats"
-cat_name = "COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM.fits"
+cat_name = "COSMOSWeb_master_v3.1.0-sersic-cgs_err-calib_LePhare.fits"
 cat_cosmos = Table.read(os.path.join(cat_dir,cat_name), format='fits')
 #cat_cosmos = hdu[1].data
 names = [name for name in cat_cosmos.colnames if len(cat_cosmos[name].shape) <= 1]
@@ -59,7 +59,8 @@ pred_cat['file_loc'] = file_loc
 
 
 #checkpoint_loc = '/home/huertas/python/ceers/results/finetune_tree_result/checkpoints/97-v1.ckpt'
-checkpoint_loc = f'/n03data/huertas/CEERS/zoobot/models/finetune_tree_result/{filter}/checkpoints/99_effnet.ckpt'
+#checkpoint_loc = f'/n03data/huertas/CEERS/zoobot/models/finetune_tree_result/{filter}/checkpoints/99_effnet.ckpt'
+checkpoint_loc = f'/n03data/huertas/CEERS/zoobot/models/finetune_tree_result/{filter}/checkpoints/95.ckpt' #nano model for f150w
 #'results/finetune_tree_result/checkpoints/97-v1.ckpt'
 # checkpoint_loc = 'checkpoints/effnetb0_greyscale_224px.ckpt'
 
@@ -87,7 +88,7 @@ predict_on_catalog.predict(
     model,
     n_samples=1,  # number of forward passes per galaxy
     label_cols=schema.label_cols,
-    save_loc=os.path.join(save_dir, f'bars_COSMOS_{filter}_m27_effnet.csv'),
+    save_loc=os.path.join(save_dir, f'bars_COSMOS_3.1_{filter}_m27_nano.csv'),
     datamodule_kwargs={
         'custom_albumentation_transform':A.Compose([
             A.Lambda(image=To3d(),always_apply=True),
