@@ -22,7 +22,7 @@ from To3d import To3d
 
 # os.environ['CUDA_VISIBLE_DEVICES']="1"
 
-FILTER = 'f277w'
+FILTER = 'f444w'
 
 
 logging.basicConfig(level=logging.INFO)
