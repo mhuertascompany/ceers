@@ -76,7 +76,7 @@ def save_sampler_to_hdf5(sampler, filename):
         f.create_dataset('chain', data=sampler.get_chain(), compression='gzip')
         f.create_dataset('log_prob', data=sampler.get_log_prob(), compression='gzip')
 
-def fit_MCMC(smf_morph, path_out, filename, fit_range=(8.5, 11.5)):
+def fit_MCMC(smf_morph, path_out, filename, fit_range=(9, 12)):
     # Results dictionary
     fit_results = {}
 
@@ -127,8 +127,8 @@ def fit_MCMC(smf_morph, path_out, filename, fit_range=(8.5, 11.5)):
                     initial_guess_single = [-2, 10.5, -1.2]
                     pos_single = pos_func_single(initial_guess_single)
                     sampler_single = emcee.EnsembleSampler(nwalkers_single, ndim_single, log_probability_single, args=(logM, Phi, dPhi))
-                    sampler_single.run_mcmc(pos_single, 35000, progress=True)
-                    samples_single = sampler_single.get_chain(discard=3000, thin=15, flat=True)
+                    sampler_single.run_mcmc(pos_single, 60000, progress=True)
+                    samples_single = sampler_single.get_chain(discard=10000, thin=15, flat=True)
                     fit_results[(zbin, morph, 'single')] = {
                         'sampler': sampler_single,
                         'params_50': np.percentile(samples_single, 50, axis=0),
