@@ -189,7 +189,7 @@ def fit_MCMC(smf_morph, path_out, filename, fit_range=(9, 12)):
 
 # Example usage with your defined morphology classes and redshift bins:
 morph_class = ['irr', 'disk', 'sph', 'db','reg','comp','all']
-zbins = [0.2, 0.5, 0.8, 1.1, 1.5, 2, 2.5, 3, 3.5, 4.5, 5.5]
+zbins = [0.2, 0.5, 0.8, 1.1, 1.5, 2, 2.5, 3, 3.5, 4.5, 5.5,6.5]
 
 path_in = '/n03data/huertas/COSMOS-Web/SMF'
 os.makedirs(path_in, exist_ok=True)
