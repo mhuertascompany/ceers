@@ -84,9 +84,9 @@ def fit_MCMC(smf_morph, path_out, filename, fit_range=(9, 12)):
     ndim_double = 5
     ndim_single = 3
     ndim_DPL = 4
-    nwalkers_double = 6 * ndim_double
-    nwalkers_single = 6 * ndim_single
-    nwalkers_DPL = 6 * ndim_DPL
+    nwalkers_double = 8 * ndim_double
+    nwalkers_single = 8 * ndim_single
+    nwalkers_DPL = 8 * ndim_DPL
     pos_func_double = lambda g: [g + 1 * np.random.randn(ndim_double) for i in range(nwalkers_double)]
     pos_func_single = lambda g: [g + 1 * np.random.randn(ndim_single) for i in range(nwalkers_single)]
     pos_func_DPL = lambda g: [g + 1 * np.random.randn(ndim_DPL) for i in range(nwalkers_DPL)]
@@ -113,8 +113,8 @@ def fit_MCMC(smf_morph, path_out, filename, fit_range=(9, 12)):
                     initial_guess_double = [10.5, -0.6, -1.7, -2, -2]
                     pos_double = pos_func_double(initial_guess_double)
                     sampler_double = emcee.EnsembleSampler(nwalkers_double, ndim_double, log_probability_double, args=(logM, Phi, dPhi))
-                    sampler_double.run_mcmc(pos_double, 35000, progress=True)
-                    samples_double = sampler_double.get_chain(discard=3000, thin=15, flat=True)
+                    sampler_double.run_mcmc(pos_double, 60000, progress=True)
+                    samples_double = sampler_double.get_chain(discard=10000, thin=15, flat=True)
                     fit_results[(zbin, morph, 'double')] = {
                         'sampler': sampler_double,
                         'params_50': np.percentile(samples_double, 50, axis=0),
@@ -141,8 +141,8 @@ def fit_MCMC(smf_morph, path_out, filename, fit_range=(9, 12)):
                     initial_guess_DPL = [10.5, -1.5, -2.0, -2.5]
                     pos_DPL = pos_func_DPL(initial_guess_DPL)
                     sampler_DPL = emcee.EnsembleSampler(nwalkers_DPL, ndim_DPL, log_probability_DPL, args=(logM, Phi, dPhi))
-                    sampler_DPL.run_mcmc(pos_DPL, 35000, progress=True)
-                    samples_DPL = sampler_DPL.get_chain(discard=3000, thin=15, flat=True)
+                    sampler_DPL.run_mcmc(pos_DPL, 60000, progress=True)
+                    samples_DPL = sampler_DPL.get_chain(discard=10000, thin=15, flat=True)
                     fit_results[(zbin, morph,'DPL')] = {
                         'sampler': sampler_DPL,
                         'params_50': np.percentile(samples_DPL, 50, axis=0),
