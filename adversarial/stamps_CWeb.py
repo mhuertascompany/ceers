@@ -180,7 +180,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                             continue
                                 
                         hdu = fits.PrimaryHDU(stamp.data)
-                        hdu.header.update(stamp.wcs.to_header())
+                        #hdu.header.update(stamp.wcs.to_header())
                         hdu.writeto('tmp_ceers.fits', overwrite=True) 
                         #j+=1
                        
