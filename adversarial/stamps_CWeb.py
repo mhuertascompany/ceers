@@ -218,18 +218,18 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                     gc.axis_labels.hide()
 
                     gc.tick_labels.hide()
-                    gc.add_scalebar(0.1 * u.arcsec)
+                    #gc.add_scalebar(0.1 * u.arcsec)
                                 #gc.scalebar.set_length(0.1/0.03 * u.pixel)
                                 #gc.scalebar.set_label(str(kpc_per_arcsec*0.1))
                                 
-                    gc.scalebar.set_corner('bottom right')
-                    scale = kpc_per_arcsec.value*0.1
-                    gc.scalebar.set_label('%04.2f kpc' % scale)
+                    #gc.scalebar.set_corner('bottom right')
+                    #scale = kpc_per_arcsec.value*0.1
+                    #gc.scalebar.set_label('%04.2f kpc' % scale)
                                 #gc.scalebar.set_label('1 kpc')
-                    gc.scalebar.set_color('black')
-                    gc.scalebar.set_linestyle('solid')
-                    gc.scalebar.set_linewidth(3)
-                    gc.scalebar.set_font(size=30, weight='medium', \
+                    #gc.scalebar.set_color('black')
+                    #gc.scalebar.set_linestyle('solid')
+                    #gc.scalebar.set_linewidth(3)
+                    #gc.scalebar.set_font(size=30, weight='medium', \
                     stretch='normal', family='sans-serif', \
                         style='normal', variant='normal')
                     gc.show_grayscale(stretch='sqrt',invert=True)
