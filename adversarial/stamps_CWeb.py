@@ -230,8 +230,8 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                     #gc.scalebar.set_linestyle('solid')
                     #gc.scalebar.set_linewidth(3)
                     #gc.scalebar.set_font(size=30, weight='medium', \
-                    stretch='normal', family='sans-serif', \
-                        style='normal', variant='normal')
+                    #stretch='normal', family='sans-serif', \
+                    #    style='normal', variant='normal')
                     gc.show_grayscale(stretch='sqrt',invert=True)
 
                     ax_ceers.set_yticklabels([])
