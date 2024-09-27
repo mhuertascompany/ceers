@@ -168,7 +168,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                 for idn,full,z,logm in zip(mcut['ID_SE++'],mcut.fullname,mcut.LP_zfinal,mcut.LP_mass_med_PDF):
                    
                    
-                    try:
+                    if True:
                         indices = np.where(idvec == idn)[0]
                         print(indices)
 
@@ -186,7 +186,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                                 
                                 
 
-                    except:
+                    else:
                         print("error reading")
                         continue
                             
