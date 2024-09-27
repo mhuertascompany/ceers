@@ -138,7 +138,7 @@ def fit_MCMC(smf_morph, path_out, filename, fit_range=(9, 12)):
                     print(f'Done single Schechter fit for {morph} at z={zbin}')
 
                     # DPL Fit
-                    initial_guess_DPL = [10.5, -1.5, -2.0,-3.0]
+                    initial_guess_DPL = [10.5, -3.0, -2.0,-5.0]
                     pos_DPL = pos_func_DPL(initial_guess_DPL)
                     sampler_DPL = emcee.EnsembleSampler(nwalkers_DPL, ndim_DPL, log_probability_DPL, args=(logM, Phi, dPhi))
                     sampler_DPL.run_mcmc(pos_DPL, 60000, progress=True)
