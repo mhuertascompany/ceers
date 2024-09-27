@@ -164,7 +164,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                    
                     print("nothing")
                     continue
-                j=0
+                #j=0
                 for idn,full,z,logm in zip(mcut['ID_SE++'],mcut.fullname,mcut.LP_zfinal,mcut.LP_mass_med_PDF):
                    
                    
@@ -180,7 +180,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                         hdu = fits.PrimaryHDU(stamp.data)
                         hdu.header.update(stamp.wcs.to_header())
                         hdu.writeto('tmp_ceers.fits', overwrite=True) 
-                        j+=1
+                        #j+=1
                        
                                 
                                 
@@ -242,6 +242,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                     plt.text(5, 5, '$\log M_*=$'+'%04.2f' % logm, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
                     plt.text(5, 15, '$z=$'+'%04.2f' % z, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
                     print("z="+str(z))
+                    j+=1
                                 
                                 
                                 
