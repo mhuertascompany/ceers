@@ -130,7 +130,7 @@ cosmos_cat['morph_flag']=np.copy(morph_flag)
 
 if os.path.exists(root_COSMOS+'image_arrays/COSMOSWeb_master_v3.1.0_image_arrays_'+f+'.npz'):
         print("Loading saved array with data from filter "+f)
-        data = np.load(data_COSMOS+'image_arrays/COSMOSWeb_master_v3.1.0_image_arrays_'+f+'.npz',allow_pickle=True)
+        data = np.load(os.path.join(root_COSMOS,'image_arrays/COSMOSWeb_master_v3.1.0_image_arrays_'+f+'.npz'),allow_pickle=True)
         # Access the saved variables
         X_JWST = data['stamps'].values
         fullvec = data['fullvec'].values
