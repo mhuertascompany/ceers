@@ -113,29 +113,29 @@ def fit_MCMC(smf_morph, path_out, filename, fit_range=(9, 12)):
                     initial_guess_double = [10.5, -0.6, -1.7, -2, -2]
                     pos_double = pos_func_double(initial_guess_double)
                     sampler_double = emcee.EnsembleSampler(nwalkers_double, ndim_double, log_probability_double, args=(logM, Phi, dPhi))
-                    #sampler_double.run_mcmc(pos_double, 60000, progress=True)
-                    #samples_double = sampler_double.get_chain(discard=10000, thin=15, flat=True)
-                    #fit_results[(zbin, morph, 'double')] = {
-                    #    'sampler': sampler_double,
-                    #    'params_50': np.percentile(samples_double, 50, axis=0),
-                    #    'params_16': np.percentile(samples_double, 16, axis=0),
-                    #    'params_84': np.percentile(samples_double, 84, axis=0)
-                    #}
-                    #print(f'Done double Schechter fit for {morph} at z={zbin}')
+                    sampler_double.run_mcmc(pos_double, 60000, progress=True)
+                    samples_double = sampler_double.get_chain(discard=10000, thin=15, flat=True)
+                    fit_results[(zbin, morph, 'double')] = {
+                        'sampler': sampler_double,
+                        'params_50': np.percentile(samples_double, 50, axis=0),
+                        'params_16': np.percentile(samples_double, 16, axis=0),
+                        'params_84': np.percentile(samples_double, 84, axis=0)
+                    }
+                    print(f'Done double Schechter fit for {morph} at z={zbin}')
 
                     # Single Schechter Fit
                     initial_guess_single = [-2, 10.5, -1.2]
                     pos_single = pos_func_single(initial_guess_single)
                     sampler_single = emcee.EnsembleSampler(nwalkers_single, ndim_single, log_probability_single, args=(logM, Phi, dPhi))
-                    #sampler_single.run_mcmc(pos_single, 60000, progress=True)
-                    #samples_single = sampler_single.get_chain(discard=10000, thin=15, flat=True)
-                    #fit_results[(zbin, morph, 'single')] = {
-                    #    'sampler': sampler_single,
-                    #    'params_50': np.percentile(samples_single, 50, axis=0),
-                    #    'params_16': np.percentile(samples_single, 16, axis=0),
-                    #    'params_84': np.percentile(samples_single, 84, axis=0)
-                    #}
-                    #print(f'Done single Schechter fit for {morph} at z={zbin}')
+                    sampler_single.run_mcmc(pos_single, 60000, progress=True)
+                    samples_single = sampler_single.get_chain(discard=10000, thin=15, flat=True)
+                    fit_results[(zbin, morph, 'single')] = {
+                        'sampler': sampler_single,
+                        'params_50': np.percentile(samples_single, 50, axis=0),
+                        'params_16': np.percentile(samples_single, 16, axis=0),
+                        'params_84': np.percentile(samples_single, 84, axis=0)
+                    }
+                    print(f'Done single Schechter fit for {morph} at z={zbin}')
 
                     # DPL Fit
                     initial_guess_DPL = [10.5, -1.5, -2.0,-3.0]
@@ -179,7 +179,7 @@ def fit_MCMC(smf_morph, path_out, filename, fit_range=(9, 12)):
     #print(f"Parameters-only fit results stored successfully at {file_path}")
 
     # Save the sampler chains in HDF5 format
-    samples_out_dir = os.path.join(path_out, 'samplers')
+    samples_out_dir = os.path.join(path_out, 'samplers_12')
     os.makedirs(samples_out_dir, exist_ok=True)
     for (zbin, morph, model), results in fit_results.items():
         h5_file = os.path.join(samples_out_dir, filename + f'_{zbin}_{morph}_{model}_{fit_range[0]}_sampler.h5')
@@ -189,8 +189,8 @@ def fit_MCMC(smf_morph, path_out, filename, fit_range=(9, 12)):
 
 # Example usage with your defined morphology classes and redshift bins:
 morph_class = ['irr', 'disk', 'sph', 'db','reg','comp','all']
-#zbins = [0.2, 0.5, 0.8, 1.1, 1.5, 2, 2.5, 3, 3.5, 4.5, 5.5,6.5]
-zbins = [3.5,4.5,5.5,6.5]
+zbins = [0.2, 0.5, 0.8, 1.1, 1.5, 2, 2.5, 3, 3.5, 4.5, 5.5,6.5]
+#zbins = [3.5,4.5,5.5,6.5]
 path_in = '/n03data/huertas/COSMOS-Web/SMF'
 os.makedirs(path_in, exist_ok=True)
 smf_files = ['smf_morph_3.1_allerrors_nocompact']
@@ -200,4 +200,4 @@ for smf_type in smf_files:
     # Load the observation dictionary
     with open(smf_file, 'rb') as file:
         smf_morph = pickle.load(file)
-    fit_MCMC(smf_morph, path_in, smf_type, fit_range=(8.5, 11.5))
+    fit_MCMC(smf_morph, path_in, smf_type, fit_range=(8.5, 12))
