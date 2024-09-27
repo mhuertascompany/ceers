@@ -245,6 +245,13 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                     plt.text(5, 15, '$z=$'+'%04.2f' % z, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
                     print("z="+str(z))
                     j+=1
+
+                    if j==26:
+                        plt.tight_layout()
+                        pdf_ceers.savefig(fig_ceers)
+                        #pdf_candels.savefig(fig_candels)
+                        print("saving")
+                        j=1
                                 
                                 
                                 
