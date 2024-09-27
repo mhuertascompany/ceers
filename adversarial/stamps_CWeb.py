@@ -170,6 +170,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                    
                     try:
                         indices = np.where(idvec == idn)[0]
+                        print(indices)
 
                         stamp = X_JWST[indices]
                                 
