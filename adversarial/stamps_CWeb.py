@@ -371,6 +371,14 @@ def load_imgs(tile):
 
 def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass=4,quants_stamps_z=[0,3,6,9],quants_stamps_mass=[0,1,2,3]):
 
+    wl_low_case={
+    'f115w':       f'F115W',
+    'f150w':       f'F150W',
+    'f277w':       f'F277W',
+    'f444w':       f'F444W',
+    'f770w':       f'F770W'
+    }
+
     j=1
     k=0
     today = date.today()
@@ -400,7 +408,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                    
                     if True:
                         name_img_det, name_img_part, sci_imas, model_imas, resid_imas, path_checkimg, imgname_chi2_c20, filters_translate = load_imgs(full.decode('utf-8'))
-                        stamp, w = image_make_cutout(sci_imas[wl], ra_cent, dec_cent, arcsec_cut, nameout=None, get_wcs=True)
+                        stamp, w = image_make_cutout(sci_imas[wl_low_case[wl]], ra_cent, dec_cent, arcsec_cut, nameout=None, get_wcs=True)
                         #indices = np.where(idvec == idn)[0]
                         #print(indices)
 
