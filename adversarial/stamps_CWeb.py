@@ -415,7 +415,13 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                     try:
                         print('making cutout')
                         name_img_det, name_img_part, sci_imas, model_imas, resid_imas, path_checkimg, imgname_chi2_c20, filters_translate = load_imgs(full.decode('utf-8'))
-                        stamp, w = image_make_cutout(sci_imas[wl_low_case[wl]], ra_cent, dec_cent, arcsec_cut, nameout=None, get_wcs=True)
+                        if z<1:
+                            wl=wl_low_case['f150w']
+                        if (z>1) & (z<3):
+                            wl=wl_low_case['f277w']
+                        else:
+                            wl=wl_low_case['f444w']
+                        stamp, w = image_make_cutout(sci_imas[wl], ra_cent, dec_cent, arcsec_cut, nameout=None, get_wcs=True)
                         #indices = np.where(idvec == idn)[0]
                         #print(indices)
 
