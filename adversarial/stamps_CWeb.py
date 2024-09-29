@@ -409,7 +409,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                 for idn,full,z,logm,ra_cent,dec_cent in zip(mcut['ID_SE++'],mcut.TILE,mcut.LP_zfinal,mcut.LP_mass_med_PDF,mcut.RA_MODEL,mcut.DEC_MODEL):
                    
                     print(len(mcut))
-                    pdb.set_trace()
+                    #db.set_trace()
 
                    
                     try:
@@ -488,9 +488,9 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                     plt.xticks([],[])
                     plt.yticks([],[])
 
-                    plt.text(5, 55, full, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)    
-                    plt.text(5, 5, '$\log M_*=$'+'%04.2f' % logm, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
-                    plt.text(5, 15, '$z=$'+'%04.2f' % z, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
+                    #plt.text(5, 55, full, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)    
+                    plt.text(2, 2, '$\log M_*=$'+'%04.2f' % logm, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
+                    plt.text(2, 65, '$z=$'+'%04.2f' % z, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
                     print("z="+str(z))
                     j+=1
                     #i+=1
