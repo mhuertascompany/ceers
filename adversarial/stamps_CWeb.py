@@ -405,8 +405,8 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                    
                     print("nothing")
                     continue
-                #j=0
-                for i,idn,full,z,logm,ra_cent,dec_cent in enumerate(zip(mcut['ID_SE++'],mcut.TILE,mcut.LP_zfinal,mcut.LP_mass_med_PDF,mcut.RA_MODEL,mcut.DEC_MODEL)):
+                i=0
+                for idn,full,z,logm,ra_cent,dec_cent in zip(mcut['ID_SE++'],mcut.TILE,mcut.LP_zfinal,mcut.LP_mass_med_PDF,mcut.RA_MODEL,mcut.DEC_MODEL):
                    
                     print(len(mcut))
                     pdb.set_trace()
@@ -491,6 +491,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                     plt.text(5, 15, '$z=$'+'%04.2f' % z, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
                     print("z="+str(z))
                     j+=1
+                    i+=1
                     if i>4:
                         break
 
