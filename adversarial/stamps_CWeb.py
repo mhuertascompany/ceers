@@ -443,7 +443,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                     if j==1:
                         fig_ceers = plt.figure(1, figsize=(len(quants_stamps_mass)*10,len(quants_stamps_z)*10),clear=True)
                         ax_ceers = plt.subplot(len(quants_stamps_mass),len(quants_stamps_z),j,frameon=False)
-                        j+=1
+                        
                                 
                     bb=ax_ceers.get_position()
                             
@@ -492,7 +492,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                     plt.text(5, 5, '$\log M_*=$'+'%04.2f' % logm, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
                     plt.text(5, 15, '$z=$'+'%04.2f' % z, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
                     print("z="+str(z))
-                    #j+=1
+                    j+=1
                     #i+=1
                     if i>0:
                         break
