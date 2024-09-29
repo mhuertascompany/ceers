@@ -392,7 +392,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
         quant = pd.qcut(sel['LP_zfinal'].values, nquants_z,labels=False)
         print(len(quant))
         print(len(sel))
-        pdb.set_trace()
+        #pdb.set_trace()
         sel['quant_z']=quant
         for qz in quants_stamps_z:
             sel_z = sel.query('quant_z=='+str(qz))
@@ -408,6 +408,9 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                 #j=0
                 for idn,full,z,logm,ra_cent,dec_cent in zip(mcut['ID_SE++'],mcut.TILE,mcut.LP_zfinal,mcut.LP_mass_med_PDF,mcut.RA_MODEL,mcut.DEC_MODEL):
                    
+                    print(len(idn))
+                    pdb.set_trace()
+
                    
                     try:
                         print('making cutout')
