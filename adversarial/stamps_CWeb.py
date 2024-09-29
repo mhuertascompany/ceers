@@ -140,6 +140,42 @@ if os.path.exists(root_COSMOS+'image_arrays/COSMOSWeb_master_v3.1.0_image_arrays
         decvec = data['decvec']
 
 
+filters_translate = {
+    'F115W':       f'F115W',
+    'F150W':       f'F150W',
+    'F277W':       f'F277W',
+    'F444W':       f'F444W',
+    'F770W':       f'F770W',
+    'HST-F814W':   f'f814w',
+    'CFHT-u':      f'COSMOS.U2',
+    'HSC-g':       f'HSC-G',
+    'HSC-r':       f'HSC-R',
+    'HSC-i':       f'HSC-I',
+    'HSC-z':       f'HSC-Z',
+    'HSC-y':       f'HSC-Y',
+    'HSC-NB0816':  f'NB0816',
+    'HSC-NB0921':  f'NB0921',
+    'HSC-NB1010':  f'NB1010',
+    'UVISTA-Y':    f'UVISTA_Y',
+    'UVISTA-J':    f'UVISTA_J',
+    'UVISTA-H':    f'UVISTA_H',
+    'UVISTA-Ks':   f'UVISTA_Ks',
+    'UVISTA-NB118':f'UVISTA_NB118',
+    'SC-IA484':    f'SPC_L484',
+    'SC-IA527':    f'SPC_L527',
+    'SC-IA624':    f'SPC_L624',
+    'SC-IA679':    f'SPC_L679',
+    'SC-IA738':    f'SPC_L738',
+    'SC-IA767':    f'SPC_L767',
+    'SC-IB427':    f'SPC_L427',
+    'SC-IB505':    f'SPC_L505',
+    'SC-IB574':    f'SPC_L574',
+    'SC-IB709':    f'SPC_L709',
+    'SC-IB827':    f'SPC_L827',
+    'SC-NB711':    f'SPC_L711',
+    'SC-NB816':    f'SPC_L816'
+    }
+
 def image_make_cutout(filename, ra1, dec1, arcsec_cut, nameout=None, get_wcs=None):
     import os
     from astropy.coordinates import SkyCoord
@@ -362,7 +398,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                 for idn,full,z,logm,ra_cent,dec_cent in zip(mcut['ID_SE++'],mcut.TILE,mcut.LP_zfinal,mcut.LP_mass_med_PDF,mcut.RA_MODEL,mcut.DEC_MODEL):
                    
                    
-                    try:
+                    if True:
                         name_img_det, name_img_part, sci_imas, model_imas, resid_imas, path_checkimg, imgname_chi2_c20, filters_translate = load_imgs(full.decode('utf-8'))
                         stamp, w = image_make_cutout(sci_imas[wl], ra_cent, dec_cent, arcsec_cut, nameout=None, get_wcs=True)
                         #indices = np.where(idvec == idn)[0]
@@ -382,7 +418,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                                 
                                 
 
-                    except:
+                    else:
                         print("error reading")
                         continue
                             
