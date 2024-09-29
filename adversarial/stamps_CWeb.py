@@ -459,7 +459,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
 
                     gc.tick_labels.hide()
                     gc.add_scalebar(0.1 * u.arcsec)
-                    gc.scalebar.set_length(0.1/0.03 * u.pixel)
+                    #gc.scalebar.set_length(0.1/0.03 * u.pixel)
                     #gc.scalebar.set_label(str(kpc_per_arcsec*0.1))
                                 
                     gc.scalebar.set_corner('bottom right')
