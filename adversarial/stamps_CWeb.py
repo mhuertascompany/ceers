@@ -486,6 +486,8 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                     plt.text(5, 15, '$z=$'+'%04.2f' % z, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
                     print("z="+str(z))
                     j+=1
+                    if j>25:
+                        continue
 
                     #if j==26:
                     #    plt.tight_layout()
