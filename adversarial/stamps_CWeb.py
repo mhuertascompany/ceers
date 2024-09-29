@@ -490,7 +490,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
 
                     #plt.text(5, 55, full, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)    
                     plt.text(2, 2, '$\log M_*=$'+'%04.2f' % logm, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
-                    plt.text(2, 65, '$z=$'+'%04.2f' % z, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
+                    plt.text(2, 30, '$z=$'+'%04.2f' % z, bbox={'facecolor': 'white', 'pad': 10},fontsize=50)
                     print("z="+str(z))
                     j+=1
                     #i+=1
