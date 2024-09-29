@@ -179,7 +179,7 @@ for FILTER in FILTERS:
 
     # Load predictions for each filter
     for i in range(NUM_MODELS):
-        pred_path = os.path.join(cat_dir, f'bars_COSMOS_{FILTER}_m27_effnet.csv')
+        pred_path = os.path.join(cat_dir, f'bars_COSMOS_{FILTER}_m27_nano.csv')
         pred = pd.read_csv(pred_path)
 
         alpha_feature_pred.append(pred['t0_smooth_or_featured__features_or_disk_pred'].values)
@@ -217,7 +217,7 @@ for FILTER in FILTERS:
     sampling_result = pd.DataFrame(results)
 
     # Save results to CSV
-    output_path = os.path.join(cat_dir, f'gzoo_COSMOS_{FILTER}_effnet_m27_sampling.csv')
+    output_path = os.path.join(cat_dir, f'gzoo_COSMOS_{FILTER}_nano_m27_sampling.csv')
     sampling_result.to_csv(output_path, index=False)
 
     end = time.time()
