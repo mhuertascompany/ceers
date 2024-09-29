@@ -443,6 +443,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                     if j==1:
                         fig_ceers = plt.figure(1, figsize=(len(quants_stamps_mass)*10,len(quants_stamps_z)*10),clear=True)
                         ax_ceers = plt.subplot(len(quants_stamps_mass),len(quants_stamps_z),j,frameon=False)
+                        j+=1
                                 
                     bb=ax_ceers.get_position()
                             
