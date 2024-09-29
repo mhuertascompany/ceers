@@ -10,6 +10,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 import aplpy
 from datetime import date
 import astropy.wcs as wcs
+import pdb
 
 
 data_COSMOS = '/n03data/huertas/COSMOS-Web/cats'
@@ -391,6 +392,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
         quant = pd.qcut(sel['LP_zfinal'].values, nquants_z,labels=False)
         print(len(quant))
         print(len(sel))
+        pdb.set_trace()
         sel['quant_z']=quant
         for qz in quants_stamps_z:
             sel_z = sel.query('quant_z=='+str(qz))
