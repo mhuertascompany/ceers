@@ -2,7 +2,7 @@
 #SBATCH --job-name=bars_morph_COS-Web
 #SBATCH --output=/n03data/huertas/COSMOS-Web/jobs/SMFs.out
 #SBATCH --error=/n03data/huertas/COSMOS-Web/jobs/SMFs.err
-#SBATCH --nodes=1
+#SBATCH --nodes=4
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=1
 #SBATCH --time=10:00:00
