@@ -407,7 +407,8 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                 for idn,full,z,logm,ra_cent,dec_cent in zip(mcut['ID_SE++'],mcut.TILE,mcut.LP_zfinal,mcut.LP_mass_med_PDF,mcut.RA_MODEL,mcut.DEC_MODEL):
                    
                    
-                    if True:
+                    try:
+                        print('making cutout')
                         name_img_det, name_img_part, sci_imas, model_imas, resid_imas, path_checkimg, imgname_chi2_c20, filters_translate = load_imgs(full.decode('utf-8'))
                         stamp, w = image_make_cutout(sci_imas[wl_low_case[wl]], ra_cent, dec_cent, arcsec_cut, nameout=None, get_wcs=True)
                         #indices = np.where(idvec == idn)[0]
@@ -427,7 +428,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                                 
                                 
 
-                    else:
+                    except:
                         print("error reading")
                         continue
                             
