@@ -9,6 +9,7 @@ from astropy.cosmology import Planck13 as cosmo
 from matplotlib.backends.backend_pdf import PdfPages
 import aplpy
 from datetime import date
+import astropy.wcs as wcs
 
 
 data_COSMOS = '/n03data/huertas/COSMOS-Web/cats'
