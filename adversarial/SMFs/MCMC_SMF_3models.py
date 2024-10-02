@@ -179,7 +179,7 @@ def fit_MCMC(smf_morph, path_out, filename, fit_range=(9, 12)):
     #print(f"Parameters-only fit results stored successfully at {file_path}")
 
     # Save the sampler chains in HDF5 format
-    samples_out_dir = os.path.join(path_out, 'samplers_12')
+    samples_out_dir = os.path.join(path_out, 'samplers_Q')
     os.makedirs(samples_out_dir, exist_ok=True)
     for (zbin, morph, model), results in fit_results.items():
         h5_file = os.path.join(samples_out_dir, filename + f'_{zbin}_{morph}_{model}_{fit_range[0]}_sampler.h5')
@@ -193,7 +193,7 @@ zbins = [0.2, 0.5, 0.8, 1.1, 1.5, 2, 2.5, 3, 3.5, 4.5, 5.5,6.5]
 #zbins = [3.5,4.5,5.5,6.5]
 path_in = '/n03data/huertas/COSMOS-Web/SMF'
 os.makedirs(path_in, exist_ok=True)
-smf_files = ['smf_morph_3.1_allerrors_nocompact_0.07F444']
+smf_files = ['smf_morph_3.1_allerrors_nocompact_0.07F444_Q']
 
 for smf_type in smf_files:
     smf_file = os.path.join(path_in, smf_type + '.pkl')

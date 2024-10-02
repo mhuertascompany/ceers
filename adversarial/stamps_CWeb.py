@@ -385,7 +385,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
     k=0
     today = date.today()
     d4 = today.strftime("%b-%d-%Y")
-    arcsec_cut = 32*0.03
+    arcsec_cut = 64*0.03
     with PdfPages(data_path+'figures/'+'morph_'+str(morph)+'_CWeb3.1_'+str(wl)+'_'+d4+'.pdf') as pdf_ceers:
         
         sel = ceers_cat.query('morph_flag_'+str(wl)+'=='+str(morph)+' and LP_zfinal>'+str(0)+' and LP_zfinal<'+str(6)+' and LP_mass_med_PDF>9')
