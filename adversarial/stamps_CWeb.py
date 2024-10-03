@@ -96,9 +96,9 @@ cosmos_cat['delta_f150']=np.array(delta_value)
 
 
 cosmos_cat['super_compact_flag'] = (
-    ((cosmos_cat['LP_zfinal'] < 1) & (cosmos_cat['RADIUS'] < (0.025 / 3600))) |
-    ((cosmos_cat['LP_zfinal'] > 1) & (cosmos_cat['LP_zfinal'] < 3) & (cosmos_cat['RADIUS'] < (0.025 / 3600))) |
-    ((cosmos_cat['LP_zfinal'] > 3) & (cosmos_cat['RADIUS'] < (0.025 / 3600)))
+    ((cosmos_cat['LP_zfinal'] < 1) & (cosmos_cat['RADIUS_SERSIC'] < (0.025 / 3600))) |
+    ((cosmos_cat['LP_zfinal'] > 1) & (cosmos_cat['LP_zfinal'] < 3) & (cosmos_cat['RADIUS_SERSIC'] < (0.05 / 3600))) |
+    ((cosmos_cat['LP_zfinal'] > 3) & (cosmos_cat['RADIUS_SERSIC'] < (0.07 / 3600)))
 )
 
 
