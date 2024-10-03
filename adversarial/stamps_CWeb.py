@@ -124,9 +124,9 @@ morph_flag[(super_compact_flag==1)]=-1
 cosmos_cat['morph_flag']=np.copy(morph_flag)
 
 
-bt_rf = np.copy(cosmos_cat['BT_F150W'].values)
-bt_277 = np.copy(cosmos_cat['BT_F277W'].values)
-bt_444 = np.copy(cosmos_cat['BT_F444W'].values)
+bt_rf = np.copy(cosmos_cat['B/T_F150W'].values)
+bt_277 = np.copy(cosmos_cat['B/T_F277W'].values)
+bt_444 = np.copy(cosmos_cat['B/T_F444W'].values)
 bt_rf[(zbest>1) & (zbest<3)] = np.copy(bt_277[(zbest>1) & (zbest<3)])
 bt_rf[(zbest>3) & (zbest<6)]= np.copy(bt_444[(zbest>3) & (zbest<6)])
 cosmos_cat['bt_rf']=np.copy(bt_rf)
