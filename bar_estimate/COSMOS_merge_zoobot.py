@@ -37,7 +37,7 @@ def merge_with_predictions(cat, pred_path, filter_name):
     pred = pd.read_csv(pred_path)
     pred = pred.add_suffix(f'_{filter_name}')
     pred.rename(columns={f'id_{filter_name}': 'id_str'}, inplace=True)
-    merged = cat.merge(pred, how='inner', right_on=f'id_str', left_on='Id', suffixes=(None, f'_{filter_name}'))
+    merged = cat.merge(pred, how='inner', right_on=f'id_str', left_on='ID_SE++', suffixes=(None, f'_{filter_name}'))
     return merged
 
 
@@ -146,7 +146,7 @@ def select_stamps_and_plot(merge,zbin,imdir,outdir):
 
 # Load the main catalog
 cat_dir = "/n03data/huertas/COSMOS-Web/cats"
-cat_name = "COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM.fits"
+cat_name = "COSMOSWeb_master_v3.1.0-sersic-cgs_err-calib_LePhare.fits"
 cat_cosmos = Table.read(os.path.join(cat_dir, cat_name), format='fits')
 names = [name for name in cat_cosmos.colnames if len(cat_cosmos[name].shape) <= 1]
 cat = cat_cosmos[names].to_pandas()
@@ -155,9 +155,9 @@ cat = cat_cosmos[names].to_pandas()
 
 # Paths to the prediction catalogs - CHANGE PATHS WHEN DOWNLOADED
 pred_paths = {
-    'f150w': "/n03data/huertas/COSMOS-Web/cats/gzoo_COSMOS_f277w_effnet_m27_sampling.csv",
-    'f277w': "/n03data/huertas/COSMOS-Web/cats/gzoo_COSMOS_f277w_effnet_m27_sampling.csv",
-    'f444w': "/n03data/huertas/COSMOS-Web/cats/gzoo_COSMOS_f444w_effnet_m27_sampling.csv"
+    'f150w': "/n03data/huertas/COSMOS-Web/cats/gzoo_COSMOS_3.1_f150w_nano_m27_sampling.csv",
+    'f277w': "/n03data/huertas/COSMOS-Web/cats/gzoo_COSMOS_3.1_f277w_nano_m27_sampling.csv",
+    'f444w': "/n03data/huertas/COSMOS-Web/cats/gzoo_COSMOS_3.1_f444w_nano_m27_sampling.csv"
 }
 
 # Merge with each prediction catalog
