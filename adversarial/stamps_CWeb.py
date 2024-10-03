@@ -36,9 +36,9 @@ names = [name for name in cosmos_phys_ap.colnames if len(cosmos_phys_ap[name].sh
 cosmos_phys=cosmos_phys_ap[names].to_pandas()
 
 
-merge=cosmos_f150w.merge(cosmos_f277w,how='inner',on='fullname',suffixes=(None,'_x'))
+merge=cosmos_f150w.merge(cosmos_f277w,how='inner',on='fullname',suffixes=(None,'_a'))
 #print(len(merge))
-merge2=merge.merge(cosmos_f444w,how='inner',on='fullname',suffixes=(None,'_y'))
+merge2=merge.merge(cosmos_f444w,how='inner',on='fullname',suffixes=(None,'_b'))
 #print(len(merge2))
 cosmos_cat = merge2.merge(cosmos_phys,left_on='id',right_on='ID_SE++',how='inner')
 #print(len(cosmos_cat))
