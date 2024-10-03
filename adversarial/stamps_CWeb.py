@@ -30,7 +30,7 @@ cosmos_f277w=pd.read_csv(os.path.join(data_COSMOS,cosmos_f277w_fn))
 cosmos_f444w=pd.read_csv(os.path.join(data_COSMOS,cosmos_f444w_fn))
 
 
-cosmos_phys_ap =Table.read(os.path.join(data_COSMOS,'COSMOSWeb_master_v3.1.0-sersic-cgs_err-calib_LePhare.fits'))
+cosmos_phys_ap =Table.read(os.path.join(data_COSMOS,'COSMOSWeb_master_v3.1.0-sersic-B+D-cgs_err-calib_LePhare.fits'))
 
 names = [name for name in cosmos_phys_ap.colnames if len(cosmos_phys_ap[name].shape) <= 1]
 cosmos_phys=cosmos_phys_ap[names].to_pandas()
@@ -124,8 +124,12 @@ morph_flag[(super_compact_flag==1)]=-1
 cosmos_cat['morph_flag']=np.copy(morph_flag)
 
 
-
-
+bt_rf = np.copy(cosmos_cat['BT_F150W'].values)
+bt_277 = np.copy(cosmos_cat['BT_F277W'].values)
+bt_444 = np.copy(cosmos_cat['BT_F444W'].values)
+bt_rf[(zbest>1) & (zbest<3)] = np.copy(bt_277[(zbest>1) & (zbest<3)])
+bt_rf[(zbest>3) & (zbest<6)]= np.copy(bt_444[(zbest>3) & (zbest<6)])
+cosmos_cat['bt_rf']=np.copy(bt_rf)
 
 
 
@@ -386,9 +390,9 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
     today = date.today()
     d4 = today.strftime("%b-%d-%Y")
     arcsec_cut = 64*0.03
-    with PdfPages(data_path+'figures/'+'morph_'+str(morph)+'_CWeb3.1_'+str(wl)+'_'+d4+'.pdf') as pdf_ceers:
+    with PdfPages(data_path+'figures/'+'morph_'+str(morph)+'_CWeb3.1_'+str(wl)+'_'+d4+'_BTlt0.2.pdf') as pdf_ceers:
         
-        sel = ceers_cat.query('morph_flag_'+str(wl)+'=='+str(morph)+' and LP_zfinal>'+str(0)+' and LP_zfinal<'+str(6)+' and LP_mass_med_PDF>9')
+        sel = ceers_cat.query('bt_rf<0.2 and morph_flag_'+str(wl)+'=='+str(morph)+' and LP_zfinal>'+str(0)+' and LP_zfinal<'+str(6)+' and LP_mass_med_PDF>9')
         quant = pd.qcut(sel['LP_zfinal'].values, nquants_z,labels=False)
         print(len(quant))
         print(len(sel))
@@ -520,7 +524,8 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
         print("final saving")
 
 wl_vec = ['f150w','f277w','f444w']
-morph_vec=[0,1,2,3]
+morph_vec=[0,3]
+# morph_vec=[0,1,2,3]
 data_out = '/n03data/huertas/COSMOS-Web/'
 
 for wl in wl_vec:
