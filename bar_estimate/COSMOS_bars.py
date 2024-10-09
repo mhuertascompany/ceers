@@ -20,7 +20,7 @@ import numpy as np
 import pandas as pd
 import re
 
-filter='f444w'
+filter='f150w'
 
 
 image_dir = f'/n03data/huertas/COSMOS-Web/zoobot/stamps/{filter}'
@@ -59,8 +59,8 @@ pred_cat['file_loc'] = file_loc
 
 
 #checkpoint_loc = '/home/huertas/python/ceers/results/finetune_tree_result/checkpoints/97-v1.ckpt'
-#checkpoint_loc = f'/n03data/huertas/CEERS/zoobot/models/finetune_tree_result/{filter}/checkpoints/99_effnet.ckpt'
-checkpoint_loc = f'/n03data/huertas/CEERS/zoobot/models/finetune_tree_result/{filter}/checkpoints/84.ckpt' #nano model for f150w
+checkpoint_loc = f'/n03data/huertas/CEERS/zoobot/models/finetune_tree_result/{filter}/checkpoints_old/99_effnet.ckpt'
+#checkpoint_loc = f'/n03data/huertas/CEERS/zoobot/models/finetune_tree_result/{filter}/checkpoints/84.ckpt' #nano model for f150w
 #'results/finetune_tree_result/checkpoints/97-v1.ckpt'
 # checkpoint_loc = 'checkpoints/effnetb0_greyscale_224px.ckpt'
 
@@ -88,7 +88,7 @@ predict_on_catalog.predict(
     model,
     n_samples=1,  # number of forward passes per galaxy
     label_cols=schema.label_cols,
-    save_loc=os.path.join(save_dir, f'bars_COSMOS_3.1_{filter}_m27_nano.csv'),
+    save_loc=os.path.join(save_dir, f'bars_COSMOS_3.1_{filter}_m27_effnet.csv'),
     datamodule_kwargs={
         'custom_albumentation_transform':A.Compose([
             A.Lambda(image=To3d(),always_apply=True),
