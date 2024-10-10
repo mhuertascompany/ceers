@@ -20,7 +20,7 @@ import numpy as np
 import pandas as pd
 import re
 
-filter='f277w'
+filter='f444w'
 
 
 image_dir = f'/n03data/huertas/COSMOS-Web/zoobot/stamps/{filter}'
@@ -59,7 +59,7 @@ pred_cat['file_loc'] = file_loc
 
 
 #checkpoint_loc = '/home/huertas/python/ceers/results/finetune_tree_result/checkpoints/97-v1.ckpt'
-checkpoint_loc = f'/n03data/huertas/CEERS/zoobot/models/finetune_tree_result/{filter}/checkpoints_old/99.ckpt'
+checkpoint_loc = f'/n03data/huertas/CEERS/zoobot/models/finetune_tree_result/{filter}/checkpoints_old/99_effnet.ckpt'
 #checkpoint_loc = f'/n03data/huertas/CEERS/zoobot/models/finetune_tree_result/{filter}/checkpoints/84.ckpt' #nano model for f150w
 #'results/finetune_tree_result/checkpoints/97-v1.ckpt'
 # checkpoint_loc = 'checkpoints/effnetb0_greyscale_224px.ckpt'
