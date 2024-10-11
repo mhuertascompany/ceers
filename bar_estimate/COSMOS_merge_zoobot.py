@@ -155,9 +155,9 @@ cat = cat_cosmos[names].to_pandas()
 
 # Paths to the prediction catalogs - CHANGE PATHS WHEN DOWNLOADED
 pred_paths = {
-    'f150w': "/n03data/huertas/COSMOS-Web/cats/gzoo_COSMOS_3.1_f150w_nano_m27_sampling.csv",
-    'f277w': "/n03data/huertas/COSMOS-Web/cats/gzoo_COSMOS_3.1_f277w_nano_m27_sampling.csv",
-    'f444w': "/n03data/huertas/COSMOS-Web/cats/gzoo_COSMOS_3.1_f444w_nano_m27_sampling.csv"
+    'f150w': "/n03data/huertas/COSMOS-Web/cats/gzoo_COSMOS_3.1_f150w_effnet_m27_sampling.csv",
+    'f277w': "/n03data/huertas/COSMOS-Web/cats/gzoo_COSMOS_3.1_f277w_effnet_m27_sampling.csv",
+    'f444w': "/n03data/huertas/COSMOS-Web/cats/gzoo_COSMOS_3.1_f444w_effnet_m27_sampling.csv"
 }
 
 # Merge with each prediction catalog
@@ -285,7 +285,7 @@ for col in merge.columns:
         merge[col] = merge[col].apply(lambda x: fill_invalid_values(x, -999.0))
 
 # Save DataFrame to CSV file in chunks
-csv_path = os.path.join(cat_dir, 'merged_catalog_samples.csv')
+csv_path = os.path.join(cat_dir, 'COSMOS3.1_merged_catalog_effnet_samples.csv')
 
 chunk_size = 10000
 for start in range(0, merge.shape[0], chunk_size):
@@ -341,7 +341,7 @@ def convert_csv_to_fits(csv_path, output_fits_path, chunk_size=10000):
 
 # Write to FITS file
 output_fits_path = os.path.join(cat_dir, 'COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM_morphology_zoobot.fits')
-convert_csv_to_fits(csv_path, output_fits_path, chunk_size=10000)
+#convert_csv_to_fits(csv_path, output_fits_path, chunk_size=10000)
 #hdu.writeto(output_fits_path, overwrite=True)
 
 
