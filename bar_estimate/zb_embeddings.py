@@ -74,6 +74,7 @@ resize_after_crop = 224     # must match how checkpoint below was trained
 
 #def main(catalog, save_dir, name="hf_hub:mwalmsley/zoobot-encoder-convnext_nano"):
 
+#model = finetune.FinetuneableZoobotTree.load_from_checkpoint(checkpoint_loc,schema=schema)
 finetuned_model = finetune.FinetuneableZoobotTree.load_from_checkpoint(checkpoint_loc,schema=schema)
 encoder = finetuned_model.encoder
 model = representations.ZoobotEncoder(encoder=encoder)
@@ -87,7 +88,23 @@ predict_on_catalog.predict(
         n_samples=1,
         label_cols=schema.label_cols,
         save_loc=os.path.join(save_dir, f'bars_COSMOS_3.1_{filter}_m27_effnet_representations.hdf5'),
-        datamodule_kwargs=datamodule_kwargs,
+        datamodule_kwargs={
+        'custom_albumentation_transform':A.Compose([
+            A.Lambda(image=To3d(),always_apply=True),
+            A.Rotate(limit=180, interpolation=1,
+                always_apply=True, border_mode=0, value=0),
+            A.RandomResizedCrop(
+                height=resize_after_crop,  # after crop resize
+                width=resize_after_crop,
+                scale=crop_scale_bounds,  # crop factor
+                ratio=crop_ratio_bounds,  # crop aspect ratio
+                interpolation=1,  # This is "INTER_LINEAR" == BILINEAR interpolation. See: https://docs.opencv.org/3.4/da/d54/group__imgproc__transform.html
+                always_apply=True
+            ),  # new aspect ratio
+            A.VerticalFlip(p=0.5),
+        ]),
+        'batch_size':batch_size
+    },
         trainer_kwargs=trainer_kwargs
     )
 
