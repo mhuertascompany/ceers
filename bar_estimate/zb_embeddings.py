@@ -37,7 +37,7 @@ for path in os.listdir(image_dir):
             print(f"Skipping file with insufficient digit groups: {path}")
 
 
-#print(ids)
+print(ids)
 cat_dir = "/n03data/huertas/COSMOS-Web/cats"
 cat_name = "COSMOSWeb_master_v3.1.0-sersic-cgs_err-calib_LePhare.fits"
 cat_cosmos = Table.read(os.path.join(cat_dir,cat_name), format='fits')
