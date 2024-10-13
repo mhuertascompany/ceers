@@ -9,19 +9,20 @@ import sys
 
 sys.path.append('/n03data/huertas/python/ceers')
 
-from zoobot.pytorch.training import finetune,representations
+from zoobot.pytorch.training import finetune, representations
 from zoobot.pytorch.predictions import predict_on_catalog
+from zoobot.shared import load_predictions, schemas
 from bot.To3d import To3d
 from bot.gz_ceers_schema import gz_ceers_schema
 from zoobot.pytorch.estimators import define_model
 from astropy.table import Table
-from zoobot.shared import load_predictions, schemas
 
 import numpy as np
 import pandas as pd
 import re
 
 filter='f444w'
+
 image_dir = f'/n03data/huertas/COSMOS-Web/zoobot/stamps/{filter}'
 file_loc = [os.path.join(image_dir,path) for path in os.listdir(image_dir)]
 file_loc = [os.path.join(image_dir, path) for path in os.listdir(image_dir) if path.endswith('.jpg')]
