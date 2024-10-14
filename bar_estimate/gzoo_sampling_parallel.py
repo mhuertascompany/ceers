@@ -144,7 +144,8 @@ def parallel_process(pred, filter, alpha_feature_pred, alpha_smooth_pred, alpha_
     results = [item for sublist in results for item in sublist]
     return results
 
-FILTERS = ['f150w', 'f277w', 'f444w']
+#FILTERS = ['f150w', 'f277w', 'f444w']
+FILTERS = ['f444w']
 N_RUNS = 100
 N_VOLS = 100
 NUM_MODELS = 1  # Number of model predictions
