@@ -530,6 +530,7 @@ data_out = '/n03data/huertas/COSMOS-Web/'
 
 for wl in wl_vec:
     for morph in morph_vec:
+        print(str(morph))
         q=cosmos_cat.query('morph_flag==-1')
         print(len(q))   
         plot_stamps_quantiles(wl,morph,cosmos_cat,data_out,nquants_z=1,nquants_mass=2)
