@@ -392,7 +392,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
     arcsec_cut = 64*0.03
     with PdfPages(data_path+'figures/'+'morph_'+str(morph)+'_CWeb3.1_'+str(wl)+'_'+d4+'.pdf') as pdf_ceers:
         
-        sel = ceers_cat.query('morph_flag=='+str(morph)+' and LP_zfinal>'+str(4)+' and LP_zfinal<'+str(6)+' and LP_mass_med_PDF>9 and MAG_MODEL_F444W<25.5')
+        sel = ceers_cat.query('morph_flag=='+str(morph)+' and LP_zfinal>'+str(0)+' and LP_zfinal<'+str(6)+' and LP_mass_med_PDF>9 and MAG_MODEL_F444W<25.5')
         quant = pd.qcut(sel['LP_zfinal'].values, nquants_z,labels=False)
         print(len(quant))
         print(len(sel))
@@ -530,7 +530,7 @@ data_out = '/n03data/huertas/COSMOS-Web/'
 
 for wl in wl_vec:
     for morph in morph_vec:
-        print(str(morph))
-        q=cosmos_cat.query('morph_flag==-1')
-        print(len(q))   
-        plot_stamps_quantiles(wl,morph,cosmos_cat,data_out,nquants_z=1,nquants_mass=2)
+        #print(str(morph))
+        #q=cosmos_cat.query('morph_flag==-1')
+        #print(len(q))   
+        plot_stamps_quantiles(wl,morph,cosmos_cat,data_out)
