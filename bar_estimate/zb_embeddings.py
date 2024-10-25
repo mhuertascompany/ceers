@@ -21,7 +21,7 @@ import numpy as np
 import pandas as pd
 import re
 
-filter='f150w'
+filter='f444w'
 
 image_dir = f'/n03data/huertas/COSMOS-Web/zoobot/stamps/{filter}'
 file_loc = [os.path.join(image_dir,path) for path in os.listdir(image_dir)]
