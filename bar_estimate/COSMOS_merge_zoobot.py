@@ -197,7 +197,7 @@ merge['p_merger_f277w'] = calculate_probabilities_merger(merge, 'merger_count_f2
 
 merge['p_feature_f444w'] = calculate_probabilities_feature(merge, 'feature_count_f444w', np.zeros(n_samples)+N_VOLS)
 merge['p_edgeon_f444w'] = calculate_probabilities_edge(merge, 'edgeon_count_f444w', 'feature_count_f444w')
-merge['p_bar_f444w'] = calculate_probabilities_bar(merge, 'bar_count_f444w', 'feature_count_f150w','edgeon_count_f150w')
+merge['p_bar_f444w'] = calculate_probabilities_bar(merge, 'bar_count_f444w', 'feature_count_f444w','edgeon_count_f444w')
 merge['p_clump_f444w'] = calculate_probabilities_clump(merge, 'clump_count_f444w', 'feature_count_f444w','spiral_count_f444w')
 merge['p_spiral_f444w'] = calculate_probabilities_bar(merge, 'spiral_count_f444w', 'feature_count_f444w','edgeon_count_f444w')
 merge['p_merger_f444w'] = calculate_probabilities_merger(merge, 'merger_count_f444w', 'feature_count_f444w','spiral_count_f444w','smooth_count_f444w')

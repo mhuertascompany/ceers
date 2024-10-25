@@ -44,7 +44,9 @@ def select_stamps_and_plot(merge,zbin,imdir,outdir):
                         (merge['LP_mass_med_PDF'] < 11) & 
                         (merge['p_bar_mean'] > 0.5) & 
                         (merge['p_edgeon_mean'] < 0.5) &
-                        (merge['p_feature_mean'] > 0.5)]
+                        (merge['p_feature_mean'] > 0.5) &
+                        (merge['MAG_MODEL_F444W'] < 25.5)
+                         ]
         
     
     SIZE = 424
@@ -79,8 +81,15 @@ def select_stamps_and_plot(merge,zbin,imdir,outdir):
 
 
     # Load the main catalog
+#cat_dir = "/n03data/huertas/COSMOS-Web/cats"
+#cat_name = "COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM_morphology_zoobot.csv"
+
 cat_dir = "/n03data/huertas/COSMOS-Web/cats"
-cat_name = "COSMOSWeb_master_v2.0.1-sersic-cgs_LePhare-v2_FlaggedM_morphology_zoobot.csv"
+cat_name = "COSMOS3.1_merged_catalog_effnet_samples.csv"
+#cat_cosmos = Table.read(os.path.join(cat_dir,cat_name), format='fits')
+#cat_cosmos = hdu[1].data
+#names = [name for name in cat_cosmos.colnames if len(cat_cosmos[name].shape) <= 1]
+#cat=cat_cosmos[names].to_pandas()
 #cat_cosmos = Table.read(os.path.join(cat_dir, cat_name), format='csv')
 #names = [name for name in cat_cosmos.colnames if len(cat_cosmos[name].shape) <= 1]
 #cat = cat_cosmos[names].to_pandas()

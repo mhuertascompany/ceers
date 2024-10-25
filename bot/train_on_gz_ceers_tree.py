@@ -22,7 +22,7 @@ from To3d import To3d
 
 # os.environ['CUDA_VISIBLE_DEVICES']="1"
 
-FILTER = 'f277w'
+FILTER = 'f444w'
 
 
 logging.basicConfig(level=logging.INFO)
@@ -82,8 +82,8 @@ datamodule = GalaxyDataModule(
 #    schema=schema)
 
 model = finetune.FinetuneableZoobotTree(
-        #name='hf_hub:mwalmsley/zoobot-encoder-efficientnet_b0',
-        name='hf_hub:mwalmsley/zoobot-encoder-convnext_nano',
+        name='hf_hub:mwalmsley/zoobot-encoder-efficientnet_b0',
+        #name='hf_hub:mwalmsley/zoobot-encoder-convnext_nano',
         schema=schema,
         n_blocks=0
         # n_blocks=5,
@@ -102,7 +102,7 @@ predict_on_catalog.predict(
     model,
     n_samples=5,
     label_cols=schema.label_cols,
-    save_loc=os.path.join(save_dir, f'test_predictions_{FILTER}_convnextnano.csv'),
+    save_loc=os.path.join(save_dir, f'test_predictions_{FILTER}_effnet_3.1.csv'),
     datamodule_kwargs={
         'custom_albumentation_transform':A.Compose([
             A.Lambda(image=To3d(),always_apply=True),

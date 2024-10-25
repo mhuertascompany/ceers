@@ -188,12 +188,12 @@ def fit_MCMC(smf_morph, path_out, filename, fit_range=(9, 12)):
     print("Sampler data saved in HDF5 format with compression.")
 
 # Example usage with your defined morphology classes and redshift bins:
-morph_class = ['irr', 'disk', 'sph', 'db','reg','comp','all']
+morph_class = ['late','early','irr', 'disk', 'sph', 'db','reg','comp','all']
 zbins = [0.2, 0.5, 0.8, 1.1, 1.5, 2, 2.5, 3, 3.5, 4.5, 5.5,6.5]
 #zbins = [3.5,4.5,5.5,6.5]
 path_in = '/n03data/huertas/COSMOS-Web/SMF'
 os.makedirs(path_in, exist_ok=True)
-smf_files = ['smf_morph_3.1_allerrors_nocompact_0.07F444_Q']
+smf_files = ['smf_morph_3.1_allerrors_nocompactphys_0.07F444','smf_morph_3.1_allerrors_nocompactphys_0.07F444_Q','smf_morph_3.1_allerrors_nocompactphys_0.07F444_SF']
 
 for smf_type in smf_files:
     smf_file = os.path.join(path_in, smf_type + '.pkl')
