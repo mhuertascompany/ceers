@@ -47,7 +47,7 @@ print(len(merge1))
 merge2=merge1.merge(cosmos_f444w,how='inner',on='fullname',suffixes=(None,'_y'))
 print(len(merge2))
 cosmos_cat = merge2.merge(bars,left_on='id',right_on='ID_SE++',how='inner')
-print(len(merge))
+print(len(cosmos_cat))
 
 filters = ['F150W','F277W','F444W']
 morph=['sph','disk','irr','bd']
