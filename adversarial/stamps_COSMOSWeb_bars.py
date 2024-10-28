@@ -406,7 +406,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                     #db.set_trace()
 
                    
-                    try:
+                    if True:
                         print('making cutout')
                         name_img_det, name_img_part, sci_imas, model_imas, resid_imas, path_checkimg, imgname_chi2_c20, filters_translate = load_imgs(full.decode('utf-8'))
                         if z<1:
@@ -434,7 +434,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                                 
                                 
 
-                    except:
+                    else:
                         print("error reading")
                         continue
                             
