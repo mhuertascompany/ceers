@@ -407,7 +407,8 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
 
                    
                     if True:
-                        print('making cutout')
+                        print('making cutout',full)
+
                         name_img_det, name_img_part, sci_imas, model_imas, resid_imas, path_checkimg, imgname_chi2_c20, filters_translate = load_imgs(full.decode('utf-8'))
                         if z<1:
                             wl=wl_low_case['f150w']
