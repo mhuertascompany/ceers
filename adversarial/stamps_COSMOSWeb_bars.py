@@ -101,22 +101,6 @@ cosmos_cat['morph_flag_f150w']=np.array(morph_flag)
 cosmos_cat['delta_f150']=np.array(delta_value)
 
 
-cosmos_cat['super_compact_flag'] = (
-    ((cosmos_cat['LP_zfinal'] < 1) & (cosmos_cat['RADIUS_SERSIC'] < (0.025 / 3600))) |
-    ((cosmos_cat['LP_zfinal'] > 1) & (cosmos_cat['LP_zfinal'] < 3) & (cosmos_cat['RADIUS_SERSIC'] < (0.05 / 3600))) |
-    ((cosmos_cat['LP_zfinal'] > 3) & (cosmos_cat['RADIUS_SERSIC'] < (0.07 / 3600)))
-)
-
-
-cosmos_cat['unc_flag'] = (
-    (
-        (cosmos_cat['delta_f150'] < 0.1) |
-        (cosmos_cat['delta_f277'] < 0.1) |
-        (cosmos_cat['delta_f444'] < 0.1)
-    ) )
-
-num_super_compact = cosmos_cat['super_compact_flag'].sum()
-num_unc = cosmos_cat['unc_flag'].sum()
 
 morph_flag = np.copy(cosmos_cat.morph_flag_f150w.values)
 zbest = cosmos_cat['LP_zfinal']
@@ -125,17 +109,17 @@ morph_f356 = np.copy(cosmos_cat.morph_flag_f277w.values)
 morph_f444 = np.copy(cosmos_cat.morph_flag_f444w.values)
 morph_flag[(zbest>1) & (zbest<3)] = np.copy(morph_f356[(zbest>1) & (zbest<3)])
 morph_flag[(zbest>3) & (zbest<6)]= np.copy(morph_f444[(zbest>3) & (zbest<6)])
-super_compact_flag = cosmos_cat['super_compact_flag']
-morph_flag[(super_compact_flag==1)]=-1
+#super_compact_flag = cosmos_cat['super_compact_flag']
+#morph_flag[(super_compact_flag==1)]=-1
 cosmos_cat['morph_flag']=np.copy(morph_flag)
 
 
-bt_rf = np.copy(cosmos_cat['B/T_F150W'].values)
-bt_277 = np.copy(cosmos_cat['B/T_F277W'].values)
-bt_444 = np.copy(cosmos_cat['B/T_F444W'].values)
-bt_rf[(zbest>1) & (zbest<3)] = np.copy(bt_277[(zbest>1) & (zbest<3)])
-bt_rf[(zbest>3) & (zbest<6)]= np.copy(bt_444[(zbest>3) & (zbest<6)])
-cosmos_cat['bt_rf']=np.copy(bt_rf)
+#bt_rf = np.copy(cosmos_cat['B/T_F150W'].values)
+#bt_277 = np.copy(cosmos_cat['B/T_F277W'].values)
+#bt_444 = np.copy(cosmos_cat['B/T_F444W'].values)
+#bt_rf[(zbest>1) & (zbest<3)] = np.copy(bt_277[(zbest>1) & (zbest<3)])
+#bt_rf[(zbest>3) & (zbest<6)]= np.copy(bt_444[(zbest>3) & (zbest<6)])
+#cosmos_cat['bt_rf']=np.copy(bt_rf)
 
 
 
