@@ -11,6 +11,7 @@ import aplpy
 from datetime import date
 import astropy.wcs as wcs
 import pdb
+import ast
 
 
 data_COSMOS = '/n03data/huertas/COSMOS-Web/cats'
@@ -409,7 +410,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
                     if True:
                         print('making cutout',full)
 
-                        name_img_det, name_img_part, sci_imas, model_imas, resid_imas, path_checkimg, imgname_chi2_c20, filters_translate = load_imgs(full.decode('utf-8'))
+                        name_img_det, name_img_part, sci_imas, model_imas, resid_imas, path_checkimg, imgname_chi2_c20, filters_translate = load_imgs(ast.literal_eval(full).decode('utf-8'))
                         if z<1:
                             wl=wl_low_case['f150w']
                         if (z>1) & (z<3):
