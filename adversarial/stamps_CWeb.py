@@ -390,9 +390,9 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
     today = date.today()
     d4 = today.strftime("%b-%d-%Y")
     arcsec_cut = 64*0.03
-    with PdfPages(data_path+'figures/'+'morph_'+str(morph)+'_CWeb3.1_'+str(wl)+'_'+d4+'.pdf') as pdf_ceers:
+    with PdfPages(data_path+'figures/'+'morph_'+str(morph)+'_CWeb3.1_'+str(wl)+'_'+d4+'_Q.pdf') as pdf_ceers:
         
-        sel = ceers_cat.query('morph_flag=='+str(morph)+' and LP_zfinal>'+str(3.5)+' and LP_zfinal<'+str(7)+' and LP_mass_med_PDF>10 and MAG_MODEL_F444W<27')
+        sel = ceers_cat.query('((LP_MNUV_phys - LP_MR_phys) > 3 * (LP_MR_phys - LP_MJ_phys)) and ((LP_MNUV_phys - LP_MR_phys) > 3.1) and morph_flag=='+str(morph)+' and LP_zfinal>'+str(3.5)+' and LP_zfinal<'+str(7)+' and LP_mass_med_PDF>10 and MAG_MODEL_F444W<27')
         quant = pd.qcut(sel['LP_zfinal'].values, nquants_z,labels=False)
         print(len(quant))
         print(len(sel))
