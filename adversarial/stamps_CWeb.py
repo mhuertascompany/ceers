@@ -524,7 +524,7 @@ def plot_stamps_quantiles(wl,morph,ceers_cat,data_path,nquants_z=10,nquants_mass
         print("final saving")
 
 wl_vec = ['f150w','f277w','f444w']
-morph_vec=[-1]
+morph_vec=[2]
 #morph_vec=[0,1,2,3]
 data_out = '/n03data/huertas/COSMOS-Web/'
 
