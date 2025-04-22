@@ -135,7 +135,7 @@ def fit_MCMC(smf_morph, path_out, filename, fit_range=(9, 12)):
                         'params_16': np.percentile(samples_single, 16, axis=0),
                         'params_84': np.percentile(samples_single, 84, axis=0)
                     }
-                    print(f'Done single Schechter fit for {morph} at z={zbin}')
+                    print(f'Done single Schechter fit for {morph} at z={zbin} in file {filename}')
 
                     # DPL Fit
                     initial_guess_DPL = [10.5, -3.0, -2.0,-5.0]
