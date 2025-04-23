@@ -121,7 +121,7 @@ def fit_MCMC(smf_morph, path_out, filename, fit_range=(9, 12)):
                         'params_16': np.percentile(samples_double, 16, axis=0),
                         'params_84': np.percentile(samples_double, 84, axis=0)
                     }
-                    print(f'Done double Schechter fit for {morph} at z={zbin}')
+                    print(f'Done double Schechter fit for {morph} at z={zbin} in file {filename}')
 
                     # Single Schechter Fit
                     initial_guess_single = [-2, 10.5, -1.2]
@@ -149,7 +149,7 @@ def fit_MCMC(smf_morph, path_out, filename, fit_range=(9, 12)):
                         'params_16': np.percentile(samples_DPL, 16, axis=0),
                         'params_84': np.percentile(samples_DPL, 84, axis=0)
                     }
-                    print(f'Done DPL fit for {morph} at z={zbin}')
+                    print(f'Done DPL fit for {morph} at z={zbin} in file {filename}')
 
                 else:
                     print(f"Skipping {morph} at z={zbin} due to empty data.")
@@ -195,7 +195,7 @@ path_in = '/n03data/huertas/COSMOS-Web/SMF'
 os.makedirs(path_in, exist_ok=True)
 #smf_files = ['smf_morph_3.1_allerrors_nocompactphys_0.07F444','smf_morph_3.1_allerrors_nocompactphys_0.07F444_Q','smf_morph_3.1_allerrors_nocompactphys_0.07F444_SF']
 #smf_files = ['smf_morph_3.1_allerrors_nocompactphys_0.07F444_SF']
-smf_files = ["smf_morph_3.1_allerrors_nocompactphys_noqsos_nolrds_noXray_SF","smf_morph_3.1_allerrors_nocompactphys_noqsos_nolrds_noXray_Q"]
+smf_files = ["smf_morph_3.1_allerrors_nocompactphys_noqsos_nolrds_noXray_Q"]
 
 
 for smf_type in smf_files:
