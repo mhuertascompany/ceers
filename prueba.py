@@ -1,2 +1,0 @@
-#prueba 
-print('Todo funciona')

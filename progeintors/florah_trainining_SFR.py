@@ -145,14 +145,14 @@ data_loader_val = torch.utils.data.DataLoader(
 # Create a Pytorch lightning trainer. This will handle the training loop and
 # checkpointing.
 trainer  = pl.Trainer(
-    default_root_dir="/scratch/mhuertas/CEERS/proj/TNGEagleSimba_mass_size_gt9",
+    default_root_dir="/scratch/lmarrero-ext/CEERS_train/proj/TNGEagleSimba_mass_size_gt9",
     accelerator="auto",
     devices=1,
     max_epochs=500,
     logger=pl.loggers.CSVLogger("delta_run", name="simba_run"),
     callbacks=[
         pl.callbacks.ModelCheckpoint(
-            dirpath='/scratch/mhuertas/CEERS/proj/TNGEagleSimba_mass_size_gt9/SFR_val/',filename="{epoch}-{val_loss:.4f}", save_weights_only=False,
+            dirpath='/scratch/lmarrero-ext/CEERS_train/proj/TNGEagleSimba_mass_size_gt9/SFR_val/',filename="{epoch}-{val_loss:.4f}", save_weights_only=False,
             mode="min", monitor="val_loss",save_top_k=5,save_last=True,every_n_epochs = 1),
         pl.callbacks.LearningRateMonitor("epoch"),
     ],
