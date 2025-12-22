@@ -1,0 +1,18 @@
+Loading training data..
+Training...
+#################~ JOB EFFICIENCY REPORT ~##################
+# JobID:                   130057                          #
+# Cluster:                 deimos                          #
+# Cores:                   1                               #
+# Wall-clock time:         0.31 hours                      #
+# User-CPU utilized:       0.29 CPU-hours                  #
+# User-CPU load:           95.1 %                          #
+# System-CPU utilized:     0.01 CPU-hours                  #
+# System-CPU load:         1.7 %                           #
+# Memory utilized          2.71 GB                         #
+# Memory efficiency        10.7 %                          #
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+# If your job has low CPU Efficiency or you have doubts    #
+# about setting up a job, do not hesitate and contact us:  #
+#                    res_support@iac.es                    #
+############################################################
