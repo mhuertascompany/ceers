@@ -2,7 +2,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --gres=gpu
-#SBATCH --time=05:00:00
+#SBATCH --time=12:00:00
 #SBATCH --job-name=florah
 #SBATCH --output=%j.out
 #SBATCH --error=%j.err
