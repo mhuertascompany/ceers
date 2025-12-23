@@ -1,0 +1,26 @@
+model: !!python/name:florah.models.rnn_model.rnn_generator.RecurrentMAF ''
+model_hparams:
+  hidden_features: 128
+  hidden_features_flows: 128
+  in_channels: 3
+  num_blocks: 2
+  num_layers: 4
+  num_layers_flows: 4
+  out_channels: 3
+  rnn_name: GRU
+optimizer_hparams:
+  optimizer:
+    betas: !!python/tuple
+    - 0.9
+    - 0.98
+    lr: 0.0005
+    optimizer: AdamW
+  scheduler:
+    patience: 10
+    scheduler: ReduceLROnPlateau
+transform: !!python/name:florah.models.transforms.Preprocess ''
+transform_hparams:
+  nx: 3
+  ny: 3
+  sub_dim:
+  - 0
