@@ -1,0 +1,19 @@
+#!/bin/bash
+#SBATCH --ntasks=1                  # 1 proceso principal
+#SBATCH --cpus-per-task=8           # 8 cores para paralelismo
+#SBATCH --mem=64G                   # memoria grande para muchos datos
+#SBATCH --time=12:00:00             # ajusta según cuánto dure tu job
+#SBATCH --job-name=likelihood_cosmos
+#SBATCH --output=/scratch/lmarrero-ext/ceers/progeintors/logs/%j.out             # salida 
+#SBATCH --error=/scratch/lmarrero-ext/ceers/progeintors/logs/%j.err              # errores
+
+# === Cargar entorno Python del cluster ===
+module load ml_py310              
+
+# === Configurar threads para librerías matemáticas ===
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+export MKL_NUM_THREADS=$SLURM_CPUS_PER_TASK
+export NUMEXPR_NUM_THREADS=$SLURM_CPUS_PER_TASK
+
+# === Ejecutar tu script Python ===
+python3 likelihood_COSMOS_SFR_SCRIPT.py

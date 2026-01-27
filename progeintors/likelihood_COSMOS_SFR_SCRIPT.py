@@ -1,6 +1,6 @@
 # %%
-import pandas as pd
 import numpy as np
+import pandas as pd
 from astropy.io import fits
 from astropy.wcs import WCS
 from astropy.nddata.utils import Cutout2D
@@ -397,7 +397,7 @@ def log_likelihood_obs(
 # %%
 # Load the trained model from a checkpoint file
 from florah.models.rnn_model.rnn_generator import DataModule 
-checkpoint_path = "C:\\Users\\usuario\\Documents\\TFG\\florah_training_SFR\\last-v1.ckpt"  # Specify the path to your checkpoint file
+checkpoint_path = "/scratch/lmarrero-ext/CEERS_train/proj/TNGEagleSimba_mass_size_gt9/SFR_val/last-v1.ckpt"  # Specify the path to your checkpoint file
 loaded_model = DataModule.load_from_checkpoint(checkpoint_path,map_location='cpu', weights_only=False)
 
 
@@ -405,7 +405,7 @@ loaded_model = DataModule.load_from_checkpoint(checkpoint_path,map_location='cpu
 loaded_model.eval()
 
 # %%
-data_path = "C:\\Users\\usuario\\Documents\\TFG\\florah_training_SFR\\"
+data_path = "/scratch/lmarrero-ext/likelihood_COSMOS_SFR/"
 cosmos_cat = pd.read_csv(data_path+"COSMOSWeb_Laura_filtered.csv") # Data from COSMOS-WEB, converted from .fits to .csv in florah_eval_SFR.ipynb
 
 sfr_CIGALE = np.log10(cosmos_cat['sfr_inst'].values)
@@ -481,7 +481,7 @@ for m in mass_bin:
         pickle.dump(node_features, outfile)
 
 # %%
-output_path = 'C:\\Users\\usuario\\Documents\\TFG\\likelihood_COSMOS_SFR\\datos1'
+output_path = '/scratch/lmarrero-ext/likelihood_COSMOS_SFR/datos1'
 print(len(node_features['x']))
 # Iterate through the entries in the structure
 for i in range(len(node_features['x'])):
@@ -512,7 +512,7 @@ for i in range(len(node_features['x'])):
 import pickle
 import os
 
-output_path = 'C:\\Users\\usuario\\Documents\\TFG\\likelihood_COSMOS_SFR\\datos2'
+output_path = '/scratch/lmarrero-ext/likelihood_COSMOS_SFR/datos2'
 file_list = []
 mass_bin = [[9.8, 10], [10, 10.2], [10.2, 10.4], [10.4, 10.6], [10.6, 10.8], [10.8, 11], [11, 12]]
 
@@ -798,7 +798,7 @@ bin_edges = np.array([0, 0.5, 1., 1.5, 2, 2.5, 3.5, 4.5, 6])
 #mass_bin = [[10, 10.3], [10.3, 10.6], [10.6, 10.9], [11, 12]]
 mass_bin = [[9.8,10],[10,10.2],[10.2,10.4],[10.4,10.6],[10.6,10.8],[10.8,11],[11,12]]
 #colors = ['blue', 'green', 'purple', 'orange','pink','brown','black']  # Adjust or add more colors for each mass bin
-SFH_path = "/Users/marchuertascompany/Documents/data/COSMOS-Web/automnt/n17data/arango/CIGALE/runs/run_web/COSMOSWEB_1.6_INPUT/out/"
+SFH_path = "/scratch/lmarrero-ext/likelihood_COSMOS_SFR/datos2/"
 
 plt.figure(figsize=[8, 8])
 plt.tick_params(axis='both', which='major', labelsize=20)
