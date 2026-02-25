@@ -1,0 +1,24 @@
+name: luri_env
+channels:
+  - defaults
+  - conda-forge
+  - pytorch
+
+dependencies:
+  - python>=3.6
+  - numpy
+  - pandas
+  - scipy
+  - matplotlib
+  - seaborn
+  - h5py
+  - scikit-learn
+  - astropy>=6
+  # PyTorch (CPU version)
+  - pytorch>=2.0.0
+  - cpuonly
+
+  - pip
+  - pip:
+      - pytorch-lightning
+      - nflows
