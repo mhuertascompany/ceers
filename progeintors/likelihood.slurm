@@ -2,10 +2,12 @@
 #SBATCH --ntasks=1                  # 1 proceso principal
 #SBATCH --cpus-per-task=8           # 8 cores para paralelismo
 #SBATCH --mem=64G                   # memoria grande para muchos datos
+#SBATCH --partition=gpu             # <-- NUEVO: Enviar a la partición de GPU
+#SBATCH --gres=gpu:1                # <-- NUEVO: Solicitar 1 GPU
 #SBATCH --time=12:00:00             # ajusta según cuánto dure tu job
 #SBATCH --job-name=likelihood_cosmos
-#SBATCH --output=/scratch/lmarrero-ext/ceers/progeintors/logs/%j.out             # salida 
-#SBATCH --error=/scratch/lmarrero-ext/ceers/progeintors/logs/%j.err              # errores
+#SBATCH --output=/scratch/lmarrero-ext/likelihood_COSMOS_SFR/logs/%j.out             # salida 
+#SBATCH --error=/scratch/lmarrero-ext/likelihood_COSMOS_SFR/logs/%j.err              # errores
 
 # === Cargar entorno Python del cluster ===
 module load ml_py310              
