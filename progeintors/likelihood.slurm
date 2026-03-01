@@ -16,4 +16,4 @@ export MKL_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export NUMEXPR_NUM_THREADS=$SLURM_CPUS_PER_TASK
 
 # === Ejecutar tu script Python ===
-python3 likelihood_COSMOS_SFR_SCRIPT.py
+python3 likelihood_COSMOS_SFR_optimized_SCRIPT.py
