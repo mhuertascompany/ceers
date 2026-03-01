@@ -2,7 +2,6 @@
 #SBATCH --ntasks=1                  # 1 proceso principal
 #SBATCH --cpus-per-task=8           # 8 cores para paralelismo
 #SBATCH --mem=64G                   # memoria grande para muchos datos
-#SBATCH --partition=gpu             # <-- NUEVO: Enviar a la partición de GPU
 #SBATCH --gres=gpu:1                # <-- NUEVO: Solicitar 1 GPU
 #SBATCH --time=12:00:00             # ajusta según cuánto dure tu job
 #SBATCH --job-name=likelihood_cosmos
