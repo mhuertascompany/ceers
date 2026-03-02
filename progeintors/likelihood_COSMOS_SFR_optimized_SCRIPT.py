@@ -25,7 +25,7 @@ from florah.models.rnn_model.rnn_generator import DataModule
 
 
 
-def build_roots_optimized(cosmos_cat, mass_bin, nsamples=100, zbins=[0, 0.5, 1], sample_fraction=0.6):
+def build_roots_optimized(cosmos_cat, mass_bin, nsamples=100, zbins=[0, 0.5, 1], sample_fraction=1):
     """
     Optimized version of build_roots.
     Generates initial pairs of galaxies (root -> progenitor candidate), to initialize trees
@@ -175,7 +175,7 @@ def build_roots_optimized(cosmos_cat, mass_bin, nsamples=100, zbins=[0, 0.5, 1],
 
 
 
-def build_features_optimized(cosmos_cat, zbin, node_features, sample_fraction=0.6):
+def build_features_optimized(cosmos_cat, zbin, node_features, sample_fraction=1):
     """
     Optimized version of build_features.
     We find progenitors candidates in next zbin for a given galaxy with node_features
