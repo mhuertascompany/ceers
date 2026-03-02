@@ -1,9 +1,7 @@
 import numpy as np
 import pandas as pd
 
-
 import h5py  
-
 
 import pdb
  
@@ -19,7 +17,6 @@ import sys
 sys.path.append('/scratch/lmarrero-ext/florah/src')
 
 from florah.models.rnn_model.rnn_generator import DataModule 
-
 
 
 
@@ -455,23 +452,33 @@ nfm_data_path = "/scratch/lmarrero-ext/likelihood_COSMOS_SFR/node_features_morph
 redshifts = np.array([1.,1.5,2,2.5,3.5,4.5,6])
 mass_bin = [[9.8,10],[10,10.2],[10.2,10.4],[10.4,10.6],[10.6,10.8],[10.8,11],[11,12]]
 
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+print(f"--- Iniciando ejecución en dispositivo: {device} ---")
 
 for m in mass_bin:
-    print('Iteracion mass_bin: ', m)
+    print(f"\n{'='*60}")
+    print(f"Iniciando mass_bin: {m}")
+    print(f"{'='*60}")
+
     # First we build root and find best candidate for progenitor in next redshift bin
     node_features, n_chunks, chunk_size = build_roots_optimized(cosmos_cat, m, nsamples=100) # Select root in zbin = (0, 0.5) + candidate for progenitor in zbin = (0.5, 1)
+    loaded_model.to('cpu')
     preprocessed_node_features = loaded_model.transform(node_features, fit=False) 
-    l  = log_likelihood_obs_optimized(loaded_model,preprocessed_node_features) # Calculate likelihood for every pair
-    node_features = get_maxlike_descendant_final(l,node_features,n_chunks,chunk_size) # Chooses the galaxy with higher likelihood
+    l  = log_likelihood_obs_optimized(loaded_model, preprocessed_node_features, device=device) # Calculate likelihood for every pair
+    node_features = get_maxlike_descendant_final(l, node_features, n_chunks, chunk_size) # Chooses the galaxy with higher likelihood
+
 
     # Loop to find progenitors in the following bins
     for zmin,zmax in zip(redshifts[:-1],redshifts[1:]):
-        print('Iteracion zbin: ', zmin, zmax)
-        node_features,n_chunks,chunk_size = build_features_optimized(cosmos_cat,[zmin,zmax],node_features)
+        print(f"Iteración z_bin : {zmin} -> {zmax}")
+
+        node_features, n_chunks, chunk_size = build_features_optimized(cosmos_cat,[zmin,zmax],node_features)
+        loaded_model.to('cpu')
         preprocessed_node_features = loaded_model.transform(node_features, fit=False)
-        l  = log_likelihood_obs_optimized(loaded_model, preprocessed_node_features)
+        l  = log_likelihood_obs_optimized(loaded_model, preprocessed_node_features, device=device)
         node_features = get_maxlike_descendant_final(l,node_features, n_chunks, chunk_size)
-        
+
 # Store node_features
     with open(nfm_data_path+'node_features_morphology'+str(m[0])+'_'+str(m[1])+'.pkl', 'wb') as outfile:
         pickle.dump(node_features, outfile)
+    
