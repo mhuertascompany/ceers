@@ -283,11 +283,12 @@ def build_features_optimized(cosmos_cat, zbin, node_features, sample_fraction=0.
 
 
 
-
+# Version actualizada de log_likelihood_obs_optimized 02/03:
 
 def log_likelihood_obs_optimized(
         model: torch.nn.Module, 
-        batch: Tuple[Tensor],
+        batch: Union[Tuple[torch.Tensor], torch.Tensor, dict],
+        batch_size: int = 1000,  # Valor recomendado para GPUs de ~12GB
         to_numpy: bool = True,
         device: str = None
     ) -> Union[Tensor, np.ndarray]:
@@ -317,27 +318,56 @@ def log_likelihood_obs_optimized(
     
     # 1. Choose device (GPU vs CPU)
     if device is None:
-        device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        if torch.cuda.is_available():
+            device = 'cuda' 
+            torch.cuda.empty_cache()
+
+        else: device = 'cpu'
         
     model = model.to(device)
+    model.eval()
+
 
     # Move data to same device as model
-    # (If model is in GPU and data is not, PyTorch fails)
+    # Determinamos el número total de muestras (galaxias/hijos)
     if isinstance(batch, (tuple, list)):
-        batch = tuple(b.to(device) if isinstance(b, torch.Tensor) else b for b in batch)
+        num_samples = batch[0].shape[0]
     elif isinstance(batch, dict):
-        batch = {k: v.to(device) if isinstance(v, torch.Tensor) else v for k, v in batch.items()}
-    elif isinstance(batch, torch.Tensor):
-        batch = batch.to(device)
+        num_samples = next(iter(batch.values())).shape[0]
+    else:
+        num_samples = batch.shape[0]
 
-    # 2. Optimized evaluation
+    all_lps = []
+
+    # 2. Evaluación por trozos (Mini-batches)
     with torch.no_grad():
-        lp = model.log_prob(batch, return_context=False)
+        for i in range(0, num_samples, batch_size):
+            # Extraer sub-batch y enviarlo a la GPU solo en este momento
+            if isinstance(batch, (tuple, list)):
+                sub_batch = tuple(b[i : i + batch_size].to(device) for b in batch)
+            elif isinstance(batch, dict):
+                sub_batch = {k: v[i : i + batch_size].to(device) for k, v in batch.items()}
+            else:
+                sub_batch = batch[i : i + batch_size].to(device)
+
+            # Calcular probabilidad
+            lp_sub = model.log_prob(sub_batch, return_context=False)
+            
+            # Mover resultado a CPU inmediatamente para liberar RAM de la GPU
+            all_lps.append(lp_sub.cpu())
+            
+            # Limpieza explícita de referencias temporales
+            del sub_batch
+            if device == 'cuda' and i % (batch_size * 5) == 0:
+                torch.cuda.empty_cache()
+
+    # 3. Concatenar resultados
+    lp = torch.cat(all_lps)
 
     # 3. Convert to NumPy if solicited
     if to_numpy:
         # We use .cpu() first in case tensor was in gpu
-        lp = lp.cpu().detach().numpy()
+        lp = lp.detach().numpy()
 
     return lp
 
