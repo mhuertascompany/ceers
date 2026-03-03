@@ -9,6 +9,7 @@
 #SBATCH --error=/scratch/lmarrero-ext/likelihood_COSMOS_SFR/logs/%j.err              # errores
 
 # === Cargar entorno Python del cluster ===
+module load python/3.12_b1125
 module load ml_py310              
 
 # === Configurar threads para librerías matemáticas ===
