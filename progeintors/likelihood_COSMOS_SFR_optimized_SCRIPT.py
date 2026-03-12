@@ -114,7 +114,7 @@ def build_roots_optimized(cosmos_cat, mass_bin, nsamples=100, zbins=[0, 0.5, 1],
         
         # FILTER: Find candidates that fulfill mass condition
         # Condition: mass root - 1.5 < mass candidato < mass_root + 0.5
-        mask_matches = (c_mass > (current_mass - 1.5)) & (c_mass < (current_mass + 0.5))
+        mask_matches = (c_mass > (current_mass - 2.5)) & (c_mass < (current_mass + 0.5))
         
         # Index of those candidates that fulfill condition
         match_indices = np.where(mask_matches)[0]
@@ -225,7 +225,7 @@ def build_features_optimized(cosmos_cat, zbin, node_features, sample_fraction=1)
         
         # FILTER: Find candidates that fulfill mass condition
         # Condition: mass root - 1.5 < mass candidato < mass_root + 1.5
-        mass_mask = np.abs(c_mass - mass_last) < 1.5
+        mass_mask = np.abs(c_mass - mass_last) < 2
         candidate_indices = np.where(mass_mask)[0]
         n_candidates = len(candidate_indices)
         
