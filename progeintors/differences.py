@@ -12,7 +12,7 @@ import h5py
 
 import sys
 import os
-sys.path.append(r"C:\Users\usuario\Documents\TFG\florah\src")
+sys.path.append('/scratch/lmarrero-ext/florah/src')
 
 import florah
 from florah import utils
