@@ -9,6 +9,7 @@
 #SBATCH --error=/scratch/lmarrero-ext/florah_eval/logs/%j.err              # errores
 
 
-module load ml_py310
+module load ml_py310   
+module load python/3.12_b1125
 
 python3 differences.py
