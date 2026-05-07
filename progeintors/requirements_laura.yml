@@ -1,4 +1,4 @@
-name: luri_env
+name: luri_backup
 channels:
   - defaults
   - conda-forge
@@ -17,6 +17,8 @@ dependencies:
   # PyTorch (CPU version)
   - pytorch>=2.0.0
   - cpuonly
+  - astroquery
+  - reproject
 
   - pip
   - pip:

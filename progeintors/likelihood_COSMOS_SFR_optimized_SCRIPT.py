@@ -110,12 +110,17 @@ def build_roots_optimized(cosmos_cat, mass_bin, nsamples=100, zbins=[0, 0.5, 1],
     for i in range(n_roots):
         
         # Mass of current root
-        current_mass = r_mass[i]
+        mass_root = r_mass[i]
+        mass_root10 = 10**mass_root
+        u1 = mass_root10/2
+        u2 = mass_root10/1.2
+        x1 = np.log10((mass_root10 + u1)/mass_root10)
+        x2 = np.log10(mass_root10/(mass_root10 - u2))
         
         # FILTER: Find candidates that fulfill mass condition
         # Condition: mass root - 1.5 < mass candidato < mass_root + 0.5
-        mask_matches = (c_mass > (current_mass - 2.5)) & (c_mass < (current_mass + 0.5))
-        
+        mask_matches = ((mass_root + x1) >  c_mass  ) & (c_mass > (mass_root - x2)) 
+
         # Index of those candidates that fulfill condition
         match_indices = np.where(mask_matches)[0]
         n_matches = len(match_indices)
@@ -222,10 +227,15 @@ def build_features_optimized(cosmos_cat, zbin, node_features, sample_fraction=1)
     for i in range(n_chunks):
         
         mass_last = xs_in[i][-1, 0]
+        mass_last10 = 10**mass_last
+        u1 = mass_last10/0.1
+        u2 = mass_last10/1.1
+        x1 = np.log10((mass_last10 + u1)/mass_last10)
+        x2 = np.log10(mass_last10/(mass_last10 - u2))
         
         # FILTER: Find candidates that fulfill mass condition
         # Condition: mass root - 1.5 < mass candidato < mass_root + 1.5
-        mass_mask = np.abs(c_mass - mass_last) < 2
+        mass_mask = ( mass_last + x1 > c_mass) & (c_mass > mass_last - x2)
         candidate_indices = np.where(mass_mask)[0]
         n_candidates = len(candidate_indices)
         
@@ -481,4 +491,3 @@ for m in mass_bin:
 # Store node_features
     with open(nfm_data_path+'node_features_morphology'+str(m[0])+'_'+str(m[1])+'.pkl', 'wb') as outfile:
         pickle.dump(node_features, outfile)
-    
