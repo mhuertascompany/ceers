@@ -26,7 +26,6 @@ import astropy.units as u
 
 import random
 import pandas as pd
-import seaborn as sns
 
 
 # Load the trained model from a checkpoint file
