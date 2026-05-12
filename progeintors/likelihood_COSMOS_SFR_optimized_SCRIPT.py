@@ -459,7 +459,7 @@ cosmos_cat = pd.read_csv(cosmos_data_path+"COSMOSWeb_Laura_processed.csv") # Dat
 nfm_data_path = "/scratch/lmarrero-ext/likelihood_COSMOS_SFR/node_features_morphology/"
 
 
-redshifts = np.array([1.,1.5,2,2.5,3.5,4.5,6])
+redshifts = np.array([1., 1.5, 2, 2.5, 3.5, 4.5, 6])
 mass_bin = [[9.8,10],[10,10.2],[10.2,10.4],[10.4,10.6],[10.6,10.8],[10.8,11],[11,12]]
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
