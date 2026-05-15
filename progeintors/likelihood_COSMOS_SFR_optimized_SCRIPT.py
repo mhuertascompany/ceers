@@ -25,7 +25,7 @@ from florah.models.rnn_model.rnn_generator import DataModule
 
 
 
-def build_roots_optimized(cosmos_cat, mass_bin, nsamples=100, zbins=[0, 0.5, 1], sample_fraction=1):
+def build_roots_optimized(cosmos_cat, mass_bin, nsamples=300, zbins=[0, 0.05, 0.1], sample_fraction=1):
     """
     Optimized version of build_roots.
     Generates initial pairs of galaxies (root -> progenitor candidate), to initialize trees
@@ -459,7 +459,9 @@ cosmos_cat = pd.read_csv(cosmos_data_path+"COSMOSWeb_Laura_processed.csv") # Dat
 nfm_data_path = "/scratch/lmarrero-ext/likelihood_COSMOS_SFR/node_features_morphology/"
 
 
-redshifts = np.array([1., 1.5, 2, 2.5, 3.5, 4.5, 6])
+#redshifts = np.array([1., 1.5, 2, 2.5, 3.5, 4.5, 6])
+redshifts = np.array([0.1, 0.13, 0.17, 0.22, 0.28, 0.47, 1.5, 30])
+
 mass_bin = [[9.8,10],[10,10.2],[10.2,10.4],[10.4,10.6],[10.6,10.8],[10.8,11],[11,12]]
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
