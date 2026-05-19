@@ -22,7 +22,7 @@ import sys
 sys.path.append('/scratch/lmarrero-ext/florah/src')
 
 from florah.models.rnn_model.rnn_generator import DataModule 
-
+print('Libraries loaded')
 
 # --- Functions ---
 def calcular_bordes_bins_2d(centros):
@@ -492,7 +492,7 @@ def get_maxlike_descendant_final(l_numpy, node_features, num_chunks, chunk_size)
 
 # --- PART 2 ---- 
 
-
+print('Loading model')
 # Load the trained model from a checkpoint file
 checkpoint_path = "/scratch/lmarrero-ext/CEERS_train/proj/TNGEagleSimba_mass_size_gt9/SFR_val/last-v1.ckpt"  # Specify the path to your checkpoint file
 loaded_model = DataModule.load_from_checkpoint(checkpoint_path,map_location='cpu', weights_only=False)

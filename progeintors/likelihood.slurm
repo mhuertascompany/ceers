@@ -11,8 +11,8 @@
 # === Cargar entorno Python del cluster ===
 echo "=== Slurm Script Started ==="
 echo "Activating environment..."
-module load ml_py310   
-module load python/3.12_b1125
+module load ml_py/3.10
+#module load python/3.12_b1125
            
 
 # Force the cluster to use exactly 1 thread for data processing
