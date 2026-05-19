@@ -501,7 +501,7 @@ loaded_model.eval()
 
 
 cosmos_data_path = "/scratch/lmarrero-ext/likelihood_COSMOS_SFR/"
-cosmos_cat = pd.read_csv(cosmos_data_path+"COSMOSWeb_Laura_processed.csv") # Data from COSMOS-WEB, converted from .fits to .csv in florah_eval_SFR.ipynb
+cosmos_cat = pd.read_csv(cosmos_data_path+"COSMOSWeb_Laura_processed_SFH.csv") # Data from COSMOS-WEB, converted from .fits to .csv in florah_eval_SFR.ipynb
 
 nfm_data_path = "/scratch/lmarrero-ext/likelihood_COSMOS_SFR/node_features_morphology/"
 
