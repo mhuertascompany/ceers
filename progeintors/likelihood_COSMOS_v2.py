@@ -50,7 +50,7 @@ def parse_string_array(s):
         return s  # Returns as-is if it's already a valid list/array
 
 
-def build_roots_optimized(cosmos_cat, mass_bin, nsamples=1000, zbins=[0, 0.5], sample_fraction=1):
+def build_roots_optimized(cosmos_cat, mass_bin, nsamples=100, zbins=[0, 0.5], sample_fraction=1):
     """
     Optimized version of build_roots.
     Generates initial pairs of galaxies (root -> progenitor candidate), to initialize trees
