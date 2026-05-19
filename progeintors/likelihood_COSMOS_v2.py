@@ -516,7 +516,7 @@ for m in mass_bin:
     print(f"{'='*60}")
 
     # First we build root and find best candidate for progenitor in next redshift bin
-    node_features, n_chunks, chunk_size, redshifts = build_roots_optimized(cosmos_cat, m, nsamples=10000) # Select root in zbin = (0, 0.5) + candidate for progenitor in zbin = (0.5, 1)
+    node_features, n_chunks, chunk_size, redshifts = build_roots_optimized(cosmos_cat, m, nsamples=1000) # Select root in zbin = (0, 0.5) + candidate for progenitor in zbin = (0.5, 1)
     loaded_model.to('cpu')
     preprocessed_node_features = loaded_model.transform(node_features, fit=False) 
     l  = log_likelihood_obs_optimized(loaded_model, preprocessed_node_features, device=device) # Calculate likelihood for every pair
