@@ -20,4 +20,4 @@ export NUMEXPR_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 
 # === Ejecutar tu script Python ===
-python3 likelihood_COSMOS_SFR_optimized_SCRIPT.py
+python3 likelihood_COSMOS_v2.py

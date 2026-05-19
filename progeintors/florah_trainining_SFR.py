@@ -66,7 +66,7 @@ node_features = {'x': [np.array(arr, dtype=np.float32) for arr in x], 't': [np.a
 # Now, 'x' and 't' contain cleaned and converted data as NumPy arrays of objects
 
 
-x = node_features['x']   # stellar mass and half mass radius
+x = node_features['x']   # stellar mass, half mass radius, sfr
 t = node_features['t']   # scale factor
 
 # Split the data into training (85%) and validation (15%) sets
@@ -85,8 +85,8 @@ print('Training...')
 # define hyperparameters
 # model architecture
 model_hparams = dict(
-    in_channels=3,   # number of input channels, in this case it is the halo mass and concentration
-    out_channels=3,   # number of output channels, in this case it is also the halo mass and concentration
+    in_channels=3,   # number of input channels, in this case it is the stellar mass, half mass radius, sfr
+    out_channels=3,   # number of output channels, in this case it is also the stellar mass, half mass radius, sfr
     num_layers=4,
     hidden_features=128,
     num_layers_flows=4,
@@ -165,5 +165,3 @@ trainer  = pl.Trainer(
 trainer.fit(
     model=model, train_dataloaders=data_loader,
     val_dataloaders=data_loader_val)
-
-
