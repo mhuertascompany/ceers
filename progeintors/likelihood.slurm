@@ -9,6 +9,8 @@
 #SBATCH --error=/scratch/lmarrero-ext/likelihood_COSMOS_SFR/logs/%j.err              # errores
 
 # === Cargar entorno Python del cluster ===
+echo "=== Slurm Script Started ==="
+echo "Activating environment..."
 module load ml_py310   
 module load python/3.12_b1125
            
@@ -21,4 +23,6 @@ export NUMEXPR_NUM_THREADS=1
 export TORCH_NUM_THREADS=1
 
 # === Ejecutar tu script Python ===
+echo "=== System Environment Ready ==="
+echo "Launching Python script now..."
 python3 likelihood_COSMOS_v2.py
