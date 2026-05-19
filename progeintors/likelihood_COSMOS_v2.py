@@ -1,6 +1,10 @@
 import numpy as np
 import pandas as pd
+print('scipy cargando...')
 from scipy.interpolate import interp1d
+
+print('se ha cargao scipy')
+
 
 import h5py  
 import pickle
