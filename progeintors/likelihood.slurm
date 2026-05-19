@@ -15,6 +15,14 @@ echo "Activating environment..."
 module load python/3.12_b1125
            
 
+
+
+# Force Python to read and write outputs as an unbuffered stream
+export PYTHONUNBUFFERED=1
+
+# Prevent Python from trying to write .pyc files back to the slow network drive
+export PYTHONDONTWRITEBYTECODE=1
+
 # Force the cluster to use exactly 1 thread for data processing
 export OMP_NUM_THREADS=1
 export MKL_NUM_THREADS=1
@@ -25,4 +33,4 @@ export TORCH_NUM_THREADS=1
 # === Ejecutar tu script Python ===
 echo "=== System Environment Ready ==="
 echo "Launching Python script now..."
-python3 likelihood_COSMOS_v2.py
+python3 -u likelihood_COSMOS_v2.py

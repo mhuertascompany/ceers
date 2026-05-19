@@ -3,6 +3,7 @@ print("--- PYTHON HAS OFFICIALLY STARTED THE SCRIPT ---", flush=True)
 
 
 import numpy as np
+print('se cargo numpy')
 import pandas as pd
 print('scipy cargando...')
 from scipy.interpolate import interp1d
