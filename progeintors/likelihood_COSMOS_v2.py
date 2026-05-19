@@ -1,8 +1,11 @@
+import sys
+print("--- PYTHON HAS OFFICIALLY STARTED THE SCRIPT ---", flush=True)
+
+
 import numpy as np
 import pandas as pd
 print('scipy cargando...')
 from scipy.interpolate import interp1d
-
 print('se ha cargao scipy')
 
 
@@ -22,7 +25,7 @@ from astropy.cosmology import Planck13, z_at_value, LambdaCDM
 cosmo = Planck13
 
 import os
-import sys
+
 sys.path.append('/scratch/lmarrero-ext/florah/src')
 
 from florah.models.rnn_model.rnn_generator import DataModule 
