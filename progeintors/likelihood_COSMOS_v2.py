@@ -236,15 +236,15 @@ def build_features_optimized(cosmos_cat, zmin_vector, zmax_vector, node_features
     Finds progenitor candidates using customized redshift vectors for each individual tracking branch.
     """
     # 1. Broad Global Filter: Narrows down cosmos_cat to speed up the loop
-    global_min_z = np.min(zmin_vector)
-    global_max_z = np.max(zmax_vector)
+    global_min_z = min(np.min(zmin_vector), 14)
+    global_max_z = min(np.max(zmax_vector), 15)
     
     mask_broad_z = (cosmos_cat['zpdf_med'] >= global_min_z) & (cosmos_cat['zpdf_med'] <= global_max_z)
     cosmos_slice = cosmos_cat[mask_broad_z].copy()
     
     if cosmos_slice.empty:
         print(f"Warning: Did not find any galaxies globally between z={global_min_z:.2f} and z={global_max_z:.2f}")
-        return {k: [] for k in node_features}, 0, [0]*len(node_features['x'])
+        return node_features, n_chunks, sel2_len_vec
 
     # Fast NumPy Extractions
     c_mass = cosmos_slice['mass_CIGALE'].values
@@ -302,6 +302,7 @@ def build_features_optimized(cosmos_cat, zmin_vector, zmax_vector, node_features
         candidate_indices = np.where(mass_mask & z_mask)[0]
         n_candidates = len(candidate_indices)
         
+        
         actual_prog_count = 0 
         
         if n_candidates > 0:
@@ -344,12 +345,33 @@ def build_features_optimized(cosmos_cat, zmin_vector, zmax_vector, node_features
                     out['morphology'].append(np.vstack([p_mor, new_row_mor]))
                     out['id'].append(np.vstack([p_id, new_row_id]))
                     out['track_idx'].append(np.vstack([p_track, new_row_track]))
-        
+        else: 
+            # Prepare current branch history data
+                p_x = xs_in[i]
+                p_t = ts_in[i]
+                p_ra = ras_in[i]
+                p_dec = decs_in[i]
+                p_ser = sersics_in[i]
+                p_bov = boverts_in[i]
+                p_mor = morphs_in[i]
+                p_id = ids_in[i]
+                p_track = tracks_in[i]
+
+                out['x'].append(p_x)
+                out['t'].append(p_t)
+                out['ra'].append(p_ra)
+                out['dec'].append(p_dec)
+                out['sersic'].append(p_ser)
+                out['bovert'].append(p_bov)
+                out['morphology'].append(p_mor)
+                out['id'].append(p_id)
+                out['track_idx'].append(p_track)
+
+
         sel2_len_vec.append(actual_prog_count)
 
     print(f'Iteration complete. build_features_optimized processed {n_chunks} branches.')
     return out, n_chunks, sel2_len_vec
-
 
 
 
@@ -515,7 +537,9 @@ print("Catalog loaded successfully!")
 
 nfm_data_path = "/scratch/lmarrero-ext/likelihood_COSMOS_SFR/node_features_morphology/"
 
+
 mass_bin = [[9.8,10],[10,10.2],[10.2,10.4],[10.4,10.6],[10.6,10.8],[10.8,11],[11,12]]
+sample_fraction = np.array([1, 1, 1, 1, 1, 1, 1, 0.5, 0.5])
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print(f"--- Iniciando ejecución en dispositivo: {device} ---")
@@ -526,12 +550,11 @@ for m in mass_bin:
     print(f"{'='*60}")
 
     # First we build root and find best candidate for progenitor in next redshift bin
-    node_features, n_chunks, chunk_size, redshifts = build_roots_optimized(cosmos_cat, m, nsamples=1000) # Select root in zbin = (0, 0.5) + candidate for progenitor in zbin = (0.5, 1)
+    node_features, n_chunks, chunk_size, redshifts = build_roots_optimized(cosmos_cat, m, nsamples=10) # Select root in zbin = (0, 0.5) + candidate for progenitor in zbin = (0.5, 1)
     loaded_model.to('cpu')
     preprocessed_node_features = loaded_model.transform(node_features, fit=False) 
     l  = log_likelihood_obs_optimized(loaded_model, preprocessed_node_features, device=device) # Calculate likelihood for every pair
     node_features = get_maxlike_descendant_final(l, node_features, n_chunks, chunk_size) # Chooses the galaxy with higher likelihood
-
 
     # Loop to find progenitors in the following bins
     # redshifts shape is (n_roots, n_bins)
@@ -543,16 +566,26 @@ for m in mass_bin:
         zmin_vector = redshifts[:, bin_idx]
         zmax_vector = redshifts[:, bin_idx + 1]
         
-        print(f"*Iteración z_bin columna: {bin_idx} -> {bin_idx + 1}")
-        print(f"*Rango de redshifts en este paso: {zmin_vector.min():.2f} a {zmax_vector.max():.2f}")
+        print(f"Iteración z_bin columna: {bin_idx} -> {bin_idx + 1}")
+        print(f"Rango de redshifts en este paso: {zmin_vector.min():.2f} a {zmax_vector.max():.2f}")
 
-        node_features, n_chunks, chunk_size = build_features_optimized(cosmos_cat, zmin_vector, zmax_vector, node_features, sample_fraction=1)
+        print('---Tamaño de node_features antes de build_features:', len(node_features['bovert']))
+        node_features, n_chunks, chunk_size = build_features_optimized(cosmos_cat, zmin_vector, zmax_vector, node_features, sample_fraction=sample_fraction[bin_idx])
+        print('---Tamaño de node_features dps:' , len(node_features['bovert']))
+        if len(node_features['bovert']) == 0:
+            print('Rompí el bucle')
+            break
+        print('nchunks', n_chunks)
+        if n_chunks == len(node_features['bovert']):
+            print('igualdad')
+            break
         loaded_model.to('cpu')
         preprocessed_node_features = loaded_model.transform(node_features, fit=False)
         l = log_likelihood_obs_optimized(loaded_model, preprocessed_node_features, device=device)
         node_features = get_maxlike_descendant_final(l, node_features, n_chunks, chunk_size)
+        print('---Tamaño de node_features dps del bucle de zbin:' , len(node_features['bovert']))
 
-
+    node_features['formation_history_zbins'] = redshifts
 # Store node_features
     with open(nfm_data_path+'node_features_morphology'+str(m[0])+'_'+str(m[1])+'.pkl', 'wb') as outfile:
         pickle.dump(node_features, outfile)
