@@ -77,8 +77,8 @@ node_features_train = {'x': [np.array(arr, dtype=np.float32) for arr in x_train]
 node_features_val = {'x': [np.array(arr, dtype=np.float32) for arr in x_val], 't': [np.array(arr, dtype=np.float32) for arr in t_val]}
 
 
-num_elements = 10000
-start_index = 3
+num_elements = len(x_val)
+start_index = 0
 
 # Defining empty lists to do storing:
 
