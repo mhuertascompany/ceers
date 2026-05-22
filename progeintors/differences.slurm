@@ -3,7 +3,7 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=64G                   # memoria grande para muchos datos
 #SBATCH --gres=gpu
-#SBATCH --time=12:00:00
+#SBATCH --time=23:00:00
 #SBATCH --job-name=diff_florah
 #SBATCH --output=/scratch/lmarrero-ext/florah_eval/logs/%j.out             # salida 
 #SBATCH --error=/scratch/lmarrero-ext/florah_eval/logs/%j.err              # errores
