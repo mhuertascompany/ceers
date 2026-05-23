@@ -17,4 +17,4 @@ module load python/3.12_b1125
 
 echo "=== System Environment Ready ==="
 echo "Launching Python script now..."
-python3 differences.py
+python3 -u differences.py
