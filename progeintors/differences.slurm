@@ -8,8 +8,6 @@
 #SBATCH --output=/scratch/lmarrero-ext/florah_eval/logs/%j.out             # salida 
 #SBATCH --error=/scratch/lmarrero-ext/florah_eval/logs/%j.err              # errores
 
-
-module load ml_py310   
-module load python/3.12_b1125
+module load ml_py/3.10 
 
 python3 differences.py
