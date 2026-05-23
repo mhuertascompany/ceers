@@ -551,10 +551,15 @@ for m in mass_bin:
 
     # First we build root and find best candidate for progenitor in next redshift bin
     node_features, n_chunks, chunk_size, redshifts = build_roots_optimized(cosmos_cat, m, nsamples=1000) # Select root in zbin = (0, 0.5) + candidate for progenitor in zbin = (0.5, 1)
+    # 1. Hide track_idx (and any other purely administrative columns) from the network
+    features_for_network = {k: v for k, v in node_features.items() if k not in ['track_idx', 'id']}
+    # 2. Feed only the physical features to the model
     loaded_model.to('cpu')
-    preprocessed_node_features = loaded_model.transform(node_features, fit=False) 
-    l  = log_likelihood_obs_optimized(loaded_model, preprocessed_node_features, device=device) # Calculate likelihood for every pair
-    node_features = get_maxlike_descendant_final(l, node_features, n_chunks, chunk_size) # Chooses the galaxy with higher likelihood
+    preprocessed_node_features = loaded_model.transform(features_for_network, fit=False)
+    l = log_likelihood_obs_optimized(loaded_model, preprocessed_node_features, device=device)
+
+    # 3. Pass the ORIGINAL node_features (which still has track_idx) to your update function
+    node_features = get_maxlike_descendant_final(l, node_features, n_chunks, chunk_size)
 
     # Loop to find progenitors in the following bins
     # redshifts shape is (n_roots, n_bins)
@@ -579,8 +584,13 @@ for m in mass_bin:
         if n_chunks == len(node_features['bovert']):
             print('igualdad')
             break
+
+        # 1. Hide track_idx (and any other purely administrative columns) from the network
+        features_for_network = {k: v for k, v in node_features.items() if k not in ['track_idx', 'id', 'ra', 'dec', 'time']}
+        
+        # 2. Feed only the physical features to the model
         loaded_model.to('cpu')
-        preprocessed_node_features = loaded_model.transform(node_features, fit=False)
+        preprocessed_node_features = loaded_model.transform(features_for_network, fit=False)
         l = log_likelihood_obs_optimized(loaded_model, preprocessed_node_features, device=device)
         node_features = get_maxlike_descendant_final(l, node_features, n_chunks, chunk_size)
         print('---Tamaño de node_features dps del bucle de zbin:' , len(node_features['bovert']))
