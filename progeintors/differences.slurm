@@ -11,7 +11,7 @@
 
 echo "=== Slurm Script Started ==="
 echo "Activating environment..."
-module load ml_py/3.10
+#module load ml_py/3.10
 module load python/3.12_b1125
 
 
