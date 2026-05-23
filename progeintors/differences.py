@@ -1,3 +1,4 @@
+print('Importing numpy...')
 import numpy as np
 
 import matplotlib.pyplot as plt
@@ -5,6 +6,7 @@ from scipy import integrate
 from scipy.stats import norm
 
 import torch
+print('Importing pytorch_lightning...')
 import pytorch_lightning as pl
 
 from sklearn.model_selection import train_test_split

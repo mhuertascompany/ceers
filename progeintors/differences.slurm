@@ -8,6 +8,13 @@
 #SBATCH --output=/scratch/lmarrero-ext/florah_eval/logs/%j.out             # salida 
 #SBATCH --error=/scratch/lmarrero-ext/florah_eval/logs/%j.err              # errores
 
-module load ml_py/3.10 
 
+echo "=== Slurm Script Started ==="
+echo "Activating environment..."
+module load ml_py/3.10
+module load python/3.12_b1125
+
+
+echo "=== System Environment Ready ==="
+echo "Launching Python script now..."
 python3 differences.py
