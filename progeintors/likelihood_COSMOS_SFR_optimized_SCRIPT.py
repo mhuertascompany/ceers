@@ -460,7 +460,6 @@ nfm_data_path = "/scratch/lmarrero-ext/likelihood_COSMOS_SFR/node_features_morph
 
 
 redshifts = np.array([1., 1.5, 2, 2.5, 3.5, 4.5, 6])
-new_redshifts = np.array([0.1, 0.13, 0.15, 0.17, 0.19, 0.22, 0.28, 0.47, 1.5, 30])
 
 mass_bin = [[9.8,10],[10,10.2],[10.2,10.4],[10.4,10.6],[10.6,10.8],[10.8,11],[11,12]]
 
@@ -473,7 +472,7 @@ for m in mass_bin:
     print(f"{'='*60}")
 
     # First we build root and find best candidate for progenitor in next redshift bin
-    node_features, n_chunks, chunk_size = build_roots_optimized(cosmos_cat, m, nsamples=10000) # Select root in zbin = (0, 0.5) + candidate for progenitor in zbin = (0.5, 1)
+    node_features, n_chunks, chunk_size = build_roots_optimized(cosmos_cat, m, nsamples=1000) # Select root in zbin = (0, 0.5) + candidate for progenitor in zbin = (0.5, 1)
     loaded_model.to('cpu')
     preprocessed_node_features = loaded_model.transform(node_features, fit=False) 
     l  = log_likelihood_obs_optimized(loaded_model, preprocessed_node_features, device=device) # Calculate likelihood for every pair

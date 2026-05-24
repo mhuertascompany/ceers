@@ -33,4 +33,4 @@ export TORCH_NUM_THREADS=1
 # === Ejecutar tu script Python ===
 echo "=== System Environment Ready ==="
 echo "Launching Python script now..."
-python3 -u likelihood_COSMOS_v2.py
+python3 -u likelihood_COSMOS_SFR_optimized_SCRIPT.py
